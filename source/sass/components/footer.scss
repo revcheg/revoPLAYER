@@ -1,0 +1,21 @@
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  @include container;
+  width: 100%;
+  padding: 15px 0;
+  transform: translateX(-50%);
+}
+
+.footer__copyright {
+  font-weight: 500;
+  text-align: right;
+
+  &--name {
+    color: #2E95D1;
+  }
+}

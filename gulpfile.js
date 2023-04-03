@@ -7,10 +7,10 @@ import csso from 'postcss-csso';
 import rename from 'gulp-rename';
 import htmlmin from 'gulp-htmlmin';
 import terser from 'gulp-terser';
-import squoosh from 'gulp-libsquoosh';
+// import squoosh from 'gulp-libsquoosh';
 import svgo from 'gulp-svgmin';
 import svgstore from 'gulp-svgstore';
-import del from 'del';
+import {deleteAsync} from 'del';
 import browser from 'browser-sync';
 
 // Styles
@@ -30,7 +30,7 @@ export const styles = () => {
 
 // HTML
 
-const html = () => {
+export const html = () => {
   return gulp.src('source/*.html')
     .pipe(htmlmin({ collapseWhitespace: true }))
     .pipe(gulp.dest('build'));
@@ -47,11 +47,11 @@ const scripts = () => {
 
 // Images
 
-const optimizeImages = () => {
-  return gulp.src('source/img/**/*.{png,jpg}')
-    .pipe(squoosh())
-    .pipe(gulp.dest('build/img'))
-}
+// export const optimizeImages = () => {
+//   return gulp.src('source/images/**/*.{png,jpg}')
+//     .pipe(squoosh())
+//     .pipe(gulp.dest('build/img'));
+// }
 
 const copyImages = () => {
   return gulp.src('source/img/**/*.{png,jpg}')
@@ -92,11 +92,11 @@ const sprite = () => {
 const copy = (done) => {
   gulp.src([
     'source/fonts/*.{woff2,woff}',
-    'source/*.ico',
-    'source/img/favicons/*.svg',
-    'source/apple-touch-icon.png',
-    'source/*.webmanifest',
-    'source/browserconfig.xml',
+    // 'source/*.ico',
+    // 'source/img/favicons/*.svg',
+    // 'source/apple-touch-icon.png',
+    // 'source/*.webmanifest',
+    // 'source/browserconfig.xml',
   ], {
     base: 'source'
   })
@@ -107,7 +107,7 @@ const copy = (done) => {
 // Clean
 
 const clean = () => {
-  return del('build');
+  return deleteAsync(['build/*']);
 };
 
 // Server
@@ -144,14 +144,14 @@ const watcher = () => {
 export const build = gulp.series(
   clean,
   copy,
-  optimizeImages,
+  // optimizeImages,
   gulp.parallel(
     styles,
     html,
     scripts,
     svg,
     sprite,
-    createWebp
+    // createWebp
   ),
 );
 
@@ -167,7 +167,7 @@ export default gulp.series(
     scripts,
     svg,
     sprite,
-    createWebp
+    // createWebp
   ),
   gulp.series(
     server,

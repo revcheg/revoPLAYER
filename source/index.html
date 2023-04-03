@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="utf-8">
+    <title>revoPLAYER</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/style.min.css" rel="stylesheet">
+    <link rel="preload" href="fonts/oswaldregular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="fonts/oswaldmedium.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  </head>
+  <body>
+
+    <header class="header">
+      <img class="header__logo" src="img/logo.svg" alt="revoPLAYER - простий на гарний плеєр">
+      <button class="header__menuButton" type="button" name="menuButton" aria-label="Відкрити налаштування" title="Відкрити налаштування">Відкрити налаштування</button>
+    </header>
+
+    <aside class="settings  visually-hidden">
+      <h2 class="settings__title">Налаштування</h2>
+      
+    </aside>
+
+    <main class="main">
+      <h1 class="visually-hidden">revoPLAYER - простий на гарний плеєр</h1>
+      <div class="video__wrapper">
+        <button class="video__start" type="button" name="playButton" aria-label="Увімкнути відео" title="Увімкнути відео">Увімкнути відео</button>
+        <video class="video" src="">
+
+        </video>
+
+        <div class="control">
+          <button class="control__play" type="button" name="stateButton">Плей / пауза</button>
+          <button class="control__volume" type="button" name="volumeButton">Гучніше / тихіше</button>
+          <input class="control__range" type="range" name="progressBar" value="0">
+          <button class="control__size" type="button" name="fullSize">На весь екран</button>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p class="footer__controls">
+        <button class="footer__theme  footer__theme--dark  footer__theme--active" type="button" name="themeButtonDark" aria-label="Встановити темну тему" title="Встановити темну тему">Встновити темну тему</button>
+        <button class="footer__theme  footer__theme--light" type="button" name="themeButtonLight" aria-label="Встановити світлу тему" title="Встановити світлу тему" disabled>Встановити світлу тему</button>
+      </p>
+      <p class="footer__copyright">dev by <span class="footer__copyright--name">revch</span> /></p>
+    </footer>
+
+  </body>
+</html>
