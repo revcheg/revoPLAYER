@@ -8,5 +8,15 @@
   align-items: center;
   width: 100%;
   padding: 15px;
+  background-color: rgba($dark-element, 0.1);
+  transition: 0.3s;
   z-index: 1;
+
+  &--hide {
+    transform: translateY(100%);
+  }
+
+  &:focus-within {
+    transform: translateY(0);
+  }
 }

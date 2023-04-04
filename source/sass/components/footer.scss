@@ -7,15 +7,60 @@
   align-items: center;
   @include container;
   width: 100%;
-  padding: 15px 0;
+  padding: 25px 0;
   transform: translateX(-50%);
 }
 
+.footer__controls {
+  display: flex;
+  align-items: center;
+}
+
+.footer__theme {
+  margin-right: 15px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: transparent;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:hover,
+  &:focus {
+    box-shadow: 0 0 10px 1px rgba(#6320EE, 0.9)
+  }
+
+  &:active {
+    box-shadow: 0 0 10px 2px rgba(#6320EE, 1)
+  }
+
+  &:disabled {
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+}
+
+.footer__icon {
+  fill: $blue-text;
+  stroke: $blue-text;
+}
+
 .footer__copyright {
-  font-weight: 500;
+  color: $blue-text;
+  font-size: 18px;
+  font-weight: 300;
   text-align: right;
 
   &--name {
-    color: #2E95D1;
+    padding: 0;
+    // color: #2E95D1;
+    font-size: inherit;
+    border: none;
+    background-color: transparent;
+    cursor: not-allowed;
   }
 }
