@@ -1,11 +1,14 @@
-// // Theme button
-// (function () {
-//   let themeButtons = document.querySelectorAll('.footer__theme');
-//   let mainBody = document.querySelector('body');
-//
-//   for (var i = 0; i < themeButtons.length; i++) {
-//     themeButtons[i].addEventListener('click', function() {
-//
-//     });
-//   };
-// })();
+// Settings
+(function () {
+  let menu = document.querySelector('.settings');
+  let openButton = document.querySelector('.header__menu');
+  let closeButton = document.querySelector('.settings__close');
+
+  openButton.addEventListener('click', function(){
+    menu.classList.remove('settings--hide');
+  });
+
+  closeButton.addEventListener('click', function(){
+    menu.classList.add('settings--hide');
+  });
+})();
