@@ -1,0 +1,88 @@
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  @include container;
+  width: 100%;
+  padding: 25px;
+  transform: translateX(-50%);
+}
+
+.footer__controls {
+  display: flex;
+  align-items: center;
+}
+
+.footer__theme {
+  width: 35px;
+  height: 35px;
+  margin-right: 15px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &--active {
+    box-shadow: 0 0 5px 1px rgba(#6320EE, 0.6);
+    cursor: not-allowed;
+  }
+}
+
+.footer__icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  fill: $blue-text;
+  stroke: $blue-text;
+}
+
+.footer__copyright {
+  color: $blue-text;
+  font-size: 15px;
+  font-weight: 300;
+  text-align: right;
+
+  &--name {
+    padding: 0;
+    font-size: inherit;
+    border: none;
+    background-color: transparent;
+    cursor: not-allowed;
+  }
+}
+
+@media (min-width: $tablet-width) {
+  .footer__theme {
+    width: 40px;
+    height: 40px;
+  }
+
+  .footer__icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .footer__copyright {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .footer__theme {
+    width: 50px;
+    height: 50px;
+  }
+
+  .footer__icon {
+    width: 35px;
+    height: 35px;
+  }
+
+  .footer__copyright {
+    font-size: 18px;
+  }
+}

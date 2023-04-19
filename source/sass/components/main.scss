@@ -1,0 +1,14 @@
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: #FFFFFF;
+  background-color: #F8F0FB;
+}
+
+@media (prefers-color-scheme: dark) {
+  .main {
+    background-color: #333333;
+  }
+}
