@@ -7,33 +7,56 @@
   align-items: center;
   @include container;
   width: 100%;
-  padding: 25px 0;
+  padding: 25px;
   transform: translateX(-50%);
 }
 
 .header__logo {
-  width: 250px;
+  width: 150px;
   height: 45px;
 }
 
 .header__menu {
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  background-color: transparent;
-  cursor: pointer;
-  transition: 0.2s;
-
-  &:hover,
-  &:focus {
-    box-shadow: 0 0 10px 1px rgba(#6320EE, 0.9)
-  }
-
-  &:active {
-    box-shadow: 0 0 10px 2px rgba(#6320EE, 1)
-  }
+  width: 35px;
+  height: 35px;
 }
 
 .header__icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   fill: $blue-text;
+}
+
+@media (min-width: $tablet-width) {
+  .header__logo {
+    width: 180px;
+  }
+
+  .header__menu {
+    width: 40px;
+    height: 40px;
+  }
+
+  .header__icon {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .header__logo {
+    width: 230px;
+  }
+
+  .header__menu {
+    width: 50px;
+    height: 50px;
+  }
+
+  .header__icon {
+    width: 35px;
+    height: 35px;
+  }
 }
