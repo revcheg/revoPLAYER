@@ -86,3 +86,22 @@
     font-size: 18px;
   }
 }
+
+// @media (prefers-color-scheme: dark) {
+//   .footer__theme--active {
+//     box-shadow: 0 0 5px 1px rgba($dark-blue, 0.6);
+//   }
+
+//   .footer__icon {
+//     fill: $dark-blue;
+//     stroke: $dark-blue;
+//   }
+
+//   .footer__copyright {
+//     color: $dark-blue;
+
+//     &--name {
+//       color: #FFFFFF;
+//     }
+//   }
+// }

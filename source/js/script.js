@@ -1,4 +1,6 @@
 const video = document.querySelector('.video'); 
+let currentTheme;
+let buttonIndex;
 
 // Settings
 (function () {
@@ -15,7 +17,7 @@ const video = document.querySelector('.video');
   });
 
   document.addEventListener('keydown', function(event) {
-    if(event.keyCode === 27) {
+    if (event.keyCode === 27) {
       menu.classList.add('settings--hide');
     };
   });
@@ -27,9 +29,8 @@ const video = document.querySelector('.video');
 
   chooseButtons.forEach((element) => {
     element.addEventListener('click', function() {
-      const game = this.getAttribute('data-video');
+      let game = this.getAttribute('data-video');
       setVideo(game);
-      console.log(game);
     });
   });
 
@@ -47,7 +48,7 @@ const video = document.querySelector('.video');
   const openButton = document.querySelector('.header__menu');
   
   startButton.addEventListener('click', function() {
-    if(video.src) {
+    if (video.src) {
       startButton.classList.add('video__start--hide');
       controls.classList.remove('control--hide');
       openButton.classList.remove('header__menu--error');
@@ -70,7 +71,7 @@ const video = document.querySelector('.video');
     playButtonIcon.classList.toggle('control__icon--hide');
     pauseButtonIcon.classList.toggle('control__icon--hide');
 
-    if(video.paused) {
+    if (video.paused) {
       video.play();
     } else {
       video.pause();
@@ -85,7 +86,7 @@ const video = document.querySelector('.video');
   
   muteButton.addEventListener('click', function() {
     muteButtonIcon.classList.toggle('control__mute');
-    if(video.muted) {
+    if (video.muted) {
       video.muted = false;
     } else {
       video.muted = true;
@@ -100,4 +101,86 @@ const video = document.querySelector('.video');
   fullButton.addEventListener('click', function() {
     video.requestFullscreen();
   });
+})();
+
+// Theme
+(function () {
+  const body = document.querySelector('body'); 
+  const themeButtons = document.querySelectorAll('.footer__theme');
+
+  // Check client theme
+  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    currentTheme = 'dark';
+  } else {
+    currentTheme = 'light';
+  };
+
+  // Set button
+  themeButtons.forEach(function (button, index) {
+    button.addEventListener('click', function() {
+      buttonIndex = Array.from(themeButtons).indexOf(button);
+      currentTheme = this.getAttribute('data-theme');
+
+      setButton(buttonIndex);
+      setTheme(currentTheme);
+      
+      saveTheme(currentTheme);
+    });
+  });
+
+  function setButton() {
+    themeButtons.forEach((button) => {
+      button.removeAttribute('disabled');
+      button.classList.remove('footer__theme--active');
+
+      themeButtons[buttonIndex].setAttribute('disabled', 'disabled'); 
+      themeButtons[buttonIndex].classList.add('footer__theme--active');
+    });
+  };
+
+  // Set theme
+  function setTheme(currentTheme) {
+    body.className = '';
+
+    switch (currentTheme) {
+      case 'light':
+        body.classList.add(currentTheme);
+        buttonIndex = 0;
+        break;
+  
+      case 'dark':
+        body.classList.add(currentTheme);
+        buttonIndex = 1;
+        break;
+  
+      case 'cyberpunk':
+        body.classList.add(currentTheme);
+        buttonIndex = 2;
+        break;
+
+      default:
+        body.className = '';
+    };
+  };
+
+  setTheme(currentTheme);
+  setButton();
+
+  // Save theme
+  function saveTheme(currentTheme) {
+    localStorage.setItem('localTheme', currentTheme);
+    localStorage.setItem('localButton', buttonIndex);
+  };
+
+  // Load theme
+  function loadTheme() {
+    if (localStorage) {
+      const localTheme = localStorage.getItem('localTheme');
+      const localButton = localStorage.getItem('localButton');
+      setTheme(localTheme);
+      setButton(localButton);
+    };
+  };
+
+  loadTheme();
 })();
