@@ -1,5 +1,18 @@
-const video = document.querySelector('.video'); 
-const statistics = document.querySelector('.statistics');
+const VIDEO = document.querySelector('.video'); 
+const STATISTICS = document.querySelector('.statistics');
+
+const VIDEORANGE = document.querySelector('.control__range');
+
+let videoWidth;
+let videoHeight;
+let videoDuration;
+let videoBuffer;
+
+const statisticsResolution = STATISTICS.querySelector('.statistics__resolution');
+const statisticsFormat = STATISTICS.querySelector('.statistics__format');
+const statisticsDuration = STATISTICS.querySelector('.statistics__duration');
+const statisticsBuffer = STATISTICS.querySelector('.statistics__buffer');
+
 let currentTheme;
 let buttonIndex;
 let game;
@@ -43,14 +56,14 @@ let game;
 
   function setVideo (game) {
     if (deepFlag) {
-      video.src = 'video/' + game + '/deep.webm';
-      video.poster = 'img/' + game + '/deep-preview.webp';
+      VIDEO.src = 'video/' + game + '/deep.webm';
+      VIDEO.poster = 'img/' + game + '/deep-preview.webp';
     } else {
-      video.src = 'video/' + game + '/main.webm';
-      video.poster = 'img/' + game + '/main-preview.webp';
+      VIDEO.src = 'video/' + game + '/main.webm';
+      VIDEO.poster = 'img/' + game + '/main-preview.webp';
     };
 
-    video.preload = 'auto';
+    VIDEO.preload = 'auto';
   };
 
   // Deep mode
@@ -72,19 +85,57 @@ let game;
   const openButton = document.querySelector('.header__menu');
   
   startButton.addEventListener('click', function() {
-    if (video.src) {
+    if (VIDEO.src) {
       startButton.classList.add('video__start--hide');
       controls.classList.remove('control--hide');
-      statistics.classList.remove('statistics--hide');
+      STATISTICS.classList.remove('statistics--hide');
       openButton.classList.remove('header__menu--error');
-      video.play();
-      video.volume = "0.5";
+      VIDEO.play();
+      VIDEO.volume = "0.5";
       getStatistics();
     } else {
       openButton.classList.add('header__menu--error');
     };
   });
 })();
+
+// STATISTICS
+(function () {
+  const statisticsCheckbox = document.querySelector('.settings__checkbox--statistics');
+
+  statisticsCheckbox.addEventListener('change', function(event) {
+    if (event.currentTarget.checked) {
+      STATISTICS.classList.remove('statistics--off');
+    } else {
+      STATISTICS.classList.add('statistics--off');
+    };
+  });
+})();
+
+function getStatistics () {
+  // VIDEO.addEventListener('loadedmetadata', function () {
+    videoWidth = VIDEO.videoWidth;
+    videoHeight = VIDEO.videoHeight;
+    videoFormat = VIDEO.src.split('.').pop();
+    videoDuration = VIDEO.duration;
+    VIDEORANGE.setAttribute('max', videoDuration);
+
+    setStatistics();
+  // });
+};
+
+function setStatistics () {
+  statisticsResolution.innerHTML = videoWidth + 'x' + videoHeight;
+  statisticsFormat.innerHTML = videoFormat;
+  statisticsDuration.innerHTML = videoDuration;
+
+  VIDEO.addEventListener('timeupdate', function () {
+    videoBuffer = VIDEO.buffered.end(0);
+    statisticsBuffer.innerHTML = videoBuffer;
+    currentTime = VIDEO.currentTime;
+    VIDEORANGE.value = currentTime;
+  });
+}
 
 // CONTROLS
 // Pause
@@ -97,10 +148,10 @@ let game;
     playButtonIcon.classList.toggle('control__icon--hide');
     pauseButtonIcon.classList.toggle('control__icon--hide');
 
-    if (video.paused) {
-      video.play();
+    if (VIDEO.paused) {
+      VIDEO.play();
     } else {
-      video.pause();
+      VIDEO.pause();
     }
   });
 })();
@@ -112,10 +163,10 @@ let game;
   
   muteButton.addEventListener('click', function() {
     muteButtonIcon.classList.toggle('control__mute');
-    if (video.muted) {
-      video.muted = false;
+    if (VIDEO.muted) {
+      VIDEO.muted = false;
     } else {
-      video.muted = true;
+      VIDEO.muted = true;
     };
   });
 })();
@@ -125,34 +176,9 @@ let game;
   const fullButton = document.querySelector('.control__button--size');
   
   fullButton.addEventListener('click', function() {
-    video.requestFullscreen();
+    VIDEO.requestFullscreen();
   });
 })();
-
-// Statistics
-(function () {
-  const statisticsCheckbox = document.querySelector('.settings__checkbox--statistics');
-
-  statisticsCheckbox.addEventListener('change', function(event) {
-    if (event.currentTarget.checked) {
-      statistics.classList.remove('statistics--off');
-    } else {
-      statistics.classList.add('statistics--off');
-    };
-  });
-})();
-
-function getStatistics () {
-  let videoWidth = video.videoWidth;
-  let videoHeight = video.videoHeight;
-  let videoDuration = video.duration;
-  let videoBuffer = video.buffered.end(0);
-  
-  console.log(videoWidth);
-  console.log(videoHeight);
-  console.log(videoDuration);
-  console.log(videoBuffer);
-};
 
 // THEME
 (function () {
