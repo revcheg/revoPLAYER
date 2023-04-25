@@ -17,7 +17,7 @@
         <path fill="#4287F5" d="M180.126 47.879H162.45V34.647h17.676c2.409 0 4.362-.407 5.859-1.221 1.498-.814 2.588-1.937 3.272-3.37.716-1.464 1.074-3.108 1.074-4.931 0-1.953-.358-3.76-1.074-5.42a8.746 8.746 0 0 0-3.272-4.004c-1.497-1.042-3.45-1.562-5.859-1.562h-11.23V72h-17.139V.906h28.369c5.697 0 10.596 1.042 14.697 3.125 4.134 2.084 7.308 4.948 9.522 8.594 2.213 3.613 3.32 7.747 3.32 12.402 0 4.59-1.107 8.594-3.32 12.012-2.214 3.418-5.388 6.087-9.522 8.008-4.101 1.888-9 2.832-14.697 2.832Zm83.74 10.937V72h-35.937V58.816h35.937ZM234.032.906V72h-17.138V.906h17.138Zm68.164 14.942L284.862 72h-18.408L292.577.906h11.67l-2.051 14.942ZM316.552 72l-17.383-56.152L296.923.906h11.816L335.009 72h-18.457Zm-.684-26.514V58.72h-36.474V45.486h36.474ZM345.8.906l13.086 30.86L372.021.906h18.457l-22.852 45.557V72h-17.432V46.463L327.294.906H345.8Zm98.828 57.91V72h-37.891V58.816h37.891ZM412.841.906V72h-17.139V.906h17.139Zm26.904 28.223v12.744h-33.008V29.129h33.008ZM444.774.906V14.14h-38.037V.906h38.037Zm6.885 0h27.979c5.468 0 10.221.814 14.258 2.442 4.036 1.627 7.145 4.036 9.326 7.226 2.213 3.19 3.32 7.13 3.32 11.817 0 4.069-.635 7.47-1.904 10.205-1.27 2.734-3.044 4.996-5.323 6.787-2.246 1.758-4.866 3.206-7.861 4.345l-5.615 3.174h-23.486l-.098-13.232h17.383c2.181 0 3.987-.39 5.42-1.172 1.432-.781 2.506-1.888 3.222-3.32.749-1.465 1.123-3.207 1.123-5.225 0-2.05-.374-3.808-1.123-5.273a7.715 7.715 0 0 0-3.32-3.37c-1.432-.78-3.206-1.171-5.322-1.171h-10.84V72h-17.139V.906ZM490.575 72l-15.722-31.445 18.164-.098 15.918 30.81V72h-18.36Z"/>
       </svg>
 
-      <button class="button  header__menu" type="button" name="menuButton" aria-label="Відкрити налаштування" title="Відкрити налаштування">
+      <button class="button  header__menu" aria-label="Відкрити налаштування" title="Відкрити налаштування" type="button">
         <span class="visually-hidden">Відкрити налаштування</span>
         <svg class="header__icon" width="25" height="25" viewBox="-1 0 44 44" xmlns="http://www.w3.org/2000/svg">
           <path d="M35,22H13A10,10,0,0,1,13,2H35a10,10,0,0,1,0,20ZM35,4H13a8,8,0,0,0,0,16H35A8,8,0,0,0,35,4ZM13,18a6,6,0,1,1,6-6A6,6,0,0,1,13,18ZM13,8a4,4,0,1,0,4,4A4,4,0,0,0,13,8Zm0,18H35a10,10,0,0,1,0,20H13a10,10,0,0,1,0-20Zm0,18H35a8,8,0,0,0,0-16H13a8,8,0,0,0,0,16ZM35,30a6,6,0,1,1-6,6A6,6,0,0,1,35,30Zm0,10a4,4,0,1,0-4-4A4,4,0,0,0,35,40Z" transform="translate(-3 -2)" fill-rule="evenodd"/>
@@ -29,7 +29,7 @@
       <h1 class="visually-hidden">revoPLAYER - простий на гарний плеєр</h1>
       <section class="video__wrapper">
         <h2 class="visually-hidden">Плеєр</h2>
-        <button class="button  video__start" type="button" name="playButton" aria-label="Увімкнути відео" title="Увімкнути відео">
+        <button class="button  video__start" aria-label="Увімкнути відео" title="Увімкнути відео" type="button">
           <span class="visually-hidden">Увімкнути відео</span>
           <svg class="video__icon" width="100" height="100" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M8 18V6L18 12L11.3333 16" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -38,29 +38,38 @@
 
         <video class="video"></video>
 
-        <div class="control  control--hide">
-          <button class="button  control__button  control__button--play" type="button" name="stateButton" aria-label="Плей / пауза" title="Плей / пауза">
-            <svg class="control__icon  control__icon--play  control__icon--hide" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="-0.5 0 7 7">
+        <section class="statistics  statistics--off  statistics--hide">
+          <h3 class="visually-hidden">Статистика відео</h3>
+          <!-- <p class="statistics__category"><span class="statistics__time">17:00</span> <span class="statistics__end">18:00</span></p> -->
+          <p class="statistics__category">Роздільна здатність: <span class="statistics__resolution"></span></p>
+          <p class="statistics__category">Формат: <span class="statistics__format">mp4</span></p>
+          <p class="statistics__category">Буфер: <span class="statistics__buffer">20</span>s</p>
+        </section>
+
+        <section class="control  control--hide">
+          <h3 class="visually-hidden">Кнопки управління плеєром</h3>
+          <button class="button  control__button  control__button--play" aria-label="Плей / пауза" title="Плей / пауза" type="button">
+            <svg class="control__icon  control__icon--play  control__icon--hide" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="-0.5 0 7 7">
               <path fill-rule="evenodd" d="M5.495 2.573 1.5.143C.832-.266 0 .25 0 1.068V5.93c0 .82.832 1.333 1.5.927l3.995-2.43c.673-.41.673-1.445 0-1.855"/>
             </svg>
-            <svg class="control__icon  control__icon--pause" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none" viewBox="0 0 24 24">
+            <svg class="control__icon  control__icon--pause" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
               <path fill-rule="evenodd" d="M20 5v14a3 3 0 0 1-3 3h-1a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3h1a3 3 0 0 1 3 3ZM8 2a3 3 0 0 1 3 3v14a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3h1Z" clip-rule="evenodd"/>
             </svg>
           </button>
-          <button class="button  control__button  control__button--volume" type="button" name="volumeButton" aria-label="Гучніше / тихіше" title="Гучніше / тихіше">
-            <svg class="control__icon  control__icon--volume" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="30" height="30" viewBox="0 0 512 512">
+          <button class="button  control__button  control__button--volume" aria-label="Гучніше / тихіше" title="Гучніше / тихіше" type="button">
+            <svg class="control__icon  control__icon--volume" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="25" height="25" viewBox="0 0 512 512">
               <path d="M0 204.883V307.12c0 21.22 17.212 38.437 38.442 38.437h71.582V166.446H38.442C17.212 166.446 0 183.653 0 204.883z"/>
               <path d="M288.033 94.716a13.054 13.054 0 0 0-12.744-.517l-142.237 72.246v179.112l142.237 72.246a13.078 13.078 0 0 0 12.744-.517 13.037 13.037 0 0 0 6.226-11.123V105.839c0-4.541-2.354-8.75-6.226-11.123z"/>
               <path class="control__mute" d="m453.117 253.467 54.386-54.394c5.996-5.996 5.996-15.713 0-21.709s-15.713-5.996-21.709 0l-54.386 54.385-54.394-54.385c-5.997-5.996-15.713-5.996-21.709 0-5.997 5.996-5.997 15.713 0 21.709l54.384 54.394-54.384 54.385c-5.997 5.996-5.997 15.713 0 21.709 5.996 5.996 15.712 5.996 21.709 0l54.394-54.386 54.386 54.386c5.996 5.996 15.713 5.996 21.709 0s5.996-15.713 0-21.709l-54.386-54.385z"/>
             </svg>
           </button>
-          <input class="control__range" type="range" name="progressBar" aria-label="Смуга прокручування" title="Смуга прокручування" value="0">
-          <button class="button  control__button  control__button--size" type="button" name="fullSize" aria-label="На весь екран" title="На весь екран">
-            <svg class="control__icon  control__icon--size" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 20 20">
+          <input class="control__range" type="range" aria-label="Смуга прокручування" title="Смуга прокручування" value="0">
+          <button class="button  control__button  control__button--size" aria-label="На весь екран" title="На весь екран" type="button">
+            <svg class="control__icon  control__icon--size" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="m12 0 3.293 3.293-3.172 3.171 1.415 1.415 3.171-3.172L20 8V0h-8Zm1.536 12.121-1.415 1.415 3.172 3.171L12 20h8v-8l-3.293 3.293-3.171-3.172Zm-5.657 1.415-1.415-1.415-3.171 3.172L0 12v8h8l-3.293-3.293 3.172-3.171ZM6.464 7.879l1.415-1.415-3.172-3.171L8 0H0v8l3.293-3.293 3.171 3.172Z"/>
             </svg>
           </button>
-        </div>
+        </section>
       </section>
     </main>
 
@@ -82,31 +91,50 @@
       </p>
       <p class="footer__copyright">dev by <button class="footer__copyright--name">revch</button> /></p>
     </footer>
-
+    
     <aside class="settings  settings--hide">
-      <h2 class="visually-hidden">Налаштування</h2>
+      <h2 class="visually-hidden">Меню налаштувань</h2>
+      <button class="button  settings__close" aria-label="Закрити налаштування" title="Закрити налаштування" type="button">
+        <svg class="settings__icon" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none" viewBox="0 0 24 24">
+          <path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2Zm3.36 12.3c.29.29.29.77 0 1.06-.15.15-.34.22-.53.22s-.38-.07-.53-.22l-2.3-2.3-2.3 2.3c-.15.15-.34.22-.53.22s-.38-.07-.53-.22a.754.754 0 0 1 0-1.06l2.3-2.3-2.3-2.3a.754.754 0 0 1 0-1.06c.29-.29.77-.29 1.06 0l2.3 2.3 2.3-2.3c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06l-2.3 2.3 2.3 2.3Z"/>
+        </svg>
+      </button>
+
       <div class="settings__column">
-        <p class="settings__sub">ТРІШКИ ІНФИ</p>
-        <p class="settings__text">Плеєр написан на пару з GhatGPT :)</p>
-        <p class="settings__text">З фішочок:</p>
-        <ul class="settings__list">
-          <li class="settings__item">Можливість обрати світлу чи темну тему</li>
-          <li class="settings__item">Автоматичне встановлення теми на основі теми на пристрої</li>
-          <li class="settings__item">Усі відео та картинки оптимізовані для вебу</li>
-          <li class="settings__item">Відео перероблені у кращій формат</li>
-        </ul>
+        <p class="settings__sub">НАЛАШТУВАННЯ</p>
+        <label class="settings__label">
+          <input class="settings__checkbox  settings__checkbox--statistics" type="checkbox"> 
+          <span class="settings__name">Відображати вікно статистики</span>
+        </label>
+        <label class="settings__label">
+          <input class="settings__checkbox" type="checkbox" disabled> 
+          <span class="settings__name">Найкраща якість відео</span>
+        </label>
+        <label class="settings__label">
+          <input class="settings__checkbox  settings__checkbox--deep" type="checkbox" disabled> 
+          <span class="settings__name">Deep mode</span>
+        </label>
       </div>
 
       <div class="settings__column">
-        <button class="button  settings__close" aria-label="Закрити налаштування" title="Закрити налаштування" type="button">
-          <svg class="settings__icon" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none" viewBox="0 0 24 24">
-            <path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2Zm3.36 12.3c.29.29.29.77 0 1.06-.15.15-.34.22-.53.22s-.38-.07-.53-.22l-2.3-2.3-2.3 2.3c-.15.15-.34.22-.53.22s-.38-.07-.53-.22a.754.754 0 0 1 0-1.06l2.3-2.3-2.3-2.3a.754.754 0 0 1 0-1.06c.29-.29.77-.29 1.06 0l2.3 2.3 2.3-2.3c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06l-2.3 2.3 2.3 2.3Z"/>
-          </svg>
-        </button>
         <p class="settings__sub">ОБРАТИ ВІДЕО</p>
-        <!-- <button class="button  settings__button" data-video="TLOU" aria-label="Увімкнути відео TLOU" title="Увімкнути відео TLOU" type="button">The Last of Us</button> -->
         <button class="button  settings__button" data-video="TheWitcher" aria-label="Увімкнути відео Witcher" title="Увімкнути відео Witcher" type="button">The Witcher III</button>
         <button class="button  settings__button" data-video="Cyberpunk" aria-label="Увімкнути відео Cyberpunk 2077" title="Увімкнути відео Cyberpunk 2077" type="button">Cyberpunk 2077</button>      
+      </div>
+
+      <div class="settings__column">
+        <details class="settings__details">
+          <summary class="settings__summary">
+            <p class="settings__sub">ТРІШКИ ІНФИ</p>
+          </summary>
+          <p class="settings__text">З фішочок:</p>
+          <ul class="settings__list">
+            <li class="settings__item">Можливість обрати світлу чи темну тему</li>
+            <li class="settings__item">Автоматичне встановлення теми на основі теми на пристрої</li>
+            <li class="settings__item">Усі відео та картинки оптимізовані для вебу</li>
+            <li class="settings__item">Відео перероблені у кращій формат</li>
+          </ul>
+        </details>
       </div>
     </aside>
 

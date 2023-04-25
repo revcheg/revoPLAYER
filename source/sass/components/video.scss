@@ -11,7 +11,7 @@
   position: relative;
   box-sizing: border-box;
   width: 90%;
-  min-height: 144px;
+  max-width: 500px;
   box-shadow: 0 0 10px 3px rgba(#6320EE, 0.5);
   border-radius: 10px;
   overflow: hidden;
@@ -19,6 +19,10 @@
   &:hover {
 
     .control {
+      transform: translateY(0);
+    }
+    
+    .statistics {
       transform: translateY(0);
     }
   }
@@ -89,8 +93,8 @@
 
 @media (min-width: $tablet-width) {
   .video__wrapper {
-    width: 700px;
-    min-height: 350px;
+    width: 500px;
+    height: 300px;
   }
 
   .video__icon {
@@ -102,7 +106,7 @@
 @media (min-width: $desktop-width) {
   .video__wrapper {
     width: 900px;
-    min-height: 505px;
+    max-width: max-content;
     height: 505px;
   }
 

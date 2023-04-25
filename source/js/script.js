@@ -1,6 +1,8 @@
 const video = document.querySelector('.video'); 
+const statistics = document.querySelector('.statistics');
 let currentTheme;
 let buttonIndex;
+let game;
 
 // Settings
 (function () {
@@ -27,18 +29,40 @@ let buttonIndex;
 (function () {
   const chooseButtons = document.querySelectorAll('.settings__button');
 
+  let deepCheckbox = document.querySelector('.settings__checkbox--deep');
+  let deepValue = deepCheckbox.checked;
+  let deepFlag;
+
   chooseButtons.forEach((element) => {
     element.addEventListener('click', function() {
-      let game = this.getAttribute('data-video');
+      game = this.getAttribute('data-video');
       setVideo(game);
+      deepCheckbox.removeAttribute('disabled', 'disabled');
     });
   });
 
   function setVideo (game) {
-    video.src = 'video/' + game + '/main.webm';
-    video.poster = 'img/' + game + '/main-preview.webp';
+    if (deepFlag) {
+      video.src = 'video/' + game + '/deep.webm';
+      video.poster = 'img/' + game + '/deep-preview.webp';
+    } else {
+      video.src = 'video/' + game + '/main.webm';
+      video.poster = 'img/' + game + '/main-preview.webp';
+    };
+
     video.preload = 'auto';
   };
+
+  // Deep mode
+  deepCheckbox.addEventListener('change', function(event) {
+    if (event.currentTarget.checked) {
+      deepFlag = true;
+    } else {
+      deepFlag = false;
+    };
+
+    setVideo(game);
+  });
 })();
 
 // Start 
@@ -51,16 +75,18 @@ let buttonIndex;
     if (video.src) {
       startButton.classList.add('video__start--hide');
       controls.classList.remove('control--hide');
+      statistics.classList.remove('statistics--hide');
       openButton.classList.remove('header__menu--error');
       video.play();
       video.volume = "0.5";
+      getStatistics();
     } else {
       openButton.classList.add('header__menu--error');
     };
   });
 })();
 
-// Controls
+// CONTROLS
 // Pause
 (function () {
   const playButton = document.querySelector('.control__button--play');
@@ -103,7 +129,32 @@ let buttonIndex;
   });
 })();
 
-// Theme
+// Statistics
+(function () {
+  const statisticsCheckbox = document.querySelector('.settings__checkbox--statistics');
+
+  statisticsCheckbox.addEventListener('change', function(event) {
+    if (event.currentTarget.checked) {
+      statistics.classList.remove('statistics--off');
+    } else {
+      statistics.classList.add('statistics--off');
+    };
+  });
+})();
+
+function getStatistics () {
+  let videoWidth = video.videoWidth;
+  let videoHeight = video.videoHeight;
+  let videoDuration = video.duration;
+  let videoBuffer = video.buffered.end(0);
+  
+  console.log(videoWidth);
+  console.log(videoHeight);
+  console.log(videoDuration);
+  console.log(videoBuffer);
+};
+
+// THEME
 (function () {
   const body = document.querySelector('body'); 
   const themeButtons = document.querySelectorAll('.footer__theme');
@@ -132,10 +183,10 @@ let buttonIndex;
     themeButtons.forEach((button) => {
       button.removeAttribute('disabled');
       button.classList.remove('footer__theme--active');
-
-      themeButtons[buttonIndex].setAttribute('disabled', 'disabled'); 
-      themeButtons[buttonIndex].classList.add('footer__theme--active');
     });
+    
+    themeButtons[buttonIndex].setAttribute('disabled', 'disabled'); 
+    themeButtons[buttonIndex].classList.add('footer__theme--active');
   };
 
   // Set theme

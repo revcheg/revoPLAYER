@@ -7,7 +7,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 15px;
+  padding: 10px;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
   background-color: rgba($dark-element, 0.5);
@@ -27,8 +27,8 @@
 }
 
 .control__button {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
   margin-right: 15px;
 
   &:last-child {
@@ -56,12 +56,13 @@
   appearance: none;
   position: relative;
   flex-grow: 1;
-  height: 6px;
+  height: 3px;
   margin-right: 15px;
+  border-radius: 5px;
 
   &::-webkit-slider-runnable-track {
     width: 100%;
-    height: 6px;
+    height: 3px;
     box-shadow: 0 0 3px 1px rgba(#6320EE, 0.9);
     border-radius: 5px;
     background-color: #FFFFFF;
@@ -70,9 +71,9 @@
 
   &::-webkit-slider-thumb {
     appearance: none;
-    width: 20px;
-    height: 20px;
-    margin-top: -7px;
+    width: 15px;
+    height: 15px;
+    margin-top: -6px;
     border-radius: 50%;
     background-color: $blue-button;
     cursor: pointer;
@@ -81,7 +82,7 @@
   &::-moz-range-track {
     appearance: none;
     width: 100%;
-    height: 6px;
+    height: 3px;
     box-shadow: 0 0 3px 1px rgba(#6320EE, 0.9);
     border-radius: 5px;
     background-color: #FFFFFF;
@@ -95,6 +96,35 @@
     border-radius: 50%;
     background-color: $blue-button;
     cursor: pointer;
+  }
+}
+
+@media (min-width: $tablet-width) {
+  .control {
+    padding: 15px;
+  }
+
+  .control__button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .control__icon {
+    width: 25px;
+    height: 25px;
+  }
+
+  .control__range {
+    height: 8px;
+  
+    &::-webkit-slider-runnable-track {
+      height: 8px;
+    }
+
+    &::-webkit-slider-thumb {
+      width: 20px;
+      height: 20px;
+    }
   }
 }
 
