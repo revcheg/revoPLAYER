@@ -68,6 +68,13 @@
   }
 }
 
+.settings__checkbox {
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
 .settings__name {
   font-size: 15px;
   font-weight: 300;
@@ -102,6 +109,7 @@
 }
 
 .settings__button {
+  width: fit-content;
   margin: 0 auto;
   margin-bottom: 15px;
   padding: 10px 15px;
@@ -116,11 +124,29 @@
   }
 }
 
+.settings__file {
+  display: inline-block;
+  max-width: 160px;
+  margin: 0 auto;
+  padding: 10px 15px;
+  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: 300;
+  font-family: inherit;
+  border: 1px solid #FFFFFF;
+  border-radius: 30px;
+
+  &::-webkit-file-upload-button {
+    display: none;
+  }
+}
+
 @media (min-width: $tablet-width) {
   .settings {
     display: grid;
     grid-template-columns: 400px 400px;
     grid-gap: 0 30px;
+    overflow-y: auto;
   }
 
   .settings__column {
@@ -166,18 +192,35 @@
     padding: 15px 25px;
     font-size: 18px;
   }
+
+  .settings__file {
+    max-width: 185px;
+    padding: 15px 20px;
+    font-size: 18px;
+  }
 }
 
 @media (min-width: $desktop-width) {
+  .settings__close {
+    width: 50px;
+    height: 50px;
+  }
+
+  .settings__icon {
+    width: 40px;
+    height: 40px;
+  }
+
   .settings__label {
     margin-bottom: 20px;
   }
 
   .settings__name {
-    font-size: 20px;
+    font-size: 22px;
   }
 
   .settings__sub {
+    margin-bottom: 30px;
     font-size: 35px;
   }
 
@@ -190,7 +233,12 @@
   }
 
   .settings__button {
-    font-size: 20px;
+    font-size: 22px;
+  }
+
+  .settings__file {
+    max-width: 215px;
+    font-size: 22px;
   }
 }
 

@@ -14,7 +14,6 @@ import {deleteAsync} from 'del';
 import browser from 'browser-sync';
 
 // Styles
-
 export const styles = () => {
   return gulp.src('source/sass/style.scss', { sourcemaps: true })
     .pipe(plumber())
@@ -29,7 +28,6 @@ export const styles = () => {
 }
 
 // HTML
-
 export const html = () => {
   return gulp.src('source/*.html')
     .pipe(htmlmin({ collapseWhitespace: true }))
@@ -37,7 +35,6 @@ export const html = () => {
 }
 
 // Scripts
-
 const scripts = () => {
   return gulp.src('source/js/script.js')
     .pipe(terser())
@@ -46,7 +43,6 @@ const scripts = () => {
 }
 
 // Images
-
 // export const optimizeImages = () => {
 //   return gulp.src('source/images/**/*.{png,jpg}')
 //     .pipe(squoosh())
@@ -54,12 +50,11 @@ const scripts = () => {
 // }
 
 const copyImages = () => {
-  return gulp.src('source/img/**/*.{png,jpg,webp}')
+  return gulp.src('source/img/**/*.{png,jpg,webp}', 'source/video/**/*.{webm,mp4}')
     .pipe(gulp.dest('build/img'))
 }
 
 // WebP
-
 const createWebp = () => {
   return gulp.src(['source/img/**/*.{png,jpg}', '!source/img/favicons/*.{png,jpg}'])
     .pipe(squoosh({
@@ -71,7 +66,6 @@ const createWebp = () => {
 }
 
 // SVG
-
 const svg = () =>
   gulp.src(['source/img/*.svg', '!source/img/sprite/*.svg', '!source/img/favicons/*.svg'])
     .pipe(svgo())
@@ -88,7 +82,6 @@ const sprite = () => {
 }
 
 // Copy
-
 const copy = (done) => {
   gulp.src([
     'source/fonts/*.{woff2,woff}',
@@ -105,13 +98,11 @@ const copy = (done) => {
 }
 
 // Clean
-
 const clean = () => {
   return deleteAsync(['build/*']);
 };
 
 // Server
-
 const server = (done) => {
   browser.init({
     server: {
@@ -125,14 +116,12 @@ const server = (done) => {
 }
 
 // Reload
-
 const reload = (done) => {
   browser.reload();
   done();
 }
 
 // Watcher
-
 const watcher = () => {
   gulp.watch('source/sass/**/*.scss', gulp.series(styles));
   gulp.watch('source/js/script.js', gulp.series(scripts));
@@ -140,7 +129,6 @@ const watcher = () => {
 }
 
 // Build
-
 export const build = gulp.series(
   clean,
   copy,
@@ -156,7 +144,6 @@ export const build = gulp.series(
 );
 
 // Default
-
 export default gulp.series(
   clean,
   copy,

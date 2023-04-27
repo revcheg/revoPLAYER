@@ -26,10 +26,14 @@
   margin: 0;
   margin-bottom: 5px;
   font-size: 10px;
-  font-weight: 300;
-
+  
   &:last-child {
     margin-bottom: 0;
+  }
+  
+  span {
+    color: #FFFFFF;
+    font-weight: 300;
   }
 }
 

@@ -3,19 +3,8 @@ const STATISTICS = document.querySelector('.statistics');
 
 const VIDEORANGE = document.querySelector('.control__range');
 
-let videoWidth;
-let videoHeight;
-let videoDuration;
-let videoBuffer;
-
-const statisticsResolution = STATISTICS.querySelector('.statistics__resolution');
-const statisticsFormat = STATISTICS.querySelector('.statistics__format');
-const statisticsDuration = STATISTICS.querySelector('.statistics__duration');
-const statisticsBuffer = STATISTICS.querySelector('.statistics__buffer');
-
-let currentTheme;
-let buttonIndex;
-let game;
+const STARTBUTTON = document.querySelector('.video__start');
+const CONTROLS = document.querySelector('.control');
 
 // Settings
 (function () {
@@ -23,15 +12,15 @@ let game;
   const openButton = document.querySelector('.header__menu');
   const closeButton = document.querySelector('.settings__close');
 
-  openButton.addEventListener('click', function() {
+  openButton.addEventListener('click', function () {
     menu.classList.remove('settings--hide');
   });
 
-  closeButton.addEventListener('click', function() {
+  closeButton.addEventListener('click', function () {
     menu.classList.add('settings--hide');
   });
 
-  document.addEventListener('keydown', function(event) {
+  document.addEventListener('keydown', function (event) {
     if (event.keyCode === 27) {
       menu.classList.add('settings--hide');
     };
@@ -39,22 +28,21 @@ let game;
 })();
 
 // Set Video
+let game;
+
 (function () {
   const chooseButtons = document.querySelectorAll('.settings__button');
 
-  let deepCheckbox = document.querySelector('.settings__checkbox--deep');
-  let deepValue = deepCheckbox.checked;
-  let deepFlag;
-
   chooseButtons.forEach((element) => {
-    element.addEventListener('click', function() {
+    element.addEventListener('click', function () {
       game = this.getAttribute('data-video');
+      resetVideo();
       setVideo(game);
       deepCheckbox.removeAttribute('disabled', 'disabled');
     });
   });
 
-  function setVideo (game) {
+  function setVideo () {
     if (deepFlag) {
       VIDEO.src = 'video/' + game + '/deep.webm';
       VIDEO.poster = 'img/' + game + '/deep-preview.webp';
@@ -64,10 +52,15 @@ let game;
     };
 
     VIDEO.preload = 'auto';
+    VIDEO.volume = "0.5";
   };
 
   // Deep mode
-  deepCheckbox.addEventListener('change', function(event) {
+  let deepCheckbox = document.querySelector('.settings__checkbox--deep');
+  let deepValue = deepCheckbox.checked;
+  let deepFlag;
+
+  deepCheckbox.addEventListener('change', function (event) {
     if (event.currentTarget.checked) {
       deepFlag = true;
     } else {
@@ -78,24 +71,56 @@ let game;
   });
 })();
 
+// Reset video
+function resetVideo () {
+  VIDEO.load();
+  STARTBUTTON.classList.remove('video__start--hide');
+  CONTROLS.classList.add('control--hide');
+  STATISTICS.classList.add('statistics--hide');
+};
+
+// File
+let fileTYPE;
+
+(function () {
+  let file;
+  let fileURL;
+  const INPUTFILE = document.querySelector('.settings__file');
+
+  INPUTFILE.addEventListener('click', function () {
+    resetVideo();
+  });
+
+  INPUTFILE.addEventListener('change', function () {
+    file = INPUTFILE.files[0];
+    fileURL = URL.createObjectURL(file);
+    fileTYPE = INPUTFILE.files[0].type;
+    VIDEO.src = fileURL; 
+    VIDEO.poster = 'img/' + file + '/file-preview.webp';
+  });
+})();
+
 // Start 
 (function () {
-  const startButton = document.querySelector('.video__start');
-  const controls = document.querySelector('.control');
   const openButton = document.querySelector('.header__menu');
   
-  startButton.addEventListener('click', function() {
+  STARTBUTTON.addEventListener('click', function () {
     if (VIDEO.src) {
-      startButton.classList.add('video__start--hide');
-      controls.classList.remove('control--hide');
-      STATISTICS.classList.remove('statistics--hide');
       openButton.classList.remove('header__menu--error');
-      VIDEO.play();
-      VIDEO.volume = "0.5";
+      STARTBUTTON.classList.add('video__start--hide');
+      CONTROLS.classList.remove('control--hide');
       getStatistics();
+      VIDEO.play();
     } else {
       openButton.classList.add('header__menu--error');
     };
+  });
+
+  // End
+  VIDEO.addEventListener('ended', function () {
+    STARTBUTTON.classList.remove('video__start--hide');
+    CONTROLS.classList.add('control--hide');
+    STATISTICS.classList.add('statistics--hide');
   });
 })();
 
@@ -103,7 +128,7 @@ let game;
 (function () {
   const statisticsCheckbox = document.querySelector('.settings__checkbox--statistics');
 
-  statisticsCheckbox.addEventListener('change', function(event) {
+  statisticsCheckbox.addEventListener('change', function (event) {
     if (event.currentTarget.checked) {
       STATISTICS.classList.remove('statistics--off');
     } else {
@@ -112,14 +137,31 @@ let game;
   });
 })();
 
+let videoWidth;
+let videoHeight;
+let videoFormat;
+let videoDuration;
+let videoBuffer;
+let videoCurrentTime;
+
+const statisticsResolution = STATISTICS.querySelector('.statistics__resolution');
+const statisticsFormat = STATISTICS.querySelector('.statistics__format');
+const statisticsDuration = STATISTICS.querySelector('.statistics__duration');
+const statisticsBuffer = STATISTICS.querySelector('.statistics__buffer');
+
 function getStatistics () {
+  STATISTICS.classList.remove('statistics--hide');
+
   // VIDEO.addEventListener('loadedmetadata', function () {
+    if (fileTYPE) {
+      videoFormat = fileTYPE;
+    } else {
+      videoFormat = VIDEO.src.split('.').pop();
+    }
     videoWidth = VIDEO.videoWidth;
     videoHeight = VIDEO.videoHeight;
-    videoFormat = VIDEO.src.split('.').pop();
-    videoDuration = VIDEO.duration;
+    videoDuration = Math.round(VIDEO.duration);
     VIDEORANGE.setAttribute('max', videoDuration);
-
     setStatistics();
   // });
 };
@@ -130,10 +172,10 @@ function setStatistics () {
   statisticsDuration.innerHTML = videoDuration;
 
   VIDEO.addEventListener('timeupdate', function () {
-    videoBuffer = VIDEO.buffered.end(0);
+    videoBuffer = Math.round(VIDEO.buffered.end(0));
+    videoCurrentTime = VIDEO.currentTime;
+    VIDEORANGE.value = videoCurrentTime;
     statisticsBuffer.innerHTML = videoBuffer;
-    currentTime = VIDEO.currentTime;
-    VIDEORANGE.value = currentTime;
   });
 }
 
@@ -161,7 +203,7 @@ function setStatistics () {
   const muteButton = document.querySelector('.control__button--volume');
   const muteButtonIcon = document.querySelector('.control__mute');
   
-  muteButton.addEventListener('click', function() {
+  muteButton.addEventListener('click', function () {
     muteButtonIcon.classList.toggle('control__mute');
     if (VIDEO.muted) {
       VIDEO.muted = false;
@@ -171,16 +213,45 @@ function setStatistics () {
   });
 })();
 
+// Range
+(function () {
+  let rangeValue;
+
+  VIDEORANGE.addEventListener('mousedown', function () {
+    VIDEO.pause();
+  });
+  
+  VIDEORANGE.addEventListener('change', function () {
+    VIDEO.pause();
+    // const clickPosition = event.clientX - VIDEORANGE.getBoundingClientRect().left;
+    // const trackWidth = VIDEORANGE.getBoundingClientRect().width;
+    // rangeValue = VIDEORANGE.min + ((VIDEORANGE.max - VIDEORANGE.min) * clickPosition / trackWidth);
+    
+    // if (Math.abs(rangeValue - VIDEORANGE.value) > 1) {
+    //   event.preventDefault();
+    //   console.log('track');
+    // } else {
+      rangeValue = VIDEORANGE.value;
+      VIDEO.currentTime = rangeValue;
+      VIDEO.play();
+      // console.log('dot');
+    // };
+  });
+})();
+
 // Full screen
 (function () {
   const fullButton = document.querySelector('.control__button--size');
   
-  fullButton.addEventListener('click', function() {
+  fullButton.addEventListener('click', function () {
     VIDEO.requestFullscreen();
   });
 })();
 
 // THEME
+let currentTheme;
+let buttonIndex;
+
 (function () {
   const body = document.querySelector('body'); 
   const themeButtons = document.querySelectorAll('.footer__theme');
@@ -194,13 +265,12 @@ function setStatistics () {
 
   // Set button
   themeButtons.forEach(function (button, index) {
-    button.addEventListener('click', function() {
+    button.addEventListener('click', function () {
       buttonIndex = Array.from(themeButtons).indexOf(button);
       currentTheme = this.getAttribute('data-theme');
 
       setButton(buttonIndex);
       setTheme(currentTheme);
-      
       saveTheme(currentTheme);
     });
   });
