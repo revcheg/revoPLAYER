@@ -1,4 +1,4 @@
-const BODY = document.querySelector('.body'); 
+const BODY = document.querySelector('body'); 
 
 const VIDEO = document.querySelector('.video'); 
 const STATISTICS = document.querySelector('.statistics');
@@ -7,137 +7,28 @@ const VIDEORANGE = document.querySelector('.control__range');
 
 const STARTBUTTON = document.querySelector('.video__start');
 const CONTROLS = document.querySelector('.control');
-// CONTROLS
-// Pause
-const playButtonIcon = document.querySelector('.control__icon--play');
-const pauseButtonIcon = document.querySelector('.control__icon--pause');
 
+// Settings
 (function () {
-  const playButton = document.querySelector('.control__button--play');
-  
-  playButton.addEventListener('click', function() {
-    playButtonIcon.classList.toggle('control__icon--hide');
-    pauseButtonIcon.classList.toggle('control__icon--hide');
+  const menu = document.querySelector('.settings');
+  const openButton = document.querySelector('.header__menu');
+  const closeButton = document.querySelector('.settings__close');
 
-    if (VIDEO.paused) {
-      VIDEO.play();
-    } else {
-      VIDEO.pause();
+  openButton.addEventListener('click', function () {
+    menu.classList.remove('settings--hide');
+  });
+
+  closeButton.addEventListener('click', function () {
+    menu.classList.add('settings--hide');
+  });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.keyCode === 27) {
+      menu.classList.add('settings--hide');
     };
   });
 })();
 
-// Mute
-const muteButton = document.querySelector('.control__button--volume');
-const muteButtonIcon = document.querySelector('.control__mute');
-
-(function () {
-  muteButton.addEventListener('click', function () {
-    muteButtonIcon.classList.toggle('control__mute');
-    if (VIDEO.muted) {
-      VIDEO.muted = false;
-    } else {
-      VIDEO.muted = true;
-    };
-  });
-})();
-
-// Range
-(function () {
-  let rangeValue;
-
-  VIDEORANGE.addEventListener('mousedown', function () {
-    VIDEO.pause();
-  });
-  
-  VIDEORANGE.addEventListener('change', function () {
-    VIDEO.pause();
-    // const clickPosition = event.clientX - VIDEORANGE.getBoundingClientRect().left;
-    // const trackWidth = VIDEORANGE.getBoundingClientRect().width;
-    // rangeValue = VIDEORANGE.min + ((VIDEORANGE.max - VIDEORANGE.min) * clickPosition / trackWidth);
-    
-    // if (Math.abs(rangeValue - VIDEORANGE.value) > 1) {
-    //   event.preventDefault();
-    //   console.log('track');
-    // } else {
-      rangeValue = VIDEORANGE.value;
-      VIDEO.currentTime = rangeValue;
-      VIDEO.play();
-      // console.log('dot');
-    // };
-  });
-})();
-
-// Full screen
-(function () {
-  const fullButton = document.querySelector('.control__button--size');
-  
-  fullButton.addEventListener('click', function () {
-    VIDEO.requestFullscreen();
-  });
-})();
-
-// Keyboard
-(function () {
-  VIDEO.addEventListener('keyup', (event) => {
-    const videoKey = event.key;
-
-    switch (videoKey) {
-      case ' ':
-        if (VIDEO.paused) {
-          VIDEO.play();
-          playButtonIcon.classList.add('control__icon--hide');
-          pauseButtonIcon.classList.remove('control__icon--hide');
-        } else {
-          VIDEO.pause();
-          playButtonIcon.classList.remove('control__icon--hide');
-          pauseButtonIcon.classList.add('control__icon--hide');
-        };
-        break;
-
-      case 'ArrowLeft':
-        VIDEO.currentTime -= 5;
-        break;
-
-      case 'ArrowRight':
-        VIDEO.currentTime += 5;
-        break;
-
-      case 'm':
-        if (VIDEO.muted) {
-          VIDEO.muted = false;
-          muteButtonIcon.classList.add('control__mute');
-        } else {
-          VIDEO.muted = true;
-          muteButtonIcon.classList.remove('control__mute');
-        };
-        break;
-
-      case 'f':
-        VIDEO.requestFullscreen();
-        break;
-    };
-  });
-})();
-// File
-let FILE;
-let FILETYPE;
-let FILEURL;
-
-(function () {
-  const INPUTFILE = document.querySelector('.settings__file');
-  
-  INPUTFILE.addEventListener('click', function () {
-    resetVideo();
-  });
-  
-  INPUTFILE.addEventListener('change', function () {
-    FILE = INPUTFILE.files[0];
-    FILEURL = URL.createObjectURL(FILE);
-    FILETYPE = INPUTFILE.files[0].type;
-    VIDEO.src = FILEURL; 
-  });
-})();
 // Set Video
 let game;
 
@@ -203,26 +94,27 @@ function resetVideo () {
   pauseButtonIcon.classList.remove('control__icon--hide');
   // URL.revokeObjectURL(FILEURL);
 };
-// Settings
+
+// File
+let FILE;
+let FILETYPE;
+let FILEURL;
+
 (function () {
-  const menu = document.querySelector('.settings');
-  const openButton = document.querySelector('.header__menu');
-  const closeButton = document.querySelector('.settings__close');
-
-  openButton.addEventListener('click', function () {
-    menu.classList.remove('settings--hide');
+  const INPUTFILE = document.querySelector('.settings__file');
+  
+  INPUTFILE.addEventListener('click', function () {
+    resetVideo();
   });
-
-  closeButton.addEventListener('click', function () {
-    menu.classList.add('settings--hide');
-  });
-
-  document.addEventListener('keydown', function (event) {
-    if (event.keyCode === 27) {
-      menu.classList.add('settings--hide');
-    };
+  
+  INPUTFILE.addEventListener('change', function () {
+    FILE = INPUTFILE.files[0];
+    FILEURL = URL.createObjectURL(FILE);
+    FILETYPE = INPUTFILE.files[0].type;
+    VIDEO.src = FILEURL; 
   });
 })();
+
 // Start 
 (function () {
   const openButton = document.querySelector('.header__menu');
@@ -234,7 +126,6 @@ function resetVideo () {
       CONTROLS.classList.remove('control--hide');
       getStatistics();
       VIDEO.play();
-      VIDEO.focus();
     } else {
       openButton.classList.add('header__menu--error');
     };
@@ -246,11 +137,8 @@ function resetVideo () {
     CONTROLS.classList.add('control--hide');
     STATISTICS.classList.add('statistics--hide');
   });
-
-  VIDEO.addEventListener('blur', function () {
-    VIDEO.focus();
-  });
 })();
+
 // STATISTICS
 (function () {
   const statisticsCheckbox = document.querySelector('.settings__checkbox--statistics');
@@ -305,6 +193,118 @@ function setStatistics () {
     statisticsBuffer.innerHTML = videoBuffer;
   });
 }
+
+// CONTROLS
+// Pause
+const playButtonIcon = document.querySelector('.control__icon--play');
+const pauseButtonIcon = document.querySelector('.control__icon--pause');
+
+(function () {
+  const playButton = document.querySelector('.control__button--play');
+  
+  playButton.addEventListener('click', function() {
+    playButtonIcon.classList.toggle('control__icon--hide');
+    pauseButtonIcon.classList.toggle('control__icon--hide');
+
+    if (VIDEO.paused) {
+      VIDEO.play();
+    } else {
+      VIDEO.pause();
+    };
+  });
+})();
+
+// Mute
+(function () {
+  const muteButton = document.querySelector('.control__button--volume');
+  const muteButtonIcon = document.querySelector('.control__mute');
+  
+  muteButton.addEventListener('click', function () {
+    muteButtonIcon.classList.toggle('control__mute');
+    if (VIDEO.muted) {
+      VIDEO.muted = false;
+    } else {
+      VIDEO.muted = true;
+    };
+  });
+})();
+
+// Range
+(function () {
+  let rangeValue;
+
+  VIDEORANGE.addEventListener('mousedown', function () {
+    VIDEO.pause();
+  });
+  
+  VIDEORANGE.addEventListener('change', function () {
+    VIDEO.pause();
+    // const clickPosition = event.clientX - VIDEORANGE.getBoundingClientRect().left;
+    // const trackWidth = VIDEORANGE.getBoundingClientRect().width;
+    // rangeValue = VIDEORANGE.min + ((VIDEORANGE.max - VIDEORANGE.min) * clickPosition / trackWidth);
+    
+    // if (Math.abs(rangeValue - VIDEORANGE.value) > 1) {
+    //   event.preventDefault();
+    //   console.log('track');
+    // } else {
+      rangeValue = VIDEORANGE.value;
+      VIDEO.currentTime = rangeValue;
+      VIDEO.play();
+      // console.log('dot');
+    // };
+  });
+})();
+
+// Full screen
+(function () {
+  const fullButton = document.querySelector('.control__button--size');
+  
+  fullButton.addEventListener('click', function () {
+    VIDEO.requestFullscreen();
+  });
+})();
+
+// Keyboard
+let videoKeyCode;
+let videoWrapper = document.querySelector('.video__wrapper');
+
+(function () {
+  videoWrapper.addEventListener('keypress', (event) => {
+    videoKeyCode = event.keyCode;
+    console.log(videoKeyCode);
+
+    switch (videoKeyCode) {
+      case 32:
+        if (VIDEO.paused) {
+          VIDEO.play();
+        } else {
+          VIDEO.pause();
+        };
+        break;
+
+      case 37:
+        VIDEO.currentTime -= 5;
+        break;
+
+      case 39:
+        VIDEO.currentTime += 5;
+        break;
+
+      case 77:
+        if (VIDEO.muted) {
+          VIDEO.muted = false;
+        } else {
+          VIDEO.muted = true;
+        };
+        break;
+
+      case 70:
+        VIDEO.requestFullscreen();
+        break;
+    };
+  });
+})();
+
 // THEME
 let currentTheme;
 let buttonIndex;

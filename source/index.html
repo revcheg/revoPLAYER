@@ -9,7 +9,7 @@
     <link rel="preload" href="fonts/roboto-700.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     <link rel="preload" href="fonts/roboto-300.woff2" as="font" type="font/woff2" crossorigin="anonymous">
   </head>
-  <body>
+  <body class="body">
 
     <header class="header">
       <svg class="header__logo" xmlns="http://www.w3.org/2000/svg" width="250" height="45" viewBox="0 0 509 73">
@@ -36,7 +36,7 @@
           </svg>
         </button>
 
-        <video class="video"></video>
+        <video class="video" tabindex="0"></video>
 
         <section class="statistics  statistics--off  statistics--hide">
           <h3 class="visually-hidden">Статистика відео</h3>
@@ -108,7 +108,7 @@
           <span class="settings__name">Відображати вікно статистики</span>
         </label>
         <!-- <label class="settings__label">
-          <input class="settings__checkbox" type="checkbox" disabled> 
+          <input class="settings__checkbox  settings__checkbox--hq" type="checkbox" disabled> 
           <span class="settings__name">Найкраща якість відео</span>
         </label> -->
         <label class="settings__label">
@@ -122,7 +122,7 @@
         <button class="button  settings__button" data-video="TheWitcher" aria-label="Увімкнути відео Witcher" title="Увімкнути відео Witcher" type="button">The Witcher III</button>
         <button class="button  settings__button" data-video="Cyberpunk" aria-label="Увімкнути відео Cyberpunk 2077" title="Увімкнути відео Cyberpunk 2077" type="button">Cyberpunk 2077</button>      
         <label>
-          <input class="button  settings__file" aria-label="Завантажити своє відео" title="Завантажити своє відео" accept="video/*" type="file">
+          <input class="button  settings__file" aria-label="Завантажити власне відео" title="Завантажити власне відео" accept="video/*" type="file">
         </label>
       </div>
 

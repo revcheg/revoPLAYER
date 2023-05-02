@@ -6,6 +6,7 @@ import autoprefixer from 'autoprefixer';
 import csso from 'postcss-csso';
 import rename from 'gulp-rename';
 import htmlmin from 'gulp-htmlmin';
+import concat from 'gulp-concat';
 import terser from 'gulp-terser';
 // import squoosh from 'gulp-libsquoosh';
 import svgo from 'gulp-svgmin';
@@ -34,8 +35,16 @@ export const html = () => {
     .pipe(gulp.dest('build'));
 }
 
+// Concat
+const scriptConcat = () => {
+  // return gulp.src('source/js/components/*.js')
+  return gulp.src(['source/js/components/global.js', 'source/js/components/*.js'])
+    .pipe(concat('script.js'))
+    .pipe(gulp.dest('source/js'));
+}
+
 // Scripts
-const scripts = () => {
+export const scripts = () => {
   return gulp.src('source/js/script.js')
     .pipe(terser())
     .pipe(gulp.dest('build/js'))
@@ -71,6 +80,7 @@ const svg = () =>
     .pipe(svgo())
     .pipe(gulp.dest('build/img'));
 
+// SVG sprite
 const sprite = () => {
   return gulp.src('source/img/sprite/*.svg')
     .pipe(svgo())
@@ -124,13 +134,14 @@ const reload = (done) => {
 // Watcher
 const watcher = () => {
   gulp.watch('source/sass/**/*.scss', gulp.series(styles));
-  gulp.watch('source/js/script.js', gulp.series(scripts));
+  gulp.watch('source/js/components/*.js', gulp.series(scriptConcat, scripts));
   gulp.watch('source/*.html', gulp.series(html, reload));
 }
 
 // Build
 export const build = gulp.series(
   clean,
+  scriptConcat,
   copy,
   // optimizeImages,
   gulp.parallel(
@@ -146,6 +157,7 @@ export const build = gulp.series(
 // Default
 export default gulp.series(
   clean,
+  scriptConcat,
   copy,
   copyImages,
   gulp.parallel(
