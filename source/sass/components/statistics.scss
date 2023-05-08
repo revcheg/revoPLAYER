@@ -37,9 +37,27 @@
   }
 }
 
+.statistics__ufh {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 35px;
+  height: 23px;
+  opacity: 0.8;
+  backdrop-filter: blur(5px);
+}
+
 @media (min-width: $tablet-width) {
   .statistics__category {
     font-size: 13px;
+  }
+
+  .statistics__ufh {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 45px;
+    height: 30px;
   }
 }
 
@@ -50,6 +68,13 @@
 
   .statistics__category {
     margin-bottom: 10px;
-    font-size: 18px;
+    font-size: 20px;
+  }
+
+  .statistics__ufh {
+    top: 25px;
+    left: 25px;
+    width: 80px;
+    height: 52px;
   }
 }

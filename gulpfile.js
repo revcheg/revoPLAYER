@@ -37,7 +37,6 @@ export const html = () => {
 
 // Concat
 const scriptConcat = () => {
-  // return gulp.src('source/js/components/*.js')
   return gulp.src(['source/js/components/global.js', 'source/js/components/*.js'])
     .pipe(concat('script.js'))
     .pipe(gulp.dest('source/js'));
@@ -59,7 +58,7 @@ export const scripts = () => {
 // }
 
 const copyImages = () => {
-  return gulp.src('source/img/**/*.{png,jpg,webp}', 'source/video/**/*.{webm,mp4}')
+  return gulp.src('source/img/**/*.{png,jpg,webp}')
     .pipe(gulp.dest('build/img'))
 }
 
@@ -95,11 +94,12 @@ const sprite = () => {
 const copy = (done) => {
   gulp.src([
     'source/fonts/*.{woff2,woff}',
-    // 'source/*.ico',
-    // 'source/img/favicons/*.svg',
-    // 'source/apple-touch-icon.png',
-    // 'source/*.webmanifest',
-    // 'source/browserconfig.xml',
+    'source/video/**/*.{webm,mp4}',
+    'source/favicon.ico',
+    'source/img/favicons/*.svg',
+    'source/apple-touch-icon.png',
+    'source/player.webmanifest',
+    'source/browserconfig.xml',
   ], {
     base: 'source'
   })
@@ -143,6 +143,7 @@ export const build = gulp.series(
   clean,
   scriptConcat,
   copy,
+  copyImages,
   // optimizeImages,
   gulp.parallel(
     styles,

@@ -59,7 +59,9 @@
 }
 
 .settings__label {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 5px;
   cursor: pointer;
 
@@ -69,6 +71,10 @@
 }
 
 .settings__checkbox {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  margin-right: 10px;
 
   &:disabled {
     cursor: not-allowed;
@@ -84,7 +90,7 @@
   margin: 0;
   margin-bottom: 20px;
   font-size: 25px;
-  font-weight: 300;
+  font-weight: 700;
 }
 
 .settings__text {
@@ -202,8 +208,10 @@
 
 @media (min-width: $desktop-width) {
   .settings__close {
-    width: 50px;
-    height: 50px;
+    top: 50px;
+    right: 50px;
+    width: 60px;
+    height: 60px;
   }
 
   .settings__icon {
@@ -212,33 +220,33 @@
   }
 
   .settings__label {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
   }
 
   .settings__name {
-    font-size: 22px;
+    font-size: 25px;
   }
 
   .settings__sub {
     margin-bottom: 30px;
-    font-size: 35px;
+    font-size: 40px;
   }
 
   .settings__text {
-    font-size: 20px;
+    font-size: 25px;
   }
 
   .settings__item {
-    font-size: 20px;
+    font-size: 25px;
   }
 
   .settings__button {
-    font-size: 22px;
+    font-size: 25px;
   }
 
   .settings__file {
-    max-width: 215px;
-    font-size: 22px;
+    max-width: 240px;
+    font-size: 25px;
   }
 }
 

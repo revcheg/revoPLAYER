@@ -23,7 +23,6 @@ let game;
     };
 
     VIDEO.preload = 'auto';
-    VIDEO.volume = "0.5";
   };
 
   // Deep mode
@@ -61,5 +60,4 @@ function resetVideo () {
   STATISTICS.classList.add('statistics--hide');
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
-  // URL.revokeObjectURL(FILEURL);
 };

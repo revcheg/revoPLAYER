@@ -11,7 +11,7 @@
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
   background-color: rgba($dark-element, 0.5);
-  transform: translateY(100%);
+  transform: translateY(105%);
   transition: 0.6s;
   z-index: 1;
 
@@ -19,6 +19,10 @@
     opacity: 0;
     transform: translateY(0);
     z-index: -1;
+  }
+
+  &--off {
+    display: none;
   }
 
   &:focus-within {
@@ -123,6 +127,36 @@
     &::-webkit-slider-thumb {
       width: 20px;
       height: 20px;
+    }
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .control {
+    padding: 10px 20px;
+  }
+
+  .control__button {
+    width: 55px;
+    height: 55px;
+  }
+
+  .control__icon {
+    width: 30px;
+    height: 30px;
+
+    &--volume {
+      width: 35px;
+      height: 35px;
+    }
+  }
+
+  .control__range {
+
+    &::-webkit-slider-thumb {
+      width: 23px;
+      height: 23px;
+      margin-top: -8px;
     }
   }
 }

@@ -76,11 +76,34 @@ const muteButtonIcon = document.querySelector('.control__mute');
     VIDEO.requestFullscreen();
   });
 })();
+// File
+let FILE;
+let FILETYPE;
+let FILEURL;
+let FILESIZE;
 
+(function () {
+  const INPUTFILE = document.querySelector('.settings__file');
+  
+  INPUTFILE.addEventListener('click', function () {
+    resetVideo();
+  });
+  
+  INPUTFILE.addEventListener('change', function () {
+    FILE = INPUTFILE.files[0];
+    FILEURL = URL.createObjectURL(FILE);
+    FILETYPE = INPUTFILE.files[0].type.replace('video/', '');
+    FILESIZE = INPUTFILE.files[0].size;
+    VIDEO.src = FILEURL; 
+  });
+})();
 // Keyboard
 (function () {
+  let videoKey;
+
+  // Video
   VIDEO.addEventListener('keyup', (event) => {
-    const videoKey = event.key;
+    videoKey = event.key;
 
     switch (videoKey) {
       case ' ':
@@ -103,6 +126,14 @@ const muteButtonIcon = document.querySelector('.control__mute');
         VIDEO.currentTime += 5;
         break;
 
+      case 'ArrowUp':
+        VIDEO.volume += 0.1;
+        break;
+
+      case 'ArrowDown':
+        VIDEO.volume -= 0.1;
+        break;
+
       case 'm':
         if (VIDEO.muted) {
           VIDEO.muted = false;
@@ -118,24 +149,20 @@ const muteButtonIcon = document.querySelector('.control__mute');
         break;
     };
   });
-})();
-// File
-let FILE;
-let FILETYPE;
-let FILEURL;
 
-(function () {
-  const INPUTFILE = document.querySelector('.settings__file');
-  
-  INPUTFILE.addEventListener('click', function () {
-    resetVideo();
-  });
-  
-  INPUTFILE.addEventListener('change', function () {
-    FILE = INPUTFILE.files[0];
-    FILEURL = URL.createObjectURL(FILE);
-    FILETYPE = INPUTFILE.files[0].type;
-    VIDEO.src = FILEURL; 
+  // Other
+  BODY.addEventListener('keyup', (event) => {
+    videoKey = event.key;
+
+    switch (videoKey) {
+      case 's':
+        openSettings();
+        break;
+
+      case 'Escape':
+        closeSettings();
+        break;
+    };
   });
 })();
 // Set Video
@@ -163,7 +190,6 @@ let game;
     };
 
     VIDEO.preload = 'auto';
-    VIDEO.volume = "0.5";
   };
 
   // Deep mode
@@ -201,28 +227,31 @@ function resetVideo () {
   STATISTICS.classList.add('statistics--hide');
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
-  // URL.revokeObjectURL(FILEURL);
 };
 // Settings
-(function () {
-  const menu = document.querySelector('.settings');
-  const openButton = document.querySelector('.header__menu');
-  const closeButton = document.querySelector('.settings__close');
+const settings = document.querySelector('.settings');
+const openButton = document.querySelector('.header__menu');
+const closeButton = document.querySelector('.settings__close');
 
-  openButton.addEventListener('click', function () {
-    menu.classList.remove('settings--hide');
-  });
+function openSettings () {
+  settings.classList.remove('settings--hide');
+  settings.focus();
+};
 
-  closeButton.addEventListener('click', function () {
-    menu.classList.add('settings--hide');
-  });
+function closeSettings (event) {
+  settings.classList.add('settings--hide');
+  settings.blur();
+};
 
-  document.addEventListener('keydown', function (event) {
-    if (event.keyCode === 27) {
-      menu.classList.add('settings--hide');
-    };
-  });
-})();
+openButton.addEventListener('click', openSettings);
+closeButton.addEventListener('click', closeSettings);
+
+// settings.addEventListener('keyup', (event) => {
+//   if (event.key === 'Escape') {
+//     closeSettings();
+//   };
+// });
+
 // Start 
 (function () {
   const openButton = document.querySelector('.header__menu');
@@ -231,12 +260,18 @@ function resetVideo () {
     if (VIDEO.src) {
       openButton.classList.remove('header__menu--error');
       STARTBUTTON.classList.add('video__start--hide');
-      CONTROLS.classList.remove('control--hide');
+      CONTROLS.classList.remove('control--off', 'control--hide');
       getStatistics();
+      VIDEO.volume = 0.5;
       VIDEO.play();
-      VIDEO.focus();
+      stayFocus();
+      startProgress();
     } else {
       openButton.classList.add('header__menu--error');
+
+      setTimeout(() => {
+        openButton.classList.remove('header__menu--error');
+      }, 2000);
     };
   });
 
@@ -245,11 +280,18 @@ function resetVideo () {
     STARTBUTTON.classList.remove('video__start--hide');
     CONTROLS.classList.add('control--hide');
     STATISTICS.classList.add('statistics--hide');
+    VIDEO.blur();
   });
 
-  VIDEO.addEventListener('blur', function () {
-    VIDEO.focus();
-  });
+  function stayFocus () {
+    VIDEO.addEventListener('blur', function () {
+      if (VIDEO.paused) {
+        VIDEO.blur();
+      } else {
+        VIDEO.focus();
+      };
+    });
+  };
 })();
 // STATISTICS
 (function () {
@@ -269,42 +311,44 @@ let videoHeight;
 let videoFormat;
 let videoDuration;
 let videoBuffer;
+// let videoFPS;
 let videoCurrentTime;
 
 const statisticsResolution = STATISTICS.querySelector('.statistics__resolution');
+const statisticsUFH = document.querySelector('.statistics__ufh');
 const statisticsFormat = STATISTICS.querySelector('.statistics__format');
 const statisticsDuration = STATISTICS.querySelector('.statistics__duration');
+// const statisticsFPS = STATISTICS.querySelector('.statistics__fps');
 const statisticsBuffer = STATISTICS.querySelector('.statistics__buffer');
 
 function getStatistics () {
   STATISTICS.classList.remove('statistics--hide');
 
-  // VIDEO.addEventListener('loadedmetadata', function () {
-    if (FILETYPE) {
-      videoFormat = FILETYPE;
-    } else {
-      videoFormat = VIDEO.src.split('.').pop();
-    }
-    videoWidth = VIDEO.videoWidth;
-    videoHeight = VIDEO.videoHeight;
-    videoDuration = Math.round(VIDEO.duration);
-    VIDEORANGE.setAttribute('max', videoDuration);
-    setStatistics();
-  // });
+  if (FILETYPE) {
+    videoFormat = FILETYPE;
+  } else {
+    videoFormat = VIDEO.src.split('.').pop();
+  };
+
+  videoWidth = VIDEO.videoWidth;
+  videoHeight = VIDEO.videoHeight;
+  // videoFPS = VIDEO.fps;
+  videoDuration = Math.round(VIDEO.duration);
+  VIDEORANGE.setAttribute('max', videoDuration);
+
+  setStatistics();
 };
 
 function setStatistics () {
   statisticsResolution.innerHTML = videoWidth + 'x' + videoHeight;
   statisticsFormat.innerHTML = videoFormat;
   statisticsDuration.innerHTML = videoDuration;
+  // statisticsFPS.innerHTML = videoFPS;
 
-  VIDEO.addEventListener('timeupdate', function () {
-    videoBuffer = Math.round(VIDEO.buffered.end(0));
-    videoCurrentTime = VIDEO.currentTime;
-    VIDEORANGE.value = videoCurrentTime;
-    statisticsBuffer.innerHTML = videoBuffer;
-  });
-}
+  if (videoWidth >= 3840) {
+    statisticsUFH.classList.remove('statistics--off');
+  };
+};
 // THEME
 let currentTheme;
 let buttonIndex;
@@ -387,3 +431,25 @@ let buttonIndex;
 
   loadTheme();
 })();
+// Video
+let progressInterval;
+
+function startProgress () {
+  progressInterval = setTimeout(updateProgress, 1000);
+};
+
+function updateProgress () {
+  videoBuffer = Math.round(VIDEO.buffered.end(0));
+  videoCurrentTime = VIDEO.currentTime;
+  VIDEORANGE.value = videoCurrentTime;
+  statisticsBuffer.innerHTML = videoBuffer;
+  startProgress();
+};
+
+function stopProgress () {
+  clearTimeout(progressInterval);
+};
+
+VIDEO.addEventListener('play', startProgress);
+VIDEO.addEventListener('pause', stopProgress);
+VIDEO.addEventListener('ended', stopProgress);
