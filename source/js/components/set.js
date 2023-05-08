@@ -1,56 +1,48 @@
 // Set Video
 let game;
 
-(function () {
-  const chooseButtons = document.querySelectorAll('.settings__button');
+const chooseButtons = document.querySelectorAll('.settings__button');
 
-  chooseButtons.forEach((element) => {
-    element.addEventListener('click', function () {
-      game = this.getAttribute('data-video');
-      resetVideo();
-      setVideo(game);
-      deepCheckbox.removeAttribute('disabled', 'disabled');
-    });
+chooseButtons.forEach((element) => {
+  element.addEventListener('click', function () {
+    game = this.getAttribute('data-video');
+    resetVideo();
+    setVideo();
+    deepCheckbox.removeAttribute('disabled', 'disabled');
   });
+});
 
-  function setVideo () {
-    if (deepFlag) {
-      VIDEO.src = 'video/' + game + '/deep.webm';
-      VIDEO.poster = 'img/' + game + '/deep-preview.webp';
-    } else {
-      VIDEO.src = 'video/' + game + '/main.webm';
-      VIDEO.poster = 'img/' + game + '/main-preview.webp';
-    };
+function setVideo () {
+  VIDEO.src = 'video/' + game + '/' + deepFlag + '.webm';
+  VIDEO.preload = 'auto';
+  VIDEO.volume = 0.5;
+};
 
-    VIDEO.preload = 'auto';
+// Deep mode
+let deepFlag;
+let deepCheckbox = document.querySelector('.settings__checkbox--deep');
+
+deepCheckbox.addEventListener('change', function (event) {
+  if (event.currentTarget.checked) {
+    deepFlag = 'deep';
+  } else {
+    deepFlag = 'main';
   };
 
-  // Deep mode
-  let deepCheckbox = document.querySelector('.settings__checkbox--deep');
-  let deepFlag;
+  setVideo();
+});
 
-  deepCheckbox.addEventListener('change', function (event) {
-    if (event.currentTarget.checked) {
-      deepFlag = true;
-    } else {
-      deepFlag = false;
-    };
+// HQ mode
+// let hqCheckbox = document.querySelector('.settings__checkbox--hq');
+// let hqFlag;
 
-    setVideo();
-  });
-
-  // HQ mode
-  // let hqCheckbox = document.querySelector('.settings__checkbox--hq');
-  // let hqFlag;
-
-  // hqCheckbox.addEventListener('change', function (event) {
-  //   if (event.currentTarget.checked) {
-  //     hqFlag = true;
-  //   } else {
-  //     hqFlag = false;
-  //   };
-  // });
-})();
+// hqCheckbox.addEventListener('change', function (event) {
+//   if (event.currentTarget.checked) {
+//     hqFlag = true;
+//   } else {
+//     hqFlag = false;
+//   };
+// });
 
 // Reset video
 function resetVideo () {

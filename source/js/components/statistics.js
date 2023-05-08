@@ -16,14 +16,14 @@ let videoHeight;
 let videoFormat;
 let videoDuration;
 let videoBuffer;
-// let videoFPS;
+let videoFPS;
 let videoCurrentTime;
 
 const statisticsResolution = STATISTICS.querySelector('.statistics__resolution');
 const statisticsUFH = document.querySelector('.statistics__ufh');
 const statisticsFormat = STATISTICS.querySelector('.statistics__format');
 const statisticsDuration = STATISTICS.querySelector('.statistics__duration');
-// const statisticsFPS = STATISTICS.querySelector('.statistics__fps');
+const statisticsFPS = STATISTICS.querySelector('.statistics__fps');
 const statisticsBuffer = STATISTICS.querySelector('.statistics__buffer');
 
 function getStatistics () {
@@ -37,7 +37,6 @@ function getStatistics () {
 
   videoWidth = VIDEO.videoWidth;
   videoHeight = VIDEO.videoHeight;
-  // videoFPS = VIDEO.fps;
   videoDuration = Math.round(VIDEO.duration);
   VIDEORANGE.setAttribute('max', videoDuration);
 
@@ -48,9 +47,10 @@ function setStatistics () {
   statisticsResolution.innerHTML = videoWidth + 'x' + videoHeight;
   statisticsFormat.innerHTML = videoFormat;
   statisticsDuration.innerHTML = videoDuration;
-  // statisticsFPS.innerHTML = videoFPS;
 
   if (videoWidth >= 3840) {
     statisticsUFH.classList.remove('statistics--off');
+  } else {
+    statisticsUFH.classList.add('statistics--off');
   };
 };

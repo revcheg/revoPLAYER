@@ -1,23 +1,16 @@
 // Settings
-const settings = document.querySelector('.settings');
 const openButton = document.querySelector('.header__menu');
 const closeButton = document.querySelector('.settings__close');
 
 function openSettings () {
-  settings.classList.remove('settings--hide');
-  settings.focus();
+  SETTINGS.classList.remove('settings--hide');
+  SETTINGS.focus();
 };
 
 function closeSettings (event) {
-  settings.classList.add('settings--hide');
-  settings.blur();
+  SETTINGS.classList.add('settings--hide');
+  SETTINGS.blur();
 };
 
 openButton.addEventListener('click', openSettings);
 closeButton.addEventListener('click', closeSettings);
-
-// settings.addEventListener('keyup', (event) => {
-//   if (event.key === 'Escape') {
-//     closeSettings();
-//   };
-// });

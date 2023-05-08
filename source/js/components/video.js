@@ -1,5 +1,6 @@
 // Video
 let progressInterval;
+let playbackQuality
 
 function startProgress () {
   progressInterval = setTimeout(updateProgress, 1000);
@@ -10,7 +11,13 @@ function updateProgress () {
   videoCurrentTime = VIDEO.currentTime;
   VIDEORANGE.value = videoCurrentTime;
   statisticsBuffer.innerHTML = videoBuffer;
+
+  playbackQuality = VIDEO.getVideoPlaybackQuality();
+  videoFPS = playbackQuality.totalVideoFrames / VIDEO.currentTime;
+  statisticsFPS.innerHTML = videoFPS;
+
   startProgress();
+  stayFocus();
 };
 
 function stopProgress () {
