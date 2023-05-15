@@ -23,8 +23,8 @@ function updateProgress () {
   stayFocus();
   getTime();
   getEndTime();
+  getFPS();
   // getBitrate();
-  // getFPS();
 };
 
 function stopProgress () {

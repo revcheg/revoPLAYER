@@ -9,22 +9,22 @@ const VIDEORANGE = document.querySelector('.control__range');
 const STARTBUTTON = document.querySelector('.video__start');
 const CONTROLS = document.querySelector('.control');
 const backgroundVideo = document.querySelector('.video__background');
-const castButton = CONTROLS.querySelector('.control__button--cast');
+// const castButton = CONTROLS.querySelector('.control__button--cast');
 
-function castVideo () {
-  const castSessionRequest = new chrome.cast.SessionRequest(chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID);
-  chrome.cast.requestSession(
-    (castSession) => {
-      const mediaInfo = new chrome.cast.media.MediaInfo(videoPlayer.src);
-      const request = new chrome.cast.media.LoadRequest(mediaInfo);
-      castSession.loadMedia(request);
-    },
-    (error) => {
-      console.log(error);
-    },
-    castSessionRequest
-  );
-};
+// function castVideo () {
+//   const castSessionRequest = new chrome.cast.SessionRequest(chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID);
+//   chrome.cast.requestSession(
+//     (castSession) => {
+//       const mediaInfo = new chrome.cast.media.MediaInfo(videoPlayer.src);
+//       const request = new chrome.cast.media.LoadRequest(mediaInfo);
+//       castSession.loadMedia(request);
+//     },
+//     (error) => {
+//       console.log(error);
+//     },
+//     castSessionRequest
+//   );
+// };
 
 // castButton.addEventListener('click', castVideo);
 // CONTROLS
@@ -85,6 +85,8 @@ VIDEORANGE.addEventListener('change', function () {
     playButtonIcon.classList.add('control__icon--hide');
     pauseButtonIcon.classList.remove('control__icon--hide');
   };
+
+  refreshFPS();
 
   VIDEO.play();
 });
@@ -340,13 +342,25 @@ function stayFocus () {
 
 // STATISTICS
 const statisticsCheckbox = document.querySelector('.settings__checkbox--statistics');
+const statisticsAdditionalCheckbox = document.querySelector('.settings__checkbox--additional');
+const statisticsAdditional = document.querySelector('.settings__label--add');
+const statisticsHiddenCategory = document.querySelectorAll('.statistics__category--hide');
 
 statisticsCheckbox.addEventListener('change', function (event) {
   if (event.currentTarget.checked) {
     STATISTICS.classList.remove('statistics--off');
+    statisticsAdditional.classList.remove('settings__label--hide');
   } else {
     STATISTICS.classList.add('statistics--off');
+    statisticsAdditional.classList.add('settings__label--hide');
+    statisticsAdditionalCheckbox.checked = false;
   };
+});
+
+statisticsAdditionalCheckbox.addEventListener('change', function (event) {
+  statisticsHiddenCategory.forEach((element) => {
+    element.classList.remove('statistics__category--hide');
+  });
 });
 
 let videoWidth;
@@ -383,15 +397,20 @@ function getStatistics () {
   setStatistics();
 };
 
-// function getFPS () {
-//   playbackQuality = VIDEO.getVideoPlaybackQuality();
-//   videoFPS = playbackQuality.totalVideoFrames / VIDEO.currentTime;
-//   statisticsFPS.innerHTML = videoFPS;
+function getFPS () {
+  let playbackQuality = VIDEO.getVideoPlaybackQuality();
+  videoFPS = playbackQuality.totalVideoFrames / VIDEO.currentTime;
+  statisticsFPS.innerHTML = Math.round(videoFPS);
 
-//   videoFPS = VIDEO.webkitDecodedFrameCount;
-//   let framesPerSecond = Math.round((VIDEO.webkitDecodedFrameCount - videoFPS))
-//   console.log(framesPerSecond);
-// };
+  // videoFPS = VIDEO.webkitDecodedFrameCount;
+  // let framesPerSecond = Math.round((VIDEO.webkitDecodedFrameCount - videoFPS))
+  // console.log(framesPerSecond);
+};
+
+function refreshFPS () {
+  videoFPS = 0;
+  playbackQuality = 0;
+};
 
 // function getBitrate () {
 //   VIDEO.addEventListener('loadedmetadata', function () {
@@ -427,8 +446,9 @@ function setStatistics () {
   };
 };
 // THEME
-let currentTheme;
+let currentTheme = 'light';
 let buttonIndex;
+let favicon = document.querySelector('.favicon');
 
 const themeButtons = document.querySelectorAll('.footer__theme');
 
@@ -469,11 +489,13 @@ function setTheme(currentTheme) {
     case 'light':
       BODY.classList.add(currentTheme);
       buttonIndex = 0;
+      favicon.href = 'img/favicons/favicon.svg'
       break;
 
     case 'dark':
       BODY.classList.add(currentTheme);
       buttonIndex = 1;
+      favicon.href = 'img/favicons/favicon-dark.svg'
       break;
 
     case 'cyberpunk':
@@ -512,8 +534,8 @@ function updateProgress () {
   stayFocus();
   getTime();
   getEndTime();
+  getFPS();
   // getBitrate();
-  // getFPS();
 };
 
 function stopProgress () {

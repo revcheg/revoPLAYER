@@ -67,9 +67,18 @@
   justify-content: flex-start;
   margin-bottom: 10px;
   cursor: pointer;
+  transition: 0.2s;
 
   &:last-child {
     margin-bottom: 0;
+  }
+
+  &--hide {
+    position: relative;
+    margin-top: -37px;
+    margin-bottom: 0;
+    clip-path: inset(100%);
+    clip: rect(0 0 0 0);
   }
 }
 

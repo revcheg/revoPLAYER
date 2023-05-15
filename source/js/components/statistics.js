@@ -1,12 +1,24 @@
 // STATISTICS
 const statisticsCheckbox = document.querySelector('.settings__checkbox--statistics');
+const statisticsAdditionalCheckbox = document.querySelector('.settings__checkbox--additional');
+const statisticsAdditional = document.querySelector('.settings__label--add');
+const statisticsHiddenCategory = document.querySelectorAll('.statistics__category--hide');
 
 statisticsCheckbox.addEventListener('change', function (event) {
   if (event.currentTarget.checked) {
     STATISTICS.classList.remove('statistics--off');
+    statisticsAdditional.classList.remove('settings__label--hide');
   } else {
     STATISTICS.classList.add('statistics--off');
+    statisticsAdditional.classList.add('settings__label--hide');
+    statisticsAdditionalCheckbox.checked = false;
   };
+});
+
+statisticsAdditionalCheckbox.addEventListener('change', function (event) {
+  statisticsHiddenCategory.forEach((element) => {
+    element.classList.remove('statistics__category--hide');
+  });
 });
 
 let videoWidth;
@@ -43,15 +55,20 @@ function getStatistics () {
   setStatistics();
 };
 
-// function getFPS () {
-//   playbackQuality = VIDEO.getVideoPlaybackQuality();
-//   videoFPS = playbackQuality.totalVideoFrames / VIDEO.currentTime;
-//   statisticsFPS.innerHTML = videoFPS;
+function getFPS () {
+  let playbackQuality = VIDEO.getVideoPlaybackQuality();
+  videoFPS = playbackQuality.totalVideoFrames / VIDEO.currentTime;
+  statisticsFPS.innerHTML = Math.round(videoFPS);
 
-//   videoFPS = VIDEO.webkitDecodedFrameCount;
-//   let framesPerSecond = Math.round((VIDEO.webkitDecodedFrameCount - videoFPS))
-//   console.log(framesPerSecond);
-// };
+  // videoFPS = VIDEO.webkitDecodedFrameCount;
+  // let framesPerSecond = Math.round((VIDEO.webkitDecodedFrameCount - videoFPS))
+  // console.log(framesPerSecond);
+};
+
+function refreshFPS () {
+  videoFPS = 0;
+  playbackQuality = 0;
+};
 
 // function getBitrate () {
 //   VIDEO.addEventListener('loadedmetadata', function () {

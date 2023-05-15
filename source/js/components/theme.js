@@ -1,6 +1,7 @@
 // THEME
-let currentTheme;
+let currentTheme = 'light';
 let buttonIndex;
+let favicon = document.querySelector('.favicon');
 
 const themeButtons = document.querySelectorAll('.footer__theme');
 
@@ -41,11 +42,13 @@ function setTheme(currentTheme) {
     case 'light':
       BODY.classList.add(currentTheme);
       buttonIndex = 0;
+      favicon.href = 'img/favicons/favicon.svg'
       break;
 
     case 'dark':
       BODY.classList.add(currentTheme);
       buttonIndex = 1;
+      favicon.href = 'img/favicons/favicon-dark.svg'
       break;
 
     case 'cyberpunk':

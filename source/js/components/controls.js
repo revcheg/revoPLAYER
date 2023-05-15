@@ -57,6 +57,8 @@ VIDEORANGE.addEventListener('change', function () {
     pauseButtonIcon.classList.remove('control__icon--hide');
   };
 
+  refreshFPS();
+
   VIDEO.play();
 });
 
