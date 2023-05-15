@@ -10,6 +10,7 @@ function startVideo () {
     getStatistics();
     startProgress();
   } else {
+    openButton.focus();
     openButton.classList.add('header__menu--error');
     setTimeout(() => {
       openButton.classList.remove('header__menu--error');

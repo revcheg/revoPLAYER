@@ -9,6 +9,7 @@
     <link rel="preload" href="fonts/roboto-700.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     <link rel="preload" href="fonts/roboto-300.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     <link rel="icon" href="img/favicons/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="img/favicons/favicon-dark.svg" media="(prefers-color-scheme: dark)" type="image/svg+xml">
     <link rel="icon" href="favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="manifest" href="player.webmanifest">
@@ -46,16 +47,16 @@
           <path fill="#fff" d="M80.516 70.588v3.564H30.71v-2.197l33.545-50.049h3.418l-6.397 10.742-25.244 37.94h44.483ZM68.699 21.906V93h-3.906V21.906h3.906Zm35.938 0V93H87.498V21.906h17.139Zm42.431 0-27.539 36.035-16.113 17.627-3.125-15.722 10.303-15.625 15.332-22.315h21.142ZM126.805 93l-18.36-32.031 13.33-9.815L147.068 93h-20.263Z"/>
         </svg>
 
-        <video class="video" tabindex="0" title="Контент обраного відео" alt="Контент обраного відео"></video>
+        <video class="video" tabindex="0" disableRemotePlayback="true" title="Контент обраного відео" alt="Контент обраного відео"></video>
 
         <section class="statistics  statistics--hide  statistics--off">
           <h3 class="visually-hidden">Статистика відео</h3>
-          <p class="statistics__category"><span class="statistics__time"></span> <span class="statistics__end"></span></p>
+          <p class="statistics__category"><span class="statistics__time"></span> (<span class="statistics__end"></span>)</p>
           <p class="statistics__category">Роздільна здатність: <span class="statistics__resolution"></span></p>
           <p class="statistics__category">Формат: <span class="statistics__format"></span></p>
           <p class="statistics__category">Тривалість: <span class="statistics__duration"></span> секунд</p>
           <p class="statistics__category">Буфер: <span class="statistics__buffer"></span> секунд</p>
-          <p class="statistics__category">FPS: <span class="statistics__fps"></span></p>
+          <!-- <p class="statistics__category">FPS: <span class="statistics__fps"></span></p> -->
           <!-- <p class="statistics__category">Bitrate: <span class="statistics__bitrate"></span></p> -->
         </section>
 
@@ -76,14 +77,21 @@
               <path class="control__mute" d="m453.117 253.467 54.386-54.394c5.996-5.996 5.996-15.713 0-21.709s-15.713-5.996-21.709 0l-54.386 54.385-54.394-54.385c-5.997-5.996-15.713-5.996-21.709 0-5.997 5.996-5.997 15.713 0 21.709l54.384 54.394-54.384 54.385c-5.997 5.996-5.997 15.713 0 21.709 5.996 5.996 15.712 5.996 21.709 0l54.394-54.386 54.386 54.386c5.996 5.996 15.713 5.996 21.709 0s5.996-15.713 0-21.709l-54.386-54.385z"/>
             </svg>
           </button>
-          <span class="control__duration  control__passed">00:00:00</span>
-          <input class="control__range" type="range" value="0" step="1" aria-label="Смуга прокручування" title="Смуга прокручування (left+right arrow)">
-          <span class="control__duration  control__left">00:00:00</span>
+          <p class="control__duration">
+            <span class="control__time  control__time--passed">00:00:00</span>
+            <input class="control__range" type="range" value="0" step="1" aria-label="Смуга прокручування" title="Смуга прокручування (left+right arrow)">
+            <span class="control__time  control__time--left">00:00:00</span>
+          </p>
           <button class="button  control__button  control__button--size" aria-label="На весь екран" title="На весь екран (f)" type="button">
             <svg class="control__icon  control__icon--size" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="m12 0 3.293 3.293-3.172 3.171 1.415 1.415 3.171-3.172L20 8V0h-8Zm1.536 12.121-1.415 1.415 3.172 3.171L12 20h8v-8l-3.293 3.293-3.171-3.172Zm-5.657 1.415-1.415-1.415-3.171 3.172L0 12v8h8l-3.293-3.293 3.172-3.171ZM6.464 7.879l1.415-1.415-3.172-3.171L8 0H0v8l3.293-3.293 3.171 3.172Z"/>
             </svg>
           </button>
+          <!-- <button class="button  control__button  control__button--cast" aria-label="Транслювати на інший пристрій" title="Транслювати на інший пристрій (с)" type="button">
+            <svg class="control__icon  control__icon--size" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="m12 0 3.293 3.293-3.172 3.171 1.415 1.415 3.171-3.172L20 8V0h-8Zm1.536 12.121-1.415 1.415 3.172 3.171L12 20h8v-8l-3.293 3.293-3.171-3.172Zm-5.657 1.415-1.415-1.415-3.171 3.172L0 12v8h8l-3.293-3.293 3.172-3.171ZM6.464 7.879l1.415-1.415-3.172-3.171L8 0H0v8l3.293-3.293 3.171 3.172Z"/>
+            </svg>
+          </button> -->
         </section>
       </section>
     </main>
@@ -121,10 +129,18 @@
           <input class="settings__checkbox  settings__checkbox--statistics" type="checkbox"> 
           <span class="settings__name">Відображати вікно статистики</span>
         </label>
+        <!-- <label class="settings__label">
+          <input class="settings__checkbox  settings__checkbox--back" type="checkbox" disabled> 
+          <span class="settings__name">Додати слой відео на фон (для впевнених у собі)</span>
+        </label> -->
         <label class="settings__label">
           <input class="settings__checkbox  settings__checkbox--hq" type="checkbox" disabled> 
-          <span class="settings__name">Найкраща якість відео</span>
+          <span class="settings__name">Найкраща якість відео (чекаємо сервер)</span>
         </label>
+        <!-- <label class="settings__label">
+          <input class="settings__checkbox  settings__checkbox--sound" type="checkbox" disabled> 
+          <span class="settings__name">Навалити трохи саунд-дизайну (чекаємо розробки)</span>
+        </label> -->
         <label class="settings__label">
           <input class="settings__checkbox  settings__checkbox--deep" type="checkbox" disabled> 
           <span class="settings__name">Deep mode</span>
@@ -135,7 +151,7 @@
         <p class="settings__sub">ОБРАТИ ВІДЕО</p>
         <button class="button  settings__button" data-video="TheWitcher" aria-label="Увімкнути відео Witcher" title="Увімкнути відео Witcher" type="button">The Witcher III</button>
         <button class="button  settings__button" data-video="Cyberpunk" aria-label="Увімкнути відео Cyberpunk 2077" title="Увімкнути відео Cyberpunk 2077" type="button">Cyberpunk 2077</button>      
-        <label>
+        <label class="settings__label  settings__label--file">
           <input class="button  settings__file" aria-label="Завантажити власне відео" title="Завантажити власне відео" accept="video/*" type="file">
         </label>
       </div>
@@ -155,6 +171,8 @@
         </details>
       </div>
     </nav>
+
+    <video class="video__background"></video>
 
     <script src="js/script.js"></script>
 

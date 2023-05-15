@@ -50,18 +50,20 @@ BODY.addEventListener('keyup', (event) => {
       closeSettings();
       break;
 
+    case 'p':
+      startVideo();
+      break;
+
     case 'l':
       setTheme('light');
       setButton();
+      saveTheme('light');
       break;
 
     case 'd':
       setTheme('dark');
       setButton();
-      break;
-    
-    case 'k':
-      startVideo();
+      saveTheme('dark');
       break;
   };
 });

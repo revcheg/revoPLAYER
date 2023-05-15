@@ -8,6 +8,25 @@ const VIDEORANGE = document.querySelector('.control__range');
 
 const STARTBUTTON = document.querySelector('.video__start');
 const CONTROLS = document.querySelector('.control');
+const backgroundVideo = document.querySelector('.video__background');
+const castButton = CONTROLS.querySelector('.control__button--cast');
+
+function castVideo () {
+  const castSessionRequest = new chrome.cast.SessionRequest(chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID);
+  chrome.cast.requestSession(
+    (castSession) => {
+      const mediaInfo = new chrome.cast.media.MediaInfo(videoPlayer.src);
+      const request = new chrome.cast.media.LoadRequest(mediaInfo);
+      castSession.loadMedia(request);
+    },
+    (error) => {
+      console.log(error);
+    },
+    castSessionRequest
+  );
+};
+
+// castButton.addEventListener('click', castVideo);
 // CONTROLS
 // Pause
 const playButton = document.querySelector('.control__button--play');
@@ -78,6 +97,33 @@ function fullscreenVideo () {
 };
 
 fullButton.addEventListener('click', fullscreenVideo);
+
+// Duration
+const videoPassed = CONTROLS.querySelector('.control__time--passed');
+const videoLeft = CONTROLS.querySelector('.control__time--left');
+
+function formatTime (timeInSeconds) {
+  let hours = Math.floor(timeInSeconds / 3600);
+  let minutes = Math.floor((timeInSeconds - (hours * 3600)) / 60);
+  let seconds = Math.floor(timeInSeconds - (hours * 3600) - (minutes * 60));
+  
+  if (hours < 10) {
+    hours = '0' + hours;
+  };
+
+  if (minutes < 10) {
+    minutes = '0' + minutes;
+  };
+
+  if (seconds < 10) {
+    seconds = '0' + seconds;
+  };
+
+  // minutes = minutes < 10 ? '0' + minutes : minutes;
+  // seconds = seconds < 10 ? '0' + seconds : seconds;
+
+  return hours + ':' + minutes + ':' + seconds;
+};
 // File
 let FILE;
 let FILETYPE;
@@ -148,18 +194,20 @@ BODY.addEventListener('keyup', (event) => {
       closeSettings();
       break;
 
+    case 'p':
+      startVideo();
+      break;
+
     case 'l':
       setTheme('light');
       setButton();
+      saveTheme('light');
       break;
 
     case 'd':
       setTheme('dark');
       setButton();
-      break;
-    
-    case 'k':
-      startVideo();
+      saveTheme('dark');
       break;
   };
 });
@@ -262,6 +310,7 @@ function startVideo () {
     getStatistics();
     startProgress();
   } else {
+    openButton.focus();
     openButton.classList.add('header__menu--error');
     setTimeout(() => {
       openButton.classList.remove('header__menu--error');
@@ -290,17 +339,15 @@ function stayFocus () {
 };
 
 // STATISTICS
-(function () {
-  const statisticsCheckbox = document.querySelector('.settings__checkbox--statistics');
+const statisticsCheckbox = document.querySelector('.settings__checkbox--statistics');
 
-  statisticsCheckbox.addEventListener('change', function (event) {
-    if (event.currentTarget.checked) {
-      STATISTICS.classList.remove('statistics--off');
-    } else {
-      STATISTICS.classList.add('statistics--off');
-    };
-  });
-})();
+statisticsCheckbox.addEventListener('change', function (event) {
+  if (event.currentTarget.checked) {
+    STATISTICS.classList.remove('statistics--off');
+  } else {
+    STATISTICS.classList.add('statistics--off');
+  };
+});
 
 let videoWidth;
 let videoHeight;
@@ -310,6 +357,8 @@ let videoBuffer;
 let videoFPS;
 let videoCurrentTime;
 
+const statisticsClientTime = STATISTICS.querySelector('.statistics__time');
+const statisticsEndTime = STATISTICS.querySelector('.statistics__end');
 const statisticsResolution = STATISTICS.querySelector('.statistics__resolution');
 const statisticsUFH = document.querySelector('.statistics__ufh');
 const statisticsFormat = STATISTICS.querySelector('.statistics__format');
@@ -332,6 +381,38 @@ function getStatistics () {
   VIDEORANGE.setAttribute('max', videoDuration);
 
   setStatistics();
+};
+
+// function getFPS () {
+//   playbackQuality = VIDEO.getVideoPlaybackQuality();
+//   videoFPS = playbackQuality.totalVideoFrames / VIDEO.currentTime;
+//   statisticsFPS.innerHTML = videoFPS;
+
+//   videoFPS = VIDEO.webkitDecodedFrameCount;
+//   let framesPerSecond = Math.round((VIDEO.webkitDecodedFrameCount - videoFPS))
+//   console.log(framesPerSecond);
+// };
+
+// function getBitrate () {
+//   VIDEO.addEventListener('loadedmetadata', function () {
+//     const bitratePerSecond = VIDEO.webkitVideoBitsPerSecond;
+//     console.log(bitratePerSecond);
+//   });
+// };
+
+function getTime () {
+  const clientDate = new Date();
+  const clientHours = clientDate.getHours();
+  const clientMinutes = clientDate.getMinutes();
+  statisticsClientTime.innerHTML = clientHours + ':' + clientMinutes;
+};
+
+function getEndTime () {
+  const futureDate = new Date();
+  futureDate.setSeconds(futureDate.getSeconds() + videoDuration);
+  const futureClientHours = futureDate.getHours();
+  const futureClientMinutes = futureDate.getMinutes();
+  statisticsEndTime.innerHTML = futureClientHours + ':' + futureClientMinutes;
 };
 
 function setStatistics () {
@@ -408,49 +489,20 @@ setButton(buttonIndex);
 loadTheme();
 // Video
 let progressInterval;
-let playbackQuality
-
-// Duration
-const videoPassed = CONTROLS.querySelector('.control__passed');
-const videoLeft = CONTROLS.querySelector('.control__left');
-
-function formatTime (timeInSeconds) {
-  let hours = Math.floor(timeInSeconds / 3600);
-  let minutes = Math.floor((timeInSeconds - (hours * 3600)) / 60);
-  let seconds = Math.floor(timeInSeconds - (hours * 3600) - (minutes * 60));
-  
-  if (hours < 10) {
-    hours = '0' + hours;
-  };
-
-  if (minutes < 10) {
-    minutes = '0' + minutes;
-  };
-
-  if (seconds < 10) {
-    seconds = '0' + seconds;
-  };
-
-  // minutes = minutes < 10 ? '0' + minutes : minutes;
-  // seconds = seconds < 10 ? '0' + seconds : seconds;
-
-  return hours + ':' + minutes + ':' + seconds;
-};
+let playbackQuality;
 
 function startProgress () {
   progressInterval = setTimeout(updateProgress, 1000);
 };
 
 function updateProgress () {
+  // Buffer
   videoBuffer = Math.round(VIDEO.buffered.end(0));
   videoCurrentTime = VIDEO.currentTime;
   VIDEORANGE.value = videoCurrentTime;
   statisticsBuffer.innerHTML = videoBuffer;
 
-  playbackQuality = VIDEO.getVideoPlaybackQuality();
-  videoFPS = playbackQuality.totalVideoFrames / VIDEO.currentTime;
-  statisticsFPS.innerHTML = videoFPS;
-
+  // Duration
   let currentVideoPassed = formatTime(videoCurrentTime); 
   let currentVideoLeft = formatTime(videoDuration - videoCurrentTime); 
   videoPassed.innerHTML = currentVideoPassed; 
@@ -458,6 +510,10 @@ function updateProgress () {
 
   startProgress();
   stayFocus();
+  getTime();
+  getEndTime();
+  // getBitrate();
+  // getFPS();
 };
 
 function stopProgress () {
