@@ -8,10 +8,12 @@ statisticsCheckbox.addEventListener('change', function (event) {
   if (event.currentTarget.checked) {
     STATISTICS.classList.remove('statistics--off');
     statisticsAdditional.classList.remove('settings__label--hide');
+    statisticsAdditionalCheckbox.removeAttribute('disabled');
   } else {
     STATISTICS.classList.add('statistics--off');
     statisticsAdditional.classList.add('settings__label--hide');
     statisticsAdditionalCheckbox.checked = false;
+    statisticsAdditionalCheckbox.setAttribute('disabled', 'disabled');
   };
 });
 

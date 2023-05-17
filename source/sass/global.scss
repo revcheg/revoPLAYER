@@ -6,20 +6,20 @@ body {
   font-weight: 400;
   font-family: "Roboto", "Arial", sans-serif;
   transition: 0.5s;
+}
 
-  &::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-  }
-  
-  &::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-  
-  &::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    background-color: #6320EE;
-  }
+*::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #6320EE;
 }
 
 img {
