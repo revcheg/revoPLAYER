@@ -18,6 +18,10 @@
   }
 
   // Control
+  .control__extraline {
+    background-color: $dark-blue;
+  }
+
   .control__range {
 
     &::-webkit-slider-runnable-track {

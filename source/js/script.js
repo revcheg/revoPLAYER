@@ -75,6 +75,14 @@ function muteVideo () {
 
 muteButton.addEventListener('click', muteVideo);
 
+// Extra line
+let extralineProgress;
+
+function extraLine () {
+  extralineProgress = (videoCurrentTime / videoDuration) * 100;
+  extraline.style.width = extralineProgress + '%';
+};
+
 // Range
 let rangeValue;
 
@@ -309,7 +317,7 @@ statisticsAdditionalCheckbox.addEventListener('change', function (event) {
 
 // Deep mode
 let deepFlag;
-let deepCheckbox = document.querySelector('.settings__checkbox--deep');
+const deepCheckbox = document.querySelector('.settings__checkbox--deep');
 
 deepCheckbox.addEventListener('change', function (event) {
   if (event.currentTarget.checked) {
@@ -332,6 +340,18 @@ deepCheckbox.addEventListener('change', function (event) {
 //     hqFlag = false;
 //   };
 // });
+
+// Extra line
+const extraline = document.querySelector('.control__extraline');
+const extralineCheckbox = document.querySelector('.settings__checkbox--extraline');
+
+extralineCheckbox.addEventListener('change', function (event) {
+  if (event.currentTarget.checked) {
+    extraline.classList.remove('control__extraline--hide');
+  } else {
+    extraline.classList.add('control__extraline--hide');
+  };
+});
 
 // Start 
 function startVideo (event) {
@@ -517,6 +537,7 @@ function updateProgress () {
   stayFocus();
   getTime();
   getEndTime();
+  extraLine();
 };
 
 function stopProgress () {

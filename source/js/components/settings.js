@@ -42,7 +42,7 @@ statisticsAdditionalCheckbox.addEventListener('change', function (event) {
 
 // Deep mode
 let deepFlag;
-let deepCheckbox = document.querySelector('.settings__checkbox--deep');
+const deepCheckbox = document.querySelector('.settings__checkbox--deep');
 
 deepCheckbox.addEventListener('change', function (event) {
   if (event.currentTarget.checked) {
@@ -65,3 +65,15 @@ deepCheckbox.addEventListener('change', function (event) {
 //     hqFlag = false;
 //   };
 // });
+
+// Extra line
+const extraline = document.querySelector('.control__extraline');
+const extralineCheckbox = document.querySelector('.settings__checkbox--extraline');
+
+extralineCheckbox.addEventListener('change', function (event) {
+  if (event.currentTarget.checked) {
+    extraline.classList.remove('control__extraline--hide');
+  } else {
+    extraline.classList.add('control__extraline--hide');
+  };
+});

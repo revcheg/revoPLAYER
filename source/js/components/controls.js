@@ -43,6 +43,14 @@ function muteVideo () {
 
 muteButton.addEventListener('click', muteVideo);
 
+// Extra line
+let extralineProgress;
+
+function extraLine () {
+  extralineProgress = (videoCurrentTime / videoDuration) * 100;
+  extraline.style.width = extralineProgress + '%';
+};
+
 // Range
 let rangeValue;
 

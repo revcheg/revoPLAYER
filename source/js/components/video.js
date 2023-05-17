@@ -23,6 +23,7 @@ function updateProgress () {
   stayFocus();
   getTime();
   getEndTime();
+  extraLine();
 };
 
 function stopProgress () {
