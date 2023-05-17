@@ -23,12 +23,20 @@ function updateProgress () {
   stayFocus();
   getTime();
   getEndTime();
-  getFPS();
-  // getBitrate();
 };
 
 function stopProgress () {
   clearTimeout(progressInterval);
+};
+
+function stayFocus () {
+  VIDEO.addEventListener('blur', function () {
+    if (VIDEO.paused) {
+      VIDEO.blur();
+    } else {
+      VIDEO.focus();
+    };
+  });
 };
 
 VIDEO.addEventListener('play', startProgress);

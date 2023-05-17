@@ -8,7 +8,7 @@ VIDEO.addEventListener('keyup', (event) => {
   switch (videoKey) {
     case ' ':
       pauseVideo();
-      pauseIcon();
+      changePauseIcon();
       break;
 
     case 'ArrowLeft':

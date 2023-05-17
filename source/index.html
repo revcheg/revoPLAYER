@@ -10,7 +10,6 @@
     <link rel="preload" href="fonts/roboto-300.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     <link rel="icon" href="img/favicons/favicon.svg" class="favicon" type="image/svg+xml">
     <link rel="icon" href="img/favicons/favicon-dark.svg" media="(prefers-color-scheme: dark)" type="image/svg+xml">
-    <link rel="icon" href="favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="manifest" href="player.webmanifest">
     <meta name="theme-color" content="#F8F0FB">
@@ -56,12 +55,13 @@
           <p class="statistics__category  statistics__category--hide">Формат: <span class="statistics__format"></span></p>
           <p class="statistics__category">Тривалість: <span class="statistics__duration"></span> секунд</p>
           <p class="statistics__category  statistics__category--hide">Буфер: <span class="statistics__buffer"></span> секунд</p>
-          <p class="statistics__category  statistics__category--hide">FPS: <span class="statistics__fps"></span></p>
+          <!-- <p class="statistics__category  statistics__category--hide">FPS: <span class="statistics__fps"></span></p> -->
           <!-- <p class="statistics__category">Bitrate: <span class="statistics__bitrate"></span></p> -->
         </section>
 
         <section class="control  control--hide  control--off">
           <h3 class="visually-hidden">Кнопки управління плеєром</h3>
+          <div class="control__extraline  control__extraline--hide"></div>
           <button class="button  control__button  control__button--play" aria-label="Плей / пауза" title="Плей / пауза (space)" type="button">
             <svg class="control__icon  control__icon--play  control__icon--hide" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="-0.5 0 7 7">
               <path fill-rule="evenodd" d="M5.495 2.573 1.5.143C.832-.266 0 .25 0 1.068V5.93c0 .82.832 1.333 1.5.927l3.995-2.43c.673-.41.673-1.445 0-1.855"/>
@@ -123,7 +123,7 @@
         </svg>
       </button>
 
-      <div class="settings__column">
+      <div class="settings__column  settings__column--main">
         <p class="settings__sub">НАЛАШТУВАННЯ</p>
         <label class="settings__label">
           <input class="settings__checkbox  settings__checkbox--statistics" type="checkbox"> 
@@ -133,34 +133,111 @@
           <input class="settings__checkbox  settings__checkbox--additional" type="checkbox" disabled> 
           <span class="settings__name">Доповнена статистика</span>
         </label>
-        <!-- <label class="settings__label">
-          <input class="settings__checkbox  settings__checkbox--back" type="checkbox" disabled> 
-          <span class="settings__name">Додати слой відео на фон (для впевнених у собі)</span>
-        </label> -->
         <label class="settings__label">
           <input class="settings__checkbox  settings__checkbox--hq" type="checkbox" disabled> 
           <span class="settings__name">Найкраща якість відео (чекаємо сервер)</span>
         </label>
-        <!-- <label class="settings__label">
-          <input class="settings__checkbox  settings__checkbox--sound" type="checkbox" disabled> 
-          <span class="settings__name">Навалити трохи саунд-дизайну (чекаємо розробки)</span>
-        </label> -->
         <label class="settings__label">
           <input class="settings__checkbox  settings__checkbox--deep" type="checkbox" disabled> 
           <span class="settings__name">Deep mode</span>
         </label>
+        <!-- <label class="settings__label">
+          <input class="settings__checkbox  settings__checkbox--back" type="checkbox" disabled> 
+          <span class="settings__name">Додати слой відео на фон (для впевнених у собі)</span>
+        </label> -->
+        <!-- <label class="settings__label">
+          <input class="settings__checkbox  settings__checkbox--sound" type="checkbox" disabled> 
+          <span class="settings__name">Навалити трохи саунд-дизайну (чекаємо розробки)</span>
+        </label> -->
       </div>
 
-      <div class="settings__column">
+      <div class="settings__column  settings__column--player">
+        <p class="settings__sub">ПЛЕЄР</p>
+        <label class="settings__label">
+          <input class="settings__checkbox  settings__checkbox--statistics" type="checkbox"> 
+          <span class="settings__name">Додати нову смугу прогрузки</span>
+        </label>
+      </div>
+
+      <div class="settings__column  settings__column--video">
         <p class="settings__sub">ОБРАТИ ВІДЕО</p>
-        <button class="button  settings__button" data-video="TheWitcher" aria-label="Увімкнути відео Witcher" title="Увімкнути відео Witcher" type="button">The Witcher III</button>
-        <button class="button  settings__button" data-video="Cyberpunk" aria-label="Увімкнути відео Cyberpunk 2077" title="Увімкнути відео Cyberpunk 2077" type="button">Cyberpunk 2077</button>      
+        <button class="button  settings__video" data-video="TheWitcher" aria-label="Увімкнути відео Witcher" title="Увімкнути відео Witcher" type="button">The Witcher III</button>
+        <button class="button  settings__video" data-video="Cyberpunk" aria-label="Увімкнути відео Cyberpunk 2077" title="Увімкнути відео Cyberpunk 2077" type="button">Cyberpunk 2077</button>      
         <label class="settings__label  settings__label--file">
           <input class="button  settings__file" aria-label="Завантажити власне відео" title="Завантажити власне відео" accept="video/*" type="file">
         </label>
       </div>
 
-      <div class="settings__column">
+      <div class="settings__column  settings__column--info">
+        <details class="settings__details">
+          <summary class="settings__summary">
+            <p class="settings__sub">ТРІШКИ ІНФИ</p>
+          </summary>
+          <p class="settings__text">З фішочок:</p>
+          <ul class="settings__list">
+            <li class="settings__item">Можливість обрати світлу чи темну тему</li>
+            <li class="settings__item">Автоматичне встановлення теми на основі теми на пристрої</li>
+            <li class="settings__item">Усі відео та картинки оптимізовані для вебу</li>
+            <li class="settings__item">Відео перероблені у кращій формат</li>
+          </ul>
+        </details>
+      </div>
+    </nav>
+
+    <nav class="visually-hidden">
+      <div class="settings__control">
+        <button class="settings__button" type="button"></button>
+        <button class="settings__button" type="button"></button>
+        <button class="settings__button" type="button"></button>
+        <button class="settings__button" type="button"></button>
+      </div>
+
+      <div>
+        <p class="settings__sub">НАЛАШТУВАННЯ</p>
+        <label class="settings__label">
+          <input class="settings__checkbox  settings__checkbox--statistics" type="checkbox"> 
+          <span class="settings__name">Відображати вікно статистики</span>
+        </label>
+        <label class="settings__label  settings__label--add  settings__label--hide">
+          <input class="settings__checkbox  settings__checkbox--additional" type="checkbox" disabled> 
+          <span class="settings__name">Доповнена статистика</span>
+        </label>
+        <label class="settings__label">
+          <input class="settings__checkbox  settings__checkbox--hq" type="checkbox" disabled> 
+          <span class="settings__name">Найкраща якість відео (чекаємо сервер)</span>
+        </label>
+        <label class="settings__label">
+          <input class="settings__checkbox  settings__checkbox--deep" type="checkbox" disabled> 
+          <span class="settings__name">Deep mode</span>
+        </label>
+        <!-- <label class="settings__label">
+          <input class="settings__checkbox  settings__checkbox--back" type="checkbox" disabled> 
+          <span class="settings__name">Додати слой відео на фон (для впевнених у собі)</span>
+        </label> -->
+        <!-- <label class="settings__label">
+          <input class="settings__checkbox  settings__checkbox--sound" type="checkbox" disabled> 
+          <span class="settings__name">Навалити трохи саунд-дизайну (чекаємо розробки)</span>
+        </label> -->
+      </div>
+
+      <div>
+        <p class="settings__sub">ОБРАТИ ВІДЕО</p>
+        <button class="button  settings__video" data-video="TheWitcher" aria-label="Увімкнути відео Witcher" title="Увімкнути відео Witcher" type="button">The Witcher III</button>
+        <button class="button  settings__video" data-video="Cyberpunk" aria-label="Увімкнути відео Cyberpunk 2077" title="Увімкнути відео Cyberpunk 2077" type="button">Cyberpunk 2077</button>      
+        <label class="settings__label  settings__label--file">
+          <input class="button  settings__file" aria-label="Завантажити власне відео" title="Завантажити власне відео" accept="video/*" type="file">
+        </label>
+      </div>
+
+      <div>
+        <p class="settings__sub">ПЛЕЄР</p>
+        <label class="settings__label">
+          <input class="settings__checkbox  settings__checkbox--statistics" type="checkbox"> 
+          <span class="settings__name">Додати нову смугу прогрузки</span>
+        </label>
+      </div>
+
+      <div>
         <details class="settings__details">
           <summary class="settings__summary">
             <p class="settings__sub">ТРІШКИ ІНФИ</p>

@@ -1,5 +1,7 @@
 // Start 
-function startVideo () {
+function startVideo (event) {
+  event.stopPropagation();
+
   if (VIDEO.src) {
     openButton.classList.remove('header__menu--error');
     STARTBUTTON.classList.add('video__start--hide');
@@ -27,13 +29,3 @@ VIDEO.addEventListener('ended', function () {
   STATISTICS.classList.add('statistics--hide');
   VIDEO.blur();
 });
-
-function stayFocus () {
-  VIDEO.addEventListener('blur', function () {
-    if (VIDEO.paused) {
-      VIDEO.blur();
-    } else {
-      VIDEO.focus();
-    };
-  });
-};

@@ -1,7 +1,7 @@
 // Set Video
 let game;
 
-const chooseButtons = document.querySelectorAll('.settings__button');
+const chooseButtons = document.querySelectorAll('.settings__video');
 
 chooseButtons.forEach((element) => {
   element.addEventListener('click', function () {
@@ -17,32 +17,6 @@ function setVideo () {
   VIDEO.preload = 'auto';
   VIDEO.volume = 0.5;
 };
-
-// Deep mode
-let deepFlag;
-let deepCheckbox = document.querySelector('.settings__checkbox--deep');
-
-deepCheckbox.addEventListener('change', function (event) {
-  if (event.currentTarget.checked) {
-    deepFlag = 'deep';
-  } else {
-    deepFlag = 'main';
-  };
-
-  setVideo();
-});
-
-// HQ mode
-// let hqCheckbox = document.querySelector('.settings__checkbox--hq');
-// let hqFlag;
-
-// hqCheckbox.addEventListener('change', function (event) {
-//   if (event.currentTarget.checked) {
-//     hqFlag = true;
-//   } else {
-//     hqFlag = false;
-//   };
-// });
 
 // Reset video
 function resetVideo () {

@@ -1,34 +1,10 @@
 // STATISTICS
-const statisticsCheckbox = document.querySelector('.settings__checkbox--statistics');
-const statisticsAdditionalCheckbox = document.querySelector('.settings__checkbox--additional');
-const statisticsAdditional = document.querySelector('.settings__label--add');
-const statisticsHiddenCategory = document.querySelectorAll('.statistics__category--hide');
-
-statisticsCheckbox.addEventListener('change', function (event) {
-  if (event.currentTarget.checked) {
-    STATISTICS.classList.remove('statistics--off');
-    statisticsAdditional.classList.remove('settings__label--hide');
-    statisticsAdditionalCheckbox.removeAttribute('disabled');
-  } else {
-    STATISTICS.classList.add('statistics--off');
-    statisticsAdditional.classList.add('settings__label--hide');
-    statisticsAdditionalCheckbox.checked = false;
-    statisticsAdditionalCheckbox.setAttribute('disabled', 'disabled');
-  };
-});
-
-statisticsAdditionalCheckbox.addEventListener('change', function (event) {
-  statisticsHiddenCategory.forEach((element) => {
-    element.classList.remove('statistics__category--hide');
-  });
-});
-
 let videoWidth;
 let videoHeight;
 let videoFormat;
 let videoDuration;
 let videoBuffer;
-let videoFPS;
+// let videoFPS;
 let videoCurrentTime;
 
 const statisticsClientTime = STATISTICS.querySelector('.statistics__time');
@@ -37,7 +13,7 @@ const statisticsResolution = STATISTICS.querySelector('.statistics__resolution')
 const statisticsUFH = document.querySelector('.statistics__ufh');
 const statisticsFormat = STATISTICS.querySelector('.statistics__format');
 const statisticsDuration = STATISTICS.querySelector('.statistics__duration');
-const statisticsFPS = STATISTICS.querySelector('.statistics__fps');
+// const statisticsFPS = STATISTICS.querySelector('.statistics__fps');
 const statisticsBuffer = STATISTICS.querySelector('.statistics__buffer');
 
 function getStatistics () {
@@ -56,28 +32,6 @@ function getStatistics () {
 
   setStatistics();
 };
-
-function getFPS () {
-  let playbackQuality = VIDEO.getVideoPlaybackQuality();
-  videoFPS = playbackQuality.totalVideoFrames / VIDEO.currentTime;
-  statisticsFPS.innerHTML = Math.round(videoFPS);
-
-  // videoFPS = VIDEO.webkitDecodedFrameCount;
-  // let framesPerSecond = Math.round((VIDEO.webkitDecodedFrameCount - videoFPS))
-  // console.log(framesPerSecond);
-};
-
-function refreshFPS () {
-  videoFPS = 0;
-  playbackQuality = 0;
-};
-
-// function getBitrate () {
-//   VIDEO.addEventListener('loadedmetadata', function () {
-//     const bitratePerSecond = VIDEO.webkitVideoBitsPerSecond;
-//     console.log(bitratePerSecond);
-//   });
-// };
 
 function getTime () {
   const clientDate = new Date();

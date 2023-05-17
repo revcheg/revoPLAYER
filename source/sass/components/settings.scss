@@ -132,7 +132,7 @@
   }
 }
 
-.settings__button {
+.settings__video {
   width: fit-content;
   margin: 0 auto;
   margin-bottom: 15px;
@@ -176,9 +176,23 @@
   .settings__column {
     margin-bottom: 0;
 
-    &:last-of-type {
+    &--player {
+      grid-column-start: 1;
+      grid-column-end: 2;
+      align-self: self-start;
+    }
+
+    &--video {
+      grid-column-start: 2;
+      grid-column-end: 3;
+      grid-row-start: 1;
+      grid-row-end: 2;
+    }
+
+    &--info {
       grid-column-start: 1;
       grid-column-end: 3;
+      align-self: self-end;
     }
   }
 
@@ -205,6 +219,10 @@
     }
   }
 
+  .settings__checkbox {
+    margin-top: 4px;
+  }
+
   .settings__name {
     font-size: 18px;
   }
@@ -221,7 +239,7 @@
     font-size: 18px;
   }
 
-  .settings__button {
+  .settings__video {
     padding: 15px 25px;
     font-size: 18px;
   }
@@ -254,6 +272,10 @@
     }
   }
 
+  .settings__checkbox {
+    margin-top: 8px;
+  }
+
   .settings__name {
     font-size: 25px;
   }
@@ -271,7 +293,7 @@
     font-size: 25px;
   }
 
-  .settings__button {
+  .settings__video {
     font-size: 25px;
   }
 

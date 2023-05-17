@@ -12,7 +12,7 @@ function pauseVideo () {
   };
 };
 
-function pauseIcon () {
+function changePauseIcon () {
   if (VIDEO.paused) {
     playButtonIcon.classList.remove('control__icon--hide');
     pauseButtonIcon.classList.add('control__icon--hide');
@@ -23,7 +23,9 @@ function pauseIcon () {
 };
 
 playButton.addEventListener('click', pauseVideo);
-playButton.addEventListener('click', pauseIcon);
+playButton.addEventListener('click', changePauseIcon);
+VIDEO.addEventListener('click', pauseVideo);
+VIDEO.addEventListener('click', changePauseIcon);
 
 // Mute
 const muteButton = document.querySelector('.control__button--volume');
@@ -56,8 +58,6 @@ VIDEORANGE.addEventListener('change', function () {
     playButtonIcon.classList.add('control__icon--hide');
     pauseButtonIcon.classList.remove('control__icon--hide');
   };
-
-  refreshFPS();
 
   VIDEO.play();
 });

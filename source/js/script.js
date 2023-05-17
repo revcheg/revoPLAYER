@@ -8,7 +8,9 @@ const VIDEORANGE = document.querySelector('.control__range');
 
 const STARTBUTTON = document.querySelector('.video__start');
 const CONTROLS = document.querySelector('.control');
-const backgroundVideo = document.querySelector('.video__background');
+
+// const backgroundVideo = document.querySelector('.video__background');
+
 // const castButton = CONTROLS.querySelector('.control__button--cast');
 
 // function castVideo () {
@@ -27,6 +29,7 @@ const backgroundVideo = document.querySelector('.video__background');
 // };
 
 // castButton.addEventListener('click', castVideo);
+
 // CONTROLS
 // Pause
 const playButton = document.querySelector('.control__button--play');
@@ -41,7 +44,7 @@ function pauseVideo () {
   };
 };
 
-function pauseIcon () {
+function changePauseIcon () {
   if (VIDEO.paused) {
     playButtonIcon.classList.remove('control__icon--hide');
     pauseButtonIcon.classList.add('control__icon--hide');
@@ -52,7 +55,9 @@ function pauseIcon () {
 };
 
 playButton.addEventListener('click', pauseVideo);
-playButton.addEventListener('click', pauseIcon);
+playButton.addEventListener('click', changePauseIcon);
+VIDEO.addEventListener('click', pauseVideo);
+VIDEO.addEventListener('click', changePauseIcon);
 
 // Mute
 const muteButton = document.querySelector('.control__button--volume');
@@ -85,8 +90,6 @@ VIDEORANGE.addEventListener('change', function () {
     playButtonIcon.classList.add('control__icon--hide');
     pauseButtonIcon.classList.remove('control__icon--hide');
   };
-
-  refreshFPS();
 
   VIDEO.play();
 });
@@ -126,6 +129,7 @@ function formatTime (timeInSeconds) {
 
   return hours + ':' + minutes + ':' + seconds;
 };
+
 // File
 let FILE;
 let FILETYPE;
@@ -154,7 +158,7 @@ VIDEO.addEventListener('keyup', (event) => {
   switch (videoKey) {
     case ' ':
       pauseVideo();
-      pauseIcon();
+      changePauseIcon();
       break;
 
     case 'ArrowLeft':
@@ -213,6 +217,7 @@ BODY.addEventListener('keyup', (event) => {
       break;
   };
 });
+
 // Save/Load theme
 // Save theme
 function saveTheme(currentTheme) {
@@ -229,10 +234,11 @@ function loadTheme() {
     setButton(localButton);
   };
 };
+
 // Set Video
 let game;
 
-const chooseButtons = document.querySelectorAll('.settings__button');
+const chooseButtons = document.querySelectorAll('.settings__video');
 
 chooseButtons.forEach((element) => {
   element.addEventListener('click', function () {
@@ -248,6 +254,58 @@ function setVideo () {
   VIDEO.preload = 'auto';
   VIDEO.volume = 0.5;
 };
+
+// Reset video
+function resetVideo () {
+  VIDEO.pause();
+  STARTBUTTON.classList.remove('video__start--hide');
+  CONTROLS.classList.add('control--hide');
+  STATISTICS.classList.add('statistics--hide');
+  playButtonIcon.classList.add('control__icon--hide');
+  pauseButtonIcon.classList.remove('control__icon--hide');
+};
+
+// Settings
+const openButton = document.querySelector('.header__menu');
+const closeButton = document.querySelector('.settings__close');
+
+function openSettings () {
+  SETTINGS.classList.remove('settings--hide');
+  SETTINGS.focus();
+};
+
+function closeSettings () {
+  SETTINGS.classList.add('settings--hide');
+  SETTINGS.blur();
+};
+
+openButton.addEventListener('click', openSettings);
+closeButton.addEventListener('click', closeSettings);
+
+// Statistics checkbox
+const statisticsCheckbox = document.querySelector('.settings__checkbox--statistics');
+const statisticsAdditionalCheckbox = document.querySelector('.settings__checkbox--additional');
+const statisticsAdditional = document.querySelector('.settings__label--add');
+const statisticsHiddenCategory = document.querySelectorAll('.statistics__category--hide');
+
+statisticsCheckbox.addEventListener('change', function (event) {
+  if (event.currentTarget.checked) {
+    STATISTICS.classList.remove('statistics--off');
+    statisticsAdditional.classList.remove('settings__label--hide');
+    statisticsAdditionalCheckbox.removeAttribute('disabled');
+  } else {
+    STATISTICS.classList.add('statistics--off');
+    statisticsAdditional.classList.add('settings__label--hide');
+    statisticsAdditionalCheckbox.checked = false;
+    statisticsAdditionalCheckbox.setAttribute('disabled', 'disabled');
+  };
+});
+
+statisticsAdditionalCheckbox.addEventListener('change', function (event) {
+  statisticsHiddenCategory.forEach((element) => {
+    element.classList.remove('statistics__category--hide');
+  });
+});
 
 // Deep mode
 let deepFlag;
@@ -275,33 +333,10 @@ deepCheckbox.addEventListener('change', function (event) {
 //   };
 // });
 
-// Reset video
-function resetVideo () {
-  VIDEO.pause();
-  STARTBUTTON.classList.remove('video__start--hide');
-  CONTROLS.classList.add('control--hide');
-  STATISTICS.classList.add('statistics--hide');
-  playButtonIcon.classList.add('control__icon--hide');
-  pauseButtonIcon.classList.remove('control__icon--hide');
-};
-// Settings
-const openButton = document.querySelector('.header__menu');
-const closeButton = document.querySelector('.settings__close');
-
-function openSettings () {
-  SETTINGS.classList.remove('settings--hide');
-  SETTINGS.focus();
-};
-
-function closeSettings (event) {
-  SETTINGS.classList.add('settings--hide');
-  SETTINGS.blur();
-};
-
-openButton.addEventListener('click', openSettings);
-closeButton.addEventListener('click', closeSettings);
 // Start 
-function startVideo () {
+function startVideo (event) {
+  event.stopPropagation();
+
   if (VIDEO.src) {
     openButton.classList.remove('header__menu--error');
     STARTBUTTON.classList.add('video__start--hide');
@@ -330,47 +365,13 @@ VIDEO.addEventListener('ended', function () {
   VIDEO.blur();
 });
 
-function stayFocus () {
-  VIDEO.addEventListener('blur', function () {
-    if (VIDEO.paused) {
-      VIDEO.blur();
-    } else {
-      VIDEO.focus();
-    };
-  });
-};
-
 // STATISTICS
-const statisticsCheckbox = document.querySelector('.settings__checkbox--statistics');
-const statisticsAdditionalCheckbox = document.querySelector('.settings__checkbox--additional');
-const statisticsAdditional = document.querySelector('.settings__label--add');
-const statisticsHiddenCategory = document.querySelectorAll('.statistics__category--hide');
-
-statisticsCheckbox.addEventListener('change', function (event) {
-  if (event.currentTarget.checked) {
-    STATISTICS.classList.remove('statistics--off');
-    statisticsAdditional.classList.remove('settings__label--hide');
-    statisticsAdditionalCheckbox.removeAttribute('disabled');
-  } else {
-    STATISTICS.classList.add('statistics--off');
-    statisticsAdditional.classList.add('settings__label--hide');
-    statisticsAdditionalCheckbox.checked = false;
-    statisticsAdditionalCheckbox.setAttribute('disabled', 'disabled');
-  };
-});
-
-statisticsAdditionalCheckbox.addEventListener('change', function (event) {
-  statisticsHiddenCategory.forEach((element) => {
-    element.classList.remove('statistics__category--hide');
-  });
-});
-
 let videoWidth;
 let videoHeight;
 let videoFormat;
 let videoDuration;
 let videoBuffer;
-let videoFPS;
+// let videoFPS;
 let videoCurrentTime;
 
 const statisticsClientTime = STATISTICS.querySelector('.statistics__time');
@@ -379,7 +380,7 @@ const statisticsResolution = STATISTICS.querySelector('.statistics__resolution')
 const statisticsUFH = document.querySelector('.statistics__ufh');
 const statisticsFormat = STATISTICS.querySelector('.statistics__format');
 const statisticsDuration = STATISTICS.querySelector('.statistics__duration');
-const statisticsFPS = STATISTICS.querySelector('.statistics__fps');
+// const statisticsFPS = STATISTICS.querySelector('.statistics__fps');
 const statisticsBuffer = STATISTICS.querySelector('.statistics__buffer');
 
 function getStatistics () {
@@ -398,28 +399,6 @@ function getStatistics () {
 
   setStatistics();
 };
-
-function getFPS () {
-  let playbackQuality = VIDEO.getVideoPlaybackQuality();
-  videoFPS = playbackQuality.totalVideoFrames / VIDEO.currentTime;
-  statisticsFPS.innerHTML = Math.round(videoFPS);
-
-  // videoFPS = VIDEO.webkitDecodedFrameCount;
-  // let framesPerSecond = Math.round((VIDEO.webkitDecodedFrameCount - videoFPS))
-  // console.log(framesPerSecond);
-};
-
-function refreshFPS () {
-  videoFPS = 0;
-  playbackQuality = 0;
-};
-
-// function getBitrate () {
-//   VIDEO.addEventListener('loadedmetadata', function () {
-//     const bitratePerSecond = VIDEO.webkitVideoBitsPerSecond;
-//     console.log(bitratePerSecond);
-//   });
-// };
 
 function getTime () {
   const clientDate = new Date();
@@ -447,6 +426,7 @@ function setStatistics () {
     statisticsUFH.classList.add('statistics--off');
   };
 };
+
 // THEME
 let currentTheme = 'light';
 let buttonIndex;
@@ -511,6 +491,7 @@ setTheme(currentTheme);
 setButton(buttonIndex);
 
 loadTheme();
+
 // Video
 let progressInterval;
 let playbackQuality;
@@ -536,12 +517,20 @@ function updateProgress () {
   stayFocus();
   getTime();
   getEndTime();
-  getFPS();
-  // getBitrate();
 };
 
 function stopProgress () {
   clearTimeout(progressInterval);
+};
+
+function stayFocus () {
+  VIDEO.addEventListener('blur', function () {
+    if (VIDEO.paused) {
+      VIDEO.blur();
+    } else {
+      VIDEO.focus();
+    };
+  });
 };
 
 VIDEO.addEventListener('play', startProgress);
