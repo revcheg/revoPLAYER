@@ -1,7 +1,6 @@
 // THEME
 let currentTheme = 'light';
 let buttonIndex;
-let favicon = document.querySelector('.favicon');
 
 const themeButtons = document.querySelectorAll('.footer__theme');
 
@@ -35,6 +34,8 @@ function setButton() {
 };
 
 // Set theme
+let favicon = document.querySelector('.favicon');
+
 function setTheme(currentTheme) {
   BODY.className = '';
 

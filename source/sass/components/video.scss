@@ -16,7 +16,7 @@
   width: 100%;
   max-width: 400px;
   margin: 0 25px;
-  box-shadow: 0 0 10px 3px rgba(#6320EE, 0.5);
+  box-shadow: 0 0 25px 8px rgba(#6320EE, 0.5);
   border-radius: 10px;
   overflow: hidden;
   transition: 0.2s;
@@ -35,6 +35,22 @@
     .statistics__ufh {
       transform: translateY(0);
     }
+  }
+
+  &--waiting {
+    box-shadow: 0 0 25px 8px rgba($green, 0.5);
+    animation-name: load;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate-reverse;
+    animation-fill-mode: backwards;
+    animation-timing-function: linear;
+  }
+}
+
+@keyframes load {
+  100% {
+    box-shadow: 0 0 25px 13px rgba($green, 0.8);
   }
 }
 
@@ -96,6 +112,31 @@
     opacity: 0.6;
     stroke: $blue-text;
     transition: 0.2s;
+  }
+}
+
+.video__waiting {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50px;
+  height: 50px;
+  background-color: $green;
+  transform: translate(-50%, -50%);
+  transition: 0.2s;
+  animation-name: waiting;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+
+  &--hide {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+@keyframes waiting {
+  100% {
+    transform: translate(-50%, -50%) rotate(90deg);
   }
 }
 

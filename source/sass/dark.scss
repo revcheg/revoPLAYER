@@ -91,7 +91,11 @@
   }
 
   .video__wrapper {
-    box-shadow: 0 0 10px 3px rgba($dark-blue, 0.9);
+    box-shadow: 0 0 25px 8px rgba($dark-blue, 0.9);
+
+    &--waiting {
+      box-shadow: 0 0 25px 8px rgba($green, 0.9);
+    }
   }
 
   .video__icon path {

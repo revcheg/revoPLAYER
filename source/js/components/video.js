@@ -43,3 +43,19 @@ function stayFocus () {
 VIDEO.addEventListener('play', startProgress);
 VIDEO.addEventListener('pause', stopProgress);
 VIDEO.addEventListener('ended', stopProgress);
+
+// Video handler
+const waitingStatus = document.querySelector('.video__waiting'); 
+
+function waitingVideo() {
+  waitingStatus.classList.remove('video__waiting--hide');
+  WRAPPER.classList.add('video__wrapper--waiting');
+}
+
+function playingVideo() {
+  waitingStatus.classList.add('video__waiting--hide');
+  WRAPPER.classList.remove('video__wrapper--waiting');
+}
+
+VIDEO.addEventListener('waiting', waitingVideo);
+VIDEO.addEventListener('playing', playingVideo);
