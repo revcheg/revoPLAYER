@@ -3,7 +3,7 @@
 function saveTheme(currentTheme) {
   localStorage.setItem('localTheme', currentTheme);
   localStorage.setItem('localButton', buttonIndex);
-};
+}
 
 // Load theme
 function loadTheme() {
@@ -12,5 +12,13 @@ function loadTheme() {
     const localButton = localStorage.getItem('localButton');
     setTheme(localTheme);
     setButton(localButton);
-  };
-};
+  }
+}
+
+// function getSavedScheme() {
+//   return localStorage.getItem('color-scheme');
+// }
+
+// function clearScheme() {
+//   localStorage.removeItem('color-scheme');
+// }

@@ -39,13 +39,15 @@ export const html = () => {
 const scriptConcat = () => {
   return gulp.src(['source/js/components/global.js', 'source/js/components/*.js'])
     .pipe(concat('script.js'))
-    .pipe(gulp.dest('source/js'));
+    .pipe(gulp.dest('source/js'))
+    .pipe(gulp.dest('build/js'));
 }
 
 // Scripts
 export const scripts = () => {
   return gulp.src('source/js/script.js')
     .pipe(terser())
+    .pipe(rename('script.min.js'))
     .pipe(gulp.dest('build/js'))
     .pipe(browser.stream());
 }

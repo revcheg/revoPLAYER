@@ -13,6 +13,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="manifest" href="player.webmanifest">
     <meta name="theme-color" content="#F8F0FB">
+    <meta name="theme-color" content="#02182B" media="(prefers-color-scheme: dark)">
   </head>
   <body class="body">
 
@@ -63,7 +64,9 @@
 
         <section class="control  control--hide  control--off">
           <h3 class="visually-hidden">Кнопки управління плеєром</h3>
-          <div class="control__extraline  control__extraline--hide"></div>
+
+          <progress class="control__line  control__line--hide"></progress>    
+
           <button class="button  control__button  control__button--play" aria-label="Плей / пауза" title="Плей / пауза (space)" type="button">
             <svg class="control__icon  control__icon--play  control__icon--hide" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="-0.5 0 7 7">
               <path fill-rule="evenodd" d="M5.495 2.573 1.5.143C.832-.266 0 .25 0 1.068V5.93c0 .82.832 1.333 1.5.927l3.995-2.43c.673-.41.673-1.445 0-1.855"/>
@@ -177,7 +180,7 @@
       <div class="settings__column  settings__column--player">
         <p class="settings__sub">ПЛЕЄР</p>
         <label class="settings__label">
-          <input class="settings__checkbox  settings__checkbox--extraline" type="checkbox"> 
+          <input class="settings__checkbox  settings__checkbox--line" type="checkbox"> 
           <span class="settings__name">Додати нову смугу прогрузки</span>
         </label>
       </div>
@@ -207,12 +210,12 @@
       </div>
     </nav>
 
-    <nav class="visually-hidden">
+    <nav class="menu  visually-hidden">
       <div class="settings__control">
-        <button class="settings__button" type="button"></button>
-        <button class="settings__button" type="button"></button>
-        <button class="settings__button" type="button"></button>
-        <button class="settings__button" type="button"></button>
+        <button class="settings__button" type="button">Загальні налаштування</button>
+        <button class="settings__button" type="button">Плеєр</button>
+        <button class="settings__button" type="button">Обрати відео</button>
+        <button class="settings__button" type="button">Інформація</button>
       </div>
 
       <div>

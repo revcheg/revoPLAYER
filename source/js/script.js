@@ -33,111 +33,84 @@ const CONTROLS = document.querySelector('.control');
 
 // CONTROLS
 // Pause
-const playButton = document.querySelector('.control__button--play');
-const playButtonIcon = document.querySelector('.control__icon--play');
-const pauseButtonIcon = document.querySelector('.control__icon--pause');
+const playButton = CONTROLS.querySelector('.control__button--play');
+const playButtonIcon = CONTROLS.querySelector('.control__icon--play');
+const pauseButtonIcon = CONTROLS.querySelector('.control__icon--pause');
 
-function pauseVideo () {
+function pauseVideo() {
   if (VIDEO.paused) {
     VIDEO.play();
   } else {
     VIDEO.pause();
-  };
-};
+  }
+}
 
-function changePauseIcon () {
-  if (VIDEO.paused) {
-    playButtonIcon.classList.remove('control__icon--hide');
-    pauseButtonIcon.classList.add('control__icon--hide');
-  } else {
-    playButtonIcon.classList.add('control__icon--hide');
-    pauseButtonIcon.classList.remove('control__icon--hide');
-  };
-};
+function changePauseIcon() {
+  playButtonIcon.classList.toggle('control__icon--hide');
+  pauseButtonIcon.classList.toggle('control__icon--hide');
+}
 
 playButton.addEventListener('click', pauseVideo);
 playButton.addEventListener('click', changePauseIcon);
+
 VIDEO.addEventListener('click', pauseVideo);
 VIDEO.addEventListener('click', changePauseIcon);
 
 // Mute
-const muteButton = document.querySelector('.control__button--volume');
-const muteButtonIcon = document.querySelector('.control__mute');
+const muteButton = CONTROLS.querySelector('.control__button--volume');
+const muteButtonIcon = CONTROLS.querySelector('.control__mute');
 
-function muteVideo () {
+function muteVideo() {
   muteButtonIcon.classList.toggle('control__mute');
   
   if (VIDEO.muted) {
     VIDEO.muted = false;
   } else {
     VIDEO.muted = true;
-  };
-};
+  }
+}
 
 muteButton.addEventListener('click', muteVideo);
 
 // Extra line
-let extralineProgress;
+let lineProgress;
 
-function extraLine () {
-  extralineProgress = (videoCurrentTime / videoDuration) * 100;
-  extraline.style.width = extralineProgress + '%';
-};
+function extraLine() {
+  lineProgress = (videoCurrentTime / videoDuration) * 100;
+  line.style.width = lineProgress + '%';
+  line.value = lineProgress;
+}
 
 // Range
 let rangeValue;
 
 VIDEORANGE.addEventListener('mousedown', () => {
   VIDEO.pause();
+  stopProgress();
+
+  if (playButtonIcon.classList.contains('control__icon--hide')) {
+    changePauseIcon();
+  }
 });
 
 VIDEORANGE.addEventListener('change', function () {
   rangeValue = VIDEORANGE.value;
   VIDEO.currentTime = rangeValue;
-  
-  if (VIDEO.paused) {
-    playButtonIcon.classList.add('control__icon--hide');
-    pauseButtonIcon.classList.remove('control__icon--hide');
-  };
-
   VIDEO.play();
+
+  if (pauseButtonIcon.classList.contains('control__icon--hide')) {
+    changePauseIcon();
+  }
 });
 
 // Full screen
-const fullButton = document.querySelector('.control__button--size');
+const fullButton = CONTROLS.querySelector('.control__button--size');
 
-function fullscreenVideo () {
+function fullscreenVideo() {
   VIDEO.requestFullscreen();
-};
+}
 
 fullButton.addEventListener('click', fullscreenVideo);
-
-// Duration
-const videoPassed = CONTROLS.querySelector('.control__time--passed');
-const videoLeft = CONTROLS.querySelector('.control__time--left');
-
-function formatTime (timeInSeconds) {
-  let hours = Math.floor(timeInSeconds / 3600);
-  let minutes = Math.floor((timeInSeconds - (hours * 3600)) / 60);
-  let seconds = Math.floor(timeInSeconds - (hours * 3600) - (minutes * 60));
-  
-  if (hours < 10) {
-    hours = '0' + hours;
-  };
-
-  if (minutes < 10) {
-    minutes = '0' + minutes;
-  };
-
-  if (seconds < 10) {
-    seconds = '0' + seconds;
-  };
-
-  // minutes = minutes < 10 ? '0' + minutes : minutes;
-  // seconds = seconds < 10 ? '0' + seconds : seconds;
-
-  return hours + ':' + minutes + ':' + seconds;
-};
 
 // File
 let FILE;
@@ -193,7 +166,7 @@ VIDEO.addEventListener('keyup', (event) => {
     case 'f':
       fullscreenVideo();
       break;
-  };
+  }
 });
 
 // Other
@@ -224,7 +197,7 @@ BODY.addEventListener('keyup', (event) => {
       setButton();
       saveTheme('dark');
       break;
-  };
+  }
 });
 
 // Save/Load theme
@@ -232,7 +205,7 @@ BODY.addEventListener('keyup', (event) => {
 function saveTheme(currentTheme) {
   localStorage.setItem('localTheme', currentTheme);
   localStorage.setItem('localButton', buttonIndex);
-};
+}
 
 // Load theme
 function loadTheme() {
@@ -241,8 +214,16 @@ function loadTheme() {
     const localButton = localStorage.getItem('localButton');
     setTheme(localTheme);
     setButton(localButton);
-  };
-};
+  }
+}
+
+// function getSavedScheme() {
+//   return localStorage.getItem('color-scheme');
+// }
+
+// function clearScheme() {
+//   localStorage.removeItem('color-scheme');
+// }
 
 // Set Video
 let game;
@@ -258,44 +239,44 @@ chooseButtons.forEach((element) => {
   });
 });
 
-function setVideo () {
+function setVideo() {
   VIDEO.src = 'video/' + game + '/' + deepFlag + '.webm';
   VIDEO.preload = 'auto';
   VIDEO.volume = 0.5;
-};
+}
 
 // Reset video
-function resetVideo () {
+function resetVideo() {
   VIDEO.pause();
   STARTBUTTON.classList.remove('video__start--hide');
   CONTROLS.classList.add('control--hide');
   STATISTICS.classList.add('statistics--hide');
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
-};
+}
 
 // Settings
 const openButton = document.querySelector('.header__menu');
-const closeButton = document.querySelector('.settings__close');
+const closeButton = SETTINGS.querySelector('.settings__close');
 
-function openSettings () {
+function openSettings() {
   SETTINGS.classList.remove('settings--hide');
   SETTINGS.focus();
-};
+}
 
-function closeSettings () {
+function closeSettings() {
   SETTINGS.classList.add('settings--hide');
   SETTINGS.blur();
-};
+}
 
 openButton.addEventListener('click', openSettings);
 closeButton.addEventListener('click', closeSettings);
 
 // Statistics checkbox
-const statisticsCheckbox = document.querySelector('.settings__checkbox--statistics');
-const statisticsAdditionalCheckbox = document.querySelector('.settings__checkbox--additional');
-const statisticsAdditional = document.querySelector('.settings__label--add');
-const statisticsHiddenCategory = document.querySelectorAll('.statistics__category--hide');
+const statisticsCheckbox = SETTINGS.querySelector('.settings__checkbox--statistics');
+const statisticsAdditionalCheckbox = SETTINGS.querySelector('.settings__checkbox--additional');
+const statisticsAdditional = SETTINGS.querySelector('.settings__label--add');
+const statisticsHiddenCategory = STATISTICS.querySelectorAll('.statistics__category--hide');
 
 statisticsCheckbox.addEventListener('change', function (event) {
   if (event.currentTarget.checked) {
@@ -307,7 +288,7 @@ statisticsCheckbox.addEventListener('change', function (event) {
     statisticsAdditional.classList.add('settings__label--hide');
     statisticsAdditionalCheckbox.checked = false;
     statisticsAdditionalCheckbox.setAttribute('disabled', 'disabled');
-  };
+  }
 });
 
 statisticsAdditionalCheckbox.addEventListener('change', function (event) {
@@ -318,14 +299,14 @@ statisticsAdditionalCheckbox.addEventListener('change', function (event) {
 
 // Deep mode
 let deepFlag;
-const deepCheckbox = document.querySelector('.settings__checkbox--deep');
+const deepCheckbox = SETTINGS.querySelector('.settings__checkbox--deep');
 
 deepCheckbox.addEventListener('change', function (event) {
   if (event.currentTarget.checked) {
     deepFlag = 'deep';
   } else {
     deepFlag = 'main';
-  };
+  }
 
   setVideo();
 });
@@ -343,20 +324,20 @@ deepCheckbox.addEventListener('change', function (event) {
 // });
 
 // Extra line
-const extraline = document.querySelector('.control__extraline');
-const extralineCheckbox = document.querySelector('.settings__checkbox--extraline');
+const line = CONTROLS.querySelector('.control__line');
+const lineCheckbox = SETTINGS.querySelector('.settings__checkbox--line');
 
-extralineCheckbox.addEventListener('change', function (event) {
+lineCheckbox.addEventListener('change', function (event) {
   if (event.currentTarget.checked) {
-    extraline.classList.remove('control__extraline--hide');
+    line.classList.remove('control__line--hide');
   } else {
-    extraline.classList.add('control__extraline--hide');
-  };
+    line.classList.add('control__line--hide');
+  }
 });
 
 // Start 
-function startVideo (event) {
-  event.stopPropagation();
+function startVideo(event) {
+  // event.stopPropagation();
 
   if (VIDEO.src) {
     openButton.classList.remove('header__menu--error');
@@ -366,23 +347,23 @@ function startVideo (event) {
     VIDEO.play();
 
     getStatistics();
-    startProgress();
   } else {
     openButton.focus();
     openButton.classList.add('header__menu--error');
     setTimeout(() => {
       openButton.classList.remove('header__menu--error');
     }, 2000);
-  };
-};
+  }
+}
 
 STARTBUTTON.addEventListener('click', startVideo);
 
 // End
 VIDEO.addEventListener('ended', function () {
-  STARTBUTTON.classList.remove('video__start--hide');
-  CONTROLS.classList.add('control--hide');
-  STATISTICS.classList.add('statistics--hide');
+  // STARTBUTTON.classList.remove('video__start--hide');
+  // CONTROLS.classList.add('control--hide');
+  // STATISTICS.classList.add('statistics--hide');
+  resetVideo();
   VIDEO.blur();
 });
 
@@ -404,14 +385,14 @@ const statisticsDuration = STATISTICS.querySelector('.statistics__duration');
 // const statisticsFPS = STATISTICS.querySelector('.statistics__fps');
 const statisticsBuffer = STATISTICS.querySelector('.statistics__buffer');
 
-function getStatistics () {
+function getStatistics() {
   STATISTICS.classList.remove('statistics--hide');
 
   if (FILETYPE) {
     videoFormat = FILETYPE;
   } else {
     videoFormat = VIDEO.src.split('.').pop();
-  };
+  }
 
   videoWidth = VIDEO.videoWidth;
   videoHeight = VIDEO.videoHeight;
@@ -419,24 +400,24 @@ function getStatistics () {
   VIDEORANGE.setAttribute('max', videoDuration);
 
   setStatistics();
-};
+}
 
-function getTime () {
+function getTime() {
   const clientDate = new Date();
   const clientHours = clientDate.getHours();
   const clientMinutes = clientDate.getMinutes();
   statisticsClientTime.innerHTML = clientHours + ':' + clientMinutes;
-};
+}
 
-function getEndTime () {
+function getEndTime() {
   const futureDate = new Date();
   futureDate.setSeconds(futureDate.getSeconds() + videoDuration);
   const futureClientHours = futureDate.getHours();
   const futureClientMinutes = futureDate.getMinutes();
   statisticsEndTime.innerHTML = futureClientHours + ':' + futureClientMinutes;
-};
+}
 
-function setStatistics () {
+function setStatistics() {
   statisticsResolution.innerHTML = videoWidth + 'x' + videoHeight;
   statisticsFormat.innerHTML = videoFormat;
   statisticsDuration.innerHTML = videoDuration;
@@ -445,8 +426,8 @@ function setStatistics () {
     statisticsUFH.classList.remove('statistics--off');
   } else {
     statisticsUFH.classList.add('statistics--off');
-  };
-};
+  }
+}
 
 // // THEME BETA
 // let darkSchemeMedia = matchMedia('(prefers-color-scheme: dark)').matches;
@@ -561,7 +542,7 @@ if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
   currentTheme = 'dark';
 } else {
   currentTheme = 'light';
-};
+}
 
 // Set button
 themeButtons.forEach(function (button, index) {
@@ -583,7 +564,7 @@ function setButton() {
   
   themeButtons[buttonIndex].setAttribute('disabled', 'disabled'); 
   themeButtons[buttonIndex].classList.add('footer__theme--active');
-};
+}
 
 // Set theme
 let favicon = document.querySelector('.favicon');
@@ -608,8 +589,8 @@ function setTheme(currentTheme) {
       BODY.classList.add(currentTheme);
       buttonIndex = 2;
       break;
-  };
-};
+  }
+}
 
 setTheme(currentTheme);
 setButton(buttonIndex);
@@ -620,11 +601,11 @@ loadTheme();
 let progressInterval;
 let playbackQuality;
 
-function startProgress () {
+function startProgress() {
   progressInterval = setTimeout(updateProgress, 1000);
-};
+}
 
-function updateProgress () {
+function updateProgress() {
   // Buffer
   videoBuffer = Math.round(VIDEO.buffered.end(0));
   videoCurrentTime = VIDEO.currentTime;
@@ -642,27 +623,55 @@ function updateProgress () {
   getTime();
   getEndTime();
   extraLine();
-};
+}
 
-function stopProgress () {
+function stopProgress() {
   clearTimeout(progressInterval);
-};
+}
 
-function stayFocus () {
+function stayFocus() {
   VIDEO.addEventListener('blur', function () {
     if (VIDEO.paused) {
       VIDEO.blur();
     } else {
       VIDEO.focus();
-    };
+    }
   });
-};
+}
 
 VIDEO.addEventListener('play', startProgress);
 VIDEO.addEventListener('pause', stopProgress);
 VIDEO.addEventListener('ended', stopProgress);
 
+// Duration
+const videoPassed = CONTROLS.querySelector('.control__time--passed');
+const videoLeft = CONTROLS.querySelector('.control__time--left');
+
+function formatTime(timeInSeconds) {
+  let hours = Math.floor(timeInSeconds / 3600);
+  let minutes = Math.floor((timeInSeconds - (hours * 3600)) / 60);
+  let seconds = Math.floor(timeInSeconds - (hours * 3600) - (minutes * 60));
+  
+  if (hours < 10) {
+    hours = '0' + hours;
+  }
+
+  if (minutes < 10) {
+    minutes = '0' + minutes;
+  }
+
+  if (seconds < 10) {
+    seconds = '0' + seconds;
+  }
+
+  // minutes = minutes < 10 ? '0' + minutes : minutes;
+  // seconds = seconds < 10 ? '0' + seconds : seconds;
+
+  return hours + ':' + minutes + ':' + seconds;
+}
+
 // Video handler
+// Waiting
 const waitingStatus = document.querySelector('.video__waiting'); 
 
 function waitingVideo() {
@@ -677,3 +686,28 @@ function playingVideo() {
 
 VIDEO.addEventListener('waiting', waitingVideo);
 VIDEO.addEventListener('playing', playingVideo);
+
+// Error
+function errorVideo() {
+  WRAPPER.classList.add('video__wrapper--error');
+}
+
+function removeErrorVideo() {
+  WRAPPER.classList.remove('video__wrapper--error');
+}
+
+VIDEO.addEventListener('error', errorVideo);
+VIDEO.addEventListener('loadeddata', removeErrorVideo);
+
+// Pause
+function pauseAnimation() {
+  WRAPPER.classList.add('video__wrapper--pause');
+}
+
+function removePauseAnimation() {
+  WRAPPER.classList.remove('video__wrapper--pause');
+}
+
+VIDEO.addEventListener('pause', pauseAnimation);
+VIDEO.addEventListener('playing', removePauseAnimation);
+VIDEO.addEventListener('ended', removePauseAnimation);

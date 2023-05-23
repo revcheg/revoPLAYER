@@ -12,18 +12,18 @@ chooseButtons.forEach((element) => {
   });
 });
 
-function setVideo () {
+function setVideo() {
   VIDEO.src = 'video/' + game + '/' + deepFlag + '.webm';
   VIDEO.preload = 'auto';
   VIDEO.volume = 0.5;
-};
+}
 
 // Reset video
-function resetVideo () {
+function resetVideo() {
   VIDEO.pause();
   STARTBUTTON.classList.remove('video__start--hide');
   CONTROLS.classList.add('control--hide');
   STATISTICS.classList.add('statistics--hide');
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
-};
+}

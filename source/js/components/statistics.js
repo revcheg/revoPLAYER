@@ -16,14 +16,14 @@ const statisticsDuration = STATISTICS.querySelector('.statistics__duration');
 // const statisticsFPS = STATISTICS.querySelector('.statistics__fps');
 const statisticsBuffer = STATISTICS.querySelector('.statistics__buffer');
 
-function getStatistics () {
+function getStatistics() {
   STATISTICS.classList.remove('statistics--hide');
 
   if (FILETYPE) {
     videoFormat = FILETYPE;
   } else {
     videoFormat = VIDEO.src.split('.').pop();
-  };
+  }
 
   videoWidth = VIDEO.videoWidth;
   videoHeight = VIDEO.videoHeight;
@@ -31,24 +31,24 @@ function getStatistics () {
   VIDEORANGE.setAttribute('max', videoDuration);
 
   setStatistics();
-};
+}
 
-function getTime () {
+function getTime() {
   const clientDate = new Date();
   const clientHours = clientDate.getHours();
   const clientMinutes = clientDate.getMinutes();
   statisticsClientTime.innerHTML = clientHours + ':' + clientMinutes;
-};
+}
 
-function getEndTime () {
+function getEndTime() {
   const futureDate = new Date();
   futureDate.setSeconds(futureDate.getSeconds() + videoDuration);
   const futureClientHours = futureDate.getHours();
   const futureClientMinutes = futureDate.getMinutes();
   statisticsEndTime.innerHTML = futureClientHours + ':' + futureClientMinutes;
-};
+}
 
-function setStatistics () {
+function setStatistics() {
   statisticsResolution.innerHTML = videoWidth + 'x' + videoHeight;
   statisticsFormat.innerHTML = videoFormat;
   statisticsDuration.innerHTML = videoDuration;
@@ -57,5 +57,5 @@ function setStatistics () {
     statisticsUFH.classList.remove('statistics--off');
   } else {
     statisticsUFH.classList.add('statistics--off');
-  };
-};
+  }
+}

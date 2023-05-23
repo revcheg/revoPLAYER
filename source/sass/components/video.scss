@@ -14,12 +14,11 @@
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  max-width: 400px;
   margin: 0 25px;
-  box-shadow: 0 0 25px 8px rgba(#6320EE, 0.5);
+  box-shadow: 0 0 15px 5px rgba(#6320EE, 0.5);
   border-radius: 10px;
   overflow: hidden;
-  transition: 0.2s;
+  transition: 0.3s;
   z-index: 2;
 
   &:hover {
@@ -38,19 +37,35 @@
   }
 
   &--waiting {
-    box-shadow: 0 0 25px 8px rgba($green, 0.5);
     animation-name: load;
     animation-duration: 0.5s;
     animation-iteration-count: infinite;
-    animation-direction: alternate-reverse;
-    animation-fill-mode: backwards;
-    animation-timing-function: linear;
+    animation-direction: alternate;
+    animation-fill-mode: both;
+  }
+
+  &--error {
+    box-shadow: 0 0 15px 5px rgb($red, 0.5);
+  }
+
+  &--pause {
+    animation-name: pause;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-fill-mode: both;
   }
 }
 
 @keyframes load {
   100% {
-    box-shadow: 0 0 25px 13px rgba($green, 0.8);
+    box-shadow: 0 0 15px 5px rgb($green, 1);
+  }
+}
+
+@keyframes pause {
+  100% {
+    box-shadow: 0 0 15px 5px rgba(#6320EE, 1);
   }
 }
 
@@ -144,12 +159,15 @@
   display: none;
 }
 
+@media (min-width: $mobile-width) {
+  .video__wrapper {
+    max-width: 500px;
+  }
+}
+
 @media (min-width: $tablet-width) {
   .video__wrapper {
-    width: 500px;
-    max-width: max-content;
-    height: 300px;
-    margin: 0;
+    max-width: 700px;
   }
 
   .video__icon {
@@ -158,18 +176,10 @@
   }
 }
 
-@media (min-width: $laptop-width) {
-  .video__wrapper {
-    width: 700px;
-    height: 400px;
-  }
-}
-
 @media (min-width: $desktop-width) {
   .video__wrapper {
     width: 1000px;
-    max-width: max-content;
-    height: 570px;
+    max-width: none;
   }
 
   .video__icon {

@@ -34,7 +34,7 @@ VIDEO.addEventListener('keyup', (event) => {
     case 'f':
       fullscreenVideo();
       break;
-  };
+  }
 });
 
 // Other
@@ -65,5 +65,5 @@ BODY.addEventListener('keyup', (event) => {
       setButton();
       saveTheme('dark');
       break;
-  };
+  }
 });

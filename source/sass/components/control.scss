@@ -31,7 +31,7 @@
   }
 }
 
-.control__extraline {
+.control__line {
   position: absolute;
   top: -10px;
   left: 0;
@@ -45,6 +45,15 @@
 
   &--hide {
     display: none;
+  }
+
+  &::-webkit-progress-bar {
+    border-radius: 5px;
+  }
+
+  &::-webkit-progress-value {
+    border-radius: 5px;
+    background-color: $blue-button;
   }
 }
 
@@ -195,12 +204,13 @@
 
 @media (min-width: $desktop-width) {
   .control {
-    padding: 10px 20px;
+    padding: 15px 20px;
   }
 
   .control__button {
     width: 55px;
     height: 55px;
+    margin-right: 15px;
   }
 
   .control__icon {
@@ -214,10 +224,15 @@
   }
 
   .control__time {
-    font-size: 15px;
+    font-size: 16px;
   }
 
   .control__range {
+    height: 8px;
+
+    &::-webkit-slider-runnable-track {
+      height: 8px;
+    }
 
     &::-webkit-slider-thumb {
       width: 23px;

@@ -1,25 +1,25 @@
 // Settings
 const openButton = document.querySelector('.header__menu');
-const closeButton = document.querySelector('.settings__close');
+const closeButton = SETTINGS.querySelector('.settings__close');
 
-function openSettings () {
+function openSettings() {
   SETTINGS.classList.remove('settings--hide');
   SETTINGS.focus();
-};
+}
 
-function closeSettings () {
+function closeSettings() {
   SETTINGS.classList.add('settings--hide');
   SETTINGS.blur();
-};
+}
 
 openButton.addEventListener('click', openSettings);
 closeButton.addEventListener('click', closeSettings);
 
 // Statistics checkbox
-const statisticsCheckbox = document.querySelector('.settings__checkbox--statistics');
-const statisticsAdditionalCheckbox = document.querySelector('.settings__checkbox--additional');
-const statisticsAdditional = document.querySelector('.settings__label--add');
-const statisticsHiddenCategory = document.querySelectorAll('.statistics__category--hide');
+const statisticsCheckbox = SETTINGS.querySelector('.settings__checkbox--statistics');
+const statisticsAdditionalCheckbox = SETTINGS.querySelector('.settings__checkbox--additional');
+const statisticsAdditional = SETTINGS.querySelector('.settings__label--add');
+const statisticsHiddenCategory = STATISTICS.querySelectorAll('.statistics__category--hide');
 
 statisticsCheckbox.addEventListener('change', function (event) {
   if (event.currentTarget.checked) {
@@ -31,7 +31,7 @@ statisticsCheckbox.addEventListener('change', function (event) {
     statisticsAdditional.classList.add('settings__label--hide');
     statisticsAdditionalCheckbox.checked = false;
     statisticsAdditionalCheckbox.setAttribute('disabled', 'disabled');
-  };
+  }
 });
 
 statisticsAdditionalCheckbox.addEventListener('change', function (event) {
@@ -42,14 +42,14 @@ statisticsAdditionalCheckbox.addEventListener('change', function (event) {
 
 // Deep mode
 let deepFlag;
-const deepCheckbox = document.querySelector('.settings__checkbox--deep');
+const deepCheckbox = SETTINGS.querySelector('.settings__checkbox--deep');
 
 deepCheckbox.addEventListener('change', function (event) {
   if (event.currentTarget.checked) {
     deepFlag = 'deep';
   } else {
     deepFlag = 'main';
-  };
+  }
 
   setVideo();
 });
@@ -67,13 +67,13 @@ deepCheckbox.addEventListener('change', function (event) {
 // });
 
 // Extra line
-const extraline = document.querySelector('.control__extraline');
-const extralineCheckbox = document.querySelector('.settings__checkbox--extraline');
+const line = CONTROLS.querySelector('.control__line');
+const lineCheckbox = SETTINGS.querySelector('.settings__checkbox--line');
 
-extralineCheckbox.addEventListener('change', function (event) {
+lineCheckbox.addEventListener('change', function (event) {
   if (event.currentTarget.checked) {
-    extraline.classList.remove('control__extraline--hide');
+    line.classList.remove('control__line--hide');
   } else {
-    extraline.classList.add('control__extraline--hide');
-  };
+    line.classList.add('control__line--hide');
+  }
 });
