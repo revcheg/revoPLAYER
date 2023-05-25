@@ -1,25 +1,25 @@
 // THEME
-let currentTheme = 'light';
+let scheme = 'light';
 let buttonIndex;
 
 const themeButtons = document.querySelectorAll('.footer__theme');
 
 // Check client theme
 if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-  currentTheme = 'dark';
+  scheme = 'dark';
 } else {
-  currentTheme = 'light';
+  scheme = 'light';
 }
 
 // Set button
 themeButtons.forEach(function (button, index) {
   button.addEventListener('click', function () {
     buttonIndex = Array.from(themeButtons).indexOf(button);
-    currentTheme = this.getAttribute('data-theme');
+    scheme = this.getAttribute('data-theme');
 
     setButton(buttonIndex);
-    setTheme(currentTheme);
-    saveTheme(currentTheme);
+    setScheme(scheme);
+    saveScheme(scheme);
   });
 });
 
@@ -36,30 +36,30 @@ function setButton() {
 // Set theme
 let favicon = document.querySelector('.favicon');
 
-function setTheme(currentTheme) {
+function setScheme(scheme) {
   BODY.className = '';
 
-  switch (currentTheme) {
+  switch (scheme) {
     case 'light':
-      BODY.classList.add(currentTheme);
+      BODY.classList.add(scheme);
       buttonIndex = 0;
       favicon.href = 'img/favicons/favicon.svg'
       break;
 
     case 'dark':
-      BODY.classList.add(currentTheme);
+      BODY.classList.add(scheme);
       buttonIndex = 1;
       favicon.href = 'img/favicons/favicon-dark.svg'
       break;
 
     case 'cyberpunk':
-      BODY.classList.add(currentTheme);
+      BODY.classList.add(scheme);
       buttonIndex = 2;
       break;
   }
 }
 
-setTheme(currentTheme);
+setScheme(scheme);
 setButton(buttonIndex);
 
-loadTheme();
+loadScheme();

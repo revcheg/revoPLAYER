@@ -20,7 +20,8 @@ function setVideo() {
 
 // Reset video
 function resetVideo() {
-  VIDEO.pause();
+  VIDEO.load();
+  WRAPPER.className = 'video__wrapper';
   STARTBUTTON.classList.remove('video__start--hide');
   CONTROLS.classList.add('control--hide');
   STATISTICS.classList.add('statistics--hide');

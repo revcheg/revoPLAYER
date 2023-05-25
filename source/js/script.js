@@ -187,43 +187,47 @@ BODY.addEventListener('keyup', (event) => {
       break;
 
     case 'l':
-      setTheme('light');
+      setScheme('light');
       setButton();
-      saveTheme('light');
+      saveScheme('light');
       break;
 
     case 'd':
-      setTheme('dark');
+      setScheme('dark');
       setButton();
-      saveTheme('dark');
+      saveScheme('dark');
       break;
   }
 });
 
 // Save/Load theme
 // Save theme
-function saveTheme(currentTheme) {
-  localStorage.setItem('localTheme', currentTheme);
+function saveScheme(scheme) {
+  localStorage.setItem('localTheme', scheme);
+  
+  // Old
   localStorage.setItem('localButton', buttonIndex);
 }
 
 // Load theme
-function loadTheme() {
+function loadScheme() {
   if (localStorage) {
     const localTheme = localStorage.getItem('localTheme');
+    setScheme(localTheme);
+
+    // Old
     const localButton = localStorage.getItem('localButton');
-    setTheme(localTheme);
     setButton(localButton);
   }
 }
 
-// function getSavedScheme() {
-//   return localStorage.getItem('color-scheme');
-// }
+function getSavedScheme() {
+  return localStorage.getItem('localTheme');
+}
 
-// function clearScheme() {
-//   localStorage.removeItem('color-scheme');
-// }
+function clearScheme() {
+  localStorage.removeItem('localTheme');
+}
 
 // Set Video
 let game;
@@ -247,7 +251,8 @@ function setVideo() {
 
 // Reset video
 function resetVideo() {
-  VIDEO.pause();
+  VIDEO.load();
+  WRAPPER.className = 'video__wrapper';
   STARTBUTTON.classList.remove('video__start--hide');
   CONTROLS.classList.add('control--hide');
   STATISTICS.classList.add('statistics--hide');
@@ -298,7 +303,7 @@ statisticsAdditionalCheckbox.addEventListener('change', function (event) {
 });
 
 // Deep mode
-let deepFlag;
+let deepFlag = 'main';
 const deepCheckbox = SETTINGS.querySelector('.settings__checkbox--deep');
 
 deepCheckbox.addEventListener('change', function (event) {
@@ -335,37 +340,37 @@ lineCheckbox.addEventListener('change', function (event) {
   }
 });
 
+// 3D scale
+const scaleCheckbox = SETTINGS.querySelector('.settings__checkbox--scale');
+
+// Little fix mobile settings height
+const settingsButtonHeight = SETTINGS.querySelector('.settings__control').clientHeight;
+const settingsWrapper = SETTINGS.querySelector('.settings__wrapper');
+if (BODY.clientWidth < 1440) {
+  settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - 60px)`;
+}
+
 // Start 
-function startVideo(event) {
-  // event.stopPropagation();
-
-  if (VIDEO.src) {
-    openButton.classList.remove('header__menu--error');
-    STARTBUTTON.classList.add('video__start--hide');
-    CONTROLS.classList.remove('control--off', 'control--hide');
-    
-    VIDEO.play();
-
-    getStatistics();
-  } else {
+function startVideo() {
+  let videoSRC = VIDEO.src; 
+  if (videoSRC === '' || videoSRC.includes('undefined')) {
     openButton.focus();
     openButton.classList.add('header__menu--error');
     setTimeout(() => {
       openButton.classList.remove('header__menu--error');
     }, 2000);
+  } else if (videoSRC && VIDEO.readyState >= VIDEO.HAVE_CURRENT_DATA) {
+    openButton.classList.remove('header__menu--error');
+    STARTBUTTON.classList.add('video__start--hide');
+    CONTROLS.classList.remove('control--off', 'control--hide');
+
+    VIDEO.play();
+
+    getStatistics();
   }
 }
 
 STARTBUTTON.addEventListener('click', startVideo);
-
-// End
-VIDEO.addEventListener('ended', function () {
-  // STARTBUTTON.classList.remove('video__start--hide');
-  // CONTROLS.classList.add('control--hide');
-  // STATISTICS.classList.add('statistics--hide');
-  resetVideo();
-  VIDEO.blur();
-});
 
 // STATISTICS
 let videoWidth;
@@ -429,9 +434,25 @@ function setStatistics() {
   }
 }
 
+// Tabs
+const tabButtons = SETTINGS.querySelectorAll('.settings__button');
+const tabs = SETTINGS.querySelectorAll('.settings__tab');
+
+tabButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    tabButtons.forEach(btn => btn.classList.remove('settings__button--active'));
+    tabs.forEach(tab => tab.classList.remove('settings__tab--active'));
+
+    const tabName = button.getAttribute('data-tab');
+
+    button.classList.add('settings__button--active');
+    document.querySelector(`.settings__tab[data-tab="${tabName}"]`).classList.add('settings__tab--active');
+  });
+});
+
 // // THEME BETA
-// let darkSchemeMedia = matchMedia('(prefers-color-scheme: dark)').matches;
 // const schemeRadios = document.querySelectorAll('.footer__theme');
+// let darkSchemeMedia = matchMedia('(prefers-color-scheme: dark)').matches;
 
 // function setupSwitcher() {
 //   const savedScheme = getSavedScheme();
@@ -477,82 +498,50 @@ function setStatistics() {
 //   switch (scheme) {
 //     case 'light':
 //       BODY.classList.add(scheme);
-//       buttonIndex = 0;
 //       favicon.href = 'img/favicons/favicon.svg'
 //       break;
 
-//     // case 'auto':
-//     //   BODY.classList.add(scheme);
-//     //   buttonIndex = 1;
-//     //   favicon.href = 'img/favicons/favicon.svg'
-//     //   break;
+//     case 'auto':
+//       BODY.classList.add(scheme);
+//       favicon.href = 'img/favicons/favicon.svg'
+//       break;
 
 //     case 'dark':
 //       BODY.classList.add(scheme);
-//       buttonIndex = 2;
 //       favicon.href = 'img/favicons/favicon-dark.svg'
-//       break;
-
-//     case 'cyberpunk':
-//       BODY.classList.add(scheme);
-//       buttonIndex = 3;
 //       break;
 //   }
 // }
 
 // function getSystemScheme() {
-//   const darkScheme = darkSchemeMedia;
-//   return darkScheme ? 'dark' : 'light';
+//   return darkSchemeMedia ? 'dark' : 'light';
 // }
 
 // setupSwitcher();
 // setupScheme();
 
-// Save/Load theme
-// function saveScheme(currentScheme) {
-//   localStorage.setItem('color-scheme', currentScheme);
-//   localStorage.setItem('localButton', buttonIndex);
-// }
-
-// function loadScheme() {
-//   if (localStorage) {
-//     const localTheme = localStorage.getItem('color-scheme');
-//     const localButton = localStorage.getItem('localButton');
-//     setTheme(localTheme);
-//     setButton(localButton);
-//   }
-// }
-
-// function getSavedScheme() {
-//   return localStorage.getItem('color-scheme');
-// }
-
-// function clearScheme() {
-//   localStorage.removeItem('color-scheme');
-// }
-
 // THEME
-let currentTheme = 'light';
+let scheme = 'light';
 let buttonIndex;
 
 const themeButtons = document.querySelectorAll('.footer__theme');
 
 // Check client theme
 if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-  currentTheme = 'dark';
+  scheme = 'dark';
 } else {
-  currentTheme = 'light';
+  scheme = 'light';
 }
 
 // Set button
 themeButtons.forEach(function (button, index) {
   button.addEventListener('click', function () {
     buttonIndex = Array.from(themeButtons).indexOf(button);
-    currentTheme = this.getAttribute('data-theme');
+    scheme = this.getAttribute('data-theme');
 
     setButton(buttonIndex);
-    setTheme(currentTheme);
-    saveTheme(currentTheme);
+    setScheme(scheme);
+    saveScheme(scheme);
   });
 });
 
@@ -569,33 +558,33 @@ function setButton() {
 // Set theme
 let favicon = document.querySelector('.favicon');
 
-function setTheme(currentTheme) {
+function setScheme(scheme) {
   BODY.className = '';
 
-  switch (currentTheme) {
+  switch (scheme) {
     case 'light':
-      BODY.classList.add(currentTheme);
+      BODY.classList.add(scheme);
       buttonIndex = 0;
       favicon.href = 'img/favicons/favicon.svg'
       break;
 
     case 'dark':
-      BODY.classList.add(currentTheme);
+      BODY.classList.add(scheme);
       buttonIndex = 1;
       favicon.href = 'img/favicons/favicon-dark.svg'
       break;
 
     case 'cyberpunk':
-      BODY.classList.add(currentTheme);
+      BODY.classList.add(scheme);
       buttonIndex = 2;
       break;
   }
 }
 
-setTheme(currentTheme);
+setScheme(scheme);
 setButton(buttonIndex);
 
-loadTheme();
+loadScheme();
 
 // Video
 let progressInterval;
@@ -687,6 +676,14 @@ function playingVideo() {
 VIDEO.addEventListener('waiting', waitingVideo);
 VIDEO.addEventListener('playing', playingVideo);
 
+// End
+function endVideo() {
+  resetVideo();
+  VIDEO.blur();
+}
+
+VIDEO.addEventListener('ended', endVideo);
+
 // Error
 function errorVideo() {
   WRAPPER.classList.add('video__wrapper--error');
@@ -711,3 +708,34 @@ function removePauseAnimation() {
 VIDEO.addEventListener('pause', pauseAnimation);
 VIDEO.addEventListener('playing', removePauseAnimation);
 VIDEO.addEventListener('ended', removePauseAnimation);
+
+// 3D transform
+function movingVideo(event) {
+  if (scaleCheckbox.checked) {
+    let xPos = -(event.pageX / window.innerWidth - 0.5) * -20;
+    let yPos = (event.pageY / window.innerHeight - 0.5) * -20;
+    let blockRect = VIDEO.getBoundingClientRect();
+    let mouseX = event.clientX - blockRect.left;
+    let mouseY = event.clientY - blockRect.top;
+  
+    if (!(mouseX >= 0 && mouseX < blockRect.width && mouseY >= 0 && mouseY < blockRect.height)) {
+      WRAPPER.style.transform = 'perspective(1000px) rotateY(' + xPos + 'deg) rotateX(' + yPos + 'deg) scaleZ(2)';
+    } else {
+      WRAPPER.style.transform = 'perspective(1000px) rotateY(0deg) scaleZ(2)';
+    }
+  }
+}
+
+function movingMobileVideo(event) {
+  if (scaleCheckbox.checked) {
+    let tiltX = event.beta;
+    let tiltY = event.gamma;
+    let rotateX = (tiltX / 45) * -30;
+    let rotateY = (tiltY / 45) * 30;
+  
+    WRAPPER.style.transform = 'perspective(1000px) rotateY(' + rotateY + 'deg) rotateX(' + rotateX + 'deg) scaleZ(2)';
+  }
+}
+
+BODY.addEventListener('mousemove', movingVideo);
+BODY.addEventListener('deviceorientation', movingMobileVideo);

@@ -41,7 +41,7 @@ statisticsAdditionalCheckbox.addEventListener('change', function (event) {
 });
 
 // Deep mode
-let deepFlag;
+let deepFlag = 'main';
 const deepCheckbox = SETTINGS.querySelector('.settings__checkbox--deep');
 
 deepCheckbox.addEventListener('change', function (event) {
@@ -77,3 +77,13 @@ lineCheckbox.addEventListener('change', function (event) {
     line.classList.add('control__line--hide');
   }
 });
+
+// 3D scale
+const scaleCheckbox = SETTINGS.querySelector('.settings__checkbox--scale');
+
+// Little fix mobile settings height
+const settingsButtonHeight = SETTINGS.querySelector('.settings__control').clientHeight;
+const settingsWrapper = SETTINGS.querySelector('.settings__wrapper');
+if (BODY.clientWidth < 1440) {
+  settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - 60px)`;
+}

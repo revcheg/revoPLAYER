@@ -1,24 +1,28 @@
 // Save/Load theme
 // Save theme
-function saveTheme(currentTheme) {
-  localStorage.setItem('localTheme', currentTheme);
+function saveScheme(scheme) {
+  localStorage.setItem('localTheme', scheme);
+  
+  // Old
   localStorage.setItem('localButton', buttonIndex);
 }
 
 // Load theme
-function loadTheme() {
+function loadScheme() {
   if (localStorage) {
     const localTheme = localStorage.getItem('localTheme');
+    setScheme(localTheme);
+
+    // Old
     const localButton = localStorage.getItem('localButton');
-    setTheme(localTheme);
     setButton(localButton);
   }
 }
 
-// function getSavedScheme() {
-//   return localStorage.getItem('color-scheme');
-// }
+function getSavedScheme() {
+  return localStorage.getItem('localTheme');
+}
 
-// function clearScheme() {
-//   localStorage.removeItem('color-scheme');
-// }
+function clearScheme() {
+  localStorage.removeItem('localTheme');
+}

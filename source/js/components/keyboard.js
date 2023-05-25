@@ -55,15 +55,15 @@ BODY.addEventListener('keyup', (event) => {
       break;
 
     case 'l':
-      setTheme('light');
+      setScheme('light');
       setButton();
-      saveTheme('light');
+      saveScheme('light');
       break;
 
     case 'd':
-      setTheme('dark');
+      setScheme('dark');
       setButton();
-      saveTheme('dark');
+      saveScheme('dark');
       break;
   }
 });
