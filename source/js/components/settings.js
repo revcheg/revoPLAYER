@@ -80,10 +80,3 @@ lineCheckbox.addEventListener('change', function (event) {
 
 // 3D scale
 const scaleCheckbox = SETTINGS.querySelector('.settings__checkbox--scale');
-
-// Little fix mobile settings height
-const settingsButtonHeight = SETTINGS.querySelector('.settings__control').clientHeight;
-const settingsWrapper = SETTINGS.querySelector('.settings__wrapper');
-if (BODY.clientWidth < 1440) {
-  settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - 60px)`;
-}
