@@ -1,4 +1,4 @@
-// // THEME BETA
+// // Scheme BETA
 // const schemeRadios = document.querySelectorAll('.footer__theme');
 // let darkSchemeMedia = matchMedia('(prefers-color-scheme: dark)').matches;
 
@@ -38,7 +38,7 @@
 //   }
 // }
 
-// let favicon = document.querySelector('.favicon');
+// let favicon = document.querySelector('link[href="img/favicons/favicon.svg"]');
 
 // function switchMedia(scheme) {
 //   BODY.className = '';

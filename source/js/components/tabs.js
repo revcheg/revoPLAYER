@@ -9,12 +9,15 @@ tabButtons.forEach(button => {
     tabs.forEach(tab => {
       tab.classList.remove('settings__tab--active');
       tab.classList.remove('settings__tab--relative');
+      tab.removeAttribute('tabIndex');
     });
 
     const tabName = button.getAttribute('data-tab');
 
     button.classList.add('settings__button--active');
     document.querySelector(`.settings__tab[data-tab="${tabName}"]`).classList.add('settings__tab--active');
+    document.querySelector(`.settings__tab[data-tab="${tabName}"]`).setAttribute('tabIndex', '0');
+    document.querySelector(`.settings__tab[data-tab="${tabName}"]`).focus();
     updateSettingsHeight();
   });
 });
@@ -28,7 +31,7 @@ function updateSettingsHeight() {
   const activeTabHeight = activeTab.clientHeight;
 
   if (BODY.clientWidth < 1440) {
-    settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - 60px)`;
+    settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - 61px)`;
     settingsWrapper.style.margin = '0';
 
     if (activeTabHeight > settingsWrapperHeight) {

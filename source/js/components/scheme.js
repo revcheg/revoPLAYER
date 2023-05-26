@@ -1,10 +1,10 @@
-// THEME
+// Scheme
 let scheme = 'light';
 let buttonIndex;
 
 const themeButtons = document.querySelectorAll('.footer__theme');
 
-// Check client theme
+// Check client scheme
 if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
   scheme = 'dark';
 } else {
@@ -33,8 +33,8 @@ function setButton() {
   themeButtons[buttonIndex].classList.add('footer__theme--active');
 }
 
-// Set theme
-let favicon = document.querySelector('.favicon');
+// Set scheme
+let favicon = document.querySelector('link[href="img/favicons/favicon.svg"]');
 
 function setScheme(scheme) {
   BODY.className = '';

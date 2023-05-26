@@ -95,27 +95,20 @@
 .settings__tab {
   position: absolute;
   top: 50%;
-  left: 0;
+  left: 50%;
   width: 100%;
-  transform: translateY(-50%) scale(0);
+  outline: none;
+  transform: translate(-50%, -50%) scale(0);
   transition: 0.2s;
 
   &--active {
-    transform: translateY(-50%) scale(1);
+    transform: translate(-50%, -50%) scale(1);
   }
 
   &--relative {
     position: relative;
     top: 0;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.settings__column {
-  margin-bottom: 30px;
-
-  &:last-child {
-    margin-bottom: 0;
+    transform: translate(-50%, 0) scale(1);
   }
 }
 
@@ -234,34 +227,8 @@
 
 @media (min-width: $tablet-width) {
   .settings {
-    // display: grid;
-    // grid-template-columns: auto auto;
-    // grid-gap: 0 30px;
     overflow-y: unset;
   }
-
-  // .settings__column {
-  //   margin-bottom: 0;
-
-  //   &--player {
-  //     grid-column-start: 1;
-  //     grid-column-end: 2;
-  //     align-self: self-start;
-  //   }
-
-  //   &--video {
-  //     grid-column-start: 2;
-  //     grid-column-end: 3;
-  //     grid-row-start: 1;
-  //     grid-row-end: 2;
-  //   }
-
-  //   &--info {
-  //     grid-column-start: 1;
-  //     grid-column-end: 3;
-  //     align-self: self-end;
-  //   }
-  // }
 
   .settings__close {
     top: 25px;
@@ -284,6 +251,10 @@
     margin-right: 15px;
     margin-bottom: 15px;
     font-size: 18px;
+  }
+
+  .settings__tab {
+    max-width: 700px;
   }
 
   .settings__label {
@@ -361,6 +332,10 @@
     width: 60%;
   }
 
+  .settings__tab {
+    max-width: none;
+  }
+
   .settings__label {
     margin-bottom: 15px;
 
@@ -383,6 +358,7 @@
   }
 
   .settings__text {
+    margin-bottom: 30px;
     font-size: 25px;
   }
 

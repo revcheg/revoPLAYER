@@ -1,0 +1,35 @@
+{
+  "TheWitcher": {
+    "main": [
+      {
+        "title": "The Witcher III, main video",
+        "url": "/video/TheWitcher/main.webm",
+        "description": "Опис відео"
+      }
+    ],
+    "deep": [
+      {
+        "title": "The Witcher III, deep video",
+        "url": "/video/TheWitcher/deep.webm",
+        "description": "Опис відео"
+      }
+    ]
+  },
+
+  "Cyberpunk": {
+    "main": [
+      {
+        "title": "Cyberpunk 2077, main video",
+        "url": "/video/Cyberpunk/main.webm",
+        "description": "Опис відео"
+      }
+    ],
+    "deep": [
+      {
+        "title": "Cyberpunk 2077, deep video",
+        "url": "/video/Cyberpunk/deep.webm",
+        "description": "Опис відео"
+      }
+    ]
+  }
+}
