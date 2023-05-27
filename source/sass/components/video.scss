@@ -21,7 +21,7 @@
   transition: 0.3s;
   transform: perspective(1000px) rotateY(0deg) scaleZ(2);
   transform-style: preserve-3d;
-  z-index: 2;
+  z-index: 3;
 
   &:hover {
 

@@ -10,6 +10,8 @@ const VIDEORANGE = document.querySelector('.control__range');
 const STARTBUTTON = document.querySelector('.video__start');
 const CONTROLS = document.querySelector('.control');
 
+const ERROR = document.querySelector('.error');
+
 // const backgroundVideo = document.querySelector('.video__background');
 
 // const castButton = CONTROLS.querySelector('.control__button--cast');
@@ -59,6 +61,8 @@ VIDEO.addEventListener('click', changePauseIcon);
 // Mute
 const muteButton = CONTROLS.querySelector('.control__button--volume');
 const muteButtonIcon = CONTROLS.querySelector('.control__mute');
+const volumeWrapper = CONTROLS.querySelector('.control__box');
+const volumeRange = CONTROLS.querySelector('.control__volume');
 
 function muteVideo() {
   muteButtonIcon.classList.toggle('control__mute');
@@ -70,7 +74,17 @@ function muteVideo() {
   }
 }
 
+function showVolume() {
+  volumeRange.classList.remove('control__volume--hide');
+}
+
+function hideVolume() {
+  volumeRange.classList.add('control__volume--hide');
+}
+
 muteButton.addEventListener('click', muteVideo);
+volumeWrapper.addEventListener('mousemove', showVolume);
+volumeWrapper.addEventListener('mouseleave', hideVolume);
 
 // Extra line
 let lineProgress;
@@ -112,13 +126,25 @@ function fullscreenVideo() {
 
 fullButton.addEventListener('click', fullscreenVideo);
 
+// Error
+const errorText = ERROR.querySelector('.error__text');
+// const errorCode = ERROR.querySelector('.error__code');
+
+function showError() {
+  ERROR.classList.remove('error--hide');
+
+  setTimeout(() => {
+    ERROR.classList.add('error--hide');
+  }, 3000)
+}
+
 // File
 let FILE;
 let FILETYPE;
 let FILEURL;
 let FILESIZE;
 
-const MAX_FILE_SIZE = 1073741824;
+const MAX_FILE_SIZE = 3221225472;
 
 const INPUTFILE = document.querySelector('.settings__file');
 
@@ -137,14 +163,16 @@ INPUTFILE.addEventListener('change', function () {
 function validateFILE(FILE) {
   if (FILESIZE < MAX_FILE_SIZE) {
     if (!isSupportedFileType(FILE.type)) {
-      console.log('Непідтримуваний тип файлу');
+      errorText.innerHTML = 'Непідтримуваний тип файлу';
+      showError();
       INPUTFILE.value = '';
     } else {
       VIDEO.src = FILEURL; 
       VIDEO.setAttribute('crossorigin', 'anonymous');
     }
   } else {
-    console.log('Файл завеликий');
+    errorText.innerHTML = 'Файл завеликий';
+    showError();
     INPUTFILE.value = '';
   }
 }
@@ -737,6 +765,9 @@ VIDEO.addEventListener('ended', endVideo);
 // Error
 function errorVideo() {
   WRAPPER.classList.add('video__wrapper--error');
+
+  errorText.innerHTML = 'Помилка відео';
+  showError();
 }
 
 function removeErrorVideo() {

@@ -99,6 +99,9 @@ VIDEO.addEventListener('ended', endVideo);
 // Error
 function errorVideo() {
   WRAPPER.classList.add('video__wrapper--error');
+
+  errorText.innerHTML = 'Помилка відео';
+  showError();
 }
 
 function removeErrorVideo() {
