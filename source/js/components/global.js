@@ -9,3 +9,5 @@ const VIDEORANGE = document.querySelector('.control__range');
 
 const STARTBUTTON = document.querySelector('.video__start');
 const CONTROLS = document.querySelector('.control');
+
+const ERROR = document.querySelector('.error');

@@ -26,6 +26,8 @@ VIDEO.addEventListener('click', changePauseIcon);
 // Mute
 const muteButton = CONTROLS.querySelector('.control__button--volume');
 const muteButtonIcon = CONTROLS.querySelector('.control__mute');
+const volumeWrapper = CONTROLS.querySelector('.control__box');
+const volumeRange = CONTROLS.querySelector('.control__volume');
 
 function muteVideo() {
   muteButtonIcon.classList.toggle('control__mute');
@@ -37,7 +39,17 @@ function muteVideo() {
   }
 }
 
+function showVolume() {
+  volumeRange.classList.remove('control__volume--hide');
+}
+
+function hideVolume() {
+  volumeRange.classList.add('control__volume--hide');
+}
+
 muteButton.addEventListener('click', muteVideo);
+volumeWrapper.addEventListener('mousemove', showVolume);
+volumeWrapper.addEventListener('mouseleave', hideVolume);
 
 // Extra line
 let lineProgress;

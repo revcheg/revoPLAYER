@@ -8,18 +8,16 @@
   align-items: center;
   flex-wrap: wrap;
   width: 100%;
-  padding: 10px;
+  padding: 15px 10px;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
   background-color: rgba($dark-element, 0.5);
   transform: translateY(105%);
   transition: 0.6s;
-  z-index: 1;
 
   &--hide {
     opacity: 0;
     transform: translateY(0);
-    z-index: -1;
   }
 
   &--off {
@@ -59,9 +57,9 @@
 
 .control__button {
   order: 2;
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
+  width: 35px;
+  height: 35px;
+  margin-right: 15px;
   transition: 0.2s;
 
   &:last-child {
@@ -82,8 +80,27 @@
   }
 }
 
+.control__box {
+  order: 2;
+  display: flex;
+  align-items: center;
+}
+
 .control__mute {
   opacity: 0;
+}
+
+.control__volume {
+  order: 2;
+  width: 100px;
+  margin-right: 15px;
+  transition: 0.2s;
+
+  &--hide {
+    position: absolute;
+    opacity: 0;
+    transform: scale(0);
+  }
 }
 
 .control__duration {
@@ -94,7 +111,7 @@
   order: 1;
   width: 100%;
   margin: 0;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 .control__time {
@@ -111,14 +128,14 @@
   appearance: none;
   position: relative;
   flex-grow: 1;
-  height: 5px;
+  height: 6px;
   margin-right: 10px;
   border-radius: 5px;
   transition: 0.2s;
 
   &::-webkit-slider-runnable-track {
     width: 100%;
-    height: 5px;
+    height: 6px;
     box-shadow: 0 0 3px 1px rgba(#6320EE, 0.9);
     border-radius: 5px;
     background-color: #FFFFFF;
@@ -128,7 +145,7 @@
     appearance: none;
     width: 15px;
     height: 15px;
-    margin-top: -6px;
+    margin-top: -5px;
     border-radius: 50%;
     background-color: $blue-button;
     transition: 0.2s;
@@ -138,7 +155,7 @@
   &::-moz-range-track {
     appearance: none;
     width: 100%;
-    height: 3px;
+    height: 6px;
     box-shadow: 0 0 3px 1px rgba(#6320EE, 0.9);
     border-radius: 5px;
     background-color: #FFFFFF;
@@ -162,6 +179,10 @@
   }
 
   .control__button {
+    order: inherit;
+  }
+
+  .control__box {
     order: inherit;
   }
 
@@ -228,16 +249,16 @@
   }
 
   .control__range {
-    height: 8px;
+    height: 10px;
 
     &::-webkit-slider-runnable-track {
-      height: 8px;
+      height: 10px;
     }
 
     &::-webkit-slider-thumb {
-      width: 23px;
-      height: 23px;
-      margin-top: -8px;
+      width: 25px;
+      height: 25px;
+      margin-top: -9px;
     }
   }
 }

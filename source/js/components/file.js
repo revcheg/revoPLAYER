@@ -4,7 +4,7 @@ let FILETYPE;
 let FILEURL;
 let FILESIZE;
 
-const MAX_FILE_SIZE = 1073741824;
+const MAX_FILE_SIZE = 3221225472;
 
 const INPUTFILE = document.querySelector('.settings__file');
 
@@ -23,14 +23,16 @@ INPUTFILE.addEventListener('change', function () {
 function validateFILE(FILE) {
   if (FILESIZE < MAX_FILE_SIZE) {
     if (!isSupportedFileType(FILE.type)) {
-      console.log('Непідтримуваний тип файлу');
+      errorText.innerHTML = 'Непідтримуваний тип файлу';
+      showError();
       INPUTFILE.value = '';
     } else {
       VIDEO.src = FILEURL; 
       VIDEO.setAttribute('crossorigin', 'anonymous');
     }
   } else {
-    console.log('Файл завеликий');
+    errorText.innerHTML = 'Файл завеликий';
+    showError();
     INPUTFILE.value = '';
   }
 }
