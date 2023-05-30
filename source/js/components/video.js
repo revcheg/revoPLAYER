@@ -46,6 +46,13 @@ VIDEO.addEventListener('blur', stayFocus);
 const videoPassed = CONTROLS.querySelector('.control__time--passed');
 const videoLeft = CONTROLS.querySelector('.control__time--left');
 
+function resetDuration() {
+  VIDEORANGE.value = '0';
+
+  videoPassed.innerHTML = formatTime(0); 
+  videoLeft.innerHTML = formatTime(0); 
+}
+
 function formatTime(timeInSeconds) {
   let hours = Math.floor(timeInSeconds / 3600);
   let minutes = Math.floor((timeInSeconds - (hours * 3600)) / 60);

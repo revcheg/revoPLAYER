@@ -473,8 +473,11 @@ function resetVideo() {
   STARTBUTTON.classList.remove('video__start--hide');
   CONTROLS.classList.add('control--hide');
   STATISTICS.classList.add('statistics--hide');
+
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
+  
+  resetDuration();
 }
 
 // Settings
@@ -740,6 +743,13 @@ VIDEO.addEventListener('blur', stayFocus);
 // Duration
 const videoPassed = CONTROLS.querySelector('.control__time--passed');
 const videoLeft = CONTROLS.querySelector('.control__time--left');
+
+function resetDuration() {
+  VIDEORANGE.value = '0';
+
+  videoPassed.innerHTML = formatTime(0); 
+  videoLeft.innerHTML = formatTime(0); 
+}
 
 function formatTime(timeInSeconds) {
   let hours = Math.floor(timeInSeconds / 3600);
