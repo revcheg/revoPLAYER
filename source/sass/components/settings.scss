@@ -5,8 +5,6 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  // justify-content: center;
-  // align-items: center;
   width: 100%;
   min-height: 100%;
   padding: 30px 15px;
@@ -140,7 +138,6 @@
   width: 15px;
   height: 15px;
   margin: 0;
-  // margin-top: 2px;
   margin-right: 10px;
 
   &:disabled {
@@ -170,7 +167,7 @@
 
 .settings__text {
   margin-top: 0;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
   padding: 0 20px;
   font-weight: 300;
 

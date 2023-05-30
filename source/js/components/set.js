@@ -15,7 +15,6 @@ chooseButtons.forEach((element) => {
 function setVideo() {
   VIDEO.src = 'video/' + game + '/' + deepFlag + '.webm';
   VIDEO.preload = 'auto';
-  VIDEO.volume = 0.5;
 }
 
 // Reset video

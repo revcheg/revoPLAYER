@@ -20,15 +20,16 @@ VIDEO.addEventListener('keyup', (event) => {
       break;
 
     case 'ArrowUp':
-      VIDEO.volume += 0.1;
+      changeVolume(0.1);
       break;
 
     case 'ArrowDown':
-      VIDEO.volume -= 0.1;
+      changeVolume(-0.1);
       break;
 
     case 'm':
       muteVideo();
+      changeMuteIcon();
       break;
 
     case 'f':

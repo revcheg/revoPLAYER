@@ -115,4 +115,10 @@
   .statistics {
     color: $dark-blue;
   }
+
+  // Error
+  .error {
+    box-shadow: 0 0 10px 5px rgba($dark-blue, 0.4);
+    background-color: rgba($dark-blue, 0.9);
+  }
 }

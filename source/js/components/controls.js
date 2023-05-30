@@ -30,33 +30,60 @@ const muteButton = CONTROLS.querySelector('.control__button--mute');
 const muteButtonIcon = CONTROLS.querySelector('.control__mute');
 
 function muteVideo() {
-  muteButtonIcon.classList.toggle('control__mute');
-  
+  let currentVolume = VIDEO.volume;
+
   if (VIDEO.muted) {
     VIDEO.muted = false;
+    VIDEO.volume = currentVolume;
+    volumeRange.value = VIDEO.volume;
+    
+    if (currentVolume <= 0) {
+      VIDEO.volume = 0.5;
+      volumeRange.value = 0.5;
+    }
   } else {
     VIDEO.muted = true;
+    volumeRange.value = '0';
   }
 }
 
-function showVolume() {
-  volumeRange.classList.remove('control__volume--hide');
-}
-
-function hideVolume() {
-  volumeRange.classList.add('control__volume--hide');
+function changeMuteIcon() {
+  if (VIDEO.muted) {
+    muteButtonIcon.classList.remove('control__mute');
+  } else {
+    muteButtonIcon.classList.add('control__mute');
+  }
 }
 
 muteButton.addEventListener('click', muteVideo);
+muteButton.addEventListener('click', changeMuteIcon);
 
 // Volume
+VIDEO.volume = 0.5;
+
 const volumeRange = CONTROLS.querySelector('.control__range--volume');
 
-function volumeControl() {
-  VIDEO.volume = volumeRange.value;
+function changeVolume(amount) {
+  let newVolume = VIDEO.volume + amount;
+  newVolume = Math.max(0, Math.min(1, newVolume));
+  VIDEO.volume = newVolume;
+  volumeRange.value = newVolume;
+  updateVolume();
 }
 
-volumeRange.addEventListener('input', volumeControl);
+function updateVolume() {
+  VIDEO.volume = volumeRange.value;
+
+  if (VIDEO.volume === 0) {
+    VIDEO.muted = true;
+    changeMuteIcon();
+  } else {
+    VIDEO.muted = false;
+    changeMuteIcon();
+  }
+}
+
+volumeRange.addEventListener('input', updateVolume);
 
 // Extra line
 let lineProgress;

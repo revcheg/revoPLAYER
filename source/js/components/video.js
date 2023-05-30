@@ -9,7 +9,7 @@ function startProgress() {
 function updateProgress() {
   // Buffer
   videoBuffer = Math.round(VIDEO.buffered.end(0));
-  videoCurrentTime = VIDEO.currentTime;
+  videoCurrentTime = Math.round(VIDEO.currentTime);
   VIDEORANGE.value = videoCurrentTime;
   statisticsBuffer.innerHTML = videoBuffer;
 
@@ -58,22 +58,23 @@ function formatTime(timeInSeconds) {
   let minutes = Math.floor((timeInSeconds - (hours * 3600)) / 60);
   let seconds = Math.floor(timeInSeconds - (hours * 3600) - (minutes * 60));
   
-  if (hours < 10) {
-    hours = '0' + hours;
-  }
-
-  if (minutes < 10) {
-    minutes = '0' + minutes;
-  }
-
-  if (seconds < 10) {
-    seconds = '0' + seconds;
-  }
-
-  // minutes = minutes < 10 ? '0' + minutes : minutes;
-  // seconds = seconds < 10 ? '0' + seconds : seconds;
+  hours = hours < 10 ? '0' + hours : hours;
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+  seconds = seconds < 10 ? '0' + seconds : seconds;
 
   return hours + ':' + minutes + ':' + seconds;
+
+// if (hours < 10) {
+//   hours = '0' + hours;
+// }
+
+// if (minutes < 10) {
+//   minutes = '0' + minutes;
+// }
+
+// if (seconds < 10) {
+//   seconds = '0' + seconds;
+// }
 }
 
 // Video handler
@@ -136,22 +137,22 @@ function movingVideo(event) {
   
     if (!(mouseX >= 0 && mouseX < blockRect.width && mouseY >= 0 && mouseY < blockRect.height)) {
       WRAPPER.style.transform = 'perspective(1000px) rotateY(' + xPos + 'deg) rotateX(' + yPos + 'deg) scaleZ(2)';
-    } else {
-      WRAPPER.style.transform = 'perspective(1000px) rotateY(0deg) scaleZ(2)';
     }
+  } else {
+    WRAPPER.style.transform = 'none';
   }
 }
 
-function movingMobileVideo(event) {
-  if (scaleCheckbox.checked) {
-    let tiltX = event.beta;
-    let tiltY = event.gamma;
-    let rotateX = (tiltX / 45) * -30;
-    let rotateY = (tiltY / 45) * 30;
+// function movingMobileVideo(event) {
+//   if (scaleCheckbox.checked) {
+//     let tiltX = event.beta;
+//     let tiltY = event.gamma;
+//     let rotateX = (tiltX / 45) * -30;
+//     let rotateY = (tiltY / 45) * 30;
   
-    WRAPPER.style.transform = 'perspective(1000px) rotateY(' + rotateY + 'deg) rotateX(' + rotateX + 'deg) scaleZ(2)';
-  }
-}
+//     WRAPPER.style.transform = 'perspective(1000px) rotateY(' + rotateY + 'deg) rotateX(' + rotateX + 'deg) scaleZ(2)';
+//   }
+// }
 
 BODY.addEventListener('mousemove', movingVideo);
-BODY.addEventListener('deviceorientation', movingMobileVideo);
+// BODY.addEventListener('deviceorientation', movingMobileVideo);

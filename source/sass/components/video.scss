@@ -39,12 +39,12 @@
   position: relative;
   box-sizing: border-box;
   width: 100%;
+  max-width: 520px;
   margin: 0 15px;
   box-shadow: 0 0 15px 5px rgba(#6320EE, 0.5);
   border-radius: 10px;
   overflow: hidden;
   transition: 0.3s;
-  transform: perspective(1000px) rotateY(0deg) scaleZ(2);
   transform-style: preserve-3d;
   z-index: 3;
 
@@ -161,15 +161,10 @@
   display: none;
 }
 
-@media (min-width: $mobile-width) {
-  .video__wrapper {
-    max-width: 500px;
-  }
-}
-
 @media (min-width: $tablet-width) {
   .video__wrapper {
-    max-width: 600px;
+    max-width: 700px;
+    margin: 0 50px;
   }
 
   .video__icon {
@@ -178,15 +173,21 @@
   }
 }
 
+@media (min-width: $laptop-width) {
+  .video__wrapper {
+    max-width: 800px;
+    margin: 0;
+  }
+}
+
 @media (min-width: $desktop-width) {
   .video__wrapper {
     width: 900px;
-    max-width: none;
   }
 
   .video__icon {
-    width: 300px;
-    height: 300px;
+    width: 250px;
+    height: 250px;
   }
 }
 

@@ -4,7 +4,7 @@ let FILETYPE;
 let FILEURL;
 let FILESIZE;
 
-const MAX_FILE_SIZE = 3221225472;
+const MAX_FILE_SIZE = 5368709120;
 
 const INPUTFILE = document.querySelector('.settings__file');
 

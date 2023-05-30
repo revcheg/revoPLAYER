@@ -7,5 +7,5 @@ function showError() {
 
   setTimeout(() => {
     ERROR.classList.add('error--hide');
-  }, 3000)
+  }, 2000)
 }
