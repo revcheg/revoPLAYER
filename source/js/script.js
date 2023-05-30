@@ -5,7 +5,7 @@ const WRAPPER = document.querySelector('.video__wrapper');
 const SETTINGS = document.querySelector('.settings');
 const STATISTICS = document.querySelector('.statistics');
 
-const VIDEORANGE = document.querySelector('.control__range');
+const VIDEORANGE = document.querySelector('.control__range--duration');
 
 const STARTBUTTON = document.querySelector('.video__start');
 const CONTROLS = document.querySelector('.control');
@@ -34,6 +34,8 @@ const ERROR = document.querySelector('.error');
 // castButton.addEventListener('click', castVideo);
 
 // CONTROLS
+VIDEO.controls = false;
+
 // Pause
 const playButton = CONTROLS.querySelector('.control__button--play');
 const playButtonIcon = CONTROLS.querySelector('.control__icon--play');
@@ -59,10 +61,8 @@ VIDEO.addEventListener('click', pauseVideo);
 VIDEO.addEventListener('click', changePauseIcon);
 
 // Mute
-const muteButton = CONTROLS.querySelector('.control__button--volume');
+const muteButton = CONTROLS.querySelector('.control__button--mute');
 const muteButtonIcon = CONTROLS.querySelector('.control__mute');
-const volumeWrapper = CONTROLS.querySelector('.control__box');
-const volumeRange = CONTROLS.querySelector('.control__volume');
 
 function muteVideo() {
   muteButtonIcon.classList.toggle('control__mute');
@@ -83,8 +83,15 @@ function hideVolume() {
 }
 
 muteButton.addEventListener('click', muteVideo);
-volumeWrapper.addEventListener('mousemove', showVolume);
-volumeWrapper.addEventListener('mouseleave', hideVolume);
+
+// Volume
+const volumeRange = CONTROLS.querySelector('.control__range--volume');
+
+function volumeControl() {
+  VIDEO.volume = volumeRange.value;
+}
+
+volumeRange.addEventListener('input', volumeControl);
 
 // Extra line
 let lineProgress;
@@ -120,11 +127,32 @@ VIDEORANGE.addEventListener('change', function () {
 // Full screen
 const fullButton = CONTROLS.querySelector('.control__button--size');
 
-function fullscreenVideo() {
-  VIDEO.requestFullscreen();
+// function fullscreenVideo() {
+//   VIDEO.requestFullscreen();
+// }
+
+function openFullscreen() {
+  if (VIDEO.requestFullscreen) {
+    VIDEO.requestFullscreen();
+  } else if (VIDEO.mozRequestFullScreen) {
+    VIDEO.mozRequestFullScreen();
+  } else if (VIDEO.webkitRequestFullscreen) {
+    VIDEO.webkitRequestFullscreen();
+  } else if (VIDEO.msRequestFullscreen) {
+    VIDEO.msRequestFullscreen();
+  }
 }
 
-fullButton.addEventListener('click', fullscreenVideo);
+// function setupFullscreen() {
+//   if (document.fullscreenElement) {
+//     CONTROLS.classList.remove('control--hide');
+//   } else {
+//     CONTROLS.classList.add('control--hide');
+//   }
+// }
+
+fullButton.addEventListener('click', openFullscreen);
+// BODY.addEventListener('fullscreenchange', setupFullscreen);
 
 // Error
 const errorText = ERROR.querySelector('.error__text');
@@ -547,7 +575,8 @@ function startVideo() {
     CONTROLS.classList.remove('control--off', 'control--hide');
 
     VIDEO.play();
-
+    
+    stayFocus();
     getStatistics();
   }
 }
@@ -686,7 +715,6 @@ function updateProgress() {
   videoLeft.innerHTML = currentVideoLeft; 
 
   startProgress();
-  stayFocus();
   getTime();
   getEndTime();
   extraLine();
@@ -697,18 +725,17 @@ function stopProgress() {
 }
 
 function stayFocus() {
-  VIDEO.addEventListener('blur', function () {
-    if (VIDEO.paused) {
-      VIDEO.blur();
-    } else {
-      VIDEO.focus();
-    }
-  });
+  if (VIDEO.paused) {
+    VIDEO.blur();
+  } else {
+    VIDEO.focus();
+  }
 }
 
 VIDEO.addEventListener('play', startProgress);
 VIDEO.addEventListener('pause', stopProgress);
 VIDEO.addEventListener('ended', stopProgress);
+VIDEO.addEventListener('blur', stayFocus);
 
 // Duration
 const videoPassed = CONTROLS.querySelector('.control__time--passed');
@@ -739,15 +766,11 @@ function formatTime(timeInSeconds) {
 
 // Video handler
 // Waiting
-const waitingStatus = document.querySelector('.video__waiting'); 
-
 function waitingVideo() {
-  waitingStatus.classList.remove('video__waiting--hide');
   WRAPPER.classList.add('video__wrapper--waiting');
 }
 
 function playingVideo() {
-  waitingStatus.classList.add('video__waiting--hide');
   WRAPPER.classList.remove('video__wrapper--waiting');
 }
 

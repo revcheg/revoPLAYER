@@ -1,4 +1,6 @@
 // CONTROLS
+VIDEO.controls = false;
+
 // Pause
 const playButton = CONTROLS.querySelector('.control__button--play');
 const playButtonIcon = CONTROLS.querySelector('.control__icon--play');
@@ -24,10 +26,8 @@ VIDEO.addEventListener('click', pauseVideo);
 VIDEO.addEventListener('click', changePauseIcon);
 
 // Mute
-const muteButton = CONTROLS.querySelector('.control__button--volume');
+const muteButton = CONTROLS.querySelector('.control__button--mute');
 const muteButtonIcon = CONTROLS.querySelector('.control__mute');
-const volumeWrapper = CONTROLS.querySelector('.control__box');
-const volumeRange = CONTROLS.querySelector('.control__volume');
 
 function muteVideo() {
   muteButtonIcon.classList.toggle('control__mute');
@@ -48,8 +48,15 @@ function hideVolume() {
 }
 
 muteButton.addEventListener('click', muteVideo);
-volumeWrapper.addEventListener('mousemove', showVolume);
-volumeWrapper.addEventListener('mouseleave', hideVolume);
+
+// Volume
+const volumeRange = CONTROLS.querySelector('.control__range--volume');
+
+function volumeControl() {
+  VIDEO.volume = volumeRange.value;
+}
+
+volumeRange.addEventListener('input', volumeControl);
 
 // Extra line
 let lineProgress;
@@ -85,8 +92,29 @@ VIDEORANGE.addEventListener('change', function () {
 // Full screen
 const fullButton = CONTROLS.querySelector('.control__button--size');
 
-function fullscreenVideo() {
-  VIDEO.requestFullscreen();
+// function fullscreenVideo() {
+//   VIDEO.requestFullscreen();
+// }
+
+function openFullscreen() {
+  if (VIDEO.requestFullscreen) {
+    VIDEO.requestFullscreen();
+  } else if (VIDEO.mozRequestFullScreen) {
+    VIDEO.mozRequestFullScreen();
+  } else if (VIDEO.webkitRequestFullscreen) {
+    VIDEO.webkitRequestFullscreen();
+  } else if (VIDEO.msRequestFullscreen) {
+    VIDEO.msRequestFullscreen();
+  }
 }
 
-fullButton.addEventListener('click', fullscreenVideo);
+// function setupFullscreen() {
+//   if (document.fullscreenElement) {
+//     CONTROLS.classList.remove('control--hide');
+//   } else {
+//     CONTROLS.classList.add('control--hide');
+//   }
+// }
+
+fullButton.addEventListener('click', openFullscreen);
+// BODY.addEventListener('fullscreenchange', setupFullscreen);

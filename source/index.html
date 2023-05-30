@@ -47,10 +47,8 @@
           <path fill="#fff" d="M80.516 70.588v3.564H30.71v-2.197l33.545-50.049h3.418l-6.397 10.742-25.244 37.94h44.483ZM68.699 21.906V93h-3.906V21.906h3.906Zm35.938 0V93H87.498V21.906h17.139Zm42.431 0-27.539 36.035-16.113 17.627-3.125-15.722 10.303-15.625 15.332-22.315h21.142ZM126.805 93l-18.36-32.031 13.33-9.815L147.068 93h-20.263Z"/>
         </svg>
 
-        <video class="video" tabindex="0" disableRemotePlayback="true" aria-label="Контент обраного відео" title="Контент обраного відео" alt="Контент обраного відео"></video>
+        <video class="video" src="/video/TheWitcher/deep.webm" controls="false" disableRemotePlayback="true" tabindex="0" aria-label="Контент обраного відео" title="Контент обраного відео" alt="Контент обраного відео"></video>
         
-        <div class="video__waiting  video__waiting--hide"></div>
-
         <section class="statistics  statistics--hide  statistics--off">
           <h3 class="visually-hidden">Статистика відео</h3>
           <p class="statistics__category  statistics__category--hide"><span class="statistics__time"></span> (<span class="statistics__end"></span>)</p>
@@ -67,6 +65,11 @@
 
           <progress class="control__line  control__line--hide"></progress>    
 
+          <p class="control__duration">
+            <span class="control__time  control__time--passed">00:00:00</span>
+            <input class="control__range  control__range--duration" step="1" aria-label="Смуга прокручування" title="Смуга прокручування (left+right arrow)" type="range">
+            <span class="control__time  control__time--left">00:00:00</span>
+          </p>
           <button class="button  control__button  control__button--play" aria-label="Плей / пауза" title="Плей / пауза (space)" type="button">
             <svg class="control__icon  control__icon--play  control__icon--hide" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="-0.5 0 7 7">
               <path fill-rule="evenodd" d="M5.495 2.573 1.5.143C.832-.266 0 .25 0 1.068V5.93c0 .82.832 1.333 1.5.927l3.995-2.43c.673-.41.673-1.445 0-1.855"/>
@@ -76,20 +79,15 @@
             </svg>
           </button>
           <div class="control__box">
-            <button class="button  control__button  control__button--volume" aria-label="Гучніше / тихіше" title="Гучніше / тихіше (m + up/down arrow)" type="button">
-              <svg class="control__icon  control__icon--volume" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="25" height="25" viewBox="0 0 512 512">
+            <button class="button  control__button  control__button--mute" aria-label="Вимкнути звук" title="Вимкнути звук (m)" type="button">
+              <svg class="control__icon  control__icon--mute" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="25" height="25" viewBox="0 0 512 512">
                 <path d="M0 204.883V307.12c0 21.22 17.212 38.437 38.442 38.437h71.582V166.446H38.442C17.212 166.446 0 183.653 0 204.883z"/>
                 <path d="M288.033 94.716a13.054 13.054 0 0 0-12.744-.517l-142.237 72.246v179.112l142.237 72.246a13.078 13.078 0 0 0 12.744-.517 13.037 13.037 0 0 0 6.226-11.123V105.839c0-4.541-2.354-8.75-6.226-11.123z"/>
                 <path class="control__mute" d="m453.117 253.467 54.386-54.394c5.996-5.996 5.996-15.713 0-21.709s-15.713-5.996-21.709 0l-54.386 54.385-54.394-54.385c-5.997-5.996-15.713-5.996-21.709 0-5.997 5.996-5.997 15.713 0 21.709l54.384 54.394-54.384 54.385c-5.997 5.996-5.997 15.713 0 21.709 5.996 5.996 15.712 5.996 21.709 0l54.394-54.386 54.386 54.386c5.996 5.996 15.713 5.996 21.709 0s5.996-15.713 0-21.709l-54.386-54.385z"/>
               </svg>
             </button>
-            <input class="control__volume  control__volume--hide" step="0.1" max="1" type="range">
+            <input class="control__range  control__range--volume" step="0.1" min="0" max="1" vaue="0.5" aria-label="Гучність" title="Гучність (up+down arrow)" type="range">
           </div>
-          <p class="control__duration">
-            <span class="control__time  control__time--passed">00:00:00</span>
-            <input class="control__range" step="1" aria-label="Смуга прокручування" title="Смуга прокручування (left+right arrow)" type="range">
-            <span class="control__time  control__time--left">00:00:00</span>
-          </p>
           <button class="button  control__button  control__button--size" aria-label="На весь екран" title="На весь екран (f)" type="button">
             <svg class="control__icon  control__icon--size" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="m12 0 3.293 3.293-3.172 3.171 1.415 1.415 3.171-3.172L20 8V0h-8Zm1.536 12.121-1.415 1.415 3.172 3.171L12 20h8v-8l-3.293 3.293-3.171-3.172Zm-5.657 1.415-1.415-1.415-3.171 3.172L0 12v8h8l-3.293-3.293 3.172-3.171ZM6.464 7.879l1.415-1.415-3.172-3.171L8 0H0v8l3.293-3.293 3.171 3.172Z"/>

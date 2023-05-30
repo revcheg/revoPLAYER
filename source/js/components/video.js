@@ -20,7 +20,6 @@ function updateProgress() {
   videoLeft.innerHTML = currentVideoLeft; 
 
   startProgress();
-  stayFocus();
   getTime();
   getEndTime();
   extraLine();
@@ -31,18 +30,17 @@ function stopProgress() {
 }
 
 function stayFocus() {
-  VIDEO.addEventListener('blur', function () {
-    if (VIDEO.paused) {
-      VIDEO.blur();
-    } else {
-      VIDEO.focus();
-    }
-  });
+  if (VIDEO.paused) {
+    VIDEO.blur();
+  } else {
+    VIDEO.focus();
+  }
 }
 
 VIDEO.addEventListener('play', startProgress);
 VIDEO.addEventListener('pause', stopProgress);
 VIDEO.addEventListener('ended', stopProgress);
+VIDEO.addEventListener('blur', stayFocus);
 
 // Duration
 const videoPassed = CONTROLS.querySelector('.control__time--passed');
@@ -73,15 +71,11 @@ function formatTime(timeInSeconds) {
 
 // Video handler
 // Waiting
-const waitingStatus = document.querySelector('.video__waiting'); 
-
 function waitingVideo() {
-  waitingStatus.classList.remove('video__waiting--hide');
   WRAPPER.classList.add('video__wrapper--waiting');
 }
 
 function playingVideo() {
-  waitingStatus.classList.add('video__waiting--hide');
   WRAPPER.classList.remove('video__wrapper--waiting');
 }
 

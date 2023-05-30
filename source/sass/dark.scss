@@ -8,7 +8,7 @@
       box-shadow: 0 0 10px 5px rgba($dark-blue, 0.9);
     }
 
-    &:focus {
+    &:focus-visible {
       outline-color: $dark-blue;
     }
 
@@ -34,6 +34,15 @@
   
     &::-webkit-slider-thumb {
       background-color: $dark-blue;
+    }
+
+    &:hover,
+    &:focus {
+      box-shadow: 0 0 20px 1px rgba($dark-blue, 0.9);
+    }
+
+    &:focus-visible {
+      outline: 1px solid $dark-blue;
     }
   }
 

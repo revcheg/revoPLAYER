@@ -13,7 +13,8 @@ function startVideo() {
     CONTROLS.classList.remove('control--off', 'control--hide');
 
     VIDEO.play();
-
+    
+    stayFocus();
     getStatistics();
   }
 }
