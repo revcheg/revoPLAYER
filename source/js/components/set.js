@@ -29,6 +29,6 @@ function resetVideo() {
 
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
-  
+
   resetDuration();
 }

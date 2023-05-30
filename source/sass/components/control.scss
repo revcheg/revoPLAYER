@@ -14,14 +14,11 @@
   background-color: rgba($dark-element, 0.5);
   transform: translateY(105%);
   transition: 0.6s;
-<<<<<<< HEAD
   z-index: 9999;
 
   &:fullscreen {
     background-color: red;
   }
-=======
->>>>>>> 71361414aacedbb625ec9188aaa9448e48655106
 
   &--hide {
     opacity: 0;
@@ -65,10 +62,6 @@
 }
 
 .control__button {
-<<<<<<< HEAD
-=======
-  order: 2;
->>>>>>> 71361414aacedbb625ec9188aaa9448e48655106
   width: 35px;
   height: 35px;
   margin-right: 15px;
@@ -93,7 +86,6 @@
 }
 
 .control__box {
-<<<<<<< HEAD
   display: flex;
   align-items: center;
 
@@ -106,28 +98,10 @@
       transform: scale(1);
     }
   }
-=======
-  order: 2;
-  display: flex;
-  align-items: center;
->>>>>>> 71361414aacedbb625ec9188aaa9448e48655106
 }
 
 .control__mute {
   opacity: 0;
-}
-
-.control__volume {
-  order: 2;
-  width: 100px;
-  margin-right: 15px;
-  transition: 0.2s;
-
-  &--hide {
-    position: absolute;
-    opacity: 0;
-    transform: scale(0);
-  }
 }
 
 .control__duration {
@@ -153,11 +127,7 @@
 .control__range {
   appearance: none;
   position: relative;
-<<<<<<< HEAD
   width: 100%;
-=======
-  flex-grow: 1;
->>>>>>> 71361414aacedbb625ec9188aaa9448e48655106
   height: 6px;
   margin-right: 10px;
   padding: 10px;
@@ -225,21 +195,6 @@
 }
 
 @media (min-width: $mobile-width) {
-<<<<<<< HEAD
-=======
-  .control {
-    flex-wrap: nowrap;
-  }
-
-  .control__button {
-    order: inherit;
-  }
-
-  .control__box {
-    order: inherit;
-  }
-
->>>>>>> 71361414aacedbb625ec9188aaa9448e48655106
   .control__duration {
     margin-right: 10px;
     margin-bottom: 0;
@@ -305,7 +260,6 @@
       width: 25px;
       height: 25px;
       margin-top: -9px;
-<<<<<<< HEAD
     }
 
     &--volume {
@@ -319,8 +273,6 @@
         height: 20px;
         margin-top: -6px;
       }
-=======
->>>>>>> 71361414aacedbb625ec9188aaa9448e48655106
     }
   }
 }
