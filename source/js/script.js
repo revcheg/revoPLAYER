@@ -63,6 +63,8 @@ VIDEO.addEventListener('click', changePauseIcon);
 // Mute
 const muteButton = CONTROLS.querySelector('.control__button--mute');
 const muteButtonIcon = CONTROLS.querySelector('.control__mute');
+const volumeWrapper = CONTROLS.querySelector('.control__box');
+const volumeRange = CONTROLS.querySelector('.control__volume');
 
 function muteVideo() {
   muteButtonIcon.classList.toggle('control__mute');
@@ -83,6 +85,8 @@ function hideVolume() {
 }
 
 muteButton.addEventListener('click', muteVideo);
+volumeWrapper.addEventListener('mousemove', showVolume);
+volumeWrapper.addEventListener('mouseleave', hideVolume);
 
 // Volume
 const volumeRange = CONTROLS.querySelector('.control__range--volume');
