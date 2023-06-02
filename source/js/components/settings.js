@@ -117,3 +117,17 @@ function setScale(event) {
 }
 
 scaleCheckbox.addEventListener('change', setupScale);
+
+// function movingMobileVideo(event) {
+//   if (scaleCheckbox.checked) {
+//     let tiltX = event.beta;
+//     let tiltY = event.gamma;
+//     let rotateX = (tiltX / 45) * -30;
+//     let rotateY = (tiltY / 45) * 30;
+
+//     WRAPPER.style.transform = 'perspective(1000px) rotateY(' + rotateY + 'deg) rotateX(' + rotateX + 'deg) scaleZ(2)';
+//   }
+// }
+
+// BODY.addEventListener('mousemove', setScale);
+// BODY.addEventListener('deviceorientation', movingMobileVideo);

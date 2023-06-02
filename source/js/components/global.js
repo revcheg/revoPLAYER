@@ -1,7 +1,7 @@
-const BODY = document.querySelector('.body'); 
+const BODY = document.querySelector('.body');
 
-const VIDEO = document.querySelector('.video'); 
-const WRAPPER = document.querySelector('.video__wrapper'); 
+const VIDEO = document.querySelector('.video');
+const WRAPPER = document.querySelector('.video__wrapper');
 const SETTINGS = document.querySelector('.settings');
 const STATISTICS = document.querySelector('.statistics');
 

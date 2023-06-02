@@ -7,7 +7,7 @@
   flex-direction: column;
   width: 100%;
   min-height: 100%;
-  padding: 30px 15px;
+  padding: 20px 15px;
   color: #FFFFFF;
   background-color: rgba($blue-text, 0.5);
   backdrop-filter: blur(1px);
@@ -54,6 +54,7 @@
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  margin-bottom: 10px;
 
   &--hide {
     display: none;
@@ -105,7 +106,6 @@
   }
 
   &--relative {
-    position: relative;
     top: 0;
     transform: translate(-50%, 0) scale(1);
   }
@@ -320,6 +320,7 @@
   .settings__control {
     width: 40%;
     margin-right: 30px;
+    margin-bottom: 0;
     padding-right: 0;
   }
 

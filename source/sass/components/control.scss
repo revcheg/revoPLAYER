@@ -70,6 +70,10 @@
   &:last-child {
     margin-right: 0;
   }
+
+  &--prev {
+    transform: rotate(180deg);
+  }
 }
 
 .control__icon {
@@ -271,7 +275,7 @@
       &::-webkit-slider-runnable-track {
         height: 8px;
       }
-    
+
       &::-webkit-slider-thumb {
         width: 20px;
         height: 20px;
@@ -281,13 +285,13 @@
   }
 }
 
-// @media (prefers-color-scheme: dark) { 
+// @media (prefers-color-scheme: dark) {
 //   .control__range {
 
 //     &::-webkit-slider-runnable-track {
 //       box-shadow: 0 0 3px 1px rgba($dark-blue, 0.9);
 //     }
-  
+
 //     &::-webkit-slider-thumb {
 //       background-color: $dark-blue;
 //     }

@@ -31,12 +31,11 @@ function updateSettingsHeight() {
 
   if (BODY.clientWidth < 1440) {
     settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - 61px)`;
-    settingsWrapper.style.margin = '0';
+    settingsWrapper.style.overflowY = 'auto';
 
     if (activeTabHeight > settingsWrapperHeight) {
       activeTab.classList.add('settings__tab--relative');
-      settingsWrapper.style.height = activeTabHeight + 'px';
-      settingsWrapper.style.margin = '15px 0 40px 0';
+      settingsWrapper.style.overflowY = 'scroll';
     }
   }
 }

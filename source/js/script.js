@@ -1,7 +1,7 @@
-const BODY = document.querySelector('.body'); 
+const BODY = document.querySelector('.body');
 
-const VIDEO = document.querySelector('.video'); 
-const WRAPPER = document.querySelector('.video__wrapper'); 
+const VIDEO = document.querySelector('.video');
+const WRAPPER = document.querySelector('.video__wrapper');
 const SETTINGS = document.querySelector('.settings');
 const STATISTICS = document.querySelector('.statistics');
 
@@ -11,6 +11,88 @@ const STARTBUTTON = document.querySelector('.video__start');
 const CONTROLS = document.querySelector('.control');
 
 const ERROR = document.querySelector('.error');
+
+// // Autoplay video list
+// const prevButton = CONTROLS.querySelector('.control__button--prev');
+// const nextButton = CONTROLS.querySelector('.control__button--next');
+
+// fetch('videos.json')
+//   .then(response => response.json())
+//   .then (data => {
+//     let currentCategory = 'TheWitcher';
+//     let currentSubcategory = 'main';
+//     let currentVideoIndex = 0;
+
+//     function playCurrentVideo() {
+//       const currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
+//       const videoTitle = currentVideo.title;
+//       const videoUrl = currentVideo.url;
+//     }
+
+//     function nextVideo() {
+//       currentVideoIndex++;
+//       if (currentVideoIndex >= data[currentCategory][currentSubcategory].length) {
+//         const subcategories = Object.keys(data[currentCategory]);
+//         const currentSubcategoryIndex = subcategories.indexOf(currentSubcategory);
+
+//         if (currentSubcategoryIndex < subcategories.length - 1) {
+//           currentSubcategory = subcategories[currentSubcategoryIndex + 1];
+//           currentVideoIndex = 0;
+//         } else {
+//           const categories = Object.keys(data);
+//           const currentCategoryIndex = categories.indexOf(currentCategory);
+
+//           if (currentCategoryIndex < categories.length - 1) {
+//             currentCategory = categories[currentCategoryIndex + 1];
+//             currentSubcategory = Object.keys(data[currentCategory])[0];
+//             currentVideoIndex = 0;
+//           } else {
+//             currentCategory = categories[0];
+//             currentSubcategory = Object.keys(data[currentCategory])[0];
+//             currentVideoIndex = 0;
+//           }
+//         }
+//       }
+
+//       playCurrentVideo();
+//     }
+
+//     function prevVideo() {
+//       if (currentVideoIndex > 0) {
+//         currentVideoIndex--;
+//       } else {
+//         const subcategories = Object.keys(data[currentCategory]);
+//         const currentSubcategoryIndex = subcategories.indexOf(currentSubcategory);
+
+//         if (currentSubcategoryIndex > 0) {
+//           currentSubcategory = subcategories[currentSubcategoryIndex - 1];
+//           currentVideoIndex = data[currentCategory][currentSubcategory].legth - 1;
+//         } else {
+//           const categories = Object.keys(data);
+//           const currentCategoryIndex = categories.indexOf(currentCategory);
+
+//           if (currentCategoryIndex > 0) {
+//             currentCategory = categories[currentCategoryIndex - 1];
+//             const previousSubcategory = Object.keys(data[currentCategory]).pop();
+//             currentSubcategory = previousSubcategory;
+//             currentVideoIndex = data[currentCategory][previousSubcategory].lengt - 1;
+//           } else {
+//             currentCategory = categories[categories.length - 1];
+//             const previousSubcategory = Object.keys(data[currentCategory]).pop();
+//             currentSubcategory = previousSubcategory;
+//             currentVideoIndex = data[currentCategory][previousSubcategory].length - 1;
+//           }
+//         }
+//       }
+
+//       playCurrentVideo();
+//     }
+
+//     playCurrentVideo();
+
+//     prevButton.addEventListener('click', prevVideo);
+//     nextButton.addEventListener('click', nextVideo);
+//   });
 
 // const backgroundVideo = document.querySelector('.video__background');
 
@@ -606,6 +688,20 @@ function setScale(event) {
 
 scaleCheckbox.addEventListener('change', setupScale);
 
+// function movingMobileVideo(event) {
+//   if (scaleCheckbox.checked) {
+//     let tiltX = event.beta;
+//     let tiltY = event.gamma;
+//     let rotateX = (tiltX / 45) * -30;
+//     let rotateY = (tiltY / 45) * 30;
+
+//     WRAPPER.style.transform = 'perspective(1000px) rotateY(' + rotateY + 'deg) rotateX(' + rotateX + 'deg) scaleZ(2)';
+//   }
+// }
+
+// BODY.addEventListener('mousemove', setScale);
+// BODY.addEventListener('deviceorientation', movingMobileVideo);
+
 // Start
 function startVideo() {
   if (VIDEO.src === '' || VIDEO.src.includes('undefined')) {
@@ -723,12 +819,11 @@ function updateSettingsHeight() {
 
   if (BODY.clientWidth < 1440) {
     settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - 61px)`;
-    settingsWrapper.style.margin = '0';
+    settingsWrapper.style.overflowY = 'auto';
 
     if (activeTabHeight > settingsWrapperHeight) {
       activeTab.classList.add('settings__tab--relative');
-      settingsWrapper.style.height = activeTabHeight + 'px';
-      settingsWrapper.style.margin = '15px 0 40px 0';
+      settingsWrapper.style.overflowY = 'scroll';
     }
   }
 }
