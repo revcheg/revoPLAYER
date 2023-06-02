@@ -40,7 +40,7 @@
   box-sizing: border-box;
   width: 100%;
   max-width: 520px;
-  margin: 0 15px;
+  margin: 0 10px;
   box-shadow: 0 0 15px 5px rgba(#6320EE, 0.5);
   border-radius: 10px;
   overflow: hidden;
@@ -53,11 +53,11 @@
     .control {
       transform: translateY(0);
     }
-    
+
     .statistics {
       transform: translateY(0);
     }
-    
+
     .statistics__ufh {
       transform: translateY(0);
     }

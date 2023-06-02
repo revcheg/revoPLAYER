@@ -5,7 +5,7 @@
     <title>revoPLAYER</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="css/style.min.css" rel="stylesheet">
-    <link rel="preload" href="fonts/roboto-regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="fonts/roboto-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     <link rel="preload" href="fonts/roboto-700.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     <link rel="preload" href="fonts/roboto-300.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     <link rel="icon" href="img/favicons/favicon.svg" type="image/svg+xml">
@@ -32,9 +32,10 @@
     </header>
 
     <main class="main">
-      <h1 class="visually-hidden">revoPLAYER - простий на гарний плеєр</h1>
+      <h1 class="visually-hidden">revoPLAYER - простий на гарний відео плеєр</h1>
       <section class="video__wrapper">
         <h2 class="visually-hidden">Плеєр</h2>
+
         <button class="button  video__start" aria-label="Увімкнути відео" title="Увімкнути відео (p)" type="button">
           <span class="visually-hidden">Увімкнути відео</span>
           <svg class="video__icon" width="100" height="100" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -47,8 +48,6 @@
           <path fill="#fff" d="M80.516 70.588v3.564H30.71v-2.197l33.545-50.049h3.418l-6.397 10.742-25.244 37.94h44.483ZM68.699 21.906V93h-3.906V21.906h3.906Zm35.938 0V93H87.498V21.906h17.139Zm42.431 0-27.539 36.035-16.113 17.627-3.125-15.722 10.303-15.625 15.332-22.315h21.142ZM126.805 93l-18.36-32.031 13.33-9.815L147.068 93h-20.263Z"/>
         </svg>
 
-        <video class="video" src="/video/TheWitcher/deep.webm" controls="false" disableRemotePlayback="true" tabindex="0" aria-label="Контент обраного відео" title="Контент обраного відео" alt="Контент обраного відео"></video>
-        
         <section class="statistics  statistics--hide  statistics--off">
           <h3 class="visually-hidden">Статистика відео</h3>
           <p class="statistics__category  statistics__category--hide"><span class="statistics__time"></span> (<span class="statistics__end"></span>)</p>
@@ -60,10 +59,12 @@
           <!-- <p class="statistics__category">Bitrate: <span class="statistics__bitrate"></span></p> -->
         </section>
 
+        <video class="video" controls="false" disableRemotePlayback="true" tabindex="0" aria-label="Контент обраного відео" title="Контент обраного відео" alt="Контент обраного відео"></video>
+
         <section class="control  control--hide  control--off">
           <h3 class="visually-hidden">Кнопки управління плеєром</h3>
 
-          <progress class="control__line  control__line--hide"></progress>    
+          <progress class="control__line  control__line--hide" value="0"></progress>
 
           <p class="control__duration">
             <span class="control__time  control__time--passed">00:00:00</span>
@@ -168,27 +169,27 @@
         <div class="settings__tab  settings__tab--active" data-tab="general">
           <p class="settings__sub">НАЛАШТУВАННЯ</p>
           <label class="settings__label">
-            <input class="settings__checkbox  settings__checkbox--statistics" type="checkbox"> 
+            <input class="settings__checkbox  settings__checkbox--statistics" type="checkbox">
             <span class="settings__name">Відображати вікно статистики</span>
           </label>
           <label class="settings__label  settings__label--add  settings__label--hide">
-            <input class="settings__checkbox  settings__checkbox--additional" type="checkbox" disabled> 
+            <input class="settings__checkbox  settings__checkbox--additional" type="checkbox" disabled>
             <span class="settings__name">Доповнена статистика</span>
           </label>
           <label class="settings__label">
-            <input class="settings__checkbox  settings__checkbox--scale" type="checkbox"> 
+            <input class="settings__checkbox  settings__checkbox--scale" type="checkbox">
             <span class="settings__name">Зробити плеєр об'ємним (візуально)</span>
           </label>
           <label class="settings__label">
-            <input class="settings__checkbox  settings__checkbox--hq" type="checkbox" disabled> 
+            <input class="settings__checkbox  settings__checkbox--hq" type="checkbox" disabled>
             <span class="settings__name">Найкраща якість відео (чекаємо сервер)</span>
           </label>
           <label class="settings__label">
-            <input class="settings__checkbox  settings__checkbox--deep" type="checkbox" disabled> 
+            <input class="settings__checkbox  settings__checkbox--deep" type="checkbox" disabled>
             <span class="settings__name">Deep mode</span>
           </label>
           <!-- <label class="settings__label">
-            <input class="settings__checkbox  settings__checkbox--back" type="checkbox" disabled> 
+            <input class="settings__checkbox  settings__checkbox--back" type="checkbox" disabled>
             <span class="settings__name">Додати слой відео на фон (для впевнених у собі)</span>
           </label> -->
         </div>
@@ -196,7 +197,7 @@
         <div class="settings__tab" data-tab="player">
           <p class="settings__sub">ПЛЕЄР</p>
           <label class="settings__label">
-            <input class="settings__checkbox  settings__checkbox--line" type="checkbox"> 
+            <input class="settings__checkbox  settings__checkbox--line" type="checkbox">
             <span class="settings__name">Додати нову смугу прогрузки</span>
           </label>
         </div>
@@ -204,20 +205,20 @@
         <div class="settings__tab" data-tab="sound">
           <p class="settings__sub">ЗВУКИ</p>
           <label class="settings__label">
-            <input class="settings__checkbox  settings__checkbox--sound" type="checkbox" disabled> 
+            <input class="settings__checkbox  settings__checkbox--sound" type="checkbox" disabled>
             <span class="settings__name">Навалити трішки саунд-дизайну</span>
           </label>
         </div>
-  
+
         <div class="settings__tab" data-tab="video">
           <p class="settings__sub">ОБРАТИ ВІДЕО</p>
           <button class="button  settings__video" data-video="TheWitcher" aria-label="Увімкнути відео Witcher" title="Увімкнути відео Witcher" type="button">The Witcher III</button>
-          <button class="button  settings__video" data-video="Cyberpunk" aria-label="Увімкнути відео Cyberpunk 2077" title="Увімкнути відео Cyberpunk 2077" type="button">Cyberpunk 2077</button>      
+          <button class="button  settings__video" data-video="Cyberpunk" aria-label="Увімкнути відео Cyberpunk 2077" title="Увімкнути відео Cyberpunk 2077" type="button">Cyberpunk 2077</button>
           <label class="settings__label  settings__label--file">
             <input class="button  settings__file" aria-label="Завантажити власне відео" title="Завантажити власне відео" accept="video/*" type="file">
           </label>
         </div>
-  
+
         <div class="settings__tab" data-tab="info">
           <p class="settings__sub">ТРІШКИ ІНФИ</p>
           <ul class="settings__list">
@@ -227,20 +228,20 @@
             <li class="settings__item">Відео перероблені у кращій формат</li>
           </ul>
         </div>
-  
+
         <div class="settings__tab" data-tab="patch">
           <p class="settings__sub">PATCH NOTES</p>
           <p class="settings__text">
             <time class="settings__time" datetime="2023.05.30">30.05.2023</time>
-            Нарешті ми маємо перше відео, тицяємо TheWitcher та Deep mode у налаштуваннях. Почав реалізовувати логіку переключення серії, додав json для спрощення контролю та відтворення відео.      
+            Нарешті ми маємо перше відео, тицяємо TheWitcher та Deep mode у налаштуваннях. Почав реалізовувати логіку переключення серії, додав json для спрощення контролю та відтворення відео.
           </p>
           <p class="settings__text">
             <time class="settings__time" datetime="2023.05.30">30.05.2023</time>
-            Підвищую стабільність та безпеку, зосередився на тому що вже є, покращую логіку та поведінку проєкта. Додав перемикач гучності, поєднав його з кнопкою відключення звуку, працює спеціально для Dante &#128128;   
+            Підвищую стабільність та безпеку, зосередився на тому що вже є, покращую логіку та поведінку проєкта. Додав перемикач гучності, поєднав його з кнопкою відключення звуку, працює спеціально для Dante &#128128;
           </p>
           <p class="settings__text">
             <time class="settings__time" datetime="2023.05.26">26.05.2023</time>
-            Продовжую працювати над меню налаштувань, покращив стабільність. Трішки описав методи безпеки для юзер файлів, додав заборону окремих типів які не є відео, поставив ліміт на вагу файла та перевірку його формату. 
+            Продовжую працювати над меню налаштувань, покращив стабільність. Трішки описав методи безпеки для юзер файлів, додав заборону окремих типів які не є відео, поставив ліміт на вагу файла та перевірку його формату.
           </p>
           <p class="settings__text">
             <time class="settings__time" datetime="2023.05.25">25.05.2023</time>
@@ -248,7 +249,7 @@
           </p>
           <p class="settings__text">
             <time class="settings__time" datetime="2023.05.25">25.05.2023</time>
-            Додана нова візуальна фіча - 3D плеєр. Звісно, тільки візуально, знайти можно у налаштуваннях. Слідкує за положенням миші, та обертає плеєр у той бік. Працює також і на телефоні, за допомогою гіроскопа (можливо знадобиться дати доступ).  
+            Додана нова візуальна фіча - 3D плеєр. Звісно, тільки візуально, знайти можно у налаштуваннях. Слідкує за положенням миші, та обертає плеєр у той бік. Працює також і на телефоні, за допомогою гіроскопа (можливо знадобиться дати доступ).
           </p>
         </div>
       </div>
@@ -257,6 +258,5 @@
     <video class="video__background"></video>
 
     <script src="js/script.min.js"></script>
-
   </body>
 </html>

@@ -5,7 +5,6 @@ const tabs = SETTINGS.querySelectorAll('.settings__tab');
 tabButtons.forEach(button => {
   button.addEventListener('click', () => {
     tabButtons.forEach(btn => btn.classList.remove('settings__button--active'));
-    // tabs.forEach(tab => tab.classList.remove('settings__tab--active'));
     tabs.forEach(tab => {
       tab.classList.remove('settings__tab--active');
       tab.classList.remove('settings__tab--relative');
@@ -38,7 +37,7 @@ function updateSettingsHeight() {
       activeTab.classList.add('settings__tab--relative');
       settingsWrapper.style.height = activeTabHeight + 'px';
       settingsWrapper.style.margin = '15px 0 40px 0';
-    } 
+    }
   }
 }
 

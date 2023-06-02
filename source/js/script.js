@@ -65,20 +65,20 @@ const muteButton = CONTROLS.querySelector('.control__button--mute');
 const muteButtonIcon = CONTROLS.querySelector('.control__mute');
 
 function muteVideo() {
-  let currentVolume = VIDEO.volume;
+  let savedVolume = VIDEO.volume;
 
   if (VIDEO.muted) {
     VIDEO.muted = false;
-    VIDEO.volume = currentVolume;
+    VIDEO.volume = savedVolume;
     volumeRange.value = VIDEO.volume;
-    
-    if (currentVolume <= 0) {
+
+    if (savedVolume <= 0) {
       VIDEO.volume = 0.5;
       volumeRange.value = 0.5;
     }
   } else {
     VIDEO.muted = true;
-    volumeRange.value = '0';
+    volumeRange.value = 0;
   }
 }
 
@@ -99,10 +99,10 @@ VIDEO.volume = 0.5;
 const volumeRange = CONTROLS.querySelector('.control__range--volume');
 
 function changeVolume(amount) {
-  let newVolume = VIDEO.volume + amount;
-  newVolume = Math.max(0, Math.min(1, newVolume));
-  VIDEO.volume = newVolume;
-  volumeRange.value = newVolume;
+  let changedVolume = VIDEO.volume + amount;
+  changedVolume = Math.max(0, Math.min(1, changedVolume));
+  VIDEO.volume = changedVolume;
+  volumeRange.value = changedVolume;
   updateVolume();
 }
 
@@ -119,15 +119,6 @@ function updateVolume() {
 }
 
 volumeRange.addEventListener('input', updateVolume);
-
-// Extra line
-let lineProgress;
-
-function extraLine() {
-  lineProgress = (videoCurrentTime / videoDuration) * 100;
-  line.style.width = lineProgress + '%';
-  line.value = lineProgress;
-}
 
 // Range
 let rangeValue;
@@ -154,10 +145,6 @@ VIDEORANGE.addEventListener('change', function () {
 // Full screen
 const fullButton = CONTROLS.querySelector('.control__button--size');
 
-// function fullscreenVideo() {
-//   VIDEO.requestFullscreen();
-// }
-
 function openFullscreen() {
   if (VIDEO.requestFullscreen) {
     VIDEO.requestFullscreen();
@@ -169,14 +156,6 @@ function openFullscreen() {
     VIDEO.msRequestFullscreen();
   }
 }
-
-// function setupFullscreen() {
-//   if (document.fullscreenElement) {
-//     CONTROLS.classList.remove('control--hide');
-//   } else {
-//     CONTROLS.classList.add('control--hide');
-//   }
-// }
 
 fullButton.addEventListener('click', openFullscreen);
 // BODY.addEventListener('fullscreenchange', setupFullscreen);
@@ -576,36 +555,72 @@ deepCheckbox.addEventListener('change', function (event) {
 // });
 
 // Extra line
+let lineProgress;
+
 const line = CONTROLS.querySelector('.control__line');
 const lineCheckbox = SETTINGS.querySelector('.settings__checkbox--line');
 
-lineCheckbox.addEventListener('change', function (event) {
-  if (event.currentTarget.checked) {
+function showExtraLine() {
+  if (lineCheckbox.checked) {
     line.classList.remove('control__line--hide');
   } else {
     line.classList.add('control__line--hide');
   }
-});
+}
+
+function extraLine() {
+  lineProgress = Math.round((videoCurrentTime / videoDuration) * 100);
+  line.style.width = lineProgress + '%';
+  line.value = lineProgress;
+}
+
+lineCheckbox.addEventListener('change', showExtraLine);
 
 // 3D scale
 const scaleCheckbox = SETTINGS.querySelector('.settings__checkbox--scale');
 
-// Start 
+function setupScale() {
+  if (scaleCheckbox.checked) {
+    BODY.addEventListener('mousemove', setScale);
+  } else {
+    WRAPPER.removeAttribute('style');
+    BODY.removeEventListener('mousemove', setScale);
+  }
+}
+
+function setScale(event) {
+  if (scaleCheckbox.checked && event.isTrusted) {
+    let xPos = -(event.pageX / window.innerWidth - 0.5) * -20;
+    let yPos = (event.pageY / window.innerHeight - 0.5) * -20;
+    let blockRect = VIDEO.getBoundingClientRect();
+    let mouseX = event.clientX - blockRect.left;
+    let mouseY = event.clientY - blockRect.top;
+
+    if (!(mouseX >= 0 && mouseX < blockRect.width && mouseY >= 0 && mouseY < blockRect.height)) {
+      WRAPPER.style.transform = 'perspective(1000px) rotateY(' + xPos + 'deg) rotateX(' + yPos + 'deg) scaleZ(2)';
+    } else {
+      WRAPPER.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) scaleZ(1)';
+    }
+  }
+}
+
+scaleCheckbox.addEventListener('change', setupScale);
+
+// Start
 function startVideo() {
-  let videoSRC = VIDEO.src; 
-  if (videoSRC === '' || videoSRC.includes('undefined')) {
+  if (VIDEO.src === '' || VIDEO.src.includes('undefined')) {
     openButton.focus();
     openButton.classList.add('header__menu--error');
     setTimeout(() => {
       openButton.classList.remove('header__menu--error');
     }, 2000);
-  } else if (videoSRC && VIDEO.readyState >= VIDEO.HAVE_CURRENT_DATA) {
+  } else if (VIDEO.src && VIDEO.readyState >= VIDEO.HAVE_CURRENT_DATA) {
     openButton.classList.remove('header__menu--error');
     STARTBUTTON.classList.add('video__start--hide');
     CONTROLS.classList.remove('control--off', 'control--hide');
 
     VIDEO.play();
-    
+
     stayFocus();
     getStatistics();
   }
@@ -682,7 +697,6 @@ const tabs = SETTINGS.querySelectorAll('.settings__tab');
 tabButtons.forEach(button => {
   button.addEventListener('click', () => {
     tabButtons.forEach(btn => btn.classList.remove('settings__button--active'));
-    // tabs.forEach(tab => tab.classList.remove('settings__tab--active'));
     tabs.forEach(tab => {
       tab.classList.remove('settings__tab--active');
       tab.classList.remove('settings__tab--relative');
@@ -715,7 +729,7 @@ function updateSettingsHeight() {
       activeTab.classList.add('settings__tab--relative');
       settingsWrapper.style.height = activeTabHeight + 'px';
       settingsWrapper.style.margin = '15px 0 40px 0';
-    } 
+    }
   }
 }
 
@@ -739,10 +753,10 @@ function updateProgress() {
   statisticsBuffer.innerHTML = videoBuffer;
 
   // Duration
-  let currentVideoPassed = formatTime(videoCurrentTime); 
-  let currentVideoLeft = formatTime(videoDuration - videoCurrentTime); 
-  videoPassed.innerHTML = currentVideoPassed; 
-  videoLeft.innerHTML = currentVideoLeft; 
+  let currentVideoPassed = formatTime(videoCurrentTime);
+  let currentVideoLeft = formatTime(videoDuration - videoCurrentTime);
+  videoPassed.innerHTML = currentVideoPassed;
+  videoLeft.innerHTML = currentVideoLeft;
 
   startProgress();
   getTime();
@@ -773,33 +787,22 @@ const videoLeft = CONTROLS.querySelector('.control__time--left');
 
 function resetDuration() {
   VIDEORANGE.value = '0';
-
-  videoPassed.innerHTML = formatTime(0); 
-  videoLeft.innerHTML = formatTime(0); 
+  videoPassed.innerHTML = formatTime(0);
+  videoLeft.innerHTML = formatTime(0);
+  line.style.width = '0%';
+  line.value = 0;
 }
 
 function formatTime(timeInSeconds) {
   let hours = Math.floor(timeInSeconds / 3600);
   let minutes = Math.floor((timeInSeconds - (hours * 3600)) / 60);
   let seconds = Math.floor(timeInSeconds - (hours * 3600) - (minutes * 60));
-  
+
   hours = hours < 10 ? '0' + hours : hours;
   minutes = minutes < 10 ? '0' + minutes : minutes;
   seconds = seconds < 10 ? '0' + seconds : seconds;
 
   return hours + ':' + minutes + ':' + seconds;
-
-// if (hours < 10) {
-//   hours = '0' + hours;
-// }
-
-// if (minutes < 10) {
-//   minutes = '0' + minutes;
-// }
-
-// if (seconds < 10) {
-//   seconds = '0' + seconds;
-// }
 }
 
 // Video handler
@@ -850,34 +853,3 @@ function removePauseAnimation() {
 VIDEO.addEventListener('pause', pauseAnimation);
 VIDEO.addEventListener('playing', removePauseAnimation);
 VIDEO.addEventListener('ended', removePauseAnimation);
-
-// 3D transform
-function movingVideo(event) {
-  if (scaleCheckbox.checked) {
-    let xPos = -(event.pageX / window.innerWidth - 0.5) * -20;
-    let yPos = (event.pageY / window.innerHeight - 0.5) * -20;
-    let blockRect = VIDEO.getBoundingClientRect();
-    let mouseX = event.clientX - blockRect.left;
-    let mouseY = event.clientY - blockRect.top;
-  
-    if (!(mouseX >= 0 && mouseX < blockRect.width && mouseY >= 0 && mouseY < blockRect.height)) {
-      WRAPPER.style.transform = 'perspective(1000px) rotateY(' + xPos + 'deg) rotateX(' + yPos + 'deg) scaleZ(2)';
-    }
-  } else {
-    WRAPPER.style.transform = 'none';
-  }
-}
-
-// function movingMobileVideo(event) {
-//   if (scaleCheckbox.checked) {
-//     let tiltX = event.beta;
-//     let tiltY = event.gamma;
-//     let rotateX = (tiltX / 45) * -30;
-//     let rotateY = (tiltY / 45) * 30;
-  
-//     WRAPPER.style.transform = 'perspective(1000px) rotateY(' + rotateY + 'deg) rotateX(' + rotateX + 'deg) scaleZ(2)';
-//   }
-// }
-
-BODY.addEventListener('mousemove', movingVideo);
-// BODY.addEventListener('deviceorientation', movingMobileVideo);

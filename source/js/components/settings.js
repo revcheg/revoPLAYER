@@ -67,16 +67,53 @@ deepCheckbox.addEventListener('change', function (event) {
 // });
 
 // Extra line
+let lineProgress;
+
 const line = CONTROLS.querySelector('.control__line');
 const lineCheckbox = SETTINGS.querySelector('.settings__checkbox--line');
 
-lineCheckbox.addEventListener('change', function (event) {
-  if (event.currentTarget.checked) {
+function showExtraLine() {
+  if (lineCheckbox.checked) {
     line.classList.remove('control__line--hide');
   } else {
     line.classList.add('control__line--hide');
   }
-});
+}
+
+function extraLine() {
+  lineProgress = Math.round((videoCurrentTime / videoDuration) * 100);
+  line.style.width = lineProgress + '%';
+  line.value = lineProgress;
+}
+
+lineCheckbox.addEventListener('change', showExtraLine);
 
 // 3D scale
 const scaleCheckbox = SETTINGS.querySelector('.settings__checkbox--scale');
+
+function setupScale() {
+  if (scaleCheckbox.checked) {
+    BODY.addEventListener('mousemove', setScale);
+  } else {
+    WRAPPER.removeAttribute('style');
+    BODY.removeEventListener('mousemove', setScale);
+  }
+}
+
+function setScale(event) {
+  if (scaleCheckbox.checked && event.isTrusted) {
+    let xPos = -(event.pageX / window.innerWidth - 0.5) * -20;
+    let yPos = (event.pageY / window.innerHeight - 0.5) * -20;
+    let blockRect = VIDEO.getBoundingClientRect();
+    let mouseX = event.clientX - blockRect.left;
+    let mouseY = event.clientY - blockRect.top;
+
+    if (!(mouseX >= 0 && mouseX < blockRect.width && mouseY >= 0 && mouseY < blockRect.height)) {
+      WRAPPER.style.transform = 'perspective(1000px) rotateY(' + xPos + 'deg) rotateX(' + yPos + 'deg) scaleZ(2)';
+    } else {
+      WRAPPER.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) scaleZ(1)';
+    }
+  }
+}
+
+scaleCheckbox.addEventListener('change', setupScale);

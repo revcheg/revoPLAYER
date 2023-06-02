@@ -30,20 +30,20 @@ const muteButton = CONTROLS.querySelector('.control__button--mute');
 const muteButtonIcon = CONTROLS.querySelector('.control__mute');
 
 function muteVideo() {
-  let currentVolume = VIDEO.volume;
+  let savedVolume = VIDEO.volume;
 
   if (VIDEO.muted) {
     VIDEO.muted = false;
-    VIDEO.volume = currentVolume;
+    VIDEO.volume = savedVolume;
     volumeRange.value = VIDEO.volume;
-    
-    if (currentVolume <= 0) {
+
+    if (savedVolume <= 0) {
       VIDEO.volume = 0.5;
       volumeRange.value = 0.5;
     }
   } else {
     VIDEO.muted = true;
-    volumeRange.value = '0';
+    volumeRange.value = 0;
   }
 }
 
@@ -64,10 +64,10 @@ VIDEO.volume = 0.5;
 const volumeRange = CONTROLS.querySelector('.control__range--volume');
 
 function changeVolume(amount) {
-  let newVolume = VIDEO.volume + amount;
-  newVolume = Math.max(0, Math.min(1, newVolume));
-  VIDEO.volume = newVolume;
-  volumeRange.value = newVolume;
+  let changedVolume = VIDEO.volume + amount;
+  changedVolume = Math.max(0, Math.min(1, changedVolume));
+  VIDEO.volume = changedVolume;
+  volumeRange.value = changedVolume;
   updateVolume();
 }
 
@@ -84,15 +84,6 @@ function updateVolume() {
 }
 
 volumeRange.addEventListener('input', updateVolume);
-
-// Extra line
-let lineProgress;
-
-function extraLine() {
-  lineProgress = (videoCurrentTime / videoDuration) * 100;
-  line.style.width = lineProgress + '%';
-  line.value = lineProgress;
-}
 
 // Range
 let rangeValue;
@@ -119,10 +110,6 @@ VIDEORANGE.addEventListener('change', function () {
 // Full screen
 const fullButton = CONTROLS.querySelector('.control__button--size');
 
-// function fullscreenVideo() {
-//   VIDEO.requestFullscreen();
-// }
-
 function openFullscreen() {
   if (VIDEO.requestFullscreen) {
     VIDEO.requestFullscreen();
@@ -134,14 +121,6 @@ function openFullscreen() {
     VIDEO.msRequestFullscreen();
   }
 }
-
-// function setupFullscreen() {
-//   if (document.fullscreenElement) {
-//     CONTROLS.classList.remove('control--hide');
-//   } else {
-//     CONTROLS.classList.add('control--hide');
-//   }
-// }
 
 fullButton.addEventListener('click', openFullscreen);
 // BODY.addEventListener('fullscreenchange', setupFullscreen);

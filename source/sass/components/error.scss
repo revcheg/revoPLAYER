@@ -1,14 +1,16 @@
 .error {
   position: absolute;
-  bottom: 20px;
+  bottom: 32px;
   left: 50%;
   box-sizing: border-box;
-  padding: 10px 15px;
+  padding: 8px 20px;
   box-shadow: 0 0 10px 5px rgba($blue-button, 0.4);
   border-radius: 5px;
-  background-color: rgba($blue-button, 0.8);
+  background-color: rgba($blue-button, 0.5);
+  backdrop-filter: blur(0.5px);
   transform: translateX(-50%);
   transition: 0.3s;
+  clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%);
   z-index: 5;
 
   &--hide {
@@ -18,7 +20,8 @@
 
 .error__text {
   margin: 0;
-  font-size: 15px;
+  font-size: 14px;
+  font-weight: 300;
   text-align: center;
 }
 
@@ -27,4 +30,15 @@
   font-weight: 300;
   font-size: 14px;
   text-align: center;
+}
+
+@media (min-width: $desktop-width) {
+  .error {
+    bottom: 63px;
+    padding: 10px 25px;
+  }
+
+  .error__text {
+    font-size: 18px;
+  }
 }
