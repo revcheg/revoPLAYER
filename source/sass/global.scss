@@ -1,16 +1,23 @@
 body {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
   min-width: 320px;
+  min-height: 100vh;
   margin: 0;
+  color: #fff;
   font-size: 16px;
   font-weight: 400;
-  font-family: "Roboto", "Arial", sans-serif;
+  font-family: "Roboto","Arial",sans-serif;
+  background-color: #f8f0fb;
   transition: 0.5s;
 }
 
 *::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 3px;
+  height: 3px;
 }
 
 *::-webkit-scrollbar-track {

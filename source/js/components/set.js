@@ -25,9 +25,11 @@ function resetVideo() {
   STARTBUTTON.classList.remove('video__start--hide');
   CONTROLS.classList.add('control--hide');
   STATISTICS.classList.add('statistics--hide');
+  statisticsUFH.classList.add('statistics--off');
 
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
 
+  stopProgress();
   resetDuration();
 }

@@ -33,7 +33,15 @@ VIDEO.addEventListener('keyup', (event) => {
       break;
 
     case 'f':
-      fullscreenVideo();
+      changeFullscreen();
+      break;
+
+    case ',':
+      previousVideo();
+      break;
+
+    case '.':
+      nextVideo();
       break;
   }
 });

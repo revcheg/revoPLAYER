@@ -14,11 +14,6 @@
   background-color: rgba($dark-element, 0.5);
   transform: translateY(105%);
   transition: 0.8s;
-  z-index: 9999;
-
-  &:fullscreen {
-    background-color: red;
-  }
 
   &--hide {
     opacity: 0;
@@ -95,6 +90,10 @@
 
   &:hover,
   &:focus-within {
+
+    .control__button--mute {
+      margin-right: 5px;
+    }
 
     .control__range--volume {
       position: relative;

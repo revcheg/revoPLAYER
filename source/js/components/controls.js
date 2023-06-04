@@ -98,8 +98,7 @@ VIDEORANGE.addEventListener('mousedown', () => {
 });
 
 VIDEORANGE.addEventListener('change', function () {
-  rangeValue = VIDEORANGE.value;
-  VIDEO.currentTime = rangeValue;
+  VIDEO.currentTime = VIDEORANGE.value;
   VIDEO.play();
 
   if (pauseButtonIcon.classList.contains('control__icon--hide')) {
@@ -107,20 +106,79 @@ VIDEORANGE.addEventListener('change', function () {
   }
 });
 
+VIDEORANGE.addEventListener('input', function () {
+  let inputDuration = VIDEORANGE.value;
+  VIDEO.currentTime = inputDuration;
+
+  currentVideoPassed = formatTime(inputDuration);
+  currentVideoLeft = formatTime(videoDuration - inputDuration);
+
+  videoPassed.innerHTML = currentVideoPassed;
+  videoLeft.innerHTML = currentVideoLeft;
+});
+
 // Full screen
 const fullButton = CONTROLS.querySelector('.control__button--size');
+const fullButtonSize = CONTROLS.querySelector('.control__icon--size');
+const fullButtonMin = CONTROLS.querySelector('.control__icon--min');
 
 function openFullscreen() {
-  if (VIDEO.requestFullscreen) {
-    VIDEO.requestFullscreen();
-  } else if (VIDEO.mozRequestFullScreen) {
-    VIDEO.mozRequestFullScreen();
-  } else if (VIDEO.webkitRequestFullscreen) {
-    VIDEO.webkitRequestFullscreen();
-  } else if (VIDEO.msRequestFullscreen) {
-    VIDEO.msRequestFullscreen();
+  if (WRAPPER.requestFullscreen) {
+    WRAPPER.requestFullscreen();
+  } else if (WRAPPER.mozRequestFullScreen) {
+    WRAPPER.mozRequestFullScreen();
   }
 }
 
-fullButton.addEventListener('click', openFullscreen);
-// BODY.addEventListener('fullscreenchange', setupFullscreen);
+function exitFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.mozCancelFullScreen) {
+    document.mozCancelFullScreen();
+  }
+}
+
+function changeFullscreen() {
+  if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement) {
+    exitFullscreen();
+    fullButtonSize.classList.toggle('control__icon--hide');
+    fullButtonMin.classList.toggle('control__icon--hide');
+  } else {
+    openFullscreen();
+    fullButton.setAttribute('aria-label', 'Закрити повний екран');
+    fullButton.setAttribute('title', 'Закрити повний екран (esc)');
+    fullButtonSize.classList.toggle('control__icon--hide');
+    fullButtonMin.classList.toggle('control__icon--hide');
+  }
+}
+
+fullButton.addEventListener('click', changeFullscreen);
+VIDEO.addEventListener('dblclick', changeFullscreen);
+
+// Mouse
+let mouseStoppedTimer;
+
+const handleMouseMove = () => {
+  clearTimeout(mouseStoppedTimer);
+  showControls();
+
+  mouseStoppedTimer = setTimeout(() => {
+    hideControls();
+  }, 2000);
+};
+
+function showControls() {
+  CONTROLS.style.transform = 'translateY(0)';
+  STATISTICS.style.transform = 'translateY(0)';
+  statisticsUFH.style.transform = 'translateY(0)';
+  VIDEO.style.cursor = 'auto';
+};
+
+function hideControls() {
+  CONTROLS.style.transform = 'translateY(100%)';
+  STATISTICS.style.transform = 'translateY(-100%)';
+  statisticsUFH.style.transform = 'translateY(-150%)';
+  VIDEO.style.cursor = 'none';
+};
+
+VIDEO.addEventListener("mousemove", handleMouseMove);

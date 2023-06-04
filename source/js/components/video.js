@@ -1,6 +1,8 @@
 // Video
 let progressInterval;
 let playbackQuality;
+let currentVideoPassed;
+let currentVideoLeft;
 
 function startProgress() {
   progressInterval = setTimeout(updateProgress, 1000);
@@ -14,8 +16,8 @@ function updateProgress() {
   statisticsBuffer.innerHTML = videoBuffer;
 
   // Duration
-  let currentVideoPassed = formatTime(videoCurrentTime);
-  let currentVideoLeft = formatTime(videoDuration - videoCurrentTime);
+  currentVideoPassed = formatTime(videoCurrentTime);
+  currentVideoLeft = formatTime(videoDuration - videoCurrentTime);
   videoPassed.innerHTML = currentVideoPassed;
   videoLeft.innerHTML = currentVideoLeft;
 

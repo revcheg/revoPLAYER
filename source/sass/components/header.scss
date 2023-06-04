@@ -1,15 +1,11 @@
 .header {
-  position: absolute;
-  top: 0;
-  left: 50%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  @include container;
+  box-sizing: border-box;
+  margin: 0 auto;
   width: 100%;
   padding: 25px;
-  transform: translateX(-50%);
-  z-index: 2;
 }
 
 .header__logo {
@@ -17,7 +13,7 @@
   height: 45px;
   transition: 0.3s;
   transition-delay: 0.2s;
-  
+
   path {
     transition: 0.3s;
     transition-delay: 0.2s;
@@ -89,7 +85,7 @@
   }
 }
 
-// @media (prefers-color-scheme: dark) { 
+// @media (prefers-color-scheme: dark) {
 //   .header__logo {
 
 //     path:first-of-type {

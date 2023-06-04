@@ -14,7 +14,6 @@
   &--hide {
     opacity: 0;
     transform: translateY(0);
-    z-index: -1;
   }
 
   &--off {
@@ -26,11 +25,11 @@
   margin: 0;
   margin-bottom: 5px;
   font-size: 10px;
-  
+
   &:last-child {
     margin-bottom: 0;
   }
-  
+
   span {
     color: #FFFFFF;
     font-weight: 300;

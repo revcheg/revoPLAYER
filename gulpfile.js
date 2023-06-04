@@ -96,11 +96,11 @@ const sprite = () => {
 const copy = (done) => {
   gulp.src([
     'source/fonts/*.{woff2,woff}',
-    'source/video/**/*.{webm,mp4}',
     'source/favicon.ico',
     'source/img/favicons/*.svg',
     'source/apple-touch-icon.png',
     'source/player.webmanifest',
+    'source/videos.json',
     'source/browserconfig.xml',
   ], {
     base: 'source'

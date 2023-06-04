@@ -7,16 +7,17 @@ tabButtons.forEach(button => {
     tabButtons.forEach(btn => btn.classList.remove('settings__button--active'));
     tabs.forEach(tab => {
       tab.classList.remove('settings__tab--active');
-      tab.classList.remove('settings__tab--relative');
+      tab.classList.remove('settings__tab--scroll');
       tab.removeAttribute('tabIndex');
     });
 
-    const tabName = button.getAttribute('data-tab');
-
     button.classList.add('settings__button--active');
+
+    const tabName = button.getAttribute('data-tab');
     document.querySelector(`.settings__tab[data-tab="${tabName}"]`).classList.add('settings__tab--active');
     document.querySelector(`.settings__tab[data-tab="${tabName}"]`).setAttribute('tabIndex', '0');
     document.querySelector(`.settings__tab[data-tab="${tabName}"]`).focus();
+
     updateSettingsHeight();
   });
 });
@@ -31,11 +32,11 @@ function updateSettingsHeight() {
 
   if (BODY.clientWidth < 1440) {
     settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - 61px)`;
-    settingsWrapper.style.overflowY = 'auto';
 
-    if (activeTabHeight > settingsWrapperHeight) {
-      activeTab.classList.add('settings__tab--relative');
-      settingsWrapper.style.overflowY = 'scroll';
+    if (activeTabHeight >= settingsWrapperHeight) {
+      activeTab.style.height = settingsWrapperHeight + 'px';
+      activeTab.classList.add('settings__tab--scroll');
+      activeTab.style.height = settingsWrapperHeight + 'px';
     }
   }
 }

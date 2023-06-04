@@ -12,87 +12,98 @@ const CONTROLS = document.querySelector('.control');
 
 const ERROR = document.querySelector('.error');
 
-// // Autoplay video list
-// const prevButton = CONTROLS.querySelector('.control__button--prev');
-// const nextButton = CONTROLS.querySelector('.control__button--next');
+// Autoplay video list
+const prevButton = CONTROLS.querySelector('.control__button--prev');
+const nextButton = CONTROLS.querySelector('.control__button--next');
 
-// fetch('videos.json')
-//   .then(response => response.json())
-//   .then (data => {
-//     let currentCategory = 'TheWitcher';
-//     let currentSubcategory = 'main';
-//     let currentVideoIndex = 0;
+// let currentCategory = 'TheWitcher';
+// let currentSubcategory = 'main';
+// let currentVideoIndex = 0;
+// let data = null;
 
-//     function playCurrentVideo() {
-//       const currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
-//       const videoTitle = currentVideo.title;
-//       const videoUrl = currentVideo.url;
-//     }
+fetch('videos.json')
+  .then(response => response.json())
+  .then(videoData => {
+    data = videoData;
+    currentCategory = 'TheWitcher';
+    currentSubcategory = 'main';
+    currentVideoIndex = 0;
 
-//     function nextVideo() {
-//       currentVideoIndex++;
-//       if (currentVideoIndex >= data[currentCategory][currentSubcategory].length) {
-//         const subcategories = Object.keys(data[currentCategory]);
-//         const currentSubcategoryIndex = subcategories.indexOf(currentSubcategory);
+    playCurrentVideo();
+  });
 
-//         if (currentSubcategoryIndex < subcategories.length - 1) {
-//           currentSubcategory = subcategories[currentSubcategoryIndex + 1];
-//           currentVideoIndex = 0;
-//         } else {
-//           const categories = Object.keys(data);
-//           const currentCategoryIndex = categories.indexOf(currentCategory);
+function playCurrentVideo() {
+  const currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
+  // const videoTitle = currentVideo.title;
+  const videoUrl = currentVideo.url;
+  const videoDescription = currentVideo.description;
 
-//           if (currentCategoryIndex < categories.length - 1) {
-//             currentCategory = categories[currentCategoryIndex + 1];
-//             currentSubcategory = Object.keys(data[currentCategory])[0];
-//             currentVideoIndex = 0;
-//           } else {
-//             currentCategory = categories[0];
-//             currentSubcategory = Object.keys(data[currentCategory])[0];
-//             currentVideoIndex = 0;
-//           }
-//         }
-//       }
+  // VIDEO.setAttribute('title', videoTitle);
+  VIDEO.setAttribute('src', videoUrl);
+  VIDEO.setAttribute('alt', videoDescription);
+}
 
-//       playCurrentVideo();
-//     }
+function nextVideo() {
+  resetVideo();
+  currentVideoIndex++;
+  if (currentVideoIndex >= data[currentCategory][currentSubcategory].length) {
+    const subcategories = Object.keys(data[currentCategory]);
+    const currentSubcategoryIndex = subcategories.indexOf(currentSubcategory);
 
-//     function prevVideo() {
-//       if (currentVideoIndex > 0) {
-//         currentVideoIndex--;
-//       } else {
-//         const subcategories = Object.keys(data[currentCategory]);
-//         const currentSubcategoryIndex = subcategories.indexOf(currentSubcategory);
+    if (currentSubcategoryIndex < subcategories.length - 1) {
+      currentSubcategory = subcategories[currentSubcategoryIndex + 1];
+      currentVideoIndex = 0;
+    } else {
+      const categories = Object.keys(data);
+      const currentCategoryIndex = categories.indexOf(currentCategory);
 
-//         if (currentSubcategoryIndex > 0) {
-//           currentSubcategory = subcategories[currentSubcategoryIndex - 1];
-//           currentVideoIndex = data[currentCategory][currentSubcategory].legth - 1;
-//         } else {
-//           const categories = Object.keys(data);
-//           const currentCategoryIndex = categories.indexOf(currentCategory);
+      if (currentCategoryIndex < categories.length - 1) {
+        currentCategory = categories[currentCategoryIndex + 1];
+        currentSubcategory = Object.keys(data[currentCategory])[0];
+        currentVideoIndex = 0;
+      } else {
+        currentCategory = categories[0];
+        currentSubcategory = Object.keys(data[currentCategory])[0];
+        currentVideoIndex = 0;
+      }
+    }
+  }
+  playCurrentVideo();
+}
 
-//           if (currentCategoryIndex > 0) {
-//             currentCategory = categories[currentCategoryIndex - 1];
-//             const previousSubcategory = Object.keys(data[currentCategory]).pop();
-//             currentSubcategory = previousSubcategory;
-//             currentVideoIndex = data[currentCategory][previousSubcategory].lengt - 1;
-//           } else {
-//             currentCategory = categories[categories.length - 1];
-//             const previousSubcategory = Object.keys(data[currentCategory]).pop();
-//             currentSubcategory = previousSubcategory;
-//             currentVideoIndex = data[currentCategory][previousSubcategory].length - 1;
-//           }
-//         }
-//       }
+function previousVideo() {
+  resetVideo();
+  if (currentVideoIndex > 0) {
+    currentVideoIndex--;
+  } else {
+    const subcategories = Object.keys(data[currentCategory]);
+    const currentSubcategoryIndex = subcategories.indexOf(currentSubcategory);
 
-//       playCurrentVideo();
-//     }
+    if (currentSubcategoryIndex > 0) {
+      currentSubcategory = subcategories[currentSubcategoryIndex - 1];
+      currentVideoIndex = data[currentCategory][currentSubcategory].length - 1;
+    } else {
+      const categories = Object.keys(data);
+      const currentCategoryIndex = categories.indexOf(currentCategory);
 
-//     playCurrentVideo();
+      if (currentCategoryIndex > 0) {
+        currentCategory = categories[currentCategoryIndex - 1];
+        const previousSubcategory = Object.keys(data[currentCategory]).pop();
+        currentSubcategory = previousSubcategory;
+        currentVideoIndex = data[currentCategory][previousSubcategory].length - 1;
+      } else {
+        currentCategory = categories[categories.length - 1];
+        const previousSubcategory = Object.keys(data[currentCategory]).pop();
+        currentSubcategory = previousSubcategory;
+        currentVideoIndex = data[currentCategory][previousSubcategory].length - 1;
+      }
+    }
+  }
+  playCurrentVideo();
+}
 
-//     prevButton.addEventListener('click', prevVideo);
-//     nextButton.addEventListener('click', nextVideo);
-//   });
+prevButton.addEventListener('click', previousVideo);
+nextButton.addEventListener('click', nextVideo);
 
 // const backgroundVideo = document.querySelector('.video__background');
 
@@ -215,8 +226,7 @@ VIDEORANGE.addEventListener('mousedown', () => {
 });
 
 VIDEORANGE.addEventListener('change', function () {
-  rangeValue = VIDEORANGE.value;
-  VIDEO.currentTime = rangeValue;
+  VIDEO.currentTime = VIDEORANGE.value;
   VIDEO.play();
 
   if (pauseButtonIcon.classList.contains('control__icon--hide')) {
@@ -224,23 +234,82 @@ VIDEORANGE.addEventListener('change', function () {
   }
 });
 
+VIDEORANGE.addEventListener('input', function () {
+  let inputDuration = VIDEORANGE.value;
+  VIDEO.currentTime = inputDuration;
+
+  currentVideoPassed = formatTime(inputDuration);
+  currentVideoLeft = formatTime(videoDuration - inputDuration);
+
+  videoPassed.innerHTML = currentVideoPassed;
+  videoLeft.innerHTML = currentVideoLeft;
+});
+
 // Full screen
 const fullButton = CONTROLS.querySelector('.control__button--size');
+const fullButtonSize = CONTROLS.querySelector('.control__icon--size');
+const fullButtonMin = CONTROLS.querySelector('.control__icon--min');
 
 function openFullscreen() {
-  if (VIDEO.requestFullscreen) {
-    VIDEO.requestFullscreen();
-  } else if (VIDEO.mozRequestFullScreen) {
-    VIDEO.mozRequestFullScreen();
-  } else if (VIDEO.webkitRequestFullscreen) {
-    VIDEO.webkitRequestFullscreen();
-  } else if (VIDEO.msRequestFullscreen) {
-    VIDEO.msRequestFullscreen();
+  if (WRAPPER.requestFullscreen) {
+    WRAPPER.requestFullscreen();
+  } else if (WRAPPER.mozRequestFullScreen) {
+    WRAPPER.mozRequestFullScreen();
   }
 }
 
-fullButton.addEventListener('click', openFullscreen);
-// BODY.addEventListener('fullscreenchange', setupFullscreen);
+function exitFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.mozCancelFullScreen) {
+    document.mozCancelFullScreen();
+  }
+}
+
+function changeFullscreen() {
+  if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement) {
+    exitFullscreen();
+    fullButtonSize.classList.toggle('control__icon--hide');
+    fullButtonMin.classList.toggle('control__icon--hide');
+  } else {
+    openFullscreen();
+    fullButton.setAttribute('aria-label', 'Закрити повний екран');
+    fullButton.setAttribute('title', 'Закрити повний екран (esc)');
+    fullButtonSize.classList.toggle('control__icon--hide');
+    fullButtonMin.classList.toggle('control__icon--hide');
+  }
+}
+
+fullButton.addEventListener('click', changeFullscreen);
+VIDEO.addEventListener('dblclick', changeFullscreen);
+
+// Mouse
+let mouseStoppedTimer;
+
+const handleMouseMove = () => {
+  clearTimeout(mouseStoppedTimer);
+  showControls();
+
+  mouseStoppedTimer = setTimeout(() => {
+    hideControls();
+  }, 2000);
+};
+
+function showControls() {
+  CONTROLS.style.transform = 'translateY(0)';
+  STATISTICS.style.transform = 'translateY(0)';
+  statisticsUFH.style.transform = 'translateY(0)';
+  VIDEO.style.cursor = 'auto';
+};
+
+function hideControls() {
+  CONTROLS.style.transform = 'translateY(100%)';
+  STATISTICS.style.transform = 'translateY(-100%)';
+  statisticsUFH.style.transform = 'translateY(-150%)';
+  VIDEO.style.cursor = 'none';
+};
+
+VIDEO.addEventListener("mousemove", handleMouseMove);
 
 // Error
 const errorText = ERROR.querySelector('.error__text');
@@ -333,7 +402,15 @@ VIDEO.addEventListener('keyup', (event) => {
       break;
 
     case 'f':
-      fullscreenVideo();
+      changeFullscreen();
+      break;
+
+    case ',':
+      previousVideo();
+      break;
+
+    case '.':
+      nextVideo();
       break;
   }
 });
@@ -561,10 +638,12 @@ function resetVideo() {
   STARTBUTTON.classList.remove('video__start--hide');
   CONTROLS.classList.add('control--hide');
   STATISTICS.classList.add('statistics--hide');
+  statisticsUFH.classList.add('statistics--off');
 
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
 
+  stopProgress();
   resetDuration();
 }
 
@@ -795,16 +874,17 @@ tabButtons.forEach(button => {
     tabButtons.forEach(btn => btn.classList.remove('settings__button--active'));
     tabs.forEach(tab => {
       tab.classList.remove('settings__tab--active');
-      tab.classList.remove('settings__tab--relative');
+      tab.classList.remove('settings__tab--scroll');
       tab.removeAttribute('tabIndex');
     });
 
-    const tabName = button.getAttribute('data-tab');
-
     button.classList.add('settings__button--active');
+
+    const tabName = button.getAttribute('data-tab');
     document.querySelector(`.settings__tab[data-tab="${tabName}"]`).classList.add('settings__tab--active');
     document.querySelector(`.settings__tab[data-tab="${tabName}"]`).setAttribute('tabIndex', '0');
     document.querySelector(`.settings__tab[data-tab="${tabName}"]`).focus();
+
     updateSettingsHeight();
   });
 });
@@ -819,11 +899,11 @@ function updateSettingsHeight() {
 
   if (BODY.clientWidth < 1440) {
     settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - 61px)`;
-    settingsWrapper.style.overflowY = 'auto';
 
-    if (activeTabHeight > settingsWrapperHeight) {
-      activeTab.classList.add('settings__tab--relative');
-      settingsWrapper.style.overflowY = 'scroll';
+    if (activeTabHeight >= settingsWrapperHeight) {
+      activeTab.style.height = settingsWrapperHeight + 'px';
+      activeTab.classList.add('settings__tab--scroll');
+      activeTab.style.height = settingsWrapperHeight + 'px';
     }
   }
 }
@@ -835,6 +915,8 @@ window.addEventListener('resize', updateSettingsHeight);
 // Video
 let progressInterval;
 let playbackQuality;
+let currentVideoPassed;
+let currentVideoLeft;
 
 function startProgress() {
   progressInterval = setTimeout(updateProgress, 1000);
@@ -848,8 +930,8 @@ function updateProgress() {
   statisticsBuffer.innerHTML = videoBuffer;
 
   // Duration
-  let currentVideoPassed = formatTime(videoCurrentTime);
-  let currentVideoLeft = formatTime(videoDuration - videoCurrentTime);
+  currentVideoPassed = formatTime(videoCurrentTime);
+  currentVideoLeft = formatTime(videoDuration - videoCurrentTime);
   videoPassed.innerHTML = currentVideoPassed;
   videoLeft.innerHTML = currentVideoLeft;
 

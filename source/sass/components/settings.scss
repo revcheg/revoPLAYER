@@ -12,9 +12,7 @@
   background-color: rgba($blue-text, 0.5);
   backdrop-filter: blur(1px);
   outline: none;
-  overflow-y: scroll;
   transition: 0.5s;
-  z-index: 4;
 
   &--hide {
     opacity: 0;
@@ -29,7 +27,7 @@
   right: 20px;
   width: 45px;
   height: 45px;
-  z-index: 3;
+  z-index: 2;
 }
 
 .settings__icon {
@@ -105,9 +103,10 @@
     transform: translate(-50%, -50%) scale(1);
   }
 
-  &--relative {
+  &--scroll {
     top: 0;
     transform: translate(-50%, 0) scale(1);
+    overflow-y: scroll;
   }
 }
 

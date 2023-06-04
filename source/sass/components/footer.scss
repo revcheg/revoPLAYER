@@ -1,15 +1,8 @@
 .footer {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  @include container;
-  width: 100%;
   padding: 25px;
-  transform: translateX(-50%);
-  z-index: 2;
 }
 
 .footer__controls {

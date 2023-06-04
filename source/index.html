@@ -31,26 +31,26 @@
       </button>
     </header>
 
-    <main class="main">
+    <main>
       <h1 class="visually-hidden">revoPLAYER - простий на гарний відео плеєр</h1>
       <section class="video__wrapper">
         <h2 class="visually-hidden">Плеєр</h2>
 
         <button class="button  video__start" aria-label="Увімкнути відео" title="Увімкнути відео (p)" type="button">
           <span class="visually-hidden">Увімкнути відео</span>
-          <svg class="video__icon" width="100" height="100" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="video__icon" width="100" height="100" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
             <path d="M8 18V6L18 12L11.3333 16" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
 
-        <svg class="statistics__ufh  statistics--off" xmlns="http://www.w3.org/2000/svg" width="177" height="117" fill="none" viewBox="0 0 177 117">
+        <svg class="statistics__ufh  statistics--hide  statistics--off" xmlns="http://www.w3.org/2000/svg" fill="none" width="177" height="117" viewBox="0 0 177 117">
           <rect width="176" height="114" x=".5" y=".5" stroke="#fff" rx="9.5"/>
           <path fill="#fff" d="M80.516 70.588v3.564H30.71v-2.197l33.545-50.049h3.418l-6.397 10.742-25.244 37.94h44.483ZM68.699 21.906V93h-3.906V21.906h3.906Zm35.938 0V93H87.498V21.906h17.139Zm42.431 0-27.539 36.035-16.113 17.627-3.125-15.722 10.303-15.625 15.332-22.315h21.142ZM126.805 93l-18.36-32.031 13.33-9.815L147.068 93h-20.263Z"/>
         </svg>
 
         <section class="statistics  statistics--hide  statistics--off">
           <h3 class="visually-hidden">Статистика відео</h3>
-          <p class="statistics__category  statistics__category--hide"><span class="statistics__time"></span> (<span class="statistics__end"></span>)</p>
+          <p class="statistics__category  statistics__category--hide"><span class="statistics__time">00:00</span> (<span class="statistics__end">00:00</span>)</p>
           <p class="statistics__category">Роздільна здатність: <span class="statistics__resolution"></span></p>
           <p class="statistics__category  statistics__category--hide">Формат: <span class="statistics__format"></span></p>
           <p class="statistics__category">Тривалість: <span class="statistics__duration"></span> секунд</p>
@@ -59,7 +59,7 @@
           <!-- <p class="statistics__category">Bitrate: <span class="statistics__bitrate"></span></p> -->
         </section>
 
-        <video class="video" src="/video/TheWitcher/deep.webm" controls="false" disableRemotePlayback="true" tabindex="0" aria-label="Контент обраного відео" title="Контент обраного відео" alt="Контент обраного відео"></video>
+        <video class="video" preload="auto" controls="false" disableRemotePlayback aria-label="Контент обраного відео" alt="Контент обраного відео" tabindex="0"></video>
 
         <section class="control  control--hide  control--off">
           <h3 class="visually-hidden">Кнопки управління плеєром</h3>
@@ -72,23 +72,23 @@
             <span class="control__time  control__time--left">00:00:00</span>
           </p>
           <button class="button  control__button  control__button--prev" aria-label="Попереднє відео" title="Попереднє відео (<)" type="button">
-            <svg class="control__icon  control__icon--prev" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="20" height="20" viewBox="0 0 512.003 512.003">
-              <path d="m509.712 250.182-119.467-128a8.525 8.525 0 0 0-6.238-2.714H247.474a8.53 8.53 0 0 0-7.885 5.265 8.502 8.502 0 0 0 1.852 9.301l121.958 121.967-121.958 121.967a8.502 8.502 0 0 0-1.852 9.301 8.53 8.53 0 0 0 7.885 5.265h136.533a8.522 8.522 0 0 0 6.238-2.714l119.467-128a8.535 8.535 0 0 0 0-11.638z"/>
-              <path d="m270.778 250.182-119.467-128a8.525 8.525 0 0 0-6.238-2.714H8.541a8.53 8.53 0 0 0-7.885 5.265 8.502 8.502 0 0 0 1.852 9.301l121.958 121.967L2.508 377.968a8.502 8.502 0 0 0-1.852 9.301 8.53 8.53 0 0 0 7.885 5.265h136.533a8.522 8.522 0 0 0 6.238-2.714l119.467-128a8.536 8.536 0 0 0-.001-11.638z"/>
+            <svg class="control__icon  control__icon--prev" xmlns="http://www.w3.org/2000/svg" width="16" height="13" viewBox="0 0 16 13">
+              <path fill-rule="evenodd" d="M10.075 4.78 2.75.265C1.525-.494 0 .465 0 1.984v9.03c0 1.524 1.525 2.476 2.75 1.722l7.325-4.513c1.234-.762 1.234-2.682 0-3.444Z" clip-rule="evenodd"/>
+              <rect width="4" height="13" x="12" rx="2"/>
             </svg>
           </button>
           <button class="button  control__button  control__button--play" aria-label="Плей / пауза" title="Плей / пауза (space)" type="button">
             <svg class="control__icon  control__icon--play  control__icon--hide" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="-0.5 0 7 7">
               <path fill-rule="evenodd" d="M5.495 2.573 1.5.143C.832-.266 0 .25 0 1.068V5.93c0 .82.832 1.333 1.5.927l3.995-2.43c.673-.41.673-1.445 0-1.855"/>
             </svg>
-            <svg class="control__icon  control__icon--pause" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+            <svg class="control__icon  control__icon--pause" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
               <path fill-rule="evenodd" d="M20 5v14a3 3 0 0 1-3 3h-1a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3h1a3 3 0 0 1 3 3ZM8 2a3 3 0 0 1 3 3v14a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3h1Z" clip-rule="evenodd"/>
             </svg>
           </button>
           <button class="button  control__button  control__button--next" aria-label="Наступне відео" title="Наступне відео (>)" type="button">
-            <svg class="control__icon  control__icon--next" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="20" height="20" viewBox="0 0 512.003 512.003">
-              <path d="m509.712 250.182-119.467-128a8.525 8.525 0 0 0-6.238-2.714H247.474a8.53 8.53 0 0 0-7.885 5.265 8.502 8.502 0 0 0 1.852 9.301l121.958 121.967-121.958 121.967a8.502 8.502 0 0 0-1.852 9.301 8.53 8.53 0 0 0 7.885 5.265h136.533a8.522 8.522 0 0 0 6.238-2.714l119.467-128a8.535 8.535 0 0 0 0-11.638z"/>
-              <path d="m270.778 250.182-119.467-128a8.525 8.525 0 0 0-6.238-2.714H8.541a8.53 8.53 0 0 0-7.885 5.265 8.502 8.502 0 0 0 1.852 9.301l121.958 121.967L2.508 377.968a8.502 8.502 0 0 0-1.852 9.301 8.53 8.53 0 0 0 7.885 5.265h136.533a8.522 8.522 0 0 0 6.238-2.714l119.467-128a8.536 8.536 0 0 0-.001-11.638z"/>
+            <svg class="control__icon  control__icon--next" xmlns="http://www.w3.org/2000/svg" width="16" height="13" viewBox="0 0 16 13">
+              <path fill-rule="evenodd" d="M10.075 4.78 2.75.265C1.525-.494 0 .465 0 1.984v9.03c0 1.524 1.525 2.476 2.75 1.722l7.325-4.513c1.234-.762 1.234-2.682 0-3.444Z" clip-rule="evenodd"/>
+              <rect width="4" height="13" x="12" rx="2"/>
             </svg>
           </button>
           <div class="control__box">
@@ -105,6 +105,9 @@
             <svg class="control__icon  control__icon--size" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="m12 0 3.293 3.293-3.172 3.171 1.415 1.415 3.171-3.172L20 8V0h-8Zm1.536 12.121-1.415 1.415 3.172 3.171L12 20h8v-8l-3.293 3.293-3.171-3.172Zm-5.657 1.415-1.415-1.415-3.171 3.172L0 12v8h8l-3.293-3.293 3.172-3.171ZM6.464 7.879l1.415-1.415-3.172-3.171L8 0H0v8l3.293-3.293 3.171 3.172Z"/>
             </svg>
+            <svg class="control__icon  control__icon--min  control__icon--hide" xmlns="http://www.w3.org/2000/svg" width="20" height="20" preserveAspectRatio="xMidYMid" viewBox="0 0 31.812 31.906">
+              <path d="M23.263 9.969h4.56c.549 0 .994.446.994.997 0 .55-.361.94-.911.94h-6.752a1.015 1.015 0 0 1-.291.057.991.991 0 0 1-.703-.292.983.983 0 0 1-.254-.899V3.906c0-.551.407-.917.957-.917.549 0 .994.446.994.997v4.573l8.246-8.27a.993.993 0 0 1 1.406 0 1 1 0 0 1 0 1.41l-8.246 8.27ZM11.914 27.917a.995.995 0 1 1-1.988 0v-4.573L1.68 31.613a.99.99 0 0 1-1.406 0 1 1 0 0 1 0-1.41l8.246-8.269H3.96a.995.995 0 0 1-.994-.997c0-.551.444-.997.994-.997h6.961a.995.995 0 0 1 .917.616c.05.122.076.251.076.381v6.98Zm-.994-15.954c-.099 0-.196-.028-.291-.057H3.906c-.55 0-.94-.39-.94-.94 0-.551.444-.997.994-.997h4.56L.274 1.699a1 1 0 0 1 0-1.41.993.993 0 0 1 1.406 0l8.246 8.27V3.986a.995.995 0 1 1 1.988 0v6.979a.997.997 0 0 1-.994.998Zm9.254 8.259a.95.95 0 0 1 .689-.282h6.96c.549 0 .994.446.994.997a.995.995 0 0 1-.994.997h-4.56l8.246 8.269a1 1 0 0 1-.703 1.703.988.988 0 0 1-.703-.293l-8.246-8.269v4.573a.995.995 0 0 1-.994.997c-.55 0-.957-.457-.957-1.008V21.13a.982.982 0 0 1 .254-.898c.004-.004.01-.005.014-.01Z"/>
+            </svg>
           </button>
           <!-- <button class="button  control__button  control__button--cast" aria-label="Транслювати на інший пристрій" title="Транслювати на інший пристрій (с)" type="button">
             <svg class="control__icon  control__icon--size" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
@@ -113,19 +116,19 @@
           </button> -->
         </section>
       </section>
-
-      <div class="error  error--hide">
-        <p class="error__text">Текст помилки</p>
-        <!-- <p class="error__code">Код помилки</p> -->
-      </div>
     </main>
+
+    <div class="error  error--hide">
+      <p class="error__text">Текст помилки</p>
+      <!-- <p class="error__code">Код помилки</p> -->
+    </div>
 
     <footer class="footer">
       <!-- <fieldset class="switcher">
         <legend class="switcher__legend">Встановити тему</legend>
         <label>
           <svg class="footer__icon" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="25" height="25" viewBox="0 0 40 64">
-            <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <g stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
               <path d="m9.6 49 20.6-3c0-6.5 8.8-14.6 8.8-25.6C39 9.7 30.5 1 20 1S1 9.7 1 20.4c0 10.9 8.6 19 8.6 25.5V49h0zM11 53.3l18.8-2.9M11 57.2l18.8-2.9M27.3 60.1c0 1.6-3.1 2.9-7 2.9s-7-1.3-7-2.9"/>
               <path d="M17.4 41.8c0-12.4-3.5-16.8-3.5-16.8s1.4 3.1 3 3.1c1.7 0 3-1.4 3-3.1 0 1.7 1.4 3.1 3 3.1 1.7 0 3-3.1 3-3.1s-2.8 6.7-2.8 16.8"/>
             </g>
@@ -145,7 +148,7 @@
         <button class="button  footer__theme  footer__theme--active" data-theme="light" aria-label="Встановити світлу тему" title="Встановити світлу тему (l)" type="button" disabled>
           <span class="visually-hidden">Встановити світлу тему</span>
           <svg class="footer__icon" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="25" height="25" viewBox="0 0 40 64">
-            <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <g stroke-linecap="round" stroke-linejoin="round" stroke-width="2" fill="none">
               <path d="m9.6 49 20.6-3c0-6.5 8.8-14.6 8.8-25.6C39 9.7 30.5 1 20 1S1 9.7 1 20.4c0 10.9 8.6 19 8.6 25.5V49h0zM11 53.3l18.8-2.9M11 57.2l18.8-2.9M27.3 60.1c0 1.6-3.1 2.9-7 2.9s-7-1.3-7-2.9"/>
               <path d="M17.4 41.8c0-12.4-3.5-16.8-3.5-16.8s1.4 3.1 3 3.1c1.7 0 3-1.4 3-3.1 0 1.7 1.4 3.1 3 3.1 1.7 0 3-3.1 3-3.1s-2.8 6.7-2.8 16.8"/>
             </g>
@@ -163,6 +166,7 @@
     <nav class="settings  settings--hide" tabindex="0">
       <h2 class="visually-hidden">Меню налаштувань</h2>
       <button class="button  settings__close" aria-label="Закрити налаштування" title="Закрити налаштування (esc)" type="button">
+        <span class="visually-hidden">Закрити меню налаштувань</span>
         <svg class="settings__icon" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none" viewBox="0 0 24 24">
           <path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2Zm3.36 12.3c.29.29.29.77 0 1.06-.15.15-.34.22-.53.22s-.38-.07-.53-.22l-2.3-2.3-2.3 2.3c-.15.15-.34.22-.53.22s-.38-.07-.53-.22a.754.754 0 0 1 0-1.06l2.3-2.3-2.3-2.3a.754.754 0 0 1 0-1.06c.29-.29.77-.29 1.06 0l2.3 2.3 2.3-2.3c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06l-2.3 2.3 2.3 2.3Z"/>
         </svg>
@@ -236,13 +240,17 @@
           <ul class="settings__list">
             <li class="settings__item">Можливість обрати світлу чи темну тему</li>
             <li class="settings__item">Автоматичне встановлення теми на основі теми на пристрої</li>
-            <li class="settings__item">Усі відео та картинки оптимізовані для web</li>
+            <li class="settings__item">Усі відео та картинки оптимізовані для вебу</li>
             <li class="settings__item">Відео перероблені у кращій формат</li>
           </ul>
         </div>
 
         <div class="settings__tab" data-tab="patch">
           <p class="settings__sub">PATCH NOTES</p>
+          <p class="settings__text">
+            <time class="settings__time" datetime="2023.06.04">04.06.2023</time>
+            Додано контроли для перемикання відео (назад та вперед). Реалізован json з усіма відео, та інформацією про них. Тепер режим повного екрану має контроли, дякую Fonky за баг репорт &#128030; Працюю над інтерфейсом та оптимізацією.
+          </p>
           <p class="settings__text">
             <time class="settings__time" datetime="2023.05.30">30.05.2023</time>
             Нарешті ми маємо перше відео, тицяємо TheWitcher та Deep mode у налаштуваннях. Почав реалізовувати логіку переключення серії, додав json для спрощення контролю та відтворення відео.
@@ -267,7 +275,7 @@
       </div>
     </nav>
 
-    <video class="video__background"></video>
+    <!-- <video class="video__background"></video> -->
 
     <script src="js/script.min.js"></script>
   </body>
