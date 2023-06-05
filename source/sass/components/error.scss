@@ -4,6 +4,11 @@
   left: 50%;
   box-sizing: border-box;
   padding: 8px 20px;
+  margin: 0;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 300;
+  text-align: center;
   box-shadow: 0 0 10px 5px rgba($blue-button, 0.4);
   border-radius: 5px;
   background-color: rgba($blue-button, 0.5);
@@ -17,27 +22,16 @@
   }
 }
 
-.error__text {
-  margin: 0;
-  font-size: 14px;
-  font-weight: 300;
-  text-align: center;
-}
-
-.error__code {
-  margin: 0;
-  font-weight: 300;
-  font-size: 14px;
-  text-align: center;
+@media (min-width: $tablet-width) {
+  .error {
+    font-size: 16px;
+  }
 }
 
 @media (min-width: $desktop-width) {
   .error {
-    bottom: 63px;
-    padding: 10px 25px;
-  }
-
-  .error__text {
-    font-size: 18px;
+    bottom: 56px;
+    padding: 15px 30px;
+    font-size: 22px;
   }
 }

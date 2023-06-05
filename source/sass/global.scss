@@ -11,7 +11,7 @@ body {
   font-size: 16px;
   font-weight: 400;
   font-family: "Roboto","Arial",sans-serif;
-  background-color: #f8f0fb;
+  background-color: #F8F0FB;
   transition: 0.5s;
 }
 
@@ -21,7 +21,7 @@ body {
 }
 
 *::-webkit-scrollbar-track {
-  background-color: transparent;
+  background-color: #F8F0FB;
 }
 
 *::-webkit-scrollbar-thumb {
@@ -46,9 +46,4 @@ img {
   clip-path: inset(100%);
   clip: rect(0 0 0 0);
   overflow: hidden;
-}
-
-@mixin container {
-  box-sizing: border-box;
-  margin: 0 auto;
 }

@@ -2,20 +2,29 @@
 const prevButton = CONTROLS.querySelector('.control__button--prev');
 const nextButton = CONTROLS.querySelector('.control__button--next');
 
-// let currentCategory = 'TheWitcher';
-// let currentSubcategory = 'main';
-// let currentVideoIndex = 0;
-// let data = null;
+let currentCategory = 'TheWitcher';
+let currentSubcategory = 'deep';
+let currentVideoIndex = 0;
+let data = null;
 
 fetch('videos.json')
-  .then(response => response.json())
+  .then(response => {
+    if (!response.ok) {
+      showError('Помилка загрузки json &#128531;');
+      throw new Error('Failed to load videos.json');
+    }
+    return response.json();
+  })
   .then(videoData => {
     data = videoData;
     currentCategory = 'TheWitcher';
-    currentSubcategory = 'main';
+    currentSubcategory = 'deep';
     currentVideoIndex = 0;
 
     playCurrentVideo();
+  })
+  .catch(error => {
+    console.error('An error occurred:', error);
   });
 
 function playCurrentVideo() {

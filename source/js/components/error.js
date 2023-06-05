@@ -1,9 +1,7 @@
 // Error
-const errorText = ERROR.querySelector('.error__text');
-// const errorCode = ERROR.querySelector('.error__code');
-
-function showError() {
+function showError(errorMessage) {
   ERROR.classList.remove('error--hide');
+  ERROR.innerHTML = errorMessage;
 
   setTimeout(() => {
     ERROR.classList.add('error--hide');

@@ -46,6 +46,18 @@
   transition: .3s;
   transform-style: preserve-3d;
 
+  &:fullscreen {
+    border-radius: 0;
+
+    .video {
+      border-radius: 0;
+    }
+
+    .control {
+      border-radius: 0;
+    }
+  }
+
   &:hover {
 
     .control {
@@ -107,6 +119,7 @@
   &--hide {
     background-color: transparent;
     opacity: 0;
+    z-index: -1;
   }
 
   &::before {

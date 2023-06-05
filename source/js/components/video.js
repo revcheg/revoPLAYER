@@ -93,15 +93,14 @@ VIDEO.addEventListener('ended', endVideo);
 function errorVideo() {
   WRAPPER.classList.add('video__wrapper--error');
 
-  errorText.innerHTML = 'Помилка відео';
-  showError();
+  showError('Помилка відео &#128528;');
 }
 
 function removeErrorVideo() {
   WRAPPER.classList.remove('video__wrapper--error');
 }
 
-VIDEO.addEventListener('error', errorVideo);
+// VIDEO.addEventListener('error', errorVideo);
 VIDEO.addEventListener('loadeddata', removeErrorVideo);
 
 // Pause

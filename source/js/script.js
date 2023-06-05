@@ -12,99 +12,6 @@ const CONTROLS = document.querySelector('.control');
 
 const ERROR = document.querySelector('.error');
 
-// Autoplay video list
-const prevButton = CONTROLS.querySelector('.control__button--prev');
-const nextButton = CONTROLS.querySelector('.control__button--next');
-
-// let currentCategory = 'TheWitcher';
-// let currentSubcategory = 'main';
-// let currentVideoIndex = 0;
-// let data = null;
-
-fetch('videos.json')
-  .then(response => response.json())
-  .then(videoData => {
-    data = videoData;
-    currentCategory = 'TheWitcher';
-    currentSubcategory = 'main';
-    currentVideoIndex = 0;
-
-    playCurrentVideo();
-  });
-
-function playCurrentVideo() {
-  const currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
-  // const videoTitle = currentVideo.title;
-  const videoUrl = currentVideo.url;
-  const videoDescription = currentVideo.description;
-
-  // VIDEO.setAttribute('title', videoTitle);
-  VIDEO.setAttribute('src', videoUrl);
-  VIDEO.setAttribute('alt', videoDescription);
-}
-
-function nextVideo() {
-  resetVideo();
-  currentVideoIndex++;
-  if (currentVideoIndex >= data[currentCategory][currentSubcategory].length) {
-    const subcategories = Object.keys(data[currentCategory]);
-    const currentSubcategoryIndex = subcategories.indexOf(currentSubcategory);
-
-    if (currentSubcategoryIndex < subcategories.length - 1) {
-      currentSubcategory = subcategories[currentSubcategoryIndex + 1];
-      currentVideoIndex = 0;
-    } else {
-      const categories = Object.keys(data);
-      const currentCategoryIndex = categories.indexOf(currentCategory);
-
-      if (currentCategoryIndex < categories.length - 1) {
-        currentCategory = categories[currentCategoryIndex + 1];
-        currentSubcategory = Object.keys(data[currentCategory])[0];
-        currentVideoIndex = 0;
-      } else {
-        currentCategory = categories[0];
-        currentSubcategory = Object.keys(data[currentCategory])[0];
-        currentVideoIndex = 0;
-      }
-    }
-  }
-  playCurrentVideo();
-}
-
-function previousVideo() {
-  resetVideo();
-  if (currentVideoIndex > 0) {
-    currentVideoIndex--;
-  } else {
-    const subcategories = Object.keys(data[currentCategory]);
-    const currentSubcategoryIndex = subcategories.indexOf(currentSubcategory);
-
-    if (currentSubcategoryIndex > 0) {
-      currentSubcategory = subcategories[currentSubcategoryIndex - 1];
-      currentVideoIndex = data[currentCategory][currentSubcategory].length - 1;
-    } else {
-      const categories = Object.keys(data);
-      const currentCategoryIndex = categories.indexOf(currentCategory);
-
-      if (currentCategoryIndex > 0) {
-        currentCategory = categories[currentCategoryIndex - 1];
-        const previousSubcategory = Object.keys(data[currentCategory]).pop();
-        currentSubcategory = previousSubcategory;
-        currentVideoIndex = data[currentCategory][previousSubcategory].length - 1;
-      } else {
-        currentCategory = categories[categories.length - 1];
-        const previousSubcategory = Object.keys(data[currentCategory]).pop();
-        currentSubcategory = previousSubcategory;
-        currentVideoIndex = data[currentCategory][previousSubcategory].length - 1;
-      }
-    }
-  }
-  playCurrentVideo();
-}
-
-prevButton.addEventListener('click', previousVideo);
-nextButton.addEventListener('click', nextVideo);
-
 // const backgroundVideo = document.querySelector('.video__background');
 
 // const castButton = CONTROLS.querySelector('.control__button--cast');
@@ -286,13 +193,18 @@ VIDEO.addEventListener('dblclick', changeFullscreen);
 // Mouse
 let mouseStoppedTimer;
 
-const handleMouseMove = () => {
+function handleMouseMove(event) {
   clearTimeout(mouseStoppedTimer);
-  showControls();
 
-  mouseStoppedTimer = setTimeout(() => {
-    hideControls();
-  }, 2000);
+  const isMouseOnControls = event.target === CONTROLS || CONTROLS.contains(event.target);
+
+  if (!isMouseOnControls) {
+    showControls();
+
+    mouseStoppedTimer = setTimeout(() => {
+      hideControls();
+    }, 3000);
+  }
 };
 
 function showControls() {
@@ -309,14 +221,12 @@ function hideControls() {
   VIDEO.style.cursor = 'none';
 };
 
-VIDEO.addEventListener("mousemove", handleMouseMove);
+WRAPPER.addEventListener("mousemove", handleMouseMove);
 
 // Error
-const errorText = ERROR.querySelector('.error__text');
-// const errorCode = ERROR.querySelector('.error__code');
-
-function showError() {
+function showError(errorMessage) {
   ERROR.classList.remove('error--hide');
+  ERROR.innerHTML = errorMessage;
 
   setTimeout(() => {
     ERROR.classList.add('error--hide');
@@ -366,6 +276,108 @@ function isSupportedFileType(fileType) {
   let supportedFormats = ['video/mp4', 'video/webm'];
   return supportedFormats.includes(fileType);
 }
+
+// Autoplay video list
+const prevButton = CONTROLS.querySelector('.control__button--prev');
+const nextButton = CONTROLS.querySelector('.control__button--next');
+
+let currentCategory = 'TheWitcher';
+let currentSubcategory = 'deep';
+let currentVideoIndex = 0;
+let data = null;
+
+fetch('videos.json')
+  .then(response => {
+    if (!response.ok) {
+      showError('Помилка загрузки json &#128531;');
+      throw new Error('Failed to load videos.json');
+    }
+    return response.json();
+  })
+  .then(videoData => {
+    data = videoData;
+    currentCategory = 'TheWitcher';
+    currentSubcategory = 'deep';
+    currentVideoIndex = 0;
+
+    playCurrentVideo();
+  })
+  .catch(error => {
+    console.error('An error occurred:', error);
+  });
+
+function playCurrentVideo() {
+  const currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
+  // const videoTitle = currentVideo.title;
+  const videoUrl = currentVideo.url;
+  const videoDescription = currentVideo.description;
+
+  // VIDEO.setAttribute('title', videoTitle);
+  VIDEO.setAttribute('src', videoUrl);
+  VIDEO.setAttribute('alt', videoDescription);
+}
+
+function nextVideo() {
+  resetVideo();
+  currentVideoIndex++;
+  if (currentVideoIndex >= data[currentCategory][currentSubcategory].length) {
+    const subcategories = Object.keys(data[currentCategory]);
+    const currentSubcategoryIndex = subcategories.indexOf(currentSubcategory);
+
+    if (currentSubcategoryIndex < subcategories.length - 1) {
+      currentSubcategory = subcategories[currentSubcategoryIndex + 1];
+      currentVideoIndex = 0;
+    } else {
+      const categories = Object.keys(data);
+      const currentCategoryIndex = categories.indexOf(currentCategory);
+
+      if (currentCategoryIndex < categories.length - 1) {
+        currentCategory = categories[currentCategoryIndex + 1];
+        currentSubcategory = Object.keys(data[currentCategory])[0];
+        currentVideoIndex = 0;
+      } else {
+        currentCategory = categories[0];
+        currentSubcategory = Object.keys(data[currentCategory])[0];
+        currentVideoIndex = 0;
+      }
+    }
+  }
+  playCurrentVideo();
+}
+
+function previousVideo() {
+  resetVideo();
+  if (currentVideoIndex > 0) {
+    currentVideoIndex--;
+  } else {
+    const subcategories = Object.keys(data[currentCategory]);
+    const currentSubcategoryIndex = subcategories.indexOf(currentSubcategory);
+
+    if (currentSubcategoryIndex > 0) {
+      currentSubcategory = subcategories[currentSubcategoryIndex - 1];
+      currentVideoIndex = data[currentCategory][currentSubcategory].length - 1;
+    } else {
+      const categories = Object.keys(data);
+      const currentCategoryIndex = categories.indexOf(currentCategory);
+
+      if (currentCategoryIndex > 0) {
+        currentCategory = categories[currentCategoryIndex - 1];
+        const previousSubcategory = Object.keys(data[currentCategory]).pop();
+        currentSubcategory = previousSubcategory;
+        currentVideoIndex = data[currentCategory][previousSubcategory].length - 1;
+      } else {
+        currentCategory = categories[categories.length - 1];
+        const previousSubcategory = Object.keys(data[currentCategory]).pop();
+        currentSubcategory = previousSubcategory;
+        currentVideoIndex = data[currentCategory][previousSubcategory].length - 1;
+      }
+    }
+  }
+  playCurrentVideo();
+}
+
+prevButton.addEventListener('click', previousVideo);
+nextButton.addEventListener('click', nextVideo);
 
 // Keyboard
 let videoKey;
@@ -782,14 +794,19 @@ scaleCheckbox.addEventListener('change', setupScale);
 // BODY.addEventListener('deviceorientation', movingMobileVideo);
 
 // Start
+// const srcRegex = /^(http:|https:|file:).*/;
+const srcRegex = /^(file:).*/;
+
 function startVideo() {
-  if (VIDEO.src === '' || VIDEO.src.includes('undefined')) {
+  // if (!VIDEO.src || VIDEO.src === '' || VIDEO.src.length === 0 || typeof VIDEO.src === 'undefined') {
+  // if (srcRegex.test(VIDEO.src) || VIDEO.src === '' || !VIDEO.hasAttribute('src')) {
+  if (!VIDEO.hasAttribute('src') || VIDEO.src === '') {
     openButton.focus();
     openButton.classList.add('header__menu--error');
     setTimeout(() => {
       openButton.classList.remove('header__menu--error');
     }, 2000);
-  } else if (VIDEO.src && VIDEO.readyState >= VIDEO.HAVE_CURRENT_DATA) {
+  } else if (VIDEO.readyState >= VIDEO.HAVE_CURRENT_DATA) {
     openButton.classList.remove('header__menu--error');
     STARTBUTTON.classList.add('video__start--hide');
     CONTROLS.classList.remove('control--off', 'control--hide');
@@ -1007,15 +1024,14 @@ VIDEO.addEventListener('ended', endVideo);
 function errorVideo() {
   WRAPPER.classList.add('video__wrapper--error');
 
-  errorText.innerHTML = 'Помилка відео';
-  showError();
+  showError('Помилка відео &#128528;');
 }
 
 function removeErrorVideo() {
   WRAPPER.classList.remove('video__wrapper--error');
 }
 
-VIDEO.addEventListener('error', errorVideo);
+// VIDEO.addEventListener('error', errorVideo);
 VIDEO.addEventListener('loadeddata', removeErrorVideo);
 
 // Pause

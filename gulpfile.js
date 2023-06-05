@@ -100,6 +100,7 @@ const copy = (done) => {
     'source/img/favicons/*.svg',
     'source/apple-touch-icon.png',
     'source/player.webmanifest',
+    'source/video/**/*.webm',
     'source/videos.json',
     'source/browserconfig.xml',
   ], {

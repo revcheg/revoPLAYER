@@ -158,13 +158,18 @@ VIDEO.addEventListener('dblclick', changeFullscreen);
 // Mouse
 let mouseStoppedTimer;
 
-const handleMouseMove = () => {
+function handleMouseMove(event) {
   clearTimeout(mouseStoppedTimer);
-  showControls();
 
-  mouseStoppedTimer = setTimeout(() => {
-    hideControls();
-  }, 2000);
+  const isMouseOnControls = event.target === CONTROLS || CONTROLS.contains(event.target);
+
+  if (!isMouseOnControls) {
+    showControls();
+
+    mouseStoppedTimer = setTimeout(() => {
+      hideControls();
+    }, 3000);
+  }
 };
 
 function showControls() {
@@ -181,4 +186,4 @@ function hideControls() {
   VIDEO.style.cursor = 'none';
 };
 
-VIDEO.addEventListener("mousemove", handleMouseMove);
+WRAPPER.addEventListener("mousemove", handleMouseMove);
