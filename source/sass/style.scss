@@ -3,8 +3,6 @@
 @import "fonts.scss";
 @import "variables.scss";
 
-@import "dark.scss";
-
 // Components
 @import "components/header.scss";
 @import "components/button.scss";
@@ -14,5 +12,5 @@
 @import "components/control.scss";
 @import "components/footer.scss";
 
-@import "components/tooltip.scss";
+// @import "components/tooltip.scss";
 @import "components/error.scss";

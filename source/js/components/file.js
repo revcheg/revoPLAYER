@@ -1,58 +1,55 @@
 // File
-let FILE;
-let FILETYPE;
-let FILEURL;
-let FILESIZE;
-
-// let selectedVideos = [];
-
-const MAX_FILE_SIZE = 5368709120;
-
 const INPUTFILE = document.querySelector('.settings__file');
 
-INPUTFILE.addEventListener('click', function () {
-  resetVideo();
-});
+let selectedVideos = [];
 
-INPUTFILE.addEventListener('change', function () {
-  FILE = INPUTFILE.files[0];
-  FILEURL = URL.createObjectURL(FILE);
-  FILETYPE = INPUTFILE.files[0].type.replace('video/', '');
-  FILESIZE = FILE.size;
-  validateFILE(FILE);
-});
+function handleFileSelection(event) {
+  let files = event.target.files;
 
-// function handleFileSelection(event) {
-//   const files = event.target.files;
-//   selectedVideos = Array.from(files);
-//   currentVideoIndex = 0;
-//   playSelectedVideo();
-// }
+  Array.from(files).forEach(file => {
+    let fileUrl = URL.createObjectURL(file);
 
-// function playSelectedVideo() {
-//   const selectedVideo = selectedVideos[currentVideoIndex];
-//   const videoUrl = URL.createObjectURL(selectedVideo);
-//   VIDEO.src = videoUrl;
-// }
+    selectedVideos.push({
+      file: file,
+      url: fileUrl,
+      name: file.name,
+      type: file.type,
+      size: file.size
+    });
+  });
 
-// INPUTFILE.addEventListener('change', handleFileSelection);
+  validateFiles(selectedVideos);
+};
 
-function validateFILE(FILE) {
-  if (FILESIZE < MAX_FILE_SIZE) {
-    if (!isSupportedFileType(FILE.type)) {
-      showError('Непідтримуваний тип файлу');
+INPUTFILE.addEventListener('click', resetVideo);
+INPUTFILE.addEventListener('change', handleFileSelection);
+
+// Validate
+let fileSize;
+let fileType;
+const MAX_FILE_SIZE = 5368709120;
+
+function validateFiles(videos) {
+  videos.forEach(video => {
+    fileSize = video.file.size;
+    fileType = video.file.type;
+
+    if (fileSize > MAX_FILE_SIZE) {
+      showError('Файл завеликий');
       INPUTFILE.value = '';
     } else {
-      VIDEO.src = FILEURL;
-      VIDEO.setAttribute('crossorigin', 'anonymous');
+      if (!isSupportedFileType(fileType)) {
+        showError('Непідтримуваний тип файлу');
+        INPUTFILE.value = '';
+      } else {
+        VIDEO.setAttribute('crossorigin', 'anonymous');
+        playCurrentVideo();
+      }
     }
-  } else {
-    showError('Файл завеликий');
-    INPUTFILE.value = '';
-  }
-}
+  });
+};
 
 function isSupportedFileType(fileType) {
   let supportedFormats = ['video/mp4', 'video/webm', 'video/mov'];
   return supportedFormats.includes(fileType);
-}
+};

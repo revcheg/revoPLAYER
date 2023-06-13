@@ -11,9 +11,10 @@ function startProgress() {
 function updateProgress() {
   // Buffer
   videoBuffer = Math.round(VIDEO.buffered.end(0));
+  statisticsBuffer.innerHTML = videoBuffer;
+
   videoCurrentTime = Math.round(VIDEO.currentTime);
   VIDEORANGE.value = videoCurrentTime;
-  statisticsBuffer.innerHTML = videoBuffer;
 
   // Duration
   currentVideoPassed = formatTime(videoCurrentTime);

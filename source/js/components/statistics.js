@@ -19,8 +19,8 @@ const statisticsBuffer = STATISTICS.querySelector('.statistics__buffer');
 function getStatistics() {
   STATISTICS.classList.remove('statistics--hide');
 
-  if (FILETYPE) {
-    videoFormat = FILETYPE;
+  if (fileType) {
+    videoFormat = fileType.replace('video/', '');
   } else {
     videoFormat = VIDEO.src.split('.').pop();
   }

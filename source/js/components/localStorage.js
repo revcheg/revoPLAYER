@@ -1,28 +1,12 @@
 // Save/Load theme
-// Save theme
 function saveScheme(scheme) {
-  localStorage.setItem('localTheme', scheme);
-  
-  // Old
-  localStorage.setItem('localButton', buttonIndex);
-}
-
-// Load theme
-function loadScheme() {
-  if (localStorage) {
-    const localTheme = localStorage.getItem('localTheme');
-    setScheme(localTheme);
-
-    // Old
-    const localButton = localStorage.getItem('localButton');
-    setButton(localButton);
-  }
+	localStorage.setItem('color-scheme', scheme);
 }
 
 function getSavedScheme() {
-  return localStorage.getItem('localTheme');
+	return localStorage.getItem('color-scheme');
 }
 
 function clearScheme() {
-  localStorage.removeItem('localTheme');
+	localStorage.removeItem('color-scheme');
 }

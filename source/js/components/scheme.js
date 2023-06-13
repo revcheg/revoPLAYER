@@ -1,65 +1,81 @@
-// Scheme
-let scheme = 'light';
-let buttonIndex;
+// Scheme BETA
+const favicon = document.querySelector('link[href="img/favicons/favicon.svg"]');
 
-const themeButtons = document.querySelectorAll('.footer__theme');
+const lightStyles = document.querySelectorAll('link[rel=stylesheet][media*=prefers-color-scheme][media*=light]');
+const darkStyles = document.querySelectorAll('link[rel=stylesheet][media*=prefers-color-scheme][media*=dark]');
 
-// Check client scheme
-if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-  scheme = 'dark';
-} else {
-  scheme = 'light';
+const schemeRadios = document.querySelectorAll('.footer__scheme');
+const darkScheme = matchMedia('(prefers-color-scheme: dark)').matches;
+
+function setupSwitcher() {
+  const savedScheme = getSavedScheme();
+
+  if (savedScheme !== null) {
+    const currentRadio = document.querySelector(`.footer__scheme[value=${savedScheme}]`);
+    currentRadio.checked = true;
+  } else {
+		const currentRadio = document.querySelector(`.footer__scheme[value=auto]`);
+		currentRadio.checked = true;
+	}
+
+  [...schemeRadios].forEach((radio) => {
+    radio.addEventListener('change', (event) => {
+			setScheme(event.target.value);
+    });
+  });
 }
 
-// Set button
-themeButtons.forEach(function (button, index) {
-  button.addEventListener('click', function () {
-    buttonIndex = Array.from(themeButtons).indexOf(button);
-    scheme = this.getAttribute('data-theme');
+function setupScheme() {
+  const savedScheme = getSavedScheme();
+  const systemScheme = getSystemScheme();
 
-    setButton(buttonIndex);
-    setScheme(scheme);
-    saveScheme(scheme);
-  });
-});
+  if (savedScheme === null) return;
 
-function setButton() {
-  themeButtons.forEach((button) => {
-    button.removeAttribute('disabled');
-    button.classList.remove('footer__theme--active');
-  });
-  
-  themeButtons[buttonIndex].setAttribute('disabled', 'disabled'); 
-  themeButtons[buttonIndex].classList.add('footer__theme--active');
-}
-
-// Set scheme
-let favicon = document.querySelector('link[href="img/favicons/favicon.svg"]');
-
-function setScheme(scheme) {
-  BODY.className = '';
-
-  switch (scheme) {
-    case 'light':
-      BODY.classList.add(scheme);
-      buttonIndex = 0;
-      favicon.href = 'img/favicons/favicon.svg'
-      break;
-
-    case 'dark':
-      BODY.classList.add(scheme);
-      buttonIndex = 1;
-      favicon.href = 'img/favicons/favicon-dark.svg'
-      break;
-
-    case 'cyberpunk':
-      BODY.classList.add(scheme);
-      buttonIndex = 2;
-      break;
+  if (savedScheme !== systemScheme) {
+    setScheme(savedScheme);
   }
 }
 
-setScheme(scheme);
-setButton(buttonIndex);
+function setScheme(scheme) {
+  switchMedia(scheme);
 
-loadScheme();
+  if (scheme === 'auto') {
+    clearScheme();
+  } else {
+    saveScheme(scheme);
+  }
+}
+
+function switchMedia(scheme) {
+	let lightMedia;
+	let darkMedia;
+
+	if (scheme === 'auto') {
+		lightMedia = '(prefers-color-scheme: light)';
+		darkMedia = '(prefers-color-scheme: dark)';
+	} else {
+		lightMedia = (scheme === 'light') ? 'all' : 'not all';
+		darkMedia = (scheme === 'dark') ? 'all' : 'not all';
+	}
+
+	[...lightStyles].forEach((link) => {
+			link.media = lightMedia;
+	});
+
+	[...darkStyles].forEach((link) => {
+			link.media = darkMedia;
+	});
+
+	if (scheme === 'dark') {
+		favicon.href = 'img/favicons/favicon-dark.svg';
+	} else {
+		favicon.href = 'img/favicons/favicon.svg';
+	}
+}
+
+function getSystemScheme() {
+	return darkScheme ? 'dark' : 'light';
+}
+
+setupSwitcher();
+setupScheme();

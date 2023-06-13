@@ -142,15 +142,33 @@ VIDEORANGE.addEventListener('change', function () {
 });
 
 VIDEORANGE.addEventListener('input', function () {
-  let inputDuration = VIDEORANGE.value;
-  VIDEO.currentTime = inputDuration;
+  rangeValue = VIDEORANGE.value;
 
-  currentVideoPassed = formatTime(inputDuration);
-  currentVideoLeft = formatTime(videoDuration - inputDuration);
+  currentVideoPassed = formatTime(rangeValue);
+  currentVideoLeft = formatTime(videoDuration - rangeValue);
 
   videoPassed.innerHTML = currentVideoPassed;
   videoLeft.innerHTML = currentVideoLeft;
 });
+
+// Zoom
+const fillButton = CONTROLS.querySelector('.control__button--fit');
+
+function changeFitscreen() {
+  let currentFit = VIDEO.style.objectFit;
+  let newFit = currentFit === 'cover' ? 'contain' : 'cover';
+  VIDEO.style.objectFit = newFit;
+
+  if (newFit === 'contain') {
+    fillButton.setAttribute('aria-label', 'Збільшити зображення');
+    fillButton.setAttribute('title', 'Збільшити зображення (z)');
+  } else {
+    fillButton.setAttribute('aria-label', 'Зменшити зображення');
+    fillButton.setAttribute('title', 'Зменшити зображення (z)');
+  }
+};
+
+fillButton.addEventListener('click', changeFitscreen);
 
 // Full screen
 const fullButton = CONTROLS.querySelector('.control__button--size');
@@ -176,6 +194,8 @@ function exitFullscreen() {
 function changeFullscreen() {
   if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement) {
     exitFullscreen();
+    fullButton.setAttribute('aria-label', 'На весь екран');
+    fullButton.setAttribute('title', 'На весь екран (f)');
     fullButtonSize.classList.toggle('control__icon--hide');
     fullButtonMin.classList.toggle('control__icon--hide');
   } else {
@@ -222,6 +242,57 @@ function hideControls() {
 };
 
 WRAPPER.addEventListener("mousemove", handleMouseMove);
+WRAPPER.addEventListener("mouseleave", hideControls);
+
+// Touch, object fit
+let startX = null;
+let startY = null;
+let direction;
+
+function handleTouchStart(event) {
+  startX = event.touches[0].clientX;
+  startY = event.touches[0].clientY;
+};
+
+function handleTouchMove (event) {
+  let currentX = event.touches[0].clientX;
+  let currentY = event.touches[0].clientY;
+
+  let deltaX = currentX - startX;
+  let deltaY = currentY - startY;
+
+  if (Math.abs(deltaX) > Math.abs(deltaY)) {
+    if (deltaX > 0) {
+      direction = 'right';
+    } else {
+      direction = 'left';
+    }
+  } else {
+    if (deltaY > 0) {
+      direction = 'down';
+    } else {
+      direction = 'up';
+    }
+  }
+
+  if (direction === 'right') {
+    VIDEO.style.objectFit = 'contain';
+  } else if (direction === 'left') {
+    VIDEO.style.objectFit = 'cover';
+  }
+
+  startX = currentX;
+  startY = currentY;
+};
+
+function handleTouchEnd() {
+  startX = null;
+  startY = null;
+};
+
+VIDEO.addEventListener('touchstart', handleTouchStart);
+VIDEO.addEventListener('touchmove', handleTouchMove);
+VIDEO.addEventListener('touchend', handleTouchEnd);
 
 // Error
 function showError(errorMessage) {
@@ -234,63 +305,60 @@ function showError(errorMessage) {
 }
 
 // File
-let FILE;
-let FILETYPE;
-let FILEURL;
-let FILESIZE;
-
-// let selectedVideos = [];
-
-const MAX_FILE_SIZE = 5368709120;
-
 const INPUTFILE = document.querySelector('.settings__file');
 
-INPUTFILE.addEventListener('click', function () {
-  resetVideo();
-});
+let selectedVideos = [];
 
-INPUTFILE.addEventListener('change', function () {
-  FILE = INPUTFILE.files[0];
-  FILEURL = URL.createObjectURL(FILE);
-  FILETYPE = INPUTFILE.files[0].type.replace('video/', '');
-  FILESIZE = FILE.size;
-  validateFILE(FILE);
-});
+function handleFileSelection(event) {
+  let files = event.target.files;
 
-// function handleFileSelection(event) {
-//   const files = event.target.files;
-//   selectedVideos = Array.from(files);
-//   currentVideoIndex = 0;
-//   playSelectedVideo();
-// }
+  Array.from(files).forEach(file => {
+    let fileUrl = URL.createObjectURL(file);
 
-// function playSelectedVideo() {
-//   const selectedVideo = selectedVideos[currentVideoIndex];
-//   const videoUrl = URL.createObjectURL(selectedVideo);
-//   VIDEO.src = videoUrl;
-// }
+    selectedVideos.push({
+      file: file,
+      url: fileUrl,
+      name: file.name,
+      type: file.type,
+      size: file.size
+    });
+  });
 
-// INPUTFILE.addEventListener('change', handleFileSelection);
+  validateFiles(selectedVideos);
+};
 
-function validateFILE(FILE) {
-  if (FILESIZE < MAX_FILE_SIZE) {
-    if (!isSupportedFileType(FILE.type)) {
-      showError('Непідтримуваний тип файлу');
+INPUTFILE.addEventListener('click', resetVideo);
+INPUTFILE.addEventListener('change', handleFileSelection);
+
+// Validate
+let fileSize;
+let fileType;
+const MAX_FILE_SIZE = 5368709120;
+
+function validateFiles(videos) {
+  videos.forEach(video => {
+    fileSize = video.file.size;
+    fileType = video.file.type;
+
+    if (fileSize > MAX_FILE_SIZE) {
+      showError('Файл завеликий');
       INPUTFILE.value = '';
     } else {
-      VIDEO.src = FILEURL;
-      VIDEO.setAttribute('crossorigin', 'anonymous');
+      if (!isSupportedFileType(fileType)) {
+        showError('Непідтримуваний тип файлу');
+        INPUTFILE.value = '';
+      } else {
+        VIDEO.setAttribute('crossorigin', 'anonymous');
+        playCurrentVideo();
+      }
     }
-  } else {
-    showError('Файл завеликий');
-    INPUTFILE.value = '';
-  }
-}
+  });
+};
 
 function isSupportedFileType(fileType) {
   let supportedFormats = ['video/mp4', 'video/webm', 'video/mov'];
   return supportedFormats.includes(fileType);
-}
+};
 
 // Autoplay video list
 const prevButton = CONTROLS.querySelector('.control__button--prev');
@@ -302,58 +370,73 @@ let currentVideoIndex = 0;
 let data = null;
 
 fetch('videos.json')
-  .then(response => {
-    if (!response.ok) {
-      showError('Помилка загрузки json &#128531;');
-      throw new Error('Failed to load videos.json');
-    }
-    return response.json();
-  })
-  .then(videoData => {
-    data = videoData;
-    currentCategory = 'TheWitcher';
-    currentSubcategory = 'deep';
-    currentVideoIndex = 0;
+	.then(response => {
+		if (!response.ok) {
+			showError('Помилка загрузки json &#128531;');
+			throw new Error('Failed to load videos.json');
+		}
+		return response.json();
+	})
+	.then(videoData => {
+		data = videoData;
+		currentCategory = 'TheWitcher';
+		currentSubcategory = 'deep';
+		currentVideoIndex = 0;
+		playCurrentVideo();
+	})
+	.catch(error => {
+		console.error('An error occurred:', error);
+	});
 
-    playCurrentVideo();
-  })
-  .catch(error => {
-    console.error('An error occurred:', error);
-  });
 
 function playCurrentVideo() {
-  const currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
-  // const videoTitle = currentVideo.title;
-  const videoUrl = currentVideo.url;
-  const videoDescription = currentVideo.description;
+  let currentVideo;
 
-  // VIDEO.setAttribute('title', videoTitle);
-  VIDEO.setAttribute('src', videoUrl);
-  VIDEO.setAttribute('alt', videoDescription);
-}
+  if (selectedVideos.length > 0) {
+    currentVideo = selectedVideos[currentVideoIndex];
+  } else {
+    currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
+  }
+
+  VIDEO.setAttribute('src', currentVideo.url);
+  VIDEO.setAttribute('alt', currentVideo.description);
+
+  VIDEO.addEventListener('error', () => {
+    showError('Не вдалося завантажити відео &#128531;');
+  });
+};
 
 function nextVideo() {
   resetVideo();
-  currentVideoIndex++;
-  if (currentVideoIndex >= data[currentCategory][currentSubcategory].length) {
-    const subcategories = Object.keys(data[currentCategory]);
-    const currentSubcategoryIndex = subcategories.indexOf(currentSubcategory);
+  if (selectedVideos.length > 0) {
+    currentVideoIndex++;
 
-    if (currentSubcategoryIndex < subcategories.length - 1) {
-      currentSubcategory = subcategories[currentSubcategoryIndex + 1];
+    if (currentVideoIndex >= selectedVideos.length) {
       currentVideoIndex = 0;
-    } else {
-      const categories = Object.keys(data);
-      const currentCategoryIndex = categories.indexOf(currentCategory);
+    }
+  } else {
+    currentVideoIndex++;
 
-      if (currentCategoryIndex < categories.length - 1) {
-        currentCategory = categories[currentCategoryIndex + 1];
-        currentSubcategory = Object.keys(data[currentCategory])[0];
+    if (currentVideoIndex >= data[currentCategory][currentSubcategory].length) {
+      const subcategories = Object.keys(data[currentCategory]);
+      const currentSubcategoryIndex = subcategories.indexOf(currentSubcategory);
+
+      if (currentSubcategoryIndex < subcategories.length - 1) {
+        currentSubcategory = subcategories[currentSubcategoryIndex + 1];
         currentVideoIndex = 0;
       } else {
-        currentCategory = categories[0];
-        currentSubcategory = Object.keys(data[currentCategory])[0];
-        currentVideoIndex = 0;
+        const categories = Object.keys(data);
+        const currentCategoryIndex = categories.indexOf(currentCategory);
+
+        if (currentCategoryIndex < categories.length - 1) {
+          currentCategory = categories[currentCategoryIndex + 1];
+          currentSubcategory = Object.keys(data[currentCategory])[0];
+          currentVideoIndex = 0;
+        } else {
+          currentCategory = categories[0];
+          currentSubcategory = Object.keys(data[currentCategory])[0];
+          currentVideoIndex = 0;
+        }
       }
     }
   }
@@ -362,29 +445,37 @@ function nextVideo() {
 
 function previousVideo() {
   resetVideo();
-  if (currentVideoIndex > 0) {
+  if (selectedVideos.length > 0) {
     currentVideoIndex--;
+
+    if (currentVideoIndex < 0) {
+      currentVideoIndex = selectedVideos.length - 1;
+    }
   } else {
-    const subcategories = Object.keys(data[currentCategory]);
-    const currentSubcategoryIndex = subcategories.indexOf(currentSubcategory);
-
-    if (currentSubcategoryIndex > 0) {
-      currentSubcategory = subcategories[currentSubcategoryIndex - 1];
-      currentVideoIndex = data[currentCategory][currentSubcategory].length - 1;
+    if (currentVideoIndex > 0) {
+      currentVideoIndex--;
     } else {
-      const categories = Object.keys(data);
-      const currentCategoryIndex = categories.indexOf(currentCategory);
+      const subcategories = Object.keys(data[currentCategory]);
+      const currentSubcategoryIndex = subcategories.indexOf(currentSubcategory);
 
-      if (currentCategoryIndex > 0) {
-        currentCategory = categories[currentCategoryIndex - 1];
-        const previousSubcategory = Object.keys(data[currentCategory]).pop();
-        currentSubcategory = previousSubcategory;
-        currentVideoIndex = data[currentCategory][previousSubcategory].length - 1;
+      if (currentSubcategoryIndex > 0) {
+        currentSubcategory = subcategories[currentSubcategoryIndex - 1];
+        currentVideoIndex = data[currentCategory][currentSubcategory].length - 1;
       } else {
-        currentCategory = categories[categories.length - 1];
-        const previousSubcategory = Object.keys(data[currentCategory]).pop();
-        currentSubcategory = previousSubcategory;
-        currentVideoIndex = data[currentCategory][previousSubcategory].length - 1;
+        const categories = Object.keys(data);
+        const currentCategoryIndex = categories.indexOf(currentCategory);
+
+        if (currentCategoryIndex > 0) {
+          currentCategory = categories[currentCategoryIndex - 1];
+          const previousSubcategory = Object.keys(data[currentCategory]).pop();
+          currentSubcategory = previousSubcategory;
+          currentVideoIndex = data[currentCategory][previousSubcategory].length - 1;
+        } else {
+          currentCategory = categories[categories.length - 1];
+          const previousSubcategory = Object.keys(data[currentCategory]).pop();
+          currentSubcategory = previousSubcategory;
+          currentVideoIndex = data[currentCategory][previousSubcategory].length - 1;
+        }
       }
     }
   }
@@ -393,6 +484,130 @@ function previousVideo() {
 
 prevButton.addEventListener('click', previousVideo);
 nextButton.addEventListener('click', nextVideo);
+
+// // Autoplay video list
+// const prevButton = CONTROLS.querySelector('.control__button--prev');
+// const nextButton = CONTROLS.querySelector('.control__button--next');
+
+// let currentCategory = 'TheWitcher';
+// let currentSubcategory = 'deep';
+// let currentVideoIndex = 0;
+// let data = null;
+
+// fetch('videos.json')
+//   .then(response => {
+//     if (!response.ok) {
+//       showError('Помилка загрузки json &#128531;');
+//       throw new Error('Failed to load videos.json');
+//     }
+//     return response.json();
+//   })
+//   .then(videoData => {
+//     data = videoData;
+//     currentCategory = 'TheWitcher';
+//     currentSubcategory = 'deep';
+//     currentVideoIndex = 0;
+
+//     playCurrentVideo();
+//   })
+//   .catch(error => {
+//     console.error('An error occurred:', error);
+//   });
+
+// function nextVideo() {
+//   resetVideo();
+//   if (selectedVideos.length > 0) {
+//     currentVideoIndex++;
+
+//     if (currentVideoIndex >= selectedVideos.length) {
+//       currentVideoIndex = 0;
+//     }
+
+//     playSelectedVideo();
+//   } else {
+//     currentVideoIndex++;
+
+//     if (currentVideoIndex >= data[currentCategory][currentSubcategory].length) {
+//       const subcategories = Object.keys(data[currentCategory]);
+//       const currentSubcategoryIndex = subcategories.indexOf(currentSubcategory);
+
+//       if (currentSubcategoryIndex < subcategories.length - 1) {
+//         currentSubcategory = subcategories[currentSubcategoryIndex + 1];
+//         currentVideoIndex = 0;
+//       } else {
+//         const categories = Object.keys(data);
+//         const currentCategoryIndex = categories.indexOf(currentCategory);
+
+//         if (currentCategoryIndex < categories.length - 1) {
+//           currentCategory = categories[currentCategoryIndex + 1];
+//           currentSubcategory = Object.keys(data[currentCategory])[0];
+//           currentVideoIndex = 0;
+//         } else {
+//           currentCategory = categories[0];
+//           currentSubcategory = Object.keys(data[currentCategory])[0];
+//           currentVideoIndex = 0;
+//         }
+//       }
+//     }
+//     playCurrentVideo();
+//   }
+// }
+
+// function previousVideo() {
+//   resetVideo();
+//   if (selectedVideos.length > 0) {
+//     currentVideoIndex--;
+
+//     if (currentVideoIndex < 0) {
+//       currentVideoIndex = selectedVideos.length - 1;
+//     }
+
+//     playSelectedVideo();
+//   } else {
+
+//     if (currentVideoIndex > 0) {
+//       currentVideoIndex--;
+//     } else {
+//       const subcategories = Object.keys(data[currentCategory]);
+//       const currentSubcategoryIndex = subcategories.indexOf(currentSubcategory);
+
+//       if (currentSubcategoryIndex > 0) {
+//         currentSubcategory = subcategories[currentSubcategoryIndex - 1];
+//         currentVideoIndex = data[currentCategory][currentSubcategory].length - 1;
+//       } else {
+//         const categories = Object.keys(data);
+//         const currentCategoryIndex = categories.indexOf(currentCategory);
+
+//         if (currentCategoryIndex > 0) {
+//           currentCategory = categories[currentCategoryIndex - 1];
+//           const previousSubcategory = Object.keys(data[currentCategory]).pop();
+//           currentSubcategory = previousSubcategory;
+//           currentVideoIndex = data[currentCategory][previousSubcategory].length - 1;
+//         } else {
+//           currentCategory = categories[categories.length - 1];
+//           const previousSubcategory = Object.keys(data[currentCategory]).pop();
+//           currentSubcategory = previousSubcategory;
+//           currentVideoIndex = data[currentCategory][previousSubcategory].length - 1;
+//         }
+//       }
+//     }
+//     playCurrentVideo();
+//   }
+// }
+
+// function playCurrentVideo() {
+//   const currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
+//   // const videoTitle = currentVideo.title;
+//   const videoUrl = currentVideo.url;
+//   const videoDescription = currentVideo.description;
+
+//   // VIDEO.setAttribute('title', videoTitle);
+//   VIDEO.setAttribute('src', videoUrl);
+//   VIDEO.setAttribute('alt', videoDescription);
+// }
+
+// prevButton.addEventListener('click', previousVideo);
+// nextButton.addEventListener('click', nextVideo);
 
 // Keyboard
 let videoKey;
@@ -409,10 +624,12 @@ VIDEO.addEventListener('keyup', (event) => {
 
     case 'ArrowLeft':
       VIDEO.currentTime -= 5;
+      VIDEORANGE.value = VIDEO.currentTime;
       break;
 
     case 'ArrowRight':
       VIDEO.currentTime += 5;
+      VIDEORANGE.value = VIDEO.currentTime;
       break;
 
     case 'ArrowUp':
@@ -426,6 +643,10 @@ VIDEO.addEventListener('keyup', (event) => {
     case 'm':
       muteVideo();
       changeMuteIcon();
+      break;
+
+    case 'z':
+      changeFitscreen();
       break;
 
     case 'f':
@@ -461,182 +682,181 @@ BODY.addEventListener('keyup', (event) => {
 
     case 'l':
       setScheme('light');
-      setButton();
-      saveScheme('light');
+      setupSwitcher();
       break;
 
     case 'd':
       setScheme('dark');
-      setButton();
-      saveScheme('dark');
+      setupSwitcher();
+      break;
+
+    case 'a':
+      setScheme('auto');
+      setupSwitcher();
       break;
   }
 });
 
 // Save/Load theme
-// Save theme
 function saveScheme(scheme) {
-  localStorage.setItem('localTheme', scheme);
-  
-  // Old
-  localStorage.setItem('localButton', buttonIndex);
-}
-
-// Load theme
-function loadScheme() {
-  if (localStorage) {
-    const localTheme = localStorage.getItem('localTheme');
-    setScheme(localTheme);
-
-    // Old
-    const localButton = localStorage.getItem('localButton');
-    setButton(localButton);
-  }
+	localStorage.setItem('color-scheme', scheme);
 }
 
 function getSavedScheme() {
-  return localStorage.getItem('localTheme');
+	return localStorage.getItem('color-scheme');
 }
 
 function clearScheme() {
-  localStorage.removeItem('localTheme');
+	localStorage.removeItem('color-scheme');
 }
 
-// // Scheme BETA
-// const schemeRadios = document.querySelectorAll('.footer__theme');
-// let darkSchemeMedia = matchMedia('(prefers-color-scheme: dark)').matches;
+// // Scheme
+// let scheme = 'light';
+// let buttonIndex;
 
-// function setupSwitcher() {
-//   const savedScheme = getSavedScheme();
+// const themeButtons = document.querySelectorAll('.footer__theme');
 
-//   if (savedScheme !== null) {
-//     const currentRadio = document.querySelector(`.footer__theme[value=${savedScheme}]`);
-//     currentRadio.checked = true;
-//   }
-
-//   [...schemeRadios].forEach((radio) => {
-//     radio.addEventListener('change', (event) => {
-//         setScheme(event.target.value);
-//     });
-//   });
+// // Check client scheme
+// if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+//   scheme = 'dark';
+// } else {
+//   scheme = 'light';
 // }
 
-// function setupScheme() {
-//   const savedScheme = getSavedScheme();
-//   const systemScheme = getSystemScheme();
+// // Set button
+// themeButtons.forEach(function (button, index) {
+//   button.addEventListener('click', function () {
+//     buttonIndex = Array.from(themeButtons).indexOf(button);
+//     scheme = this.getAttribute('data-theme');
 
-//   if (savedScheme === null) return;
-
-//   if (savedScheme !== systemScheme) {
-//     setScheme(savedScheme);
-//   }
-// }
-
-// function setScheme(scheme) {
-//   switchMedia(scheme);
-
-//   if (scheme === 'auto') {
-//     clearScheme();
-//   } else {
+//     setButton(buttonIndex);
+//     setScheme(scheme);
 //     saveScheme(scheme);
-//   }
+//   });
+// });
+
+// function setButton() {
+//   themeButtons.forEach((button) => {
+//     button.removeAttribute('disabled');
+//     button.classList.remove('footer__theme--active');
+//   });
+
+//   themeButtons[buttonIndex].setAttribute('disabled', 'disabled');
+//   themeButtons[buttonIndex].classList.add('footer__theme--active');
 // }
 
+// // Set scheme
 // let favicon = document.querySelector('link[href="img/favicons/favicon.svg"]');
 
-// function switchMedia(scheme) {
+// function setScheme(scheme) {
 //   BODY.className = '';
 
 //   switch (scheme) {
 //     case 'light':
 //       BODY.classList.add(scheme);
-//       favicon.href = 'img/favicons/favicon.svg'
-//       break;
-
-//     case 'auto':
-//       BODY.classList.add(scheme);
+//       buttonIndex = 0;
 //       favicon.href = 'img/favicons/favicon.svg'
 //       break;
 
 //     case 'dark':
 //       BODY.classList.add(scheme);
+//       buttonIndex = 1;
 //       favicon.href = 'img/favicons/favicon-dark.svg'
+//       break;
+
+//     case 'cyberpunk':
+//       BODY.classList.add(scheme);
+//       buttonIndex = 2;
 //       break;
 //   }
 // }
 
-// function getSystemScheme() {
-//   return darkSchemeMedia ? 'dark' : 'light';
-// }
+// setScheme(scheme);
+// setButton(buttonIndex);
 
-// setupSwitcher();
-// setupScheme();
+// loadScheme();
 
-// Scheme
-let scheme = 'light';
-let buttonIndex;
+// Scheme BETA
+const favicon = document.querySelector('link[href="img/favicons/favicon.svg"]');
 
-const themeButtons = document.querySelectorAll('.footer__theme');
+const lightStyles = document.querySelectorAll('link[rel=stylesheet][media*=prefers-color-scheme][media*=light]');
+const darkStyles = document.querySelectorAll('link[rel=stylesheet][media*=prefers-color-scheme][media*=dark]');
 
-// Check client scheme
-if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-  scheme = 'dark';
-} else {
-  scheme = 'light';
+const schemeRadios = document.querySelectorAll('.footer__scheme');
+const darkScheme = matchMedia('(prefers-color-scheme: dark)').matches;
+
+function setupSwitcher() {
+  const savedScheme = getSavedScheme();
+
+  if (savedScheme !== null) {
+    const currentRadio = document.querySelector(`.footer__scheme[value=${savedScheme}]`);
+    currentRadio.checked = true;
+  } else {
+		const currentRadio = document.querySelector(`.footer__scheme[value=auto]`);
+		currentRadio.checked = true;
+	}
+
+  [...schemeRadios].forEach((radio) => {
+    radio.addEventListener('change', (event) => {
+			setScheme(event.target.value);
+    });
+  });
 }
 
-// Set button
-themeButtons.forEach(function (button, index) {
-  button.addEventListener('click', function () {
-    buttonIndex = Array.from(themeButtons).indexOf(button);
-    scheme = this.getAttribute('data-theme');
+function setupScheme() {
+  const savedScheme = getSavedScheme();
+  const systemScheme = getSystemScheme();
 
-    setButton(buttonIndex);
-    setScheme(scheme);
-    saveScheme(scheme);
-  });
-});
+  if (savedScheme === null) return;
 
-function setButton() {
-  themeButtons.forEach((button) => {
-    button.removeAttribute('disabled');
-    button.classList.remove('footer__theme--active');
-  });
-  
-  themeButtons[buttonIndex].setAttribute('disabled', 'disabled'); 
-  themeButtons[buttonIndex].classList.add('footer__theme--active');
-}
-
-// Set scheme
-let favicon = document.querySelector('link[href="img/favicons/favicon.svg"]');
-
-function setScheme(scheme) {
-  BODY.className = '';
-
-  switch (scheme) {
-    case 'light':
-      BODY.classList.add(scheme);
-      buttonIndex = 0;
-      favicon.href = 'img/favicons/favicon.svg'
-      break;
-
-    case 'dark':
-      BODY.classList.add(scheme);
-      buttonIndex = 1;
-      favicon.href = 'img/favicons/favicon-dark.svg'
-      break;
-
-    case 'cyberpunk':
-      BODY.classList.add(scheme);
-      buttonIndex = 2;
-      break;
+  if (savedScheme !== systemScheme) {
+    setScheme(savedScheme);
   }
 }
 
-setScheme(scheme);
-setButton(buttonIndex);
+function setScheme(scheme) {
+  switchMedia(scheme);
 
-loadScheme();
+  if (scheme === 'auto') {
+    clearScheme();
+  } else {
+    saveScheme(scheme);
+  }
+}
+
+function switchMedia(scheme) {
+	let lightMedia;
+	let darkMedia;
+
+	if (scheme === 'auto') {
+		lightMedia = '(prefers-color-scheme: light)';
+		darkMedia = '(prefers-color-scheme: dark)';
+	} else {
+		lightMedia = (scheme === 'light') ? 'all' : 'not all';
+		darkMedia = (scheme === 'dark') ? 'all' : 'not all';
+	}
+
+	[...lightStyles].forEach((link) => {
+			link.media = lightMedia;
+	});
+
+	[...darkStyles].forEach((link) => {
+			link.media = darkMedia;
+	});
+
+	if (scheme === 'dark') {
+		favicon.href = 'img/favicons/favicon-dark.svg';
+	} else {
+		favicon.href = 'img/favicons/favicon.svg';
+	}
+}
+
+function getSystemScheme() {
+	return darkScheme ? 'dark' : 'light';
+}
+
+setupSwitcher();
+setupScheme();
 
 // Set Video
 let game;
@@ -856,8 +1076,8 @@ const statisticsBuffer = STATISTICS.querySelector('.statistics__buffer');
 function getStatistics() {
   STATISTICS.classList.remove('statistics--hide');
 
-  if (FILETYPE) {
-    videoFormat = FILETYPE;
+  if (fileType) {
+    videoFormat = fileType.replace('video/', '');
   } else {
     videoFormat = VIDEO.src.split('.').pop();
   }
@@ -957,9 +1177,10 @@ function startProgress() {
 function updateProgress() {
   // Buffer
   videoBuffer = Math.round(VIDEO.buffered.end(0));
+  statisticsBuffer.innerHTML = videoBuffer;
+
   videoCurrentTime = Math.round(VIDEO.currentTime);
   VIDEORANGE.value = videoCurrentTime;
-  statisticsBuffer.innerHTML = videoBuffer;
 
   // Duration
   currentVideoPassed = formatTime(videoCurrentTime);

@@ -1,0 +1,131 @@
+.body {
+  background-color: #02182B;
+}
+
+// Button
+.button {
+
+  &:hover,
+  &:focus {
+    box-shadow: 0 0 10px 5px rgba(#0197F6, 0.9);
+  }
+
+  &:focus-visible {
+    outline-color: #0197F6;
+  }
+
+  &:active {
+    box-shadow: 0 0 10px 2px rgba(#0197F6, 1);
+  }
+}
+
+// Control
+.control__line {
+  background-color: #0197F6;
+
+  &::-webkit-progress-value {
+    background-color: #0197F6;
+  }
+}
+
+.control__range {
+
+  &::-webkit-slider-runnable-track {
+    box-shadow: 0 0 3px 1px rgba(#0197F6, 0.9);
+  }
+
+  &::-webkit-slider-thumb {
+    background-color: #0197F6;
+  }
+
+  &:hover,
+  &:focus {
+    box-shadow: 0 0 20px 1px rgba(#0197F6, 0.9);
+  }
+
+  &:focus-visible {
+    outline: 1px solid #0197F6;
+  }
+}
+
+.control__icon {
+  fill: #0197F6;
+}
+
+// Footer
+// .footer__theme--active {
+//   box-shadow: 0 0 5px 1px rgba(#0197F6, 0.6);
+// }
+
+.footer__theme {
+
+  &:checked {
+    box-shadow: 0 0 5px 1px rgba(#0197F6, 0.6);
+  }
+}
+
+.footer__icon {
+  fill: #0197F6;
+  stroke: #0197F6;
+
+  &--transparent {
+    fill: none;
+  }
+}
+
+.footer__copyright {
+  color: #0197F6;
+
+  &--name {
+    color: #FFFFFF;
+  }
+}
+
+// Header
+.header__logo {
+
+  path:first-of-type {
+    fill: #0197F6;
+  }
+
+  path:last-of-type {
+    fill: #FFFFFF;
+  }
+}
+
+.header__icon {
+  fill: #0197F6;
+}
+
+// Settings
+.settings__icon {
+  fill: #0197F6;
+}
+
+// Video
+.video {
+  background-color: #364652;
+}
+
+.video__wrapper {
+  box-shadow: 0 0 20px 8px rgba(#0197F6, 0.9);
+
+  &--error {
+    box-shadow: 0 0 20px 8px rgb(#F35050, 0.9);
+  }
+}
+
+.video__icon path {
+  stroke: #0197F6;
+}
+
+// Statistics
+.statistics {
+  color: #0197F6;
+}
+
+// Error
+.error {
+  box-shadow: 0 0 10px 5px rgba(#0197F6, 0.4);
+  background-color: rgba(#0197F6, 0.9);
+}

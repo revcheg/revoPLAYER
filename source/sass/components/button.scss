@@ -25,21 +25,3 @@
     box-shadow: 0 0 10px 2px rgba(#6320EE, 1);
   }
 }
-
-// @media (prefers-color-scheme: dark) {
-//   .button {
-    
-//     &:hover,
-//     &:focus {
-//       box-shadow: 0 0 10px 5px rgba($dark-blue, 0.9);
-//     }
-
-//     &:focus {
-//       outline-color: $dark-blue;
-//     }
-
-//     &:active {
-//       box-shadow: 0 0 10px 2px rgba($dark-blue, 1);
-//     }
-//   }
-// }

@@ -28,6 +28,19 @@ export const styles = () => {
     .pipe(browser.stream());
 }
 
+// Scheme
+export const scheme = () => {
+  return gulp.src('source/sass/scheme/*.scss')
+    .pipe(plumber())
+    .pipe(sass().on('error', sass.logError))
+    .pipe(postcss([
+      autoprefixer(),
+      csso()
+    ]))
+    .pipe(gulp.dest('build/css'))
+    .pipe(browser.stream());
+}
+
 // HTML
 export const html = () => {
   return gulp.src('source/*.html')
@@ -136,7 +149,7 @@ const reload = (done) => {
 
 // Watcher
 const watcher = () => {
-  gulp.watch('source/sass/**/*.scss', gulp.series(styles));
+  gulp.watch('source/sass/**/*.scss', gulp.series(styles, scheme));
   gulp.watch('source/js/components/*.js', gulp.series(scriptConcat, scripts));
   gulp.watch('source/*.html', gulp.series(html, reload));
 }
@@ -150,6 +163,7 @@ export const build = gulp.series(
   // optimizeImages,
   gulp.parallel(
     styles,
+    scheme,
     html,
     scripts,
     svg,
@@ -166,6 +180,7 @@ export default gulp.series(
   copyImages,
   gulp.parallel(
     styles,
+    scheme,
     html,
     scripts,
     svg,

@@ -13,10 +13,12 @@ VIDEO.addEventListener('keyup', (event) => {
 
     case 'ArrowLeft':
       VIDEO.currentTime -= 5;
+      VIDEORANGE.value = VIDEO.currentTime;
       break;
 
     case 'ArrowRight':
       VIDEO.currentTime += 5;
+      VIDEORANGE.value = VIDEO.currentTime;
       break;
 
     case 'ArrowUp':
@@ -30,6 +32,10 @@ VIDEO.addEventListener('keyup', (event) => {
     case 'm':
       muteVideo();
       changeMuteIcon();
+      break;
+
+    case 'z':
+      changeFitscreen();
       break;
 
     case 'f':
@@ -65,14 +71,17 @@ BODY.addEventListener('keyup', (event) => {
 
     case 'l':
       setScheme('light');
-      setButton();
-      saveScheme('light');
+      setupSwitcher();
       break;
 
     case 'd':
       setScheme('dark');
-      setButton();
-      saveScheme('dark');
+      setupSwitcher();
+      break;
+
+    case 'a':
+      setScheme('auto');
+      setupSwitcher();
       break;
   }
 });
