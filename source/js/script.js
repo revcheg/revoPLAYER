@@ -151,24 +151,90 @@ VIDEORANGE.addEventListener('input', function () {
   videoLeft.innerHTML = currentVideoLeft;
 });
 
-// Zoom
-const fillButton = CONTROLS.querySelector('.control__button--fit');
+// Playback speed
+const speedButton = CONTROLS.querySelector('.control__button--speed');
+let playbackRate = 1.0;
+
+function changeSpeed() {
+  playbackRate += 0.25;
+
+  if (playbackRate > 2.0) {
+    playbackRate = 1.0;
+  }
+
+  VIDEO.playbackRate = playbackRate;
+};
+
+speedButton.addEventListener('click', changeSpeed);
+
+// Fit
+const fitButton = CONTROLS.querySelector('.control__button--fit');
 
 function changeFitscreen() {
   let currentFit = VIDEO.style.objectFit;
-  let newFit = currentFit === 'cover' ? 'contain' : 'cover';
-  VIDEO.style.objectFit = newFit;
+  let changedFit = currentFit === 'cover' ? 'contain' : 'cover';
+  VIDEO.style.objectFit = changedFit;
 
-  if (newFit === 'contain') {
-    fillButton.setAttribute('aria-label', 'Збільшити зображення');
-    fillButton.setAttribute('title', 'Збільшити зображення (z)');
+  if (changedFit === 'contain') {
+    fitButton.setAttribute('aria-label', 'Ростягнути зображення');
+    fitButton.setAttribute('title', 'Ростягнути зображення (x)');
   } else {
-    fillButton.setAttribute('aria-label', 'Зменшити зображення');
-    fillButton.setAttribute('title', 'Зменшити зображення (z)');
+    fitButton.setAttribute('aria-label', 'Зменшити зображення');
+    fitButton.setAttribute('title', 'Зменшити зображення (x)');
   }
 };
 
-fillButton.addEventListener('click', changeFitscreen);
+fitButton.addEventListener('click', changeFitscreen);
+
+// Touch, object fit
+let startX = null;
+let startY = null;
+let direction;
+
+function handleTouchStart(event) {
+  startX = event.touches[0].clientX;
+  startY = event.touches[0].clientY;
+};
+
+function handleTouchMove (event) {
+  let currentX = event.touches[0].clientX;
+  let currentY = event.touches[0].clientY;
+
+  let deltaX = currentX - startX;
+  let deltaY = currentY - startY;
+
+  if (Math.abs(deltaX) > Math.abs(deltaY)) {
+    if (deltaX > 0) {
+      direction = 'right';
+    } else {
+      direction = 'left';
+    }
+  } else {
+    if (deltaY > 0) {
+      direction = 'down';
+    } else {
+      direction = 'up';
+    }
+  }
+
+  if (direction === 'right') {
+    VIDEO.style.objectFit = 'contain';
+  } else if (direction === 'left') {
+    VIDEO.style.objectFit = 'cover';
+  }
+
+  startX = currentX;
+  startY = currentY;
+};
+
+function handleTouchEnd() {
+  startX = null;
+  startY = null;
+};
+
+VIDEO.addEventListener('touchstart', handleTouchStart);
+VIDEO.addEventListener('touchmove', handleTouchMove);
+VIDEO.addEventListener('touchend', handleTouchEnd);
 
 // Full screen
 const fullButton = CONTROLS.querySelector('.control__button--size');
@@ -243,56 +309,6 @@ function hideControls() {
 
 WRAPPER.addEventListener("mousemove", handleMouseMove);
 WRAPPER.addEventListener("mouseleave", hideControls);
-
-// Touch, object fit
-let startX = null;
-let startY = null;
-let direction;
-
-function handleTouchStart(event) {
-  startX = event.touches[0].clientX;
-  startY = event.touches[0].clientY;
-};
-
-function handleTouchMove (event) {
-  let currentX = event.touches[0].clientX;
-  let currentY = event.touches[0].clientY;
-
-  let deltaX = currentX - startX;
-  let deltaY = currentY - startY;
-
-  if (Math.abs(deltaX) > Math.abs(deltaY)) {
-    if (deltaX > 0) {
-      direction = 'right';
-    } else {
-      direction = 'left';
-    }
-  } else {
-    if (deltaY > 0) {
-      direction = 'down';
-    } else {
-      direction = 'up';
-    }
-  }
-
-  if (direction === 'right') {
-    VIDEO.style.objectFit = 'contain';
-  } else if (direction === 'left') {
-    VIDEO.style.objectFit = 'cover';
-  }
-
-  startX = currentX;
-  startY = currentY;
-};
-
-function handleTouchEnd() {
-  startX = null;
-  startY = null;
-};
-
-VIDEO.addEventListener('touchstart', handleTouchStart);
-VIDEO.addEventListener('touchmove', handleTouchMove);
-VIDEO.addEventListener('touchend', handleTouchEnd);
 
 // Error
 function showError(errorMessage) {
@@ -645,7 +661,11 @@ VIDEO.addEventListener('keyup', (event) => {
       changeMuteIcon();
       break;
 
-    case 'z':
+    case 's':
+      changeSpeed();
+      break;
+
+    case 'x':
       changeFitscreen();
       break;
 
@@ -668,7 +688,7 @@ BODY.addEventListener('keyup', (event) => {
   videoKey = event.key;
 
   switch (videoKey) {
-    case 's':
+    case 'i':
       openSettings();
       break;
 
@@ -984,7 +1004,7 @@ function extraLine() {
 
 lineCheckbox.addEventListener('change', showExtraLine);
 
-// 3D scale
+// Scale player
 const scaleCheckbox = SETTINGS.querySelector('.settings__checkbox--scale');
 
 function setupScale() {
@@ -1141,7 +1161,6 @@ tabButtons.forEach(button => {
   });
 });
 
-// Little fix mobile settings height
 function updateSettingsHeight() {
   const settingsButtonHeight = SETTINGS.querySelector('.settings__control').clientHeight;
   const settingsWrapper = SETTINGS.querySelector('.settings__wrapper');

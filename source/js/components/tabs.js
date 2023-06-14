@@ -22,7 +22,6 @@ tabButtons.forEach(button => {
   });
 });
 
-// Little fix mobile settings height
 function updateSettingsHeight() {
   const settingsButtonHeight = SETTINGS.querySelector('.settings__control').clientHeight;
   const settingsWrapper = SETTINGS.querySelector('.settings__wrapper');

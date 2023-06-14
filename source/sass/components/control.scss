@@ -83,6 +83,14 @@
     display: none;
   }
 
+  &--speed {
+    fill: none;
+
+    path {
+      stroke: $blue-button;
+    }
+  }
+
   &--size {
     fill: none;
     stroke: $blue-button;
@@ -216,6 +224,10 @@
 
   .control__button {
     order: 1;
+
+    &--speed {
+      order: 3;
+    }
 
     &--fit {
       order: 3;

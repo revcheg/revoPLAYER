@@ -34,7 +34,11 @@ VIDEO.addEventListener('keyup', (event) => {
       changeMuteIcon();
       break;
 
-    case 'z':
+    case 's':
+      changeSpeed();
+      break;
+
+    case 'x':
       changeFitscreen();
       break;
 
@@ -57,7 +61,7 @@ BODY.addEventListener('keyup', (event) => {
   videoKey = event.key;
 
   switch (videoKey) {
-    case 's':
+    case 'i':
       openSettings();
       break;
 

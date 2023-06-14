@@ -10,12 +10,12 @@
   font-weight: 300;
   text-align: center;
   box-shadow: 0 0 10px 5px rgba($blue-button, 0.4);
-  border-radius: 5px;
   background-color: rgba($blue-button, 0.5);
   backdrop-filter: blur(0.5px);
   transform: translateX(-50%);
   transition: 0.3s;
   clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%);
+  z-index: 2;
 
   &--hide {
     transform: translateX(-50%) scale(0);

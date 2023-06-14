@@ -2,6 +2,10 @@
   background-color: #02182B;
 }
 
+*::-webkit-scrollbar-thumb {
+  background-color: #0197F6;
+}
+
 // Button
 .button {
 
@@ -50,6 +54,24 @@
 
 .control__icon {
   fill: #0197F6;
+
+  &--speed {
+    fill: none;
+
+    path {
+      stroke: #0197F6;
+    }
+  }
+
+  &--size {
+    fill: none;
+    stroke: #0197F6;
+  }
+
+  &--min {
+    fill: none;
+    stroke: #0197F6;
+  }
 }
 
 // Footer
@@ -57,7 +79,7 @@
 //   box-shadow: 0 0 5px 1px rgba(#0197F6, 0.6);
 // }
 
-.footer__theme {
+.footer__scheme {
 
   &:checked {
     box-shadow: 0 0 5px 1px rgba(#0197F6, 0.6);
@@ -108,15 +130,22 @@
 }
 
 .video__wrapper {
-  box-shadow: 0 0 20px 8px rgba(#0197F6, 0.9);
+  box-shadow: 0 0 25px 5px rgba(#0197F6, 0.9);
 
   &--error {
-    box-shadow: 0 0 20px 8px rgb(#F35050, 0.9);
+    box-shadow: 0 0 25px 5px rgb(#F35050, 0.9);
   }
 }
 
 .video__icon path {
   stroke: #0197F6;
+}
+
+.video__start {
+
+  &::before {
+    background-color: rgba(#0197F6, 0.2);
+  }
 }
 
 // Statistics

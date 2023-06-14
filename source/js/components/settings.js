@@ -88,7 +88,7 @@ function extraLine() {
 
 lineCheckbox.addEventListener('change', showExtraLine);
 
-// 3D scale
+// Scale player
 const scaleCheckbox = SETTINGS.querySelector('.settings__checkbox--scale');
 
 function setupScale() {
