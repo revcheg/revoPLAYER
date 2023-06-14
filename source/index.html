@@ -33,7 +33,7 @@
       </button>
     </header>
 
-    <main>
+    <main class="main">
       <h1 class="visually-hidden">revoPLAYER - простий на гарний відео плеєр</h1>
       <section class="video__wrapper">
         <h2 class="visually-hidden">Плеєр</h2>
@@ -103,7 +103,7 @@
             </button>
             <input class="control__range  control__range--volume" step="0.1" min="0" max="1" value="0.5" aria-label="Гучність" title="Гучність (up+down arrow)" type="range">
           </div>
-          <button class="button  control__button  control__button--speed" aria-label="Збільшити швидкість відео" title="Збільшити швидкість відео (s)" type="button">
+          <button class="button  control__button  control__button--speed  control__button--hide" aria-label="Збільшити швидкість відео" title="Збільшити швидкість відео (s)" type="button">
             <svg class="control__icon  control__icon--speed" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
               <g stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="#222" d="M6.697 17.303a7.5 7.5 0 1 1 10.606 0"/>
@@ -111,7 +111,7 @@
               </g>
             </svg>
           </button>
-          <button class="button  control__button  control__button--fit" aria-label="Ростягнути зображення" title="Ростягнути зображення (x)" type="button">
+          <button class="button  control__button  control__button--fit  control__button--hide" aria-label="Ростягнути зображення" title="Ростягнути зображення (x)" type="button">
             <svg class="control__icon  control__icon--fit" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
               <path d="M18 20.75h-6a.75.75 0 1 1 0-1.5h6A1.25 1.25 0 0 0 19.25 18V6A1.25 1.25 0 0 0 18 4.75H6A1.25 1.25 0 0 0 4.75 6v6a.75.75 0 1 1-1.5 0V6A2.75 2.75 0 0 1 6 3.25h12A2.75 2.75 0 0 1 20.75 6v12A2.75 2.75 0 0 1 18 20.75Z"/>
               <path d="M16 12.75a.76.76 0 0 1-.75-.75V8.75H12a.75.75 0 1 1 0-1.5h4a.76.76 0 0 1 .75.75v4a.76.76 0 0 1-.75.75Z"/>
@@ -134,6 +134,24 @@
           </button> -->
         </section>
       </section>
+
+      <ul class="series  series--off">
+        <li class="series__item">
+          <button class="button  series__button  series__button--active" type="button">
+            Серіал Друзі, сезон 1, серія 1
+          </button>
+        </li>
+        <li class="series__item">
+          <button class="button  series__button" type="button">
+            Серіал Друзі, сезон 1, серія 2
+          </button>
+        </li>
+        <li class="series__item">
+          <button class="button  series__button" type="button">
+            Серіал Друзі, сезон 1, серія 3
+          </button>
+        </li>
+      </ul>
     </main>
 
     <p class="error  error--hide">Текст помилки</p>
@@ -220,6 +238,10 @@
             <input class="settings__checkbox  settings__checkbox--line" type="checkbox">
             <span class="settings__name">Додати нову смугу прогрузки</span>
           </label>
+          <label class="settings__label">
+            <input class="settings__checkbox  settings__checkbox--controls" type="checkbox">
+            <span class="settings__name">Додати більше контролів</span>
+          </label>
         </div>
 
         <div class="settings__tab" data-tab="sound">
@@ -237,6 +259,10 @@
           <label class="settings__label  settings__label--file">
             <input class="button  settings__file" aria-label="Завантажити власне відео" title="Завантажити власне відео" accept="video/*" type="file" multiple>
           </label>
+          <label class="settings__label">
+            <input class="settings__checkbox  settings__checkbox--series" type="checkbox">
+            <span class="settings__name">Винести перелік серій на головний екран</span>
+          </label>
         </div>
 
         <div class="settings__tab" data-tab="info">
@@ -244,13 +270,17 @@
           <ul class="settings__list">
             <li class="settings__item">Можливість обрати світлу чи темну тему</li>
             <li class="settings__item">Автоматичне встановлення теми на основі теми на пристрої</li>
+            <li class="settings__item">Усе керування (та навіть більше) продубльовано на клавіатуру</li>
             <li class="settings__item">Усі відео та картинки оптимізовані для вебу</li>
-            <li class="settings__item">Відео перероблені у кращій формат</li>
           </ul>
         </div>
 
         <div class="settings__tab" data-tab="patch">
           <p class="settings__sub">PATCH NOTES</p>
+          <p class="settings__text">
+            <time class="settings__time" datetime="2023.06.14">14.06.2023</time>
+            З'явилась кнопка швидкості програвання відео (кожен клік це +0.25). Додана можливість змінювати гучність колесом миші, для цього треба навестись на смугу прокрутки. Аналогічно працює і смуга прогрузки. Так як чисельність контролів постійно збільшується, виніс усі додаткові в окремий чекбокс за бажанням. Тепер при завантажені відео є можливість вивести перелік серій на головний екран, шукати у налаштуваннях, дякую моїм тестерам &#127770; &#128128;. (перемикання серій у цьому переліку поки не працює)
+          </p>
           <p class="settings__text">
             <time class="settings__time" datetime="2023.06.13">13.06.2023</time>
             *Звуки оплесків та духовий оркестр*, з'явилась можливість обрати весь сезон улюбленного аніме. Переробив функцію тем на сайті, тепер є додатковий варіант вибору з системи, самі css файли тепер розбиті на light та dark. Працюю над повним екраном, налагодив збільшення відео, та додав мобільний жест зуму для збільшення зображення, аналогічна кнопка в наявності.

@@ -6,8 +6,13 @@ let selectedVideos = [];
 function handleFileSelection(event) {
   let files = event.target.files;
 
+  while (seriesList.firstChild) {
+    seriesList.removeChild(seriesList.firstChild);
+  }
+
   Array.from(files).forEach(file => {
     let fileUrl = URL.createObjectURL(file);
+    let fileDescription = file.name;
 
     selectedVideos.push({
       file: file,
@@ -16,8 +21,18 @@ function handleFileSelection(event) {
       type: file.type,
       size: file.size
     });
+
+    const li = document.createElement('li');
+    li.className = 'series__item';
+    const button = document.createElement('button');
+    button.className = 'button series__button';
+    button.type = 'button';
+    button.textContent = fileDescription;
+    li.appendChild(button);
+    seriesList.appendChild(li);
   });
 
+  showError('Відео обрано, готові грати &#128526;');
   validateFiles(selectedVideos);
 };
 
@@ -35,11 +50,11 @@ function validateFiles(videos) {
     fileType = video.file.type;
 
     if (fileSize > MAX_FILE_SIZE) {
-      showError('Файл завеликий');
+      showError('Файл завеликий &#128548;');
       INPUTFILE.value = '';
     } else {
       if (!isSupportedFileType(fileType)) {
-        showError('Непідтримуваний тип файлу');
+        showError('Непідтримуваний тип файлу &#128552;');
         INPUTFILE.value = '';
       } else {
         VIDEO.setAttribute('crossorigin', 'anonymous');

@@ -29,13 +29,8 @@
   margin: 0;
   transition: 0.2s;
 
-  // &--active {
-  //   box-shadow: 0 0 5px 1px rgba(#6320EE, 0.6);
-  //   cursor: not-allowed;
-  // }
-
   &:checked {
-    box-shadow: 0 0 5px 1px rgba(#6320EE, 0.6);
+    // box-shadow: 0 0 5px 1px rgba(#6320EE, 0.6);
     cursor: not-allowed;
   }
 }
@@ -47,8 +42,8 @@
   width: 30px;
   height: 30px;
   transform: translate(-50%, -50%);
-  fill: $blue-text;
-  stroke: $blue-text;
+  // fill: $blue-text;
+  // stroke: $blue-text;
 
   &--transparent {
     fill: none;

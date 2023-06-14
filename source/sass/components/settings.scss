@@ -211,12 +211,13 @@
   display: inline-block;
   max-width: 150px;
   margin: 0 auto;
+  margin-bottom: 15px;
   padding: 10px 15px;
   color: #FFFFFF;
   font-size: 15px;
   font-weight: 300;
   font-family: inherit;
-  border: 1px solid #FFFFFF;
+  border: 1px solid #FCF811;
   border-radius: 30px;
 
   &::-webkit-file-upload-button {

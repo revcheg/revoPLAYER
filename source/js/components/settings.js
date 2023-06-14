@@ -66,28 +66,6 @@ deepCheckbox.addEventListener('change', function (event) {
 //   };
 // });
 
-// Extra line
-let lineProgress;
-
-const line = CONTROLS.querySelector('.control__line');
-const lineCheckbox = SETTINGS.querySelector('.settings__checkbox--line');
-
-function showExtraLine() {
-  if (lineCheckbox.checked) {
-    line.classList.remove('control__line--hide');
-  } else {
-    line.classList.add('control__line--hide');
-  }
-}
-
-function extraLine() {
-  lineProgress = Math.round((videoCurrentTime / videoDuration) * 100);
-  line.style.width = lineProgress + '%';
-  line.value = lineProgress;
-}
-
-lineCheckbox.addEventListener('change', showExtraLine);
-
 // Scale player
 const scaleCheckbox = SETTINGS.querySelector('.settings__checkbox--scale');
 
@@ -131,3 +109,55 @@ scaleCheckbox.addEventListener('change', setupScale);
 
 // BODY.addEventListener('mousemove', setScale);
 // BODY.addEventListener('deviceorientation', movingMobileVideo);
+
+// Extra line
+let lineProgress;
+
+const line = CONTROLS.querySelector('.control__line');
+const lineCheckbox = SETTINGS.querySelector('.settings__checkbox--line');
+
+function showExtraLine() {
+  if (lineCheckbox.checked) {
+    line.classList.remove('control__line--hide');
+  } else {
+    line.classList.add('control__line--hide');
+  }
+}
+
+function extraLine() {
+  lineProgress = Math.round((videoCurrentTime / videoDuration) * 100);
+  line.style.width = lineProgress + '%';
+  line.value = lineProgress;
+}
+
+lineCheckbox.addEventListener('change', showExtraLine);
+
+// Additional controls
+const controlsCheckbox = SETTINGS.querySelector('.settings__checkbox--controls');
+const additionalControls = CONTROLS.querySelectorAll('.control__button--hide');
+
+function showAddControls() {
+  additionalControls.forEach(control => {
+    if (controlsCheckbox.checked) {
+      control.classList.remove('control__button--hide');
+    } else {
+      control.classList.add('control__button--hide');
+    }
+  });
+};
+
+controlsCheckbox.addEventListener('click', showAddControls);
+
+// Series list
+const seriesCheckbox = SETTINGS.querySelector('.settings__checkbox--series');
+const seriesList = document.querySelector('.series');
+
+function showSeriesList() {
+  if (seriesCheckbox.checked) {
+    seriesList.classList.remove('series--off');
+  } else {
+    seriesList.classList.add('series--off');
+  }
+};
+
+seriesCheckbox.addEventListener('click', showSeriesList);

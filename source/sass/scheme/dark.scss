@@ -125,16 +125,12 @@
 }
 
 // Video
-.video {
-  background-color: #364652;
-}
-
 .video__wrapper {
   box-shadow: 0 0 25px 5px rgba(#0197F6, 0.9);
 
-  &--error {
-    box-shadow: 0 0 25px 5px rgb(#F35050, 0.9);
-  }
+  // &--error {
+  //   box-shadow: 0 0 25px 5px rgb(#F35050, 0.9);
+  // }
 }
 
 .video__icon path {

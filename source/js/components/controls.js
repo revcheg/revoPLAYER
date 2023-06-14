@@ -85,10 +85,19 @@ function updateVolume() {
 
 volumeRange.addEventListener('input', updateVolume);
 
+// Wheel volume
+function wheelVolume(event) {
+  event.preventDefault();
+  const delta = -Math.sign(event.deltaY);
+  changeVolume(delta * 0.1);
+};
+
+volumeRange.addEventListener('wheel', wheelVolume);
+
 // Range
 let rangeValue;
 
-VIDEORANGE.addEventListener('mousedown', () => {
+VIDEORANGE.addEventListener('mousedown', function() {
   VIDEO.pause();
   stopProgress();
 
@@ -97,16 +106,16 @@ VIDEORANGE.addEventListener('mousedown', () => {
   }
 });
 
-VIDEORANGE.addEventListener('change', function () {
+function changeDuration() {
   VIDEO.currentTime = VIDEORANGE.value;
   VIDEO.play();
 
   if (pauseButtonIcon.classList.contains('control__icon--hide')) {
     changePauseIcon();
   }
-});
+};
 
-VIDEORANGE.addEventListener('input', function () {
+function setDuration() {
   rangeValue = VIDEORANGE.value;
 
   currentVideoPassed = formatTime(rangeValue);
@@ -114,7 +123,24 @@ VIDEORANGE.addEventListener('input', function () {
 
   videoPassed.innerHTML = currentVideoPassed;
   videoLeft.innerHTML = currentVideoLeft;
-});
+};
+
+VIDEORANGE.addEventListener('change', changeDuration);
+VIDEORANGE.addEventListener('input', setDuration);
+
+// Wheel duration
+function wheelDuration(event) {
+  event.preventDefault();
+  const delta = -Math.sign(event.deltaY);
+  let currentValue = parseFloat(VIDEORANGE.value);
+  let changedValue = currentValue + delta;
+
+  VIDEORANGE.value = changedValue;
+
+  changeDuration();
+};
+
+VIDEORANGE.addEventListener('wheel', wheelDuration);
 
 // Playback speed
 const speedButton = CONTROLS.querySelector('.control__button--speed');
@@ -182,9 +208,9 @@ function handleTouchMove (event) {
     }
   }
 
-  if (direction === 'right') {
+  if (direction === 'up') {
     VIDEO.style.objectFit = 'contain';
-  } else if (direction === 'left') {
+  } else if (direction === 'down') {
     VIDEO.style.objectFit = 'cover';
   }
 

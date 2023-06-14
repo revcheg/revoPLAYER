@@ -1,0 +1,39 @@
+.series {
+	margin: 0;
+	margin-top: 20px;
+	padding: 15px 20px;
+	list-style: none;
+
+	&--off {
+		display: none;
+	}
+}
+
+.series__item {
+	margin-bottom: 10px;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.series__button {
+	margin: 0 auto;
+	padding: 10px 15px;
+	color: $blue-text;
+	font-size: 13px;
+
+	&--active {
+		box-shadow: 0 0 10px 1px rgba(#6320EE, 0.9);
+	}
+}
+
+@media (min-width: $laptop-width) {
+	.series {
+		margin-left: 50px;
+	}
+
+	.series__button {
+		font-size: 16px;
+	}
+}
