@@ -150,13 +150,12 @@ controlsCheckbox.addEventListener('click', showAddControls);
 
 // Series list
 const seriesCheckbox = SETTINGS.querySelector('.settings__checkbox--series');
-const seriesList = document.querySelector('.series');
 
 function showSeriesList() {
   if (seriesCheckbox.checked) {
-    seriesList.classList.remove('series--off');
+    SERIESLIST.classList.remove('series--off');
   } else {
-    seriesList.classList.add('series--off');
+    SERIESLIST.classList.add('series--off');
   }
 };
 

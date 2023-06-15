@@ -4,9 +4,9 @@ const VIDEO = document.querySelector('.video');
 const WRAPPER = document.querySelector('.video__wrapper');
 const SETTINGS = document.querySelector('.settings');
 const STATISTICS = document.querySelector('.statistics');
+const SERIESLIST = document.querySelector('.series');
 
 const VIDEORANGE = document.querySelector('.control__range--duration');
-
 const STARTBUTTON = document.querySelector('.video__start');
 const CONTROLS = document.querySelector('.control');
 
@@ -360,7 +360,7 @@ let selectedVideos = [];
 function handleFileSelection(event) {
   let files = event.target.files;
 
-  seriesList.innerHTML = '';
+  SERIESLIST.innerHTML = '';
 
   Array.from(files).forEach((file, index) => {
     let fileUrl = URL.createObjectURL(file);
@@ -381,7 +381,7 @@ function handleFileSelection(event) {
     button.type = 'button';
     button.textContent = fileDescription;
     li.appendChild(button);
-    seriesList.appendChild(li);
+    SERIESLIST.appendChild(li);
 
     button.addEventListener('click', () => {
       currentVideoIndex = index;
@@ -389,19 +389,14 @@ function handleFileSelection(event) {
       changeVideo();
       VIDEO.src = fileUrl;
     });
+
+    if (index === 0) {
+      button.classList.add('series__button--active');
+    }
   });
 
   showError('Відео обрано, готові грати &#128526;');
   validateFiles(selectedVideos);
-}
-
-function setActiveButton(button) {
-  const buttons = seriesList.querySelectorAll('.series__button');
-  buttons.forEach(btn => {
-    btn.classList.remove('series__button--active');
-  });
-
-  button.classList.add('series__button--active');
 }
 
 INPUTFILE.addEventListener('change', handleFileSelection);
@@ -579,8 +574,6 @@ function previousVideo() {
 nextButton.addEventListener('click', nextVideo);
 prevButton.addEventListener('click', previousVideo);
 
-VIDEO.addEventListener('ended', nextVideo);
-
 // Keyboard
 let videoKey;
 
@@ -678,12 +671,12 @@ function saveScheme(scheme) {
 	localStorage.setItem('color-scheme', scheme);
 }
 
-function getSavedScheme() {
-	return localStorage.getItem('color-scheme');
-}
-
 function clearScheme() {
 	localStorage.removeItem('color-scheme');
+}
+
+function getSavedScheme() {
+	return localStorage.getItem('color-scheme');
 }
 
 // Scheme BETA
@@ -767,6 +760,38 @@ function getSystemScheme() {
 
 setupSwitcher();
 setupScheme();
+
+// Series
+function setActiveButton(button) {
+  const buttons = SERIESLIST.querySelectorAll('.series__button');
+  buttons.forEach(btn => {
+    btn.classList.remove('series__button--active');
+  });
+
+  button.classList.add('series__button--active');
+}
+
+function updateActiveButton() {
+  const buttons = SERIESLIST.querySelectorAll('.series__button');
+  buttons.forEach((button, index) => {
+    if (index === currentVideoIndex) {
+      button.classList.add('series__button--active');
+    } else {
+      button.classList.remove('series__button--active');
+    }
+  });
+}
+
+function seriesEnd() {
+  currentVideoIndex++;
+  if (currentVideoIndex >= selectedVideos.length) {
+    currentVideoIndex = 0;
+  }
+  playCurrentVideo(selectedVideos[currentVideoIndex].url);
+  updateActiveButton();
+}
+
+VIDEO.addEventListener('ended', seriesEnd);
 
 // Set Video
 let game;
@@ -957,13 +982,12 @@ controlsCheckbox.addEventListener('click', showAddControls);
 
 // Series list
 const seriesCheckbox = SETTINGS.querySelector('.settings__checkbox--series');
-const seriesList = document.querySelector('.series');
 
 function showSeriesList() {
   if (seriesCheckbox.checked) {
-    seriesList.classList.remove('series--off');
+    SERIESLIST.classList.remove('series--off');
   } else {
-    seriesList.classList.add('series--off');
+    SERIESLIST.classList.add('series--off');
   }
 };
 
@@ -1033,6 +1057,18 @@ function getStatistics() {
   setStatistics();
 }
 
+function setStatistics() {
+  statisticsResolution.innerHTML = videoWidth + 'x' + videoHeight;
+  statisticsFormat.innerHTML = videoFormat;
+  statisticsDuration.innerHTML = videoDuration;
+
+  if (videoWidth >= 3840) {
+    statisticsUFH.classList.remove('statistics--off');
+  } else {
+    statisticsUFH.classList.add('statistics--off');
+  }
+}
+
 function getTime() {
   const clientDate = new Date();
   const clientHours = clientDate.getHours();
@@ -1046,18 +1082,6 @@ function getEndTime() {
   const futureClientHours = futureDate.getHours();
   const futureClientMinutes = futureDate.getMinutes();
   statisticsEndTime.innerHTML = futureClientHours + ':' + futureClientMinutes;
-}
-
-function setStatistics() {
-  statisticsResolution.innerHTML = videoWidth + 'x' + videoHeight;
-  statisticsFormat.innerHTML = videoFormat;
-  statisticsDuration.innerHTML = videoDuration;
-
-  if (videoWidth >= 3840) {
-    statisticsUFH.classList.remove('statistics--off');
-  } else {
-    statisticsUFH.classList.add('statistics--off');
-  }
 }
 
 // Tabs

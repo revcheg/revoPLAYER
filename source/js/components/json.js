@@ -139,5 +139,3 @@ function previousVideo() {
 
 nextButton.addEventListener('click', nextVideo);
 prevButton.addEventListener('click', previousVideo);
-
-VIDEO.addEventListener('ended', nextVideo);

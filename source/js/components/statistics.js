@@ -33,6 +33,18 @@ function getStatistics() {
   setStatistics();
 }
 
+function setStatistics() {
+  statisticsResolution.innerHTML = videoWidth + 'x' + videoHeight;
+  statisticsFormat.innerHTML = videoFormat;
+  statisticsDuration.innerHTML = videoDuration;
+
+  if (videoWidth >= 3840) {
+    statisticsUFH.classList.remove('statistics--off');
+  } else {
+    statisticsUFH.classList.add('statistics--off');
+  }
+}
+
 function getTime() {
   const clientDate = new Date();
   const clientHours = clientDate.getHours();
@@ -46,16 +58,4 @@ function getEndTime() {
   const futureClientHours = futureDate.getHours();
   const futureClientMinutes = futureDate.getMinutes();
   statisticsEndTime.innerHTML = futureClientHours + ':' + futureClientMinutes;
-}
-
-function setStatistics() {
-  statisticsResolution.innerHTML = videoWidth + 'x' + videoHeight;
-  statisticsFormat.innerHTML = videoFormat;
-  statisticsDuration.innerHTML = videoDuration;
-
-  if (videoWidth >= 3840) {
-    statisticsUFH.classList.remove('statistics--off');
-  } else {
-    statisticsUFH.classList.add('statistics--off');
-  }
 }

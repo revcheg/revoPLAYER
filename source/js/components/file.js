@@ -6,7 +6,7 @@ let selectedVideos = [];
 function handleFileSelection(event) {
   let files = event.target.files;
 
-  seriesList.innerHTML = '';
+  SERIESLIST.innerHTML = '';
 
   Array.from(files).forEach((file, index) => {
     let fileUrl = URL.createObjectURL(file);
@@ -27,7 +27,7 @@ function handleFileSelection(event) {
     button.type = 'button';
     button.textContent = fileDescription;
     li.appendChild(button);
-    seriesList.appendChild(li);
+    SERIESLIST.appendChild(li);
 
     button.addEventListener('click', () => {
       currentVideoIndex = index;
@@ -35,19 +35,14 @@ function handleFileSelection(event) {
       changeVideo();
       VIDEO.src = fileUrl;
     });
+
+    if (index === 0) {
+      button.classList.add('series__button--active');
+    }
   });
 
   showError('Відео обрано, готові грати &#128526;');
   validateFiles(selectedVideos);
-}
-
-function setActiveButton(button) {
-  const buttons = seriesList.querySelectorAll('.series__button');
-  buttons.forEach(btn => {
-    btn.classList.remove('series__button--active');
-  });
-
-  button.classList.add('series__button--active');
 }
 
 INPUTFILE.addEventListener('change', handleFileSelection);
