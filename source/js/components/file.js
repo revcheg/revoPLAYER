@@ -6,9 +6,7 @@ let selectedVideos = [];
 function handleFileSelection(event) {
   let files = event.target.files;
 
-  while (seriesList.firstChild) {
-    seriesList.removeChild(seriesList.firstChild);
-  }
+  seriesList.innerHTML = '';
 
   Array.from(files).forEach(file => {
     let fileUrl = URL.createObjectURL(file);
@@ -30,14 +28,18 @@ function handleFileSelection(event) {
     button.textContent = fileDescription;
     li.appendChild(button);
     seriesList.appendChild(li);
+
+    // button.addEventListener('click', () => {
+    //   playVideo(fileUrl);
+    // });
   });
 
   showError('Відео обрано, готові грати &#128526;');
   validateFiles(selectedVideos);
 };
 
-INPUTFILE.addEventListener('click', resetVideo);
 INPUTFILE.addEventListener('change', handleFileSelection);
+INPUTFILE.addEventListener('change', resetVideo);
 
 // Validate
 let fileSize;

@@ -29,14 +29,12 @@ function updateSettingsHeight() {
   const activeTab = document.querySelector('.settings__tab--active');
   const activeTabHeight = activeTab.clientHeight;
 
-  if (BODY.clientWidth < 1440) {
-    settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - 61px)`;
+  settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - 61px)`;
 
-    if (activeTabHeight >= settingsWrapperHeight) {
-      activeTab.style.height = settingsWrapperHeight + 'px';
-      activeTab.classList.add('settings__tab--scroll');
-      activeTab.style.height = settingsWrapperHeight + 'px';
-    }
+  if (activeTabHeight >= settingsWrapperHeight) {
+    activeTab.style.height = settingsWrapperHeight + 'px';
+    activeTab.classList.add('settings__tab--scroll');
+    activeTab.style.height = settingsWrapperHeight + 'px';
   }
 }
 

@@ -189,6 +189,12 @@ function changeSpeed() {
   }
 
   VIDEO.playbackRate = playbackRate;
+
+  if (playbackRate !== 1.0) {
+    speedButton.classList.add('control__button--active');
+  } else {
+    speedButton.classList.remove('control__button--active');
+  }
 };
 
 speedButton.addEventListener('click', changeSpeed);
@@ -354,9 +360,7 @@ let selectedVideos = [];
 function handleFileSelection(event) {
   let files = event.target.files;
 
-  while (seriesList.firstChild) {
-    seriesList.removeChild(seriesList.firstChild);
-  }
+  seriesList.innerHTML = '';
 
   Array.from(files).forEach(file => {
     let fileUrl = URL.createObjectURL(file);
@@ -378,14 +382,18 @@ function handleFileSelection(event) {
     button.textContent = fileDescription;
     li.appendChild(button);
     seriesList.appendChild(li);
+
+    // button.addEventListener('click', () => {
+    //   playVideo(fileUrl);
+    // });
   });
 
   showError('Відео обрано, готові грати &#128526;');
   validateFiles(selectedVideos);
 };
 
-INPUTFILE.addEventListener('click', resetVideo);
 INPUTFILE.addEventListener('change', handleFileSelection);
+INPUTFILE.addEventListener('change', resetVideo);
 
 // Validate
 let fileSize;
@@ -427,23 +435,24 @@ let currentVideoIndex = 0;
 let data = null;
 
 fetch('videos.json')
-	.then(response => {
-		if (!response.ok) {
-			showError('Помилка загрузки json &#128531;');
-			throw new Error('Failed to load videos.json');
-		}
-		return response.json();
-	})
-	.then(videoData => {
-		data = videoData;
-		currentCategory = 'TheWitcher';
-		currentSubcategory = 'deep';
-		currentVideoIndex = 0;
-		playCurrentVideo();
-	})
-	.catch(error => {
-		console.error('An error occurred:', error);
-	});
+  .then(response => {
+    if (!response.ok) {
+      showError('Помилка загрузки json &#128531;');
+      throw new Error('Failed to load videos.json');
+    }
+    return response.json();
+  })
+  .then(videoData => {
+    data = videoData;
+    currentCategory = 'TheWitcher';
+    currentSubcategory = 'deep';
+    currentVideoIndex = 0;
+
+    playCurrentVideo();
+  })
+  .catch(error => {
+    console.error('An error occurred:', error);
+  });
 
 
 function playCurrentVideo() {
@@ -458,13 +467,28 @@ function playCurrentVideo() {
   VIDEO.setAttribute('src', currentVideo.url);
   VIDEO.setAttribute('alt', currentVideo.description);
 
-  VIDEO.addEventListener('error', () => {
+  VIDEO.addEventListener('error', function() {
     showError('Не вдалось завантажити відео &#128531;');
   });
-};
+}
+
+function changeVideo() {
+  WRAPPER.className = 'video__wrapper';
+
+  playButtonIcon.classList.add('control__icon--hide');
+  pauseButtonIcon.classList.remove('control__icon--hide');
+
+  stopProgress();
+  resetDuration();
+
+  VIDEO.addEventListener('loadeddata', function() {
+    startVideo();
+  });
+
+  console.log('change');
+}
 
 function nextVideo() {
-  resetVideo();
   if (selectedVideos.length > 0) {
     currentVideoIndex++;
 
@@ -498,10 +522,10 @@ function nextVideo() {
     }
   }
   playCurrentVideo();
+  changeVideo();
 }
 
 function previousVideo() {
-  resetVideo();
   if (selectedVideos.length > 0) {
     currentVideoIndex--;
 
@@ -537,10 +561,13 @@ function previousVideo() {
     }
   }
   playCurrentVideo();
+  changeVideo();
 }
 
-prevButton.addEventListener('click', previousVideo);
 nextButton.addEventListener('click', nextVideo);
+prevButton.addEventListener('click', previousVideo);
+
+VIDEO.addEventListener('ended', nextVideo);
 
 // Keyboard
 let videoKey;
@@ -752,6 +779,7 @@ function setVideo() {
 function resetVideo() {
   VIDEO.load();
   VIDEO.removeAttribute('crossorigin');
+  VIDEO.removeAttribute('autoplay');
   WRAPPER.className = 'video__wrapper';
   STARTBUTTON.classList.remove('video__start--hide');
   CONTROLS.classList.add('control--hide');
@@ -931,7 +959,7 @@ seriesCheckbox.addEventListener('click', showSeriesList);
 
 // Start
 // const srcRegex = /^(http:|https:|file:).*/;
-const srcRegex = /^(file:).*/;
+// const srcRegex = /^(file:).*/;
 
 function startVideo() {
   // if (!VIDEO.src || VIDEO.src === '' || VIDEO.src.length === 0 || typeof VIDEO.src === 'undefined') {
@@ -951,6 +979,8 @@ function startVideo() {
 
     stayFocus();
     getStatistics();
+
+    console.log('start');
   }
 }
 
@@ -1049,14 +1079,12 @@ function updateSettingsHeight() {
   const activeTab = document.querySelector('.settings__tab--active');
   const activeTabHeight = activeTab.clientHeight;
 
-  if (BODY.clientWidth < 1440) {
-    settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - 61px)`;
+  settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - 61px)`;
 
-    if (activeTabHeight >= settingsWrapperHeight) {
-      activeTab.style.height = settingsWrapperHeight + 'px';
-      activeTab.classList.add('settings__tab--scroll');
-      activeTab.style.height = settingsWrapperHeight + 'px';
-    }
+  if (activeTabHeight >= settingsWrapperHeight) {
+    activeTab.style.height = settingsWrapperHeight + 'px';
+    activeTab.classList.add('settings__tab--scroll');
+    activeTab.style.height = settingsWrapperHeight + 'px';
   }
 }
 

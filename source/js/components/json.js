@@ -8,23 +8,24 @@ let currentVideoIndex = 0;
 let data = null;
 
 fetch('videos.json')
-	.then(response => {
-		if (!response.ok) {
-			showError('Помилка загрузки json &#128531;');
-			throw new Error('Failed to load videos.json');
-		}
-		return response.json();
-	})
-	.then(videoData => {
-		data = videoData;
-		currentCategory = 'TheWitcher';
-		currentSubcategory = 'deep';
-		currentVideoIndex = 0;
-		playCurrentVideo();
-	})
-	.catch(error => {
-		console.error('An error occurred:', error);
-	});
+  .then(response => {
+    if (!response.ok) {
+      showError('Помилка загрузки json &#128531;');
+      throw new Error('Failed to load videos.json');
+    }
+    return response.json();
+  })
+  .then(videoData => {
+    data = videoData;
+    currentCategory = 'TheWitcher';
+    currentSubcategory = 'deep';
+    currentVideoIndex = 0;
+
+    playCurrentVideo();
+  })
+  .catch(error => {
+    console.error('An error occurred:', error);
+  });
 
 
 function playCurrentVideo() {
@@ -39,13 +40,28 @@ function playCurrentVideo() {
   VIDEO.setAttribute('src', currentVideo.url);
   VIDEO.setAttribute('alt', currentVideo.description);
 
-  VIDEO.addEventListener('error', () => {
+  VIDEO.addEventListener('error', function() {
     showError('Не вдалось завантажити відео &#128531;');
   });
-};
+}
+
+function changeVideo() {
+  WRAPPER.className = 'video__wrapper';
+
+  playButtonIcon.classList.add('control__icon--hide');
+  pauseButtonIcon.classList.remove('control__icon--hide');
+
+  stopProgress();
+  resetDuration();
+
+  VIDEO.addEventListener('loadeddata', function() {
+    startVideo();
+  });
+
+  console.log('change');
+}
 
 function nextVideo() {
-  resetVideo();
   if (selectedVideos.length > 0) {
     currentVideoIndex++;
 
@@ -79,10 +95,10 @@ function nextVideo() {
     }
   }
   playCurrentVideo();
+  changeVideo();
 }
 
 function previousVideo() {
-  resetVideo();
   if (selectedVideos.length > 0) {
     currentVideoIndex--;
 
@@ -118,7 +134,10 @@ function previousVideo() {
     }
   }
   playCurrentVideo();
+  changeVideo();
 }
 
-prevButton.addEventListener('click', previousVideo);
 nextButton.addEventListener('click', nextVideo);
+prevButton.addEventListener('click', previousVideo);
+
+VIDEO.addEventListener('ended', nextVideo);

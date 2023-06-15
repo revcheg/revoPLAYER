@@ -21,6 +21,7 @@ function setVideo() {
 function resetVideo() {
   VIDEO.load();
   VIDEO.removeAttribute('crossorigin');
+  VIDEO.removeAttribute('autoplay');
   WRAPPER.className = 'video__wrapper';
   STARTBUTTON.classList.remove('video__start--hide');
   CONTROLS.classList.add('control--hide');

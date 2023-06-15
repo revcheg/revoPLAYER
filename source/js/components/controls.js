@@ -154,6 +154,12 @@ function changeSpeed() {
   }
 
   VIDEO.playbackRate = playbackRate;
+
+  if (playbackRate !== 1.0) {
+    speedButton.classList.add('control__button--active');
+  } else {
+    speedButton.classList.remove('control__button--active');
+  }
 };
 
 speedButton.addEventListener('click', changeSpeed);

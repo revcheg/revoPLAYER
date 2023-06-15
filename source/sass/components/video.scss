@@ -36,9 +36,8 @@
   position: relative;
   box-sizing: border-box;
   width: 95%;
-  max-width: 520px;
+  max-width: 600px;
   margin: 0 auto;
-  // box-shadow: 0 0 25px 5px #6320EE;
   border-radius: 10px;
   overflow: hidden;
   transition: 0.3s;
@@ -60,6 +59,10 @@
 
     .control {
       border-radius: 0;
+    }
+
+    .control__button--fit {
+      display: block;
     }
   }
 
@@ -126,7 +129,6 @@
     left: 0;
     width: 100%;
     height: 100%;
-    // background-color: rgba($blue-button, 0.2);
   }
 
   &:hover,
@@ -158,7 +160,6 @@
 
   path {
     opacity: 0.6;
-    // stroke: $blue-text;
     transition: 0.2s;
   }
 }
@@ -169,8 +170,7 @@
 
 @media (min-width: $tablet-width) {
   .video__wrapper {
-    width: 100%;
-    max-width: 700px;
+    max-width: none;
   }
 
   .video__icon {
@@ -181,14 +181,15 @@
 
 @media (min-width: $laptop-width) {
   .video__wrapper {
-    max-width: 730px;
+    max-width: 800px;
     margin: 0;
   }
 }
 
 @media (min-width: $desktop-width) {
   .video__wrapper {
-    width: 900px;
+    width: 1200px;
+    max-width: none;
   }
 
   .video__icon {

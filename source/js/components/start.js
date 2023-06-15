@@ -1,6 +1,6 @@
 // Start
 // const srcRegex = /^(http:|https:|file:).*/;
-const srcRegex = /^(file:).*/;
+// const srcRegex = /^(file:).*/;
 
 function startVideo() {
   // if (!VIDEO.src || VIDEO.src === '' || VIDEO.src.length === 0 || typeof VIDEO.src === 'undefined') {
@@ -20,6 +20,8 @@ function startVideo() {
 
     stayFocus();
     getStatistics();
+
+    console.log('start');
   }
 }
 

@@ -20,7 +20,6 @@
 .series__button {
 	margin: 0 auto;
 	padding: 10px 15px;
-	color: $blue-text;
 	font-size: 13px;
 
 	&--active {
@@ -30,10 +29,20 @@
 
 @media (min-width: $laptop-width) {
 	.series {
+		margin-left: 30px;
+	}
+
+	.series__button {
+		font-size: 15px;
+	}
+}
+
+@media (min-width: $desktop-width) {
+	.series {
 		margin-left: 50px;
 	}
 
 	.series__button {
-		font-size: 16px;
+		font-size: 18px;
 	}
 }

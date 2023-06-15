@@ -32,6 +32,13 @@
 	}
 }
 
+.control__button {
+
+	&--active {
+    box-shadow: 0 0 10px 2px #6320EE;
+  }
+}
+
 .control__range {
 
 	&::-webkit-slider-runnable-track {
@@ -109,8 +116,8 @@
 }
 
 // Settings
-.settings__icon {
-	fill: #8075FF;
+.settings {
+	background-color: rgba(#8075FF, 0.7);
 }
 
 // Video
@@ -132,6 +139,15 @@
 // Statistics
 .statistics {
 	color: #8075FF;
+}
+
+// Series
+.series__button {
+	color: #8075FF;
+
+	&--active {
+		box-shadow: 0 0 10px 1px rgba(#6320EE, 0.9);
+	}
 }
 
 // Error

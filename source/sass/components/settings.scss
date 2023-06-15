@@ -9,7 +9,6 @@
   min-height: 100%;
   padding: 20px 15px;
   color: #FFFFFF;
-  background-color: rgba($blue-text, 0.5);
   backdrop-filter: blur(0.5px);
   outline: none;
   transition: 0.5s;
@@ -24,7 +23,7 @@
 .settings__close {
   position: absolute;
   bottom: 25px;
-  right: 20px;
+  right: 25px;
   width: 45px;
   height: 45px;
   z-index: 2;
@@ -37,7 +36,7 @@
   width: 30px;
   height: 30px;
   transform: translate(-50%, -50%);
-  fill: $blue-button;
+  fill: #FFFFFF;
 }
 
 .settings__wrapper {
@@ -114,7 +113,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   cursor: pointer;
   transition: 0.2s;
 
@@ -169,6 +168,7 @@
   margin-bottom: 25px;
   padding: 0 20px;
   font-weight: 300;
+  line-height: 1.3em;
 
   &:last-child {
     margin-bottom: 0;
@@ -182,8 +182,9 @@
 }
 
 .settings__item {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   font-weight: 300;
+  line-height: 1.3em;
   list-style: inside;
 
   &:last-child {
@@ -195,7 +196,7 @@
   width: fit-content;
   margin: 0 auto;
   margin-bottom: 15px;
-  padding: 10px 15px;
+  padding: 12px 15px;
   color: #FFFFFF;
   font-size: 15px;
   font-weight: 300;
@@ -211,8 +212,8 @@
   display: inline-block;
   max-width: 150px;
   margin: 0 auto;
-  margin-bottom: 15px;
-  padding: 10px 15px;
+  margin-bottom: 10px;
+  padding: 12px 15px;
   color: #FFFFFF;
   font-size: 15px;
   font-weight: 300;
@@ -306,8 +307,8 @@
   }
 
   .settings__close {
-    top: 50px;
-    right: 50px;
+    top: 35px;
+    right: 35px;
     width: 60px;
     height: 60px;
   }
@@ -356,7 +357,7 @@
 
   .settings__text {
     margin-bottom: 30px;
-    font-size: 25px;
+    font-size: 23px;
   }
 
   .settings__time {
