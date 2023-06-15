@@ -9,8 +9,6 @@
   font-size: 14px;
   font-weight: 300;
   text-align: center;
-  // box-shadow: 0 0 10px 5px rgba($blue-button, 0.4);
-  // background-color: rgba($blue-button, 0.5);
   backdrop-filter: blur(0.5px);
   transform: translateX(-50%);
   transition: 0.3s;
@@ -30,7 +28,7 @@
 
 @media (min-width: $desktop-width) {
   .error {
-    bottom: 56px;
+    bottom: 43px;
     padding: 15px 30px;
     font-size: 22px;
   }

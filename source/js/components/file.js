@@ -8,7 +8,7 @@ function handleFileSelection(event) {
 
   seriesList.innerHTML = '';
 
-  Array.from(files).forEach(file => {
+  Array.from(files).forEach((file, index) => {
     let fileUrl = URL.createObjectURL(file);
     let fileDescription = file.name;
 
@@ -29,14 +29,26 @@ function handleFileSelection(event) {
     li.appendChild(button);
     seriesList.appendChild(li);
 
-    // button.addEventListener('click', () => {
-    //   playVideo(fileUrl);
-    // });
+    button.addEventListener('click', () => {
+      currentVideoIndex = index;
+      setActiveButton(button);
+      changeVideo();
+      VIDEO.src = fileUrl;
+    });
   });
 
   showError('Відео обрано, готові грати &#128526;');
   validateFiles(selectedVideos);
-};
+}
+
+function setActiveButton(button) {
+  const buttons = seriesList.querySelectorAll('.series__button');
+  buttons.forEach(btn => {
+    btn.classList.remove('series__button--active');
+  });
+
+  button.classList.add('series__button--active');
+}
 
 INPUTFILE.addEventListener('change', handleFileSelection);
 INPUTFILE.addEventListener('change', resetVideo);
@@ -64,9 +76,9 @@ function validateFiles(videos) {
       }
     }
   });
-};
+}
 
 function isSupportedFileType(fileType) {
   let supportedFormats = ['video/mp4', 'video/webm', 'video/mov'];
   return supportedFormats.includes(fileType);
-};
+}
