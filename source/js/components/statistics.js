@@ -6,6 +6,8 @@ let videoDuration;
 let videoBuffer;
 // let videoFPS;
 let videoCurrentTime;
+let windowWidth = window.innerWidth;
+let windowHeight = window.innerHeight;
 
 const statisticsClientTime = STATISTICS.querySelector('.statistics__time');
 const statisticsEndTime = STATISTICS.querySelector('.statistics__end');
@@ -30,6 +32,7 @@ function getStatistics() {
   videoDuration = Math.round(VIDEO.duration);
   VIDEORANGE.setAttribute('max', videoDuration);
 
+  // checkVideoFit();
   setStatistics();
 }
 

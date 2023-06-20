@@ -21,6 +21,7 @@
 	margin: 0 auto;
 	padding: 10px 15px;
 	font-size: 13px;
+	transition: 0.2s;
 
 	&--active {
 		box-shadow: 0 0 10px 1px rgba(#6320EE, 0.9);

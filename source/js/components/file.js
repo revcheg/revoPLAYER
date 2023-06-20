@@ -31,8 +31,8 @@ function handleFileSelection(event) {
 
     button.addEventListener('click', () => {
       currentVideoIndex = index;
-      setActiveButton(button);
       changeVideo();
+      setActiveButton(button);
       VIDEO.src = fileUrl;
     });
 
@@ -41,12 +41,11 @@ function handleFileSelection(event) {
     }
   });
 
-  showError('Відео обрано, готові грати &#128526;');
   validateFiles(selectedVideos);
 }
 
-INPUTFILE.addEventListener('change', handleFileSelection);
 INPUTFILE.addEventListener('change', resetVideo);
+INPUTFILE.addEventListener('change', handleFileSelection);
 
 // Validate
 let fileSize;
@@ -66,6 +65,7 @@ function validateFiles(videos) {
         showError('Непідтримуваний тип файлу &#128552;');
         INPUTFILE.value = '';
       } else {
+        showError('Відео обрано, готові грати &#128526;');
         VIDEO.setAttribute('crossorigin', 'anonymous');
         playCurrentVideo();
       }
@@ -74,6 +74,6 @@ function validateFiles(videos) {
 }
 
 function isSupportedFileType(fileType) {
-  let supportedFormats = ['video/mp4', 'video/webm', 'video/mov'];
+  let supportedFormats = ['video/mp4', 'video/webm', 'video/mkv', 'video/mov'];
   return supportedFormats.includes(fileType);
 }

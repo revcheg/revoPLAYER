@@ -19,15 +19,15 @@ function setVideo() {
 
 // Reset video
 function resetVideo() {
-  VIDEO.load();
+  VIDEO.pause();
   VIDEO.removeAttribute('crossorigin');
-  VIDEO.removeAttribute('autoplay');
+  // VIDEO.removeAttribute('autoplay');
+  autoplayFlag = false;
   WRAPPER.className = 'video__wrapper';
   STARTBUTTON.classList.remove('video__start--hide');
   CONTROLS.classList.add('control--hide');
   STATISTICS.classList.add('statistics--hide');
   statisticsUFH.classList.add('statistics--off');
-
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
 

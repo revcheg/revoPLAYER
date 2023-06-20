@@ -29,6 +29,13 @@ fetch('videos.json')
 
 
 function playCurrentVideo() {
+  playButtonIcon.classList.add('control__icon--hide');
+  pauseButtonIcon.classList.remove('control__icon--hide');
+
+  stopProgress();
+  resetDuration();
+  updateActiveButton();
+
   let currentVideo;
 
   if (selectedVideos.length > 0) {
@@ -40,25 +47,18 @@ function playCurrentVideo() {
   VIDEO.setAttribute('src', currentVideo.url);
   VIDEO.setAttribute('alt', currentVideo.description);
 
+  if (autoplayFlag) {
+    VIDEO.addEventListener('loadeddata', startVideo);
+    // VIDEO.setAttribute('autoplay', 'autoplay');
+  } else {
+    VIDEO.removeEventListener('loadeddata', startVideo);
+    // VIDEO.setAttribute('autoplay', 'autoplay');
+  }
+
   VIDEO.addEventListener('error', function() {
     showError('Не вдалось завантажити відео &#128531;');
+    resetVideo();
   });
-}
-
-function changeVideo() {
-  WRAPPER.className = 'video__wrapper';
-
-  playButtonIcon.classList.add('control__icon--hide');
-  pauseButtonIcon.classList.remove('control__icon--hide');
-
-  stopProgress();
-  resetDuration();
-
-  VIDEO.addEventListener('loadeddata', function() {
-    startVideo();
-  });
-
-  console.log('change');
 }
 
 function nextVideo() {
@@ -95,7 +95,6 @@ function nextVideo() {
     }
   }
   playCurrentVideo();
-  changeVideo();
 }
 
 function previousVideo() {
@@ -134,8 +133,9 @@ function previousVideo() {
     }
   }
   playCurrentVideo();
-  changeVideo();
 }
 
 nextButton.addEventListener('click', nextVideo);
 prevButton.addEventListener('click', previousVideo);
+
+VIDEO.addEventListener('ended', nextVideo);

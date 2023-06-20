@@ -28,4 +28,4 @@ function seriesEnd() {
   updateActiveButton();
 }
 
-VIDEO.addEventListener('ended', seriesEnd);
+// VIDEO.addEventListener('ended', seriesEnd);

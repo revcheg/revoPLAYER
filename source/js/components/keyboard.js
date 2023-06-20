@@ -14,11 +14,13 @@ VIDEO.addEventListener('keyup', (event) => {
     case 'ArrowLeft':
       VIDEO.currentTime -= 5;
       VIDEORANGE.value = VIDEO.currentTime;
+      setDuration();
       break;
 
     case 'ArrowRight':
       VIDEO.currentTime += 5;
       VIDEORANGE.value = VIDEO.currentTime;
+      setDuration();
       break;
 
     case 'ArrowUp':
