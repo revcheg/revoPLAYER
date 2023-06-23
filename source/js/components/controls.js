@@ -230,9 +230,11 @@ function changeFitscreen() {
   if (changedFit === 'contain') {
     fitButton.setAttribute('aria-label', 'Ростягнути зображення');
     fitButton.setAttribute('title', 'Ростягнути зображення (x)');
+    fitButton.classList.remove('control__button--active');
   } else {
     fitButton.setAttribute('aria-label', 'Зменшити зображення');
     fitButton.setAttribute('title', 'Зменшити зображення (x)');
+    fitButton.classList.add('control__button--active');
   }
 };
 

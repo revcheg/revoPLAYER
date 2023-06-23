@@ -18,14 +18,3 @@ function updateActiveButton() {
     }
   });
 }
-
-function seriesEnd() {
-  currentVideoIndex++;
-  if (currentVideoIndex >= selectedVideos.length) {
-    currentVideoIndex = 0;
-  }
-  playCurrentVideo(selectedVideos[currentVideoIndex].url);
-  updateActiveButton();
-}
-
-// VIDEO.addEventListener('ended', seriesEnd);

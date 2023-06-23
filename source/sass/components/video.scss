@@ -114,12 +114,13 @@
   height: 100%;
   outline: none;
   border-radius: 10px;
-  transition: 0.2s;
+  transition: background-color 0.8s, opacity 0.8s, transform 0s;
+  transition-delay: 0s, 0s, 0.3s;
 
   &--hide {
     background-color: transparent;
     opacity: 0;
-    z-index: -1;
+    transform: scale(0);
   }
 
   &::before {

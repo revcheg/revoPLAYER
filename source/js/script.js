@@ -265,9 +265,11 @@ function changeFitscreen() {
   if (changedFit === 'contain') {
     fitButton.setAttribute('aria-label', 'Ростягнути зображення');
     fitButton.setAttribute('title', 'Ростягнути зображення (x)');
+    fitButton.classList.remove('control__button--active');
   } else {
     fitButton.setAttribute('aria-label', 'Зменшити зображення');
     fitButton.setAttribute('title', 'Зменшити зображення (x)');
+    fitButton.classList.add('control__button--active');
   }
 };
 
@@ -440,7 +442,7 @@ function handleFileSelection(event) {
 
     button.addEventListener('click', () => {
       currentVideoIndex = index;
-      changeVideo();
+      playCurrentVideo();
       setActiveButton(button);
       VIDEO.src = fileUrl;
     });
@@ -536,12 +538,13 @@ function playCurrentVideo() {
   VIDEO.setAttribute('src', currentVideo.url);
   VIDEO.setAttribute('alt', currentVideo.description);
 
-  if (autoplayFlag) {
+  if (autoplayFlag && selectedVideos.length > 0) {
     VIDEO.addEventListener('loadeddata', startVideo);
     // VIDEO.setAttribute('autoplay', 'autoplay');
   } else {
     VIDEO.removeEventListener('loadeddata', startVideo);
     // VIDEO.setAttribute('autoplay', 'autoplay');
+    resetVideo();
   }
 
   VIDEO.addEventListener('error', function() {
@@ -839,17 +842,6 @@ function updateActiveButton() {
   });
 }
 
-function seriesEnd() {
-  currentVideoIndex++;
-  if (currentVideoIndex >= selectedVideos.length) {
-    currentVideoIndex = 0;
-  }
-  playCurrentVideo(selectedVideos[currentVideoIndex].url);
-  updateActiveButton();
-}
-
-// VIDEO.addEventListener('ended', seriesEnd);
-
 // Set Video
 let game;
 
@@ -874,7 +866,6 @@ function resetVideo() {
   VIDEO.pause();
   VIDEO.removeAttribute('crossorigin');
   // VIDEO.removeAttribute('autoplay');
-  autoplayFlag = false;
   WRAPPER.className = 'video__wrapper';
   STARTBUTTON.classList.remove('video__start--hide');
   CONTROLS.classList.add('control--hide');
@@ -1035,7 +1026,21 @@ function showAddControls() {
   });
 };
 
-controlsCheckbox.addEventListener('click', showAddControls);
+controlsCheckbox.addEventListener('change', showAddControls);
+
+// Autoplay
+let autoplayFlag = true;
+const autoplayCheckbox = SETTINGS.querySelector('.settings__checkbox--autoplay');
+
+function setAutoplay() {
+  if (autoplayCheckbox.checked) {
+    autoplayFlag = true;
+  } else {
+    autoplayFlag = false;
+  }
+};
+
+autoplayCheckbox.addEventListener('change', setAutoplay);
 
 // Series list
 const seriesCheckbox = SETTINGS.querySelector('.settings__checkbox--series');
@@ -1048,27 +1053,25 @@ function showSeriesList() {
   }
 };
 
-seriesCheckbox.addEventListener('click', showSeriesList);
+seriesCheckbox.addEventListener('change', showSeriesList);
 
 // Start
-let autoplayFlag = false;
-
 function startVideo() {
-  autoplayFlag = true;
-
-  if (!VIDEO.hasAttribute('src') || VIDEO.src === '') {
+  if (!VIDEO.hasAttribute('src') || VIDEO.src === '' || VIDEO.error) {
     openButton.focus();
     openButton.classList.add('header__menu--error');
     setTimeout(() => {
       openButton.classList.remove('header__menu--error');
     }, 2000);
+
+    // showError(VIDEO.error.message);
   } else if (VIDEO.readyState >= VIDEO.HAVE_CURRENT_DATA || VIDEO.readyState === HTMLMediaElement.HAVE_ENOUGH_DATA) {
     openButton.classList.remove('header__menu--error');
     STARTBUTTON.classList.add('video__start--hide');
     CONTROLS.classList.remove('control--off', 'control--hide');
 
     getStatistics();
-    // stayFocus();
+    stayFocus();
 
     VIDEO.play();
 
@@ -1232,7 +1235,7 @@ function stayFocus() {
 VIDEO.addEventListener('play', startProgress);
 VIDEO.addEventListener('pause', stopProgress);
 VIDEO.addEventListener('ended', stopProgress);
-// VIDEO.addEventListener('blur', stayFocus);
+VIDEO.addEventListener('blur', stayFocus);
 
 // Video handler
 // Waiting

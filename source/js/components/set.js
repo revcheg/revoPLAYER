@@ -22,7 +22,6 @@ function resetVideo() {
   VIDEO.pause();
   VIDEO.removeAttribute('crossorigin');
   // VIDEO.removeAttribute('autoplay');
-  autoplayFlag = false;
   WRAPPER.className = 'video__wrapper';
   STARTBUTTON.classList.remove('video__start--hide');
   CONTROLS.classList.add('control--hide');

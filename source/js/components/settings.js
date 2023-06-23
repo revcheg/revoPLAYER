@@ -146,7 +146,21 @@ function showAddControls() {
   });
 };
 
-controlsCheckbox.addEventListener('click', showAddControls);
+controlsCheckbox.addEventListener('change', showAddControls);
+
+// Autoplay
+let autoplayFlag = true;
+const autoplayCheckbox = SETTINGS.querySelector('.settings__checkbox--autoplay');
+
+function setAutoplay() {
+  if (autoplayCheckbox.checked) {
+    autoplayFlag = true;
+  } else {
+    autoplayFlag = false;
+  }
+};
+
+autoplayCheckbox.addEventListener('change', setAutoplay);
 
 // Series list
 const seriesCheckbox = SETTINGS.querySelector('.settings__checkbox--series');
@@ -159,4 +173,4 @@ function showSeriesList() {
   }
 };
 
-seriesCheckbox.addEventListener('click', showSeriesList);
+seriesCheckbox.addEventListener('change', showSeriesList);

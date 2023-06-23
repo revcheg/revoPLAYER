@@ -31,7 +31,7 @@ function handleFileSelection(event) {
 
     button.addEventListener('click', () => {
       currentVideoIndex = index;
-      changeVideo();
+      playCurrentVideo();
       setActiveButton(button);
       VIDEO.src = fileUrl;
     });

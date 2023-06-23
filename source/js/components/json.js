@@ -47,12 +47,13 @@ function playCurrentVideo() {
   VIDEO.setAttribute('src', currentVideo.url);
   VIDEO.setAttribute('alt', currentVideo.description);
 
-  if (autoplayFlag) {
+  if (autoplayFlag && selectedVideos.length > 0) {
     VIDEO.addEventListener('loadeddata', startVideo);
     // VIDEO.setAttribute('autoplay', 'autoplay');
   } else {
     VIDEO.removeEventListener('loadeddata', startVideo);
     // VIDEO.setAttribute('autoplay', 'autoplay');
+    resetVideo();
   }
 
   VIDEO.addEventListener('error', function() {
