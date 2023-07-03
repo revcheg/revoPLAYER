@@ -229,7 +229,6 @@ function openPip() {
 }
 
 pipButton.addEventListener('click', openPip);
-
 document.addEventListener('leavepictureinpicture', () => {
   pipButton.classList.remove('control__button--active');
 });
