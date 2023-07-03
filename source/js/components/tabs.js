@@ -29,7 +29,7 @@ function updateSettingsHeight() {
   const activeTab = document.querySelector('.settings__tab--active');
   const activeTabHeight = activeTab.clientHeight;
 
-  settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - 61px)`;
+  settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - 90px)`;
 
   if (activeTabHeight >= settingsWrapperHeight) {
     activeTab.style.height = settingsWrapperHeight + 'px';

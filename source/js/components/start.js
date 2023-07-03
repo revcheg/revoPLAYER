@@ -7,7 +7,9 @@ function startVideo() {
       openButton.classList.remove('header__menu--error');
     }, 2000);
 
-    // showError(VIDEO.error.message);
+    if (VIDEO.error) {
+      showError(VIDEO.error.message);
+    }
   } else if (VIDEO.readyState >= VIDEO.HAVE_CURRENT_DATA || VIDEO.readyState === HTMLMediaElement.HAVE_ENOUGH_DATA) {
     openButton.classList.remove('header__menu--error');
     STARTBUTTON.classList.add('video__start--hide');
@@ -18,7 +20,11 @@ function startVideo() {
 
     VIDEO.play();
 
-    console.log('start');
+    if (autoplayFlag && selectedVideos.length > 0) {
+      VIDEO.addEventListener('loadeddata', startVideo);
+    } else {
+      VIDEO.removeEventListener('loadeddata', startVideo);
+    }
   }
 }
 

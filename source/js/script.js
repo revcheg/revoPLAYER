@@ -14,25 +14,6 @@ const ERROR = document.querySelector('.error');
 
 // const backgroundVideo = document.querySelector('.video__background');
 
-// const castButton = CONTROLS.querySelector('.control__button--cast');
-
-// function castVideo () {
-//   const castSessionRequest = new chrome.cast.SessionRequest(chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID);
-//   chrome.cast.requestSession(
-//     (castSession) => {
-//       const mediaInfo = new chrome.cast.media.MediaInfo(videoPlayer.src);
-//       const request = new chrome.cast.media.LoadRequest(mediaInfo);
-//       castSession.loadMedia(request);
-//     },
-//     (error) => {
-//       console.log(error);
-//     },
-//     castSessionRequest
-//   );
-// };
-
-// castButton.addEventListener('click', castVideo);
-
 // CONTROLS
 VIDEO.controls = false;
 
@@ -240,22 +221,37 @@ function changeSpeed() {
 
 speedButton.addEventListener('click', changeSpeed);
 
+// Picture in picture
+const pipButton = CONTROLS.querySelector('.control__button--pip');
+
+function openPip() {
+  if (document.pictureInPictureElement) {
+    document.exitPictureInPicture()
+      .then(() => {
+        pipButton.classList.remove('control__button--active');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  } else {
+    VIDEO.requestPictureInPicture()
+      .then(() => {
+        pipButton.classList.add('control__button--active');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+}
+
+pipButton.addEventListener('click', openPip);
+
+document.addEventListener('leavepictureinpicture', () => {
+  pipButton.classList.remove('control__button--active');
+});
+
 // Fit
 const fitButton = CONTROLS.querySelector('.control__button--fit');
-
-// function checkVideoFit() {
-//   if (videoWidth <= windowWidth && videoHeight <= windowHeight) {
-//     fitButton.style.display = 'none';
-//     fitButton.disabled = true;
-//     console.log('fit false');
-//   } else {
-//     fitButton.style.display = 'block';
-//     fitButton.disabled = false;
-//     console.log('fit true');
-//   }
-//   console.log(videoWidth);
-//   console.log(windowWidth);
-// }
 
 function changeFitscreen() {
   let currentFit = VIDEO.style.objectFit;
@@ -400,13 +396,22 @@ WRAPPER.addEventListener("mousemove", handleMouseMove);
 WRAPPER.addEventListener("mouseleave", hideControls);
 
 // Error
+let errorTimeout;
+
 function showError(errorMessage) {
+  clearTimeout(errorTimeout);
+
   ERROR.classList.remove('error--hide');
   ERROR.innerHTML = errorMessage;
 
-  setTimeout(() => {
+  if (!ERROR.classList.contains('error--animate')) {
+    ERROR.classList.add('error--animate');
+  }
+
+  errorTimeout = setTimeout(() => {
+    ERROR.classList.remove('error--animate');
     ERROR.classList.add('error--hide');
-  }, 2000)
+  }, 2000);
 }
 
 // File
@@ -523,7 +528,6 @@ function playCurrentVideo() {
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
 
-  stopProgress();
   resetDuration();
   updateActiveButton();
 
@@ -537,15 +541,6 @@ function playCurrentVideo() {
 
   VIDEO.setAttribute('src', currentVideo.url);
   VIDEO.setAttribute('alt', currentVideo.description);
-
-  if (autoplayFlag && selectedVideos.length > 0) {
-    VIDEO.addEventListener('loadeddata', startVideo);
-    // VIDEO.setAttribute('autoplay', 'autoplay');
-  } else {
-    VIDEO.removeEventListener('loadeddata', startVideo);
-    // VIDEO.setAttribute('autoplay', 'autoplay');
-    resetVideo();
-  }
 
   VIDEO.addEventListener('error', function() {
     showError('Не вдалось завантажити відео &#128531;');
@@ -672,6 +667,10 @@ VIDEO.addEventListener('keyup', (event) => {
 
     case 's':
       changeSpeed();
+      break;
+
+    case 'q':
+      openPip();
       break;
 
     case 'x':
@@ -865,7 +864,6 @@ function setVideo() {
 function resetVideo() {
   VIDEO.pause();
   VIDEO.removeAttribute('crossorigin');
-  // VIDEO.removeAttribute('autoplay');
   WRAPPER.className = 'video__wrapper';
   STARTBUTTON.classList.remove('video__start--hide');
   CONTROLS.classList.add('control--hide');
@@ -873,7 +871,6 @@ function resetVideo() {
   statisticsUFH.classList.add('statistics--off');
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
-
   stopProgress();
   resetDuration();
 }
@@ -901,24 +898,41 @@ const statisticsAdditionalCheckbox = SETTINGS.querySelector('.settings__checkbox
 const statisticsAdditional = SETTINGS.querySelector('.settings__label--add');
 const statisticsHiddenCategory = STATISTICS.querySelectorAll('.statistics__category--hide');
 
-statisticsCheckbox.addEventListener('change', function (event) {
-  if (event.currentTarget.checked) {
-    STATISTICS.classList.remove('statistics--off');
-    statisticsAdditional.classList.remove('settings__label--hide');
-    statisticsAdditionalCheckbox.removeAttribute('disabled');
-  } else {
-    STATISTICS.classList.add('statistics--off');
-    statisticsAdditional.classList.add('settings__label--hide');
-    statisticsAdditionalCheckbox.checked = false;
-    statisticsAdditionalCheckbox.setAttribute('disabled', 'disabled');
-  }
-});
+function showAddCheckbox(event) {
+  const checked = event.currentTarget.checked;
 
-statisticsAdditionalCheckbox.addEventListener('change', function (event) {
-  statisticsHiddenCategory.forEach((element) => {
-    element.classList.remove('statistics__category--hide');
-  });
-});
+  STATISTICS.classList.toggle('statistics--off', !checked);
+  statisticsAdditional.classList.toggle('settings__label--hide', !checked);
+  statisticsAdditionalCheckbox.disabled = !checked;
+
+  if (!checked) {
+    statisticsAdditionalCheckbox.checked = false;
+    statisticsHiddenCategory.forEach((element) => {
+      element.classList.add('statistics__category--hide');
+    });
+  }
+}
+
+function showAddStatistic(event) {
+  const checked = event.currentTarget.checked;
+
+  if (checked) {
+    statisticsHiddenCategory.forEach((element) => {
+      element.classList.remove('statistics__category--hide');
+    });
+  } else {
+    statisticsHiddenCategory.forEach((element) => {
+      element.classList.add('statistics__category--hide');
+    });
+  }
+
+  if (!checked) {
+    statisticsAdditionalCheckbox.checked = false;
+  }
+}
+
+statisticsCheckbox.addEventListener('change', showAddCheckbox);
+statisticsAdditionalCheckbox.addEventListener('change', showAddStatistic);
 
 // Deep mode
 let deepFlag = 'main';
@@ -975,20 +989,6 @@ function setScale(event) {
 }
 
 scaleCheckbox.addEventListener('change', setupScale);
-
-// function movingMobileVideo(event) {
-//   if (scaleCheckbox.checked) {
-//     let tiltX = event.beta;
-//     let tiltY = event.gamma;
-//     let rotateX = (tiltX / 45) * -30;
-//     let rotateY = (tiltY / 45) * 30;
-
-//     WRAPPER.style.transform = 'perspective(1000px) rotateY(' + rotateY + 'deg) rotateX(' + rotateX + 'deg) scaleZ(2)';
-//   }
-// }
-
-// BODY.addEventListener('mousemove', setScale);
-// BODY.addEventListener('deviceorientation', movingMobileVideo);
 
 // Extra line
 let lineProgress;
@@ -1064,7 +1064,9 @@ function startVideo() {
       openButton.classList.remove('header__menu--error');
     }, 2000);
 
-    // showError(VIDEO.error.message);
+    if (VIDEO.error) {
+      showError(VIDEO.error.message);
+    }
   } else if (VIDEO.readyState >= VIDEO.HAVE_CURRENT_DATA || VIDEO.readyState === HTMLMediaElement.HAVE_ENOUGH_DATA) {
     openButton.classList.remove('header__menu--error');
     STARTBUTTON.classList.add('video__start--hide');
@@ -1075,7 +1077,11 @@ function startVideo() {
 
     VIDEO.play();
 
-    console.log('start');
+    if (autoplayFlag && selectedVideos.length > 0) {
+      VIDEO.addEventListener('loadeddata', startVideo);
+    } else {
+      VIDEO.removeEventListener('loadeddata', startVideo);
+    }
   }
 }
 
@@ -1115,7 +1121,6 @@ function getStatistics() {
   videoDuration = Math.round(VIDEO.duration);
   VIDEORANGE.setAttribute('max', videoDuration);
 
-  // checkVideoFit();
   setStatistics();
 }
 
@@ -1131,6 +1136,30 @@ function setStatistics() {
   }
 }
 
+// FPS
+// let framesRendered = 0;
+// let startTime = null;
+
+// function countFrames() {
+//   if (!startTime) {
+//     startTime = performance.now();
+//   }
+
+//   framesRendered++;
+
+//   if (performance.now() - startTime >= 1000) {
+//     videoFPS = framesRendered / ((performance.now() - startTime) / 1000);
+//     statisticsFPS.innerHTML = Math.round(videoFPS);
+//     framesRendered = 0;
+//     startTime = null;
+//   }
+
+//   requestAnimationFrame(countFrames);
+// }
+
+// VIDEO.addEventListener('play', countFrames);
+
+// Time
 function getTime() {
   const clientDate = new Date();
   const clientHours = clientDate.getHours();
@@ -1177,7 +1206,7 @@ function updateSettingsHeight() {
   const activeTab = document.querySelector('.settings__tab--active');
   const activeTabHeight = activeTab.clientHeight;
 
-  settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - 61px)`;
+  settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - 90px)`;
 
   if (activeTabHeight >= settingsWrapperHeight) {
     activeTab.style.height = settingsWrapperHeight + 'px';
@@ -1250,22 +1279,6 @@ function playingVideo() {
 
 VIDEO.addEventListener('waiting', waitingVideo);
 VIDEO.addEventListener('playing', playingVideo);
-
-// Loading
-// function loadVideo() {
-
-//   console.log('load');
-// }
-
-// VIDEO.addEventListener('load', loadVideo);
-
-// End
-// function endVideo() {
-//   resetVideo();
-//   VIDEO.blur();
-// }
-
-// VIDEO.addEventListener('ended', endVideo);
 
 // Error
 function errorVideo() {

@@ -30,6 +30,10 @@
   &::-o-media-panel {
     display: none;
   }
+
+  &::before {
+    content: none;
+  }
 }
 
 .video__wrapper {
@@ -59,6 +63,10 @@
 
     .control {
       border-radius: 0;
+    }
+
+    .control__button--pip {
+      display: none;
     }
 
     .control__button--fit {

@@ -59,7 +59,6 @@
           <p class="statistics__category">Тривалість: <span class="statistics__duration"></span> секунд</p>
           <p class="statistics__category  statistics__category--hide">Буфер: <span class="statistics__buffer"></span> секунд</p>
           <!-- <p class="statistics__category  statistics__category--hide">FPS: <span class="statistics__fps"></span></p> -->
-          <!-- <p class="statistics__category">Bitrate: <span class="statistics__bitrate"></span></p> -->
         </section>
 
         <video class="video" src="" preload="auto" controls="false" aria-label="Контент обраного відео" alt="Контент обраного відео" tabindex="0" disableRemotePlayback></video>
@@ -112,6 +111,11 @@
               </g>
             </svg>
           </button>
+          <button class="button  control__button  control__button--pip  control__button--hide" aria-label="Міні-програвач" title="Міні-програвач (q)" type="button">
+            <svg class="control__icon  control__icon--pip" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16">
+              <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h13A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 12.5v-9zM1.5 3a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/><path d="M8 8.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-5a.5.5 0 0 1-.5-.5v-3z"/>
+            </svg>
+          </button>
           <button class="button  control__button  control__button--fit  control__button--hide" aria-label="Ростягнути зображення" title="Ростягнути зображення (x)" type="button">
             <svg class="control__icon  control__icon--fit" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
               <path d="M18 20.75h-6a.75.75 0 1 1 0-1.5h6A1.25 1.25 0 0 0 19.25 18V6A1.25 1.25 0 0 0 18 4.75H6A1.25 1.25 0 0 0 4.75 6v6a.75.75 0 1 1-1.5 0V6A2.75 2.75 0 0 1 6 3.25h12A2.75 2.75 0 0 1 20.75 6v12A2.75 2.75 0 0 1 18 20.75Z"/>
@@ -128,11 +132,6 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 4v3a2 2 0 0 0 2 2h3M9 4v3a2 2 0 0 1-2 2H4m11 11v-3a2 2 0 0 1 2-2h3M9 20v-3a2 2 0 0 0-2-2H4"/>
             </svg>
           </button>
-          <!-- <button class="button  control__button  control__button--cast" aria-label="Транслювати на інший пристрій" title="Транслювати на інший пристрій (с)" type="button">
-            <svg class="control__icon  control__icon--size" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="m12 0 3.293 3.293-3.172 3.171 1.415 1.415 3.171-3.172L20 8V0h-8Zm1.536 12.121-1.415 1.415 3.172 3.171L12 20h8v-8l-3.293 3.293-3.171-3.172Zm-5.657 1.415-1.415-1.415-3.171 3.172L0 12v8h8l-3.293-3.293 3.172-3.171ZM6.464 7.879l1.415-1.415-3.172-3.171L8 0H0v8l3.293-3.293 3.171 3.172Z"/>
-            </svg>
-          </button> -->
         </section>
       </section>
 
@@ -213,11 +212,11 @@
           </label>
           <label class="settings__label">
             <input class="settings__checkbox  settings__checkbox--scale" type="checkbox">
-            <span class="settings__name">Зробити плеєр об'ємним (візуально)</span>
+            <span class="settings__name">Зробити плеєр об'ємним</span>
           </label>
           <label class="settings__label">
             <input class="settings__checkbox  settings__checkbox--hq" type="checkbox" disabled>
-            <span class="settings__name">Найкраща якість відео (чекаємо сервер)</span>
+            <span class="settings__name">Найкраща якість (чекаємо сервер)</span>
           </label>
           <label class="settings__label">
             <input class="settings__checkbox  settings__checkbox--deep" type="checkbox" disabled>

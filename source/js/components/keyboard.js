@@ -40,6 +40,10 @@ VIDEO.addEventListener('keyup', (event) => {
       changeSpeed();
       break;
 
+    case 'q':
+      openPip();
+      break;
+
     case 'x':
       changeFitscreen();
       break;

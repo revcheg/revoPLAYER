@@ -21,24 +21,41 @@ const statisticsAdditionalCheckbox = SETTINGS.querySelector('.settings__checkbox
 const statisticsAdditional = SETTINGS.querySelector('.settings__label--add');
 const statisticsHiddenCategory = STATISTICS.querySelectorAll('.statistics__category--hide');
 
-statisticsCheckbox.addEventListener('change', function (event) {
-  if (event.currentTarget.checked) {
-    STATISTICS.classList.remove('statistics--off');
-    statisticsAdditional.classList.remove('settings__label--hide');
-    statisticsAdditionalCheckbox.removeAttribute('disabled');
-  } else {
-    STATISTICS.classList.add('statistics--off');
-    statisticsAdditional.classList.add('settings__label--hide');
-    statisticsAdditionalCheckbox.checked = false;
-    statisticsAdditionalCheckbox.setAttribute('disabled', 'disabled');
-  }
-});
+function showAddCheckbox(event) {
+  const checked = event.currentTarget.checked;
 
-statisticsAdditionalCheckbox.addEventListener('change', function (event) {
-  statisticsHiddenCategory.forEach((element) => {
-    element.classList.remove('statistics__category--hide');
-  });
-});
+  STATISTICS.classList.toggle('statistics--off', !checked);
+  statisticsAdditional.classList.toggle('settings__label--hide', !checked);
+  statisticsAdditionalCheckbox.disabled = !checked;
+
+  if (!checked) {
+    statisticsAdditionalCheckbox.checked = false;
+    statisticsHiddenCategory.forEach((element) => {
+      element.classList.add('statistics__category--hide');
+    });
+  }
+}
+
+function showAddStatistic(event) {
+  const checked = event.currentTarget.checked;
+
+  if (checked) {
+    statisticsHiddenCategory.forEach((element) => {
+      element.classList.remove('statistics__category--hide');
+    });
+  } else {
+    statisticsHiddenCategory.forEach((element) => {
+      element.classList.add('statistics__category--hide');
+    });
+  }
+
+  if (!checked) {
+    statisticsAdditionalCheckbox.checked = false;
+  }
+}
+
+statisticsCheckbox.addEventListener('change', showAddCheckbox);
+statisticsAdditionalCheckbox.addEventListener('change', showAddStatistic);
 
 // Deep mode
 let deepFlag = 'main';
@@ -95,20 +112,6 @@ function setScale(event) {
 }
 
 scaleCheckbox.addEventListener('change', setupScale);
-
-// function movingMobileVideo(event) {
-//   if (scaleCheckbox.checked) {
-//     let tiltX = event.beta;
-//     let tiltY = event.gamma;
-//     let rotateX = (tiltX / 45) * -30;
-//     let rotateY = (tiltY / 45) * 30;
-
-//     WRAPPER.style.transform = 'perspective(1000px) rotateY(' + rotateY + 'deg) rotateX(' + rotateX + 'deg) scaleZ(2)';
-//   }
-// }
-
-// BODY.addEventListener('mousemove', setScale);
-// BODY.addEventListener('deviceorientation', movingMobileVideo);
 
 // Extra line
 let lineProgress;

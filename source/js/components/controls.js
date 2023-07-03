@@ -205,22 +205,37 @@ function changeSpeed() {
 
 speedButton.addEventListener('click', changeSpeed);
 
+// Picture in picture
+const pipButton = CONTROLS.querySelector('.control__button--pip');
+
+function openPip() {
+  if (document.pictureInPictureElement) {
+    document.exitPictureInPicture()
+      .then(() => {
+        pipButton.classList.remove('control__button--active');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  } else {
+    VIDEO.requestPictureInPicture()
+      .then(() => {
+        pipButton.classList.add('control__button--active');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+}
+
+pipButton.addEventListener('click', openPip);
+
+document.addEventListener('leavepictureinpicture', () => {
+  pipButton.classList.remove('control__button--active');
+});
+
 // Fit
 const fitButton = CONTROLS.querySelector('.control__button--fit');
-
-// function checkVideoFit() {
-//   if (videoWidth <= windowWidth && videoHeight <= windowHeight) {
-//     fitButton.style.display = 'none';
-//     fitButton.disabled = true;
-//     console.log('fit false');
-//   } else {
-//     fitButton.style.display = 'block';
-//     fitButton.disabled = false;
-//     console.log('fit true');
-//   }
-//   console.log(videoWidth);
-//   console.log(windowWidth);
-// }
 
 function changeFitscreen() {
   let currentFit = VIDEO.style.objectFit;

@@ -32,7 +32,6 @@ function getStatistics() {
   videoDuration = Math.round(VIDEO.duration);
   VIDEORANGE.setAttribute('max', videoDuration);
 
-  // checkVideoFit();
   setStatistics();
 }
 
@@ -48,6 +47,30 @@ function setStatistics() {
   }
 }
 
+// FPS
+// let framesRendered = 0;
+// let startTime = null;
+
+// function countFrames() {
+//   if (!startTime) {
+//     startTime = performance.now();
+//   }
+
+//   framesRendered++;
+
+//   if (performance.now() - startTime >= 1000) {
+//     videoFPS = framesRendered / ((performance.now() - startTime) / 1000);
+//     statisticsFPS.innerHTML = Math.round(videoFPS);
+//     framesRendered = 0;
+//     startTime = null;
+//   }
+
+//   requestAnimationFrame(countFrames);
+// }
+
+// VIDEO.addEventListener('play', countFrames);
+
+// Time
 function getTime() {
   const clientDate = new Date();
   const clientHours = clientDate.getHours();

@@ -68,10 +68,6 @@
     display: none;
   }
 
-  // &--active {
-  //   box-shadow: 0 0 10px 2px #6320EE;
-  // }
-
   &--prev {
     transform: rotate(180deg);
   }
@@ -229,6 +225,10 @@
       order: 3;
     }
 
+    &--pip {
+      order: 3;
+    }
+
     &--fit {
       order: 3;
     }
@@ -250,6 +250,11 @@
     &--speed {
       width: 35px;
       height: 35px;
+    }
+
+    &--pip {
+      width: 25px;
+      height: 25px;
     }
 
     &--fit {
@@ -313,6 +318,11 @@
     &--speed {
       width: 40px;
       height: 40px;
+    }
+
+    &--pip {
+      width: 28px;
+      height: 28px;
     }
 
     &--fit {

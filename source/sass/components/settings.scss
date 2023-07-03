@@ -7,7 +7,7 @@
   flex-direction: column;
   width: 100%;
   min-height: 100%;
-  padding: 20px 15px;
+  padding: 20px 10px;
   color: #FFFFFF;
   backdrop-filter: blur(0.5px);
   outline: none;
@@ -22,10 +22,11 @@
 
 .settings__close {
   position: absolute;
-  bottom: 25px;
-  right: 25px;
+  bottom: 10px;
+  left: 50%;
   width: 45px;
   height: 45px;
+  transform: translateX(-50%);
   z-index: 2;
 }
 
@@ -106,6 +107,11 @@
     top: 0;
     transform: translate(-50%, 0) scale(1);
     overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      width: 1px;
+      height: 1px;
+    }
   }
 }
 
@@ -166,7 +172,7 @@
 .settings__text {
   margin-top: 0;
   margin-bottom: 25px;
-  padding: 0 20px;
+  padding: 0 10px;
   font-weight: 300;
   line-height: 1.3em;
 
@@ -233,7 +239,7 @@
 
   .settings__close {
     top: 25px;
-    right: 25px;
+    right: 3px;
     left: auto;
     width: 45px;
     height: 45px;
@@ -245,11 +251,11 @@
   }
 
   .settings__control {
-    padding-right: 50px;
+    padding-right: 75px;
   }
 
   .settings__button {
-    margin-right: 15px;
+    margin-right: 10px;
     margin-bottom: 15px;
     font-size: 18px;
   }
@@ -308,7 +314,7 @@
 
   .settings__close {
     top: 35px;
-    right: 35px;
+    right: 5px;
     width: 60px;
     height: 60px;
   }

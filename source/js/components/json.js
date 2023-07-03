@@ -32,7 +32,6 @@ function playCurrentVideo() {
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
 
-  stopProgress();
   resetDuration();
   updateActiveButton();
 
@@ -46,15 +45,6 @@ function playCurrentVideo() {
 
   VIDEO.setAttribute('src', currentVideo.url);
   VIDEO.setAttribute('alt', currentVideo.description);
-
-  if (autoplayFlag && selectedVideos.length > 0) {
-    VIDEO.addEventListener('loadeddata', startVideo);
-    // VIDEO.setAttribute('autoplay', 'autoplay');
-  } else {
-    VIDEO.removeEventListener('loadeddata', startVideo);
-    // VIDEO.setAttribute('autoplay', 'autoplay');
-    resetVideo();
-  }
 
   VIDEO.addEventListener('error', function() {
     showError('Не вдалось завантажити відео &#128531;');

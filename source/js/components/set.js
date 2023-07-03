@@ -21,7 +21,6 @@ function setVideo() {
 function resetVideo() {
   VIDEO.pause();
   VIDEO.removeAttribute('crossorigin');
-  // VIDEO.removeAttribute('autoplay');
   WRAPPER.className = 'video__wrapper';
   STARTBUTTON.classList.remove('video__start--hide');
   CONTROLS.classList.add('control--hide');
@@ -29,7 +28,6 @@ function resetVideo() {
   statisticsUFH.classList.add('statistics--off');
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
-
   stopProgress();
   resetDuration();
 }

@@ -59,22 +59,6 @@ function playingVideo() {
 VIDEO.addEventListener('waiting', waitingVideo);
 VIDEO.addEventListener('playing', playingVideo);
 
-// Loading
-// function loadVideo() {
-
-//   console.log('load');
-// }
-
-// VIDEO.addEventListener('load', loadVideo);
-
-// End
-// function endVideo() {
-//   resetVideo();
-//   VIDEO.blur();
-// }
-
-// VIDEO.addEventListener('ended', endVideo);
-
 // Error
 function errorVideo() {
   WRAPPER.classList.add('video__wrapper--error');
