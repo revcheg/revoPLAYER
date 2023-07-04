@@ -61,7 +61,9 @@
           <!-- <p class="statistics__category  statistics__category--hide">FPS: <span class="statistics__fps"></span></p> -->
         </section>
 
-        <video class="video" src="" preload="auto" controls="false" aria-label="Контент обраного відео" alt="Контент обраного відео" tabindex="0" disableRemotePlayback></video>
+        <video class="video" preload="auto" controls="false" aria-label="Контент обраного відео" alt="Контент обраного відео" tabindex="0" disableRemotePlayback disablePictureInPicture>
+          <track class="video__subtitle" src="subtitles/subtitle.vtt" kind="subtitles" srclang="uk" label="Ukranian">
+        </video>
 
         <section class="control  control--hide  control--off">
           <h3 class="visually-hidden">Кнопки управління плеєром</h3>
@@ -98,12 +100,18 @@
               <svg class="control__icon  control__icon--mute" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="25" height="25" viewBox="0 0 512 512">
                 <path d="M0 204.883V307.12c0 21.22 17.212 38.437 38.442 38.437h71.582V166.446H38.442C17.212 166.446 0 183.653 0 204.883z"/>
                 <path d="M288.033 94.716a13.054 13.054 0 0 0-12.744-.517l-142.237 72.246v179.112l142.237 72.246a13.078 13.078 0 0 0 12.744-.517 13.037 13.037 0 0 0 6.226-11.123V105.839c0-4.541-2.354-8.75-6.226-11.123z"/>
-                <path class="control__mute" d="m453.117 253.467 54.386-54.394c5.996-5.996 5.996-15.713 0-21.709s-15.713-5.996-21.709 0l-54.386 54.385-54.394-54.385c-5.997-5.996-15.713-5.996-21.709 0-5.997 5.996-5.997 15.713 0 21.709l54.384 54.394-54.384 54.385c-5.997 5.996-5.997 15.713 0 21.709 5.996 5.996 15.712 5.996 21.709 0l54.394-54.386 54.386 54.386c5.996 5.996 15.713 5.996 21.709 0s5.996-15.713 0-21.709l-54.386-54.385z"/>
+                <path class="control__muted  control__muted--hide" d="m453.117 253.467 54.386-54.394c5.996-5.996 5.996-15.713 0-21.709s-15.713-5.996-21.709 0l-54.386 54.385-54.394-54.385c-5.997-5.996-15.713-5.996-21.709 0-5.997 5.996-5.997 15.713 0 21.709l54.384 54.394-54.384 54.385c-5.997 5.996-5.997 15.713 0 21.709 5.996 5.996 15.712 5.996 21.709 0l54.394-54.386 54.386 54.386c5.996 5.996 15.713 5.996 21.709 0s5.996-15.713 0-21.709l-54.386-54.385z"/>
               </svg>
             </button>
             <input class="control__range  control__range--volume" step="0.1" min="0" max="1" value="0.5" aria-label="Гучність" title="Гучність (up+down arrow)" type="range">
           </div>
+          <button class="button  control__button  control__button--subtitle  control__button--hide" aria-label="Увімкнути субтитри" title="Увімкнути субтитри (c)" type="button">
+            <svg class="control__icon  control__icon--subtitle" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
+              <path d="M16.19 2H7.81C4.17 2 2 4.17 2 7.81v8.37C2 19.83 4.17 22 7.81 22h8.37c3.64 0 5.81-2.17 5.81-5.81V7.81C22 4.17 19.83 2 16.19 2ZM6.5 12.57h2.77c.41 0 .75.34.75.75s-.34.75-.75.75H6.5c-.41 0-.75-.34-.75-.75s.34-.75.75-.75Zm6.47 5.26H6.5c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h6.47a.749.749 0 1 1 0 1.5Zm4.53 0h-1.85c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h1.85c.41 0 .75.34.75.75s-.34.75-.75.75Zm0-3.76h-5.53c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h5.53c.41 0 .75.34.75.75s-.34.75-.75.75Z"/>
+            </svg>
+          </button>
           <button class="button  control__button  control__button--speed  control__button--hide" aria-label="Збільшити швидкість відео" title="Збільшити швидкість відео (s)" type="button">
+            <span class="control__counter  control__counter--hide">1</span>
             <svg class="control__icon  control__icon--speed" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
               <g stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="#222" d="M6.697 17.303a7.5 7.5 0 1 1 10.606 0"/>
@@ -232,7 +240,7 @@
           <p class="settings__sub">ПЛЕЄР</p>
           <label class="settings__label">
             <input class="settings__checkbox  settings__checkbox--line" type="checkbox">
-            <span class="settings__name">Додати нову смугу прогрузки</span>
+            <span class="settings__name">Додаткова смуга прогрузки</span>
           </label>
           <label class="settings__label">
             <input class="settings__checkbox  settings__checkbox--controls" type="checkbox">
@@ -277,6 +285,10 @@
 
         <div class="settings__tab" data-tab="patch">
           <p class="settings__sub">PATCH NOTES</p>
+          <p class="settings__text">
+            <time class="settings__time" datetime="2023.07.04">04.07.2023</time>
+            Додано новий контрол, а саме режим картинка в картинці (Picture in Picture). Тепер біля кнопки швидкості є індикатор для візуального сприйняття твого розгону, дякую &#128128. Почали працювати над субтитрами.
+          </p>
           <p class="settings__text">
             <time class="settings__time" datetime="2023.06.15">15.06.2023</time>
             Попрацював над інтерфейсом на деяких екранах для оптимізації простору. Додано індикатор кліку по кнопці швидкості, коли нажата є обводка, у подальшому з'явиться характерна іконка, а може і не з'явиться. Видалена кнопка старту при перемиканні відео на наступну серію, тепер працює автостарт, та авто перемикання коли відео закінчується. Також кнопки які генеруються у переліку серій тепер активні. Дякую &#128128; за аніме баг-репорт, для іншого ще потрібен час, працюємо.

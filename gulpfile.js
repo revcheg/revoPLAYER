@@ -115,6 +115,7 @@ const copy = (done) => {
     'source/player.webmanifest',
     'source/video/**/*.webm',
     'source/videos.json',
+    'source/subtitles/**/*.vtt',
     'source/browserconfig.xml',
   ], {
     base: 'source'

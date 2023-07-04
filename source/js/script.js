@@ -43,7 +43,7 @@ VIDEO.addEventListener('click', changePauseIcon);
 
 // Mute
 const muteButton = CONTROLS.querySelector('.control__button--mute');
-const muteButtonIcon = CONTROLS.querySelector('.control__mute');
+const muteButtonIcon = CONTROLS.querySelector('.control__muted');
 
 function muteVideo() {
   let savedVolume = VIDEO.volume;
@@ -65,10 +65,10 @@ function muteVideo() {
 
 function changeMuteIcon() {
   if (VIDEO.muted) {
-    muteButtonIcon.classList.remove('control__mute');
+    muteButtonIcon.classList.remove('control__muted--hide');
     muteButton.classList.add('control__button--active');
   } else {
-    muteButtonIcon.classList.add('control__mute');
+    muteButtonIcon.classList.add('control__muted--hide');
     muteButton.classList.remove('control__button--active');
   }
 }
@@ -137,6 +137,8 @@ function changeDuration() {
 
 function setDuration() {
   rangeValue = VIDEORANGE.value;
+  line.value = rangeValue;
+  line.style.width = Math.round((rangeValue / videoDuration) * 100) + '%';
 
   currentVideoPassed = formatTime(rangeValue);
   currentVideoLeft = formatTime(videoDuration - rangeValue);
@@ -200,8 +202,10 @@ function wheelDuration(event) {
 VIDEORANGE.addEventListener('wheel', wheelDuration);
 
 // Playback speed
-const speedButton = CONTROLS.querySelector('.control__button--speed');
 let playbackRate = 1.0;
+
+const speedButton = CONTROLS.querySelector('.control__button--speed');
+const speedCounter = CONTROLS.querySelector('.control__counter');
 
 function changeSpeed() {
   playbackRate += 0.25;
@@ -212,10 +216,14 @@ function changeSpeed() {
 
   VIDEO.playbackRate = playbackRate;
 
+  speedCounter.classList.remove('control__counter--hide');
+  speedCounter.innerHTML = playbackRate;
+
   if (playbackRate !== 1.0) {
     speedButton.classList.add('control__button--active');
   } else {
     speedButton.classList.remove('control__button--active');
+    speedCounter.classList.add('control__counter--hide');
   }
 };
 
@@ -226,17 +234,23 @@ const pipButton = CONTROLS.querySelector('.control__button--pip');
 
 function openPip() {
   if (document.pictureInPictureElement) {
+    VIDEO.setAttribute('disablePictureInPicture', 'disablePictureInPicture');
     document.exitPictureInPicture()
       .then(() => {
         pipButton.classList.remove('control__button--active');
+        pipButton.setAttribute('aria-label', 'Міні-програвач');
+        pipButton.setAttribute('title', 'Міні-програвач (q)');
       })
       .catch((error) => {
         console.error(error);
       });
   } else {
+    VIDEO.removeAttribute('disablePictureInPicture');
     VIDEO.requestPictureInPicture()
       .then(() => {
         pipButton.classList.add('control__button--active');
+        pipButton.setAttribute('aria-label', 'Закрити міні-програвач');
+        pipButton.setAttribute('title', 'Закрити міні-програвач (q)');
       })
       .catch((error) => {
         console.error(error);
@@ -244,10 +258,29 @@ function openPip() {
   }
 }
 
-pipButton.addEventListener('click', openPip);
-document.addEventListener('leavepictureinpicture', () => {
+function closePip() {
   pipButton.classList.remove('control__button--active');
-});
+  VIDEO.setAttribute('disablePictureInPicture', 'disablePictureInPicture');
+
+  if (VIDEO.paused) {
+    playButtonIcon.classList.remove('control__icon--hide');
+    pauseButtonIcon.classList.add('control__icon--hide');
+  } else {
+    playButtonIcon.classList.add('control__icon--hide');
+    pauseButtonIcon.classList.remove('control__icon--hide');
+  }
+
+  // if (document.pictureInPictureElement) {
+  //   document.exitPictureInPicture()
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // }
+}
+
+pipButton.addEventListener('click', openPip);
+document.addEventListener('leavepictureinpicture', closePip);
+// VIDEO.addEventListener('ended', closePip);
 
 // Fit
 const fitButton = CONTROLS.querySelector('.control__button--fit');
@@ -527,6 +560,7 @@ function playCurrentVideo() {
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
 
+  stopProgress();
   resetDuration();
   updateActiveButton();
 
@@ -662,6 +696,10 @@ VIDEO.addEventListener('keyup', (event) => {
     case 'm':
       muteVideo();
       changeMuteIcon();
+      break;
+
+    case 'c':
+      showSubtitle();
       break;
 
     case 's':
@@ -1173,6 +1211,28 @@ function getEndTime() {
   const futureClientMinutes = futureDate.getMinutes();
   statisticsEndTime.innerHTML = futureClientHours + ':' + futureClientMinutes;
 }
+
+// Subtitle
+const subtitle = VIDEO.querySelector('.video__subtitle');
+const subtitleTrack = VIDEO.querySelector('.video__subtitle').track;
+const subtitleButton = CONTROLS.querySelector('.control__button--subtitle');
+
+subtitle.default = false;
+subtitleTrack.mode = 'hidden';
+
+function showSubtitle() {
+  if (subtitle.default) {
+    subtitle.default = false;
+    subtitleTrack.mode = 'hidden';
+    subtitleButton.classList.remove('control__button--active');
+  } else {
+    subtitle.default = true;
+    subtitleTrack.mode = 'showing';
+    subtitleButton.classList.add('control__button--active');
+  }
+}
+
+subtitleButton.addEventListener('click', showSubtitle);
 
 // Tabs
 const tabButtons = SETTINGS.querySelectorAll('.settings__button');

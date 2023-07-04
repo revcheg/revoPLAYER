@@ -36,6 +36,10 @@ VIDEO.addEventListener('keyup', (event) => {
       changeMuteIcon();
       break;
 
+    case 'c':
+      showSubtitle();
+      break;
+
     case 's':
       changeSpeed();
       break;

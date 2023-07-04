@@ -32,6 +32,7 @@ function playCurrentVideo() {
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
 
+  stopProgress();
   resetDuration();
   updateActiveButton();
 
