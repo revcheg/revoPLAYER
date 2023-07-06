@@ -205,7 +205,7 @@ VIDEORANGE.addEventListener('wheel', wheelDuration);
 let playbackRate = 1.0;
 
 const speedButton = CONTROLS.querySelector('.control__button--speed');
-const speedCounter = CONTROLS.querySelector('.control__counter');
+const speedInfo = speedButton.querySelector('.control__info');
 
 function changeSpeed() {
   playbackRate += 0.25;
@@ -216,14 +216,14 @@ function changeSpeed() {
 
   VIDEO.playbackRate = playbackRate;
 
-  speedCounter.classList.remove('control__counter--hide');
-  speedCounter.innerHTML = playbackRate;
+  speedInfo.classList.remove('control__info--hide');
+  speedInfo.innerHTML = playbackRate;
 
   if (playbackRate !== 1.0) {
     speedButton.classList.add('control__button--active');
   } else {
     speedButton.classList.remove('control__button--active');
-    speedCounter.classList.add('control__counter--hide');
+    speedInfo.classList.add('control__info--hide');
   }
 };
 
@@ -555,6 +555,7 @@ fetch('videos.json')
     console.error('An error occurred:', error);
   });
 
+let currentVideo;
 
 function playCurrentVideo() {
   playButtonIcon.classList.add('control__icon--hide');
@@ -564,7 +565,6 @@ function playCurrentVideo() {
   resetDuration();
   updateActiveButton();
 
-  let currentVideo;
 
   if (selectedVideos.length > 0) {
     currentVideo = selectedVideos[currentVideoIndex];
@@ -574,6 +574,14 @@ function playCurrentVideo() {
 
   VIDEO.setAttribute('src', currentVideo.url);
   VIDEO.setAttribute('alt', currentVideo.description);
+
+  // const uaSubtitles = currentVideo.subtitles.ua;
+
+  // if (uaSubtitles) {
+  //   subtitle.src = uaSubtitles.src;
+  //   subtitle.srclang = uaSubtitles.srclang;
+  //   subtitle.label = uaSubtitles.label;
+  // }
 
   VIDEO.addEventListener('error', function() {
     showError('Не вдалось завантажити відео &#128531;');
@@ -699,7 +707,7 @@ VIDEO.addEventListener('keyup', (event) => {
       break;
 
     case 'c':
-      showSubtitle();
+      changeSubtitle();
       break;
 
     case 's':
@@ -1216,23 +1224,53 @@ function getEndTime() {
 const subtitle = VIDEO.querySelector('.video__subtitle');
 const subtitleTrack = VIDEO.querySelector('.video__subtitle').track;
 const subtitleButton = CONTROLS.querySelector('.control__button--subtitle');
+const subtitleInfo = subtitleButton.querySelector('.control__info');
 
 subtitle.default = false;
 subtitleTrack.mode = 'hidden';
 
-function showSubtitle() {
-  if (subtitle.default) {
-    subtitle.default = false;
-    subtitleTrack.mode = 'hidden';
-    subtitleButton.classList.remove('control__button--active');
-  } else {
-    subtitle.default = true;
-    subtitleTrack.mode = 'showing';
-    subtitleButton.classList.add('control__button--active');
+let currentSubtitleIndex = -1;
+
+function changeSubtitle() {
+  currentSubtitleIndex++;
+
+  const availableSubtitles = Object.keys(currentVideo.subtitles);
+
+  if (currentSubtitleIndex >= availableSubtitles.length) {
+    currentSubtitleIndex = -1;
+    clearSubtitle();
+    return;
   }
+
+  const nextSubtitleLang = availableSubtitles[currentSubtitleIndex];
+  const nextSubtitle = currentVideo.subtitles[nextSubtitleLang];
+
+  subtitle.src = nextSubtitle.src;
+  subtitle.srclang = nextSubtitle.srclang;
+  subtitle.label = nextSubtitle.label;
+  subtitle.default = true;
+  subtitleTrack.mode = 'showing';
+  subtitleButton.setAttribute('aria-label', 'Вимкнути субтитри');
+  subtitleButton.setAttribute('title', 'Вимкнути субтитри (c)');
+  subtitleButton.classList.add('control__button--active');
+
+  subtitleInfo.classList.remove('control__info--hide');
+  subtitleInfo.innerHTML = nextSubtitle.srclang;
 }
 
-subtitleButton.addEventListener('click', showSubtitle);
+function clearSubtitle() {
+  subtitle.src = '';
+  subtitle.srclang = '';
+  subtitle.label = '';
+  subtitle.default = false;
+  subtitleTrack.mode = 'hidden';
+  subtitleButton.setAttribute('aria-label', 'Увімкнути субтитри');
+  subtitleButton.setAttribute('title', 'Увімкнути субтитри (c)');
+  subtitleButton.classList.remove('control__button--active');
+  subtitleInfo.classList.add('control__info--hide');
+}
+
+subtitleButton.addEventListener('click', changeSubtitle);
 
 // Tabs
 const tabButtons = SETTINGS.querySelectorAll('.settings__button');

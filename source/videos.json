@@ -4,31 +4,78 @@
       {
         "title": "The Witcher III, main video",
         "url": "/video/TheWitcher/main.webm",
-        "description": "Опис відео"
+        "description": "Опис відео",
+        "subtitles": {
+          "ua": {
+            "src": "/subtitles/TheWitcher/main-ua.vtt",
+            "srclang": "uk",
+            "label": "Ukranian"
+          },
+          "en": {
+            "src": "/subtitles/TheWitcher/main-en.vtt",
+            "srclang": "en",
+            "label": "English"
+          }
+        }
       }
     ],
     "deep": [
       {
         "title": "The Witcher III, deep video",
         "url": "/video/TheWitcher/deep.webm",
-        "description": "Опис відео"
+        "description": "Опис відео",
+        "subtitles": {
+          "ua": {
+            "src": "/subtitles/TheWitcher/deep-ua.vtt",
+            "srclang": "uk",
+            "label": "Ukranian"
+          },
+          "en": {
+            "src": "/subtitles/TheWitcher/deep-en.vtt",
+            "srclang": "en",
+            "label": "English"
+          }
+        }
       }
     ]
   },
-
   "Cyberpunk": {
     "main": [
       {
         "title": "Cyberpunk 2077, main video",
         "url": "/video/Cyberpunk/main.webm",
-        "description": "Опис відео"
+        "description": "Опис відео",
+        "subtitles": {
+          "ua": {
+            "src": "/subtitles/Cyberpunk/main-ua.vtt",
+            "srclang": "uk",
+            "label": "Ukranian"
+          },
+          "en": {
+            "src": "/subtitles/Cyberpunk/main-en.vtt",
+            "srclang": "en",
+            "label": "English"
+          }
+        }
       }
     ],
     "deep": [
       {
         "title": "Cyberpunk 2077, deep video",
         "url": "/video/Cyberpunk/deep.webm",
-        "description": "Опис відео"
+        "description": "Опис відео",
+        "subtitles": {
+          "ua": {
+            "src": "/subtitles/Cyberpunk/deep-ua.vtt",
+            "srclang": "uk",
+            "label": "Ukranian"
+          },
+          "en": {
+            "src": "/subtitles/Cyberpunk/deep-en.vtt",
+            "srclang": "en",
+            "label": "English"
+          }
+        }
       }
     ]
   }

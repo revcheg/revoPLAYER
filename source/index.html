@@ -62,7 +62,7 @@
         </section>
 
         <video class="video" preload="auto" controls="false" aria-label="Контент обраного відео" alt="Контент обраного відео" tabindex="0" disableRemotePlayback disablePictureInPicture>
-          <track class="video__subtitle" src="subtitles/subtitle.vtt" kind="subtitles" srclang="uk" label="Ukranian">
+          <track class="video__subtitle" kind="subtitles" srclang="uk" label="Ukranian">
         </video>
 
         <section class="control  control--hide  control--off">
@@ -106,12 +106,13 @@
             <input class="control__range  control__range--volume" step="0.1" min="0" max="1" value="0.5" aria-label="Гучність" title="Гучність (up+down arrow)" type="range">
           </div>
           <button class="button  control__button  control__button--subtitle  control__button--hide" aria-label="Увімкнути субтитри" title="Увімкнути субтитри (c)" type="button">
+            <span class="control__info  control__info--hide"></span>
             <svg class="control__icon  control__icon--subtitle" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
               <path d="M16.19 2H7.81C4.17 2 2 4.17 2 7.81v8.37C2 19.83 4.17 22 7.81 22h8.37c3.64 0 5.81-2.17 5.81-5.81V7.81C22 4.17 19.83 2 16.19 2ZM6.5 12.57h2.77c.41 0 .75.34.75.75s-.34.75-.75.75H6.5c-.41 0-.75-.34-.75-.75s.34-.75.75-.75Zm6.47 5.26H6.5c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h6.47a.749.749 0 1 1 0 1.5Zm4.53 0h-1.85c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h1.85c.41 0 .75.34.75.75s-.34.75-.75.75Zm0-3.76h-5.53c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h5.53c.41 0 .75.34.75.75s-.34.75-.75.75Z"/>
             </svg>
           </button>
           <button class="button  control__button  control__button--speed  control__button--hide" aria-label="Збільшити швидкість відео" title="Збільшити швидкість відео (s)" type="button">
-            <span class="control__counter  control__counter--hide">1</span>
+            <span class="control__info  control__info--hide"></span>
             <svg class="control__icon  control__icon--speed" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
               <g stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="#222" d="M6.697 17.303a7.5 7.5 0 1 1 10.606 0"/>
@@ -285,6 +286,10 @@
 
         <div class="settings__tab" data-tab="patch">
           <p class="settings__sub">PATCH NOTES</p>
+          <p class="settings__text">
+            <time class="settings__time" datetime="2023.07.06">06.07.2023</time>
+            Доробили субтитри, вибір між uk та en вже в наявності. Візуальна інфа про обрану мову також є. Далі більше.
+          </p>
           <p class="settings__text">
             <time class="settings__time" datetime="2023.07.04">04.07.2023</time>
             Додано новий контрол, а саме режим картинка в картинці (Picture in Picture). Тепер біля кнопки швидкості є індикатор для візуального сприйняття твого розгону, дякую &#128128. Почали працювати над субтитрами.

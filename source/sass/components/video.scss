@@ -37,8 +37,10 @@
 }
 
 ::cue {
-  font-size: 28px;
+  font-size: 13px;
+  font-weight: 400;
   font-family: "Roboto", "Arial", sans-serif;
+  background-color: transparent;
 }
 
 .video__wrapper {
@@ -187,6 +189,10 @@
 }
 
 @media (min-width: $tablet-width) {
+  ::cue {
+    font-size: 16px;
+  }
+
   .video__wrapper {
     max-width: none;
   }
@@ -205,6 +211,10 @@
 }
 
 @media (min-width: $desktop-width) {
+  ::cue {
+    font-size: 22px;
+  }
+
   .video__wrapper {
     width: 1200px;
     max-width: none;

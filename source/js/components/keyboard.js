@@ -37,7 +37,7 @@ VIDEO.addEventListener('keyup', (event) => {
       break;
 
     case 'c':
-      showSubtitle();
+      changeSubtitle();
       break;
 
     case 's':

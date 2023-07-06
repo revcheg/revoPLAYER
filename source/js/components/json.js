@@ -27,6 +27,7 @@ fetch('videos.json')
     console.error('An error occurred:', error);
   });
 
+let currentVideo;
 
 function playCurrentVideo() {
   playButtonIcon.classList.add('control__icon--hide');
@@ -36,7 +37,6 @@ function playCurrentVideo() {
   resetDuration();
   updateActiveButton();
 
-  let currentVideo;
 
   if (selectedVideos.length > 0) {
     currentVideo = selectedVideos[currentVideoIndex];
@@ -46,6 +46,14 @@ function playCurrentVideo() {
 
   VIDEO.setAttribute('src', currentVideo.url);
   VIDEO.setAttribute('alt', currentVideo.description);
+
+  // const uaSubtitles = currentVideo.subtitles.ua;
+
+  // if (uaSubtitles) {
+  //   subtitle.src = uaSubtitles.src;
+  //   subtitle.srclang = uaSubtitles.srclang;
+  //   subtitle.label = uaSubtitles.label;
+  // }
 
   VIDEO.addEventListener('error', function() {
     showError('Не вдалось завантажити відео &#128531;');

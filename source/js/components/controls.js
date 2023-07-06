@@ -189,7 +189,7 @@ VIDEORANGE.addEventListener('wheel', wheelDuration);
 let playbackRate = 1.0;
 
 const speedButton = CONTROLS.querySelector('.control__button--speed');
-const speedCounter = CONTROLS.querySelector('.control__counter');
+const speedInfo = speedButton.querySelector('.control__info');
 
 function changeSpeed() {
   playbackRate += 0.25;
@@ -200,14 +200,14 @@ function changeSpeed() {
 
   VIDEO.playbackRate = playbackRate;
 
-  speedCounter.classList.remove('control__counter--hide');
-  speedCounter.innerHTML = playbackRate;
+  speedInfo.classList.remove('control__info--hide');
+  speedInfo.innerHTML = playbackRate;
 
   if (playbackRate !== 1.0) {
     speedButton.classList.add('control__button--active');
   } else {
     speedButton.classList.remove('control__button--active');
-    speedCounter.classList.add('control__counter--hide');
+    speedInfo.classList.add('control__info--hide');
   }
 };
 
