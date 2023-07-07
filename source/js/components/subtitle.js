@@ -1,6 +1,6 @@
 // Subtitle
 const subtitle = VIDEO.querySelector('.video__subtitle');
-const subtitleTrack = VIDEO.querySelector('.video__subtitle').track;
+const subtitleTrack = subtitle.track;
 const subtitleButton = CONTROLS.querySelector('.control__button--subtitle');
 const subtitleInfo = subtitleButton.querySelector('.control__info');
 
@@ -31,7 +31,6 @@ function changeSubtitle() {
   subtitleButton.setAttribute('aria-label', 'Вимкнути субтитри');
   subtitleButton.setAttribute('title', 'Вимкнути субтитри (c)');
   subtitleButton.classList.add('control__button--active');
-
   subtitleInfo.classList.remove('control__info--hide');
   subtitleInfo.innerHTML = nextSubtitle.srclang;
 }

@@ -111,6 +111,13 @@
   &--pause {
     animation-name: pause;
   }
+
+  &--cinema {
+    width: 100%;
+    height: 100vh;
+    border-radius: 0;
+    background-color: #000000;
+  }
 }
 
 @keyframes load {
@@ -190,7 +197,7 @@
 
 @media (min-width: $tablet-width) {
   ::cue {
-    font-size: 16px;
+    font-size: 18px;
   }
 
   .video__wrapper {
@@ -204,20 +211,35 @@
 }
 
 @media (min-width: $laptop-width) {
+  ::cue {
+    font-size: 20px;
+  }
+
   .video__wrapper {
-    max-width: 800px;
-    margin: 0;
+    max-width: 900px;
   }
 }
 
 @media (min-width: $desktop-width) {
   ::cue {
-    font-size: 22px;
+    font-size: 28px;
   }
 
   .video__wrapper {
     width: 1200px;
     max-width: none;
+    margin: 0;
+
+    &:fullscreen {
+
+      ::cue {
+        font-size: 34px;
+      }
+    }
+
+    &--cinema {
+      width: 100%;
+    }
   }
 
   .video__icon {

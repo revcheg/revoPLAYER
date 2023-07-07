@@ -19,8 +19,9 @@ function startVideo() {
     stayFocus();
 
     VIDEO.play();
+    VIDEO.focus();
 
-    if (autoplayFlag && selectedVideos.length > 0) {
+    if (autoplayFlag) {
       VIDEO.addEventListener('loadeddata', startVideo);
     } else {
       VIDEO.removeEventListener('loadeddata', startVideo);

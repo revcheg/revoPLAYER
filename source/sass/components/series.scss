@@ -3,9 +3,14 @@
 	margin-top: 20px;
 	padding: 15px 20px;
 	list-style: none;
+	transition: 0.3s;
 
 	&--off {
 		display: none;
+	}
+
+	&--hide {
+		transform: scale(0);
 	}
 }
 
@@ -37,11 +42,6 @@
 }
 
 @media (min-width: $laptop-width) {
-	.series {
-		margin-top: 0;
-		margin-left: 30px;
-	}
-
 	.series__item {
 		font-size: 18px;
 	}
@@ -53,6 +53,7 @@
 
 @media (min-width: $desktop-width) {
 	.series {
+		margin-top: 0;
 		margin-left: 50px;
 	}
 

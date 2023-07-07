@@ -3,6 +3,11 @@
   justify-content: space-between;
   align-items: center;
   padding: 25px 15px;
+  transition: 0.5s;
+
+  &--hide {
+    transform: translateY(100%);
+  }
 }
 
 .footer__switcher {

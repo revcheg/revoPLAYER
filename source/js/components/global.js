@@ -1,5 +1,9 @@
 const BODY = document.querySelector('.body');
 
+const HEADER = document.querySelector('.header');
+const FOOTER = document.querySelector('.footer');
+
+const MAIN = document.querySelector('.main');
 const VIDEO = document.querySelector('.video');
 const WRAPPER = document.querySelector('.video__wrapper');
 const SETTINGS = document.querySelector('.settings');

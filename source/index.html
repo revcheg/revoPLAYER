@@ -105,7 +105,7 @@
             </button>
             <input class="control__range  control__range--volume" step="0.1" min="0" max="1" value="0.5" aria-label="Гучність" title="Гучність (up+down arrow)" type="range">
           </div>
-          <button class="button  control__button  control__button--subtitle  control__button--hide" aria-label="Увімкнути субтитри" title="Увімкнути субтитри (c)" type="button">
+          <button class="button  control__button  control__button--subtitle  control__button--hide  control__button--off" aria-label="Увімкнути субтитри" title="Увімкнути субтитри (c)" type="button">
             <span class="control__info  control__info--hide"></span>
             <svg class="control__icon  control__icon--subtitle" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
               <path d="M16.19 2H7.81C4.17 2 2 4.17 2 7.81v8.37C2 19.83 4.17 22 7.81 22h8.37c3.64 0 5.81-2.17 5.81-5.81V7.81C22 4.17 19.83 2 16.19 2ZM6.5 12.57h2.77c.41 0 .75.34.75.75s-.34.75-.75.75H6.5c-.41 0-.75-.34-.75-.75s.34-.75.75-.75Zm6.47 5.26H6.5c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h6.47a.749.749 0 1 1 0 1.5Zm4.53 0h-1.85c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h1.85c.41 0 .75.34.75.75s-.34.75-.75.75Zm0-3.76h-5.53c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h5.53c.41 0 .75.34.75.75s-.34.75-.75.75Z"/>
@@ -131,6 +131,11 @@
               <path d="M16 12.75a.76.76 0 0 1-.75-.75V8.75H12a.75.75 0 1 1 0-1.5h4a.76.76 0 0 1 .75.75v4a.76.76 0 0 1-.75.75Z"/>
               <path d="M11.5 13.25A.75.75 0 0 1 11 12l4.5-4.5a.75.75 0 0 1 1.06 1.06L12 13a.74.74 0 0 1-.5.25Z"/>
               <path d="M8 20.75H5A1.76 1.76 0 0 1 3.25 19v-3A1.76 1.76 0 0 1 5 14.25h3A1.76 1.76 0 0 1 9.75 16v3A1.76 1.76 0 0 1 8 20.75Zm-3-5a.25.25 0 0 0-.25.25v3a.25.25 0 0 0 .25.25h3a.25.25 0 0 0 .25-.25v-3a.25.25 0 0 0-.25-.25H5Z"/>
+            </svg>
+          </button>
+          <button class="button  control__button  control__button--cinema  control__button--hide" aria-label="Режим кінотеатру" title="Режим кінотеатру (t)" type="button">
+            <svg class="control__icon  control__icon--cinema" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
+              <path fill-rule="evenodd" d="M11 16H3a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3h18a3 3 0 0 1 3 3v5a3 3 0 0 1-3 3h-8v1h2a1 1 0 1 1 0 2H9a1 1 0 1 1 0-2h2v-1ZM3 7h18a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z" clip-rule="evenodd"/>
             </svg>
           </button>
           <button class="button  control__button  control__button--size" aria-label="На весь екран" title="На весь екран (f)" type="button">
@@ -286,6 +291,10 @@
 
         <div class="settings__tab" data-tab="patch">
           <p class="settings__sub">PATCH NOTES</p>
+          <p class="settings__text">
+            <time class="settings__time" datetime="2023.07.07">07.07.2023</time>
+            Новий контрол - режим кінотеатру, поки експериментально, тому можливо його видалення. Знайти можно у додаткових контролах, або клавішою (t).
+          </p>
           <p class="settings__text">
             <time class="settings__time" datetime="2023.07.06">06.07.2023</time>
             Доробили субтитри, вибір між uk та en вже в наявності. Візуальна інфа про обрану мову також є. Далі більше.

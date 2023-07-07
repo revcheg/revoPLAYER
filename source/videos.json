@@ -3,30 +3,18 @@
     "main": [
       {
         "title": "The Witcher III, main video",
-        "url": "/video/TheWitcher/main.webm",
-        "description": "Опис відео",
-        "subtitles": {
-          "ua": {
-            "src": "/subtitles/TheWitcher/main-ua.vtt",
-            "srclang": "uk",
-            "label": "Ukranian"
-          },
-          "en": {
-            "src": "/subtitles/TheWitcher/main-en.vtt",
-            "srclang": "en",
-            "label": "English"
-          }
-        }
+        "src": "/video/TheWitcher/main.webm",
+        "description": "Опис відео"
       }
     ],
     "deep": [
       {
         "title": "The Witcher III, deep video",
-        "url": "/video/TheWitcher/deep.webm",
+        "src": "/video/TheWitcher/deep.webm",
         "description": "Опис відео",
         "subtitles": {
           "ua": {
-            "src": "/subtitles/TheWitcher/deep-ua.vtt",
+            "src": "/subtitles/TheWitcher/deep-uk.vtt",
             "srclang": "uk",
             "label": "Ukranian"
           },
@@ -43,11 +31,11 @@
     "main": [
       {
         "title": "Cyberpunk 2077, main video",
-        "url": "/video/Cyberpunk/main.webm",
+        "src": "/video/Cyberpunk/main.webm",
         "description": "Опис відео",
         "subtitles": {
           "ua": {
-            "src": "/subtitles/Cyberpunk/main-ua.vtt",
+            "src": "/subtitles/Cyberpunk/main-uk.vtt",
             "srclang": "uk",
             "label": "Ukranian"
           },
@@ -62,16 +50,35 @@
     "deep": [
       {
         "title": "Cyberpunk 2077, deep video",
-        "url": "/video/Cyberpunk/deep.webm",
+        "src": "/video/Cyberpunk/deep.webm",
         "description": "Опис відео",
         "subtitles": {
           "ua": {
-            "src": "/subtitles/Cyberpunk/deep-ua.vtt",
+            "src": "/subtitles/Cyberpunk/deep-uk.vtt",
             "srclang": "uk",
             "label": "Ukranian"
           },
           "en": {
             "src": "/subtitles/Cyberpunk/deep-en.vtt",
+            "srclang": "en",
+            "label": "English"
+          }
+        }
+      }
+    ],
+    "bonus": [
+      {
+        "title": "Cyberpunk 2077, bonus video",
+        "src": "/video/Cyberpunk/bonus.webm",
+        "description": "Опис відео",
+        "subtitles": {
+          "ua": {
+            "src": "/subtitles/Cyberpunk/bonus-uk.vtt",
+            "srclang": "uk",
+            "label": "Ukranian"
+          },
+          "en": {
+            "src": "/subtitles/Cyberpunk/bonus-en.vtt",
             "srclang": "en",
             "label": "English"
           }

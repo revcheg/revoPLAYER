@@ -68,6 +68,10 @@
     display: none;
   }
 
+  &--off {
+    display: none;
+  }
+
   &--prev {
     transform: rotate(180deg);
   }
@@ -115,7 +119,6 @@
   color: #FFFFFF;
   font-size: 10px;
   border-radius: 10px;
-  background-color: #6320EE;
   transition: 0.1s;
 
   &--hide {
@@ -257,6 +260,10 @@
       order: 3;
     }
 
+    &--cinema {
+      order: 3;
+    }
+
     &--size {
       order: 4;
     }
@@ -287,6 +294,11 @@
     }
 
     &--fit {
+      width: 28px;
+      height: 28px;
+    }
+
+    &--cinema {
       width: 28px;
       height: 28px;
     }
@@ -369,6 +381,11 @@
     &--fit {
       width: 35px;
       height: 35px;
+    }
+
+    &--cinema {
+      width: 30px;
+      height: 30px;
     }
 
     &--size {

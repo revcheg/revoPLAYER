@@ -37,23 +37,20 @@ function playCurrentVideo() {
   resetDuration();
   updateActiveButton();
 
-
   if (selectedVideos.length > 0) {
     currentVideo = selectedVideos[currentVideoIndex];
   } else {
     currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
   }
 
-  VIDEO.setAttribute('src', currentVideo.url);
+  VIDEO.setAttribute('src', currentVideo.src);
   VIDEO.setAttribute('alt', currentVideo.description);
 
-  // const uaSubtitles = currentVideo.subtitles.ua;
-
-  // if (uaSubtitles) {
-  //   subtitle.src = uaSubtitles.src;
-  //   subtitle.srclang = uaSubtitles.srclang;
-  //   subtitle.label = uaSubtitles.label;
-  // }
+  if (currentVideo.subtitles) {
+    subtitleButton.classList.remove('control__button--off');
+  } else {
+    subtitleButton.classList.add('control__button--off');
+  }
 
   VIDEO.addEventListener('error', function() {
     showError('Не вдалось завантажити відео &#128531;');

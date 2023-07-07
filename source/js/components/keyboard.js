@@ -97,5 +97,9 @@ BODY.addEventListener('keyup', (event) => {
       setScheme('auto');
       setupSwitcher();
       break;
+
+    case 't':
+      setCinema();
+      break;
   }
 });
