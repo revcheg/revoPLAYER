@@ -67,7 +67,7 @@ VIDEO.addEventListener('keyup', (event) => {
 });
 
 // Other
-BODY.addEventListener('keyup', (event) => {
+window.addEventListener('keydown', (event) => {
   videoKey = event.key;
 
   switch (videoKey) {
@@ -100,6 +100,10 @@ BODY.addEventListener('keyup', (event) => {
 
     case 't':
       setCinema();
+      break;
+
+    case '`':
+      openConsole();
       break;
   }
 });

@@ -1,0 +1,47 @@
+.console {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  transition: 0.5s;
+
+  &--hide {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-100%);
+  }
+}
+
+.console__input {
+  width: 100%;
+  padding: 0 15px;
+  color: #FFFFFF;
+  font-size: 50px;
+  font-weight: 700;
+  font-family: inherit;
+  text-align: center;
+  text-transform: uppercase;
+  border: none;
+  background-color: transparent;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+@media (min-width: $tablet-width) {
+  .console__input {
+    font-size: 60px;
+  }
+}
+
+@media (min-width: $desktop-width) {
+  .console__input {
+    font-size: 150px;
+  }
+}

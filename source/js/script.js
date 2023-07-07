@@ -18,6 +18,64 @@ const ERROR = document.querySelector('.error');
 
 // const backgroundVideo = document.querySelector('.video__background');
 
+// Console
+const consoleContainer = document.querySelector('.console');
+const consoleInput = consoleContainer.querySelector('.console__input');
+
+let consoleFlag = false;
+
+function openConsole() {
+  consoleFlag = !consoleFlag;
+
+  if (consoleFlag) {
+    consoleContainer.classList.remove('console--hide');
+    VIDEO.blur();
+    consoleInput.focus();
+  } else {
+    consoleContainer.classList.add('console--hide');
+    VIDEO.focus();
+    consoleInput.blur();
+  }
+}
+
+function stopPropagation(event) {
+  event.stopPropagation();
+}
+
+function checkBonus(event) {
+  if (event.key === 'Enter') {
+    let clientText = consoleInput.value;
+
+    switch (clientText) {
+      case 'unlimited spider man':
+        VIDEO.src = 'video/USP-intro.mp4';
+        if (autoplayFlag) {
+          VIDEO.addEventListener('loadeddata', startVideo);
+        } else {
+          VIDEO.removeEventListener('loadeddata', startVideo);
+        }
+        break;
+
+      case 'spider man':
+        VIDEO.src = 'video/SP-intro.mp4';
+        if (autoplayFlag) {
+          VIDEO.addEventListener('loadeddata', startVideo);
+        } else {
+          VIDEO.removeEventListener('loadeddata', startVideo);
+        }
+        break;
+    }
+
+    consoleInput.value = '';
+    openConsole();
+    showError('Відкрито бонусне відео &#128521;');
+  }
+}
+
+consoleInput.addEventListener('input', stopPropagation);
+consoleInput.addEventListener('keydown', stopPropagation);
+consoleInput.addEventListener('keydown', checkBonus);
+
 // CONTROLS
 VIDEO.controls = false;
 
@@ -725,7 +783,7 @@ VIDEO.addEventListener('keyup', (event) => {
 });
 
 // Other
-BODY.addEventListener('keyup', (event) => {
+window.addEventListener('keydown', (event) => {
   videoKey = event.key;
 
   switch (videoKey) {
@@ -758,6 +816,10 @@ BODY.addEventListener('keyup', (event) => {
 
     case 't':
       setCinema();
+      break;
+
+    case '`':
+      openConsole();
       break;
   }
 });
@@ -1353,7 +1415,7 @@ function stayFocus() {
 VIDEO.addEventListener('play', startProgress);
 VIDEO.addEventListener('pause', stopProgress);
 VIDEO.addEventListener('ended', stopProgress);
-VIDEO.addEventListener('blur', stayFocus);
+// VIDEO.addEventListener('blur', stayFocus);
 
 // Video handler
 // Waiting

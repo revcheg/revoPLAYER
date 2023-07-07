@@ -17,8 +17,11 @@
     <link rel="icon" href="img/favicons/favicon-dark.svg" media="(prefers-color-scheme: dark)" type="image/svg+xml">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="manifest" href="player.webmanifest">
+    <meta property="og:image" content="img/og-image.jpg">
   </head>
   <body class="body">
+
+    <!-- <video class="video__background"></video> -->
 
     <header class="header">
       <svg class="header__logo" xmlns="http://www.w3.org/2000/svg" width="250" height="45" viewBox="0 0 509 73">
@@ -343,7 +346,10 @@
       </div>
     </nav>
 
-    <!-- <video class="video__background"></video> -->
+    <section class="console  console--hide">
+      <h3 class="visually-hidden">Консоль</h3>
+      <input class="console__input" type="text">
+    </section>
 
     <script src="js/script.min.js"></script>
   </body>

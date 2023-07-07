@@ -43,7 +43,7 @@ function stayFocus() {
 VIDEO.addEventListener('play', startProgress);
 VIDEO.addEventListener('pause', stopProgress);
 VIDEO.addEventListener('ended', stopProgress);
-VIDEO.addEventListener('blur', stayFocus);
+// VIDEO.addEventListener('blur', stayFocus);
 
 // Video handler
 // Waiting
