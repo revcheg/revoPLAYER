@@ -277,7 +277,16 @@ function changeFitscreen() {
   }
 };
 
+function checkFitscreen() {
+  if (videoWidth === WRAPPER.clientWidth) {
+    fitButton.classList.add('control__button--hide');
+  } else {
+    fitButton.classList.remove('control__button--hide');
+  }
+};
+
 fitButton.addEventListener('click', changeFitscreen);
+window.addEventListener('fullscreenchange', checkFitscreen);
 
 // Cinema mode
 const cinemaButton = CONTROLS.querySelector('.control__button--cinema');

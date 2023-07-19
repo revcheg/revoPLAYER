@@ -15,17 +15,17 @@ function startVideo() {
     STARTBUTTON.classList.add('video__start--hide');
     CONTROLS.classList.remove('control--off', 'control--hide');
 
-    getStatistics();
-    stayFocus();
-
-    VIDEO.play();
-    VIDEO.focus();
-
     if (autoplayFlag) {
       VIDEO.addEventListener('loadeddata', startVideo);
     } else {
       VIDEO.removeEventListener('loadeddata', startVideo);
     }
+
+    VIDEO.play();
+    VIDEO.focus();
+
+    getStatistics();
+    stayFocus();
   }
 }
 

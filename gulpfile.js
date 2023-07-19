@@ -114,6 +114,7 @@ const copy = (done) => {
     'source/apple-touch-icon.png',
     'source/player.webmanifest',
     'source/video/**/*.webm',
+    'source/video/**/*.mp4',
     'source/videos.json',
     'source/subtitles/**/*.vtt',
     'source/browserconfig.xml',
@@ -150,7 +151,8 @@ const reload = (done) => {
 
 // Watcher
 const watcher = () => {
-  gulp.watch('source/sass/**/*.scss', gulp.series(styles, scheme));
+  gulp.watch('source/sass/components/*.scss', styles);
+  gulp.watch('source/sass/scheme/*.scss', scheme);
   gulp.watch('source/js/components/*.js', gulp.series(scriptConcat, scripts));
   gulp.watch('source/*.html', gulp.series(html, reload));
 }

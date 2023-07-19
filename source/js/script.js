@@ -30,6 +30,7 @@ function openConsole() {
   if (consoleFlag) {
     consoleContainer.classList.remove('console--hide');
     VIDEO.blur();
+    consoleInput.value = '';
     consoleInput.focus();
   } else {
     consoleContainer.classList.add('console--hide');
@@ -73,8 +74,8 @@ function checkBonus(event) {
 }
 
 consoleInput.addEventListener('input', stopPropagation);
-consoleInput.addEventListener('keydown', stopPropagation);
-consoleInput.addEventListener('keydown', checkBonus);
+consoleInput.addEventListener('keyup', stopPropagation);
+consoleInput.addEventListener('keyup', checkBonus);
 
 // CONTROLS
 VIDEO.controls = false;
@@ -355,7 +356,16 @@ function changeFitscreen() {
   }
 };
 
+function checkFitscreen() {
+  if (videoWidth === WRAPPER.clientWidth) {
+    fitButton.classList.add('control__button--hide');
+  } else {
+    fitButton.classList.remove('control__button--hide');
+  }
+};
+
 fitButton.addEventListener('click', changeFitscreen);
+window.addEventListener('fullscreenchange', checkFitscreen);
 
 // Cinema mode
 const cinemaButton = CONTROLS.querySelector('.control__button--cinema');
@@ -767,23 +777,11 @@ VIDEO.addEventListener('keyup', (event) => {
     case 'x':
       changeFitscreen();
       break;
-
-    case 'f':
-      changeFullscreen();
-      break;
-
-    case ',':
-      previousVideo();
-      break;
-
-    case '.':
-      nextVideo();
-      break;
   }
 });
 
 // Other
-window.addEventListener('keydown', (event) => {
+window.addEventListener('keyup', (event) => {
   videoKey = event.key;
 
   switch (videoKey) {
@@ -820,6 +818,18 @@ window.addEventListener('keydown', (event) => {
 
     case '`':
       openConsole();
+      break;
+
+      case 'f':
+      changeFullscreen();
+      break;
+
+    case ',':
+      previousVideo();
+      break;
+
+    case '.':
+      nextVideo();
       break;
   }
 });
@@ -1171,17 +1181,17 @@ function startVideo() {
     STARTBUTTON.classList.add('video__start--hide');
     CONTROLS.classList.remove('control--off', 'control--hide');
 
-    getStatistics();
-    stayFocus();
-
-    VIDEO.play();
-    VIDEO.focus();
-
     if (autoplayFlag) {
       VIDEO.addEventListener('loadeddata', startVideo);
     } else {
       VIDEO.removeEventListener('loadeddata', startVideo);
     }
+
+    VIDEO.play();
+    VIDEO.focus();
+
+    getStatistics();
+    stayFocus();
   }
 }
 
@@ -1221,6 +1231,7 @@ function getStatistics() {
   videoDuration = Math.round(VIDEO.duration);
   VIDEORANGE.setAttribute('max', videoDuration);
 
+  checkFitscreen();
   setStatistics();
 }
 

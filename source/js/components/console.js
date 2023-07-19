@@ -10,6 +10,7 @@ function openConsole() {
   if (consoleFlag) {
     consoleContainer.classList.remove('console--hide');
     VIDEO.blur();
+    consoleInput.value = '';
     consoleInput.focus();
   } else {
     consoleContainer.classList.add('console--hide');
@@ -53,5 +54,5 @@ function checkBonus(event) {
 }
 
 consoleInput.addEventListener('input', stopPropagation);
-consoleInput.addEventListener('keydown', stopPropagation);
-consoleInput.addEventListener('keydown', checkBonus);
+consoleInput.addEventListener('keyup', stopPropagation);
+consoleInput.addEventListener('keyup', checkBonus);

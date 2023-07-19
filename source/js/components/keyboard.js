@@ -51,23 +51,11 @@ VIDEO.addEventListener('keyup', (event) => {
     case 'x':
       changeFitscreen();
       break;
-
-    case 'f':
-      changeFullscreen();
-      break;
-
-    case ',':
-      previousVideo();
-      break;
-
-    case '.':
-      nextVideo();
-      break;
   }
 });
 
 // Other
-window.addEventListener('keydown', (event) => {
+window.addEventListener('keyup', (event) => {
   videoKey = event.key;
 
   switch (videoKey) {
@@ -104,6 +92,18 @@ window.addEventListener('keydown', (event) => {
 
     case '`':
       openConsole();
+      break;
+
+      case 'f':
+      changeFullscreen();
+      break;
+
+    case ',':
+      previousVideo();
+      break;
+
+    case '.':
+      nextVideo();
       break;
   }
 });
