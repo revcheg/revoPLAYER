@@ -2,12 +2,22 @@
 const openButton = document.querySelector('.header__menu');
 const closeButton = SETTINGS.querySelector('.settings__close');
 
+let settingsOpen = false;
+
 function openSettings() {
-  SETTINGS.classList.remove('settings--hide');
-  SETTINGS.focus();
+  if (settingsOpen) {
+    settingsOpen = false;
+    SETTINGS.classList.add('settings--hide');
+    SETTINGS.blur();
+  } else {
+    settingsOpen = true;
+    SETTINGS.classList.remove('settings--hide');
+    SETTINGS.focus();
+  }
 }
 
 function closeSettings() {
+  settingsOpen = false;
   SETTINGS.classList.add('settings--hide');
   SETTINGS.blur();
 }

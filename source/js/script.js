@@ -988,12 +988,22 @@ function resetVideo() {
 const openButton = document.querySelector('.header__menu');
 const closeButton = SETTINGS.querySelector('.settings__close');
 
+let settingsOpen = false;
+
 function openSettings() {
-  SETTINGS.classList.remove('settings--hide');
-  SETTINGS.focus();
+  if (settingsOpen) {
+    settingsOpen = false;
+    SETTINGS.classList.add('settings--hide');
+    SETTINGS.blur();
+  } else {
+    settingsOpen = true;
+    SETTINGS.classList.remove('settings--hide');
+    SETTINGS.focus();
+  }
 }
 
 function closeSettings() {
+  settingsOpen = false;
   SETTINGS.classList.add('settings--hide');
   SETTINGS.blur();
 }
@@ -1362,18 +1372,23 @@ tabButtons.forEach(button => {
 });
 
 function updateSettingsHeight() {
-  const settingsButtonHeight = SETTINGS.querySelector('.settings__control').clientHeight;
+  let settingsButtonHeight = SETTINGS.querySelector('.settings__control').clientHeight;
   const settingsWrapper = SETTINGS.querySelector('.settings__wrapper');
-  const settingsWrapperHeight = settingsWrapper.clientHeight;
-  const activeTab = document.querySelector('.settings__tab--active');
-  const activeTabHeight = activeTab.clientHeight;
+  let settingsWrapperHeight = settingsWrapper.clientHeight;
+  const activeTab = SETTINGS.querySelector('.settings__tab--active');
+  let activeTabHeight = activeTab.clientHeight;
+  let blockOffset = 90;
 
-  settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - 90px)`;
+  if (windowWidth > 768) {
+    blockOffset = 0;
+  }
 
-  if (activeTabHeight >= settingsWrapperHeight) {
-    activeTab.style.height = settingsWrapperHeight + 'px';
+  settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - ${blockOffset}px)`;
+
+  if (activeTabHeight > settingsWrapperHeight) {
     activeTab.classList.add('settings__tab--scroll');
-    activeTab.style.height = settingsWrapperHeight + 'px';
+  } else {
+    activeTab.classList.remove('settings__tab--scroll');
   }
 }
 

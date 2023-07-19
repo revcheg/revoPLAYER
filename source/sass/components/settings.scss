@@ -22,11 +22,10 @@
 
 .settings__close {
   position: absolute;
-  bottom: 10px;
-  left: 50%;
+  right: 25px;
+  bottom: 20px;
   width: 45px;
   height: 45px;
-  transform: translateX(-50%);
   z-index: 2;
 }
 
@@ -52,7 +51,6 @@
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  margin-bottom: 10px;
 
   &--hide {
     display: none;
@@ -75,16 +73,6 @@
     margin-right: 0;
   }
 
-  &:hover,
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 10px 3px rgba(#FFFFFF, 0.9);
-  }
-
-  &:active {
-    box-shadow: 0 0 10px 6px rgba(#FFFFFF, 0.9);
-  }
-
   &--active {
     box-shadow: 0 0 10px 5px rgba(#FFFFFF, 0.9);
   }
@@ -104,14 +92,10 @@
   }
 
   &--scroll {
-    top: 0;
-    transform: translate(-50%, 0) scale(1);
+    top: 50px;
+    bottom: 50px;
     overflow-y: scroll;
-
-    &::-webkit-scrollbar {
-      width: 1px;
-      height: 1px;
-    }
+    transform: translate(-50%, 0%) scale(1);
   }
 }
 
@@ -239,7 +223,7 @@
 
   .settings__close {
     top: 25px;
-    right: 3px;
+    right: 25px;
     left: auto;
     width: 45px;
     height: 45px;
@@ -262,6 +246,11 @@
 
   .settings__tab {
     max-width: 700px;
+
+    &--scroll {
+      top: 120px;
+      bottom: 120px;
+    }
   }
 
   .settings__label {
@@ -314,7 +303,7 @@
 
   .settings__close {
     top: 35px;
-    right: 5px;
+    right: 35px;
     width: 60px;
     height: 60px;
   }
@@ -326,7 +315,6 @@
 
   .settings__control {
     width: 40%;
-    margin-right: 30px;
     margin-bottom: 0;
     padding-right: 0;
   }
@@ -338,10 +326,20 @@
 
   .settings__wrapper {
     width: 60%;
+
+    &::-webkit-scrollbar {
+      width: 3px;
+      height: 3px;
+    }
   }
 
   .settings__tab {
     max-width: none;
+
+    &--scroll {
+      top: 50px;
+      bottom: 50px;
+    }
   }
 
   .settings__label {
