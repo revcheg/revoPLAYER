@@ -153,8 +153,10 @@ function showAddControls() {
   additionalControls.forEach(control => {
     if (controlsCheckbox.checked) {
       control.classList.remove('control__button--hide');
+      control.removeAttribute('disabled');
     } else {
       control.classList.add('control__button--hide');
+      control.setAttribute('disabled', 'disabled');
     }
   });
 };

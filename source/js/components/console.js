@@ -1,6 +1,7 @@
 // Console
 const consoleContainer = document.querySelector('.console');
 const consoleInput = consoleContainer.querySelector('.console__input');
+const consoleBackground = consoleContainer.querySelector('.console__background');
 
 let consoleFlag = false;
 
@@ -12,6 +13,7 @@ function openConsole() {
     VIDEO.blur();
     consoleInput.value = '';
     consoleInput.focus();
+    consoleBackground.play();
   } else {
     consoleContainer.classList.add('console--hide');
     VIDEO.focus();
@@ -25,31 +27,31 @@ function stopPropagation(event) {
 
 function checkBonus(event) {
   if (event.key === 'Enter') {
-    let clientText = consoleInput.value;
 
-    switch (clientText) {
+    switch (consoleInput.value) {
       case 'unlimited spider man':
         VIDEO.src = 'video/USP-intro.mp4';
-        if (autoplayFlag) {
-          VIDEO.addEventListener('loadeddata', startVideo);
-        } else {
-          VIDEO.removeEventListener('loadeddata', startVideo);
-        }
+        openConsole();
+        showError('Відкрито бонусне відео &#128375;');
         break;
 
       case 'spider man':
         VIDEO.src = 'video/SP-intro.mp4';
-        if (autoplayFlag) {
-          VIDEO.addEventListener('loadeddata', startVideo);
-        } else {
-          VIDEO.removeEventListener('loadeddata', startVideo);
-        }
+        openConsole();
+        showError('Відкрито бонусне відео &#128375;');
         break;
+
+      default:
+        showError('Команда неможлива &#128126;');
+    }
+
+    if (autoplayFlag) {
+      VIDEO.addEventListener('loadeddata', startVideo);
+    } else {
+      VIDEO.removeEventListener('loadeddata', startVideo);
     }
 
     consoleInput.value = '';
-    openConsole();
-    showError('Відкрито бонусне відео &#128521;');
   }
 }
 

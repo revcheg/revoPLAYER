@@ -21,6 +21,7 @@ const ERROR = document.querySelector('.error');
 // Console
 const consoleContainer = document.querySelector('.console');
 const consoleInput = consoleContainer.querySelector('.console__input');
+const consoleBackground = consoleContainer.querySelector('.console__background');
 
 let consoleFlag = false;
 
@@ -32,6 +33,7 @@ function openConsole() {
     VIDEO.blur();
     consoleInput.value = '';
     consoleInput.focus();
+    consoleBackground.play();
   } else {
     consoleContainer.classList.add('console--hide');
     VIDEO.focus();
@@ -45,31 +47,31 @@ function stopPropagation(event) {
 
 function checkBonus(event) {
   if (event.key === 'Enter') {
-    let clientText = consoleInput.value;
 
-    switch (clientText) {
+    switch (consoleInput.value) {
       case 'unlimited spider man':
         VIDEO.src = 'video/USP-intro.mp4';
-        if (autoplayFlag) {
-          VIDEO.addEventListener('loadeddata', startVideo);
-        } else {
-          VIDEO.removeEventListener('loadeddata', startVideo);
-        }
+        openConsole();
+        showError('Відкрито бонусне відео &#128375;');
         break;
 
       case 'spider man':
         VIDEO.src = 'video/SP-intro.mp4';
-        if (autoplayFlag) {
-          VIDEO.addEventListener('loadeddata', startVideo);
-        } else {
-          VIDEO.removeEventListener('loadeddata', startVideo);
-        }
+        openConsole();
+        showError('Відкрито бонусне відео &#128375;');
         break;
+
+      default:
+        showError('Команда неможлива &#128126;');
+    }
+
+    if (autoplayFlag) {
+      VIDEO.addEventListener('loadeddata', startVideo);
+    } else {
+      VIDEO.removeEventListener('loadeddata', startVideo);
     }
 
     consoleInput.value = '';
-    openConsole();
-    showError('Відкрито бонусне відео &#128521;');
   }
 }
 
@@ -727,11 +729,11 @@ VIDEO.addEventListener('ended', nextVideo);
 // Keyboard
 let videoKey;
 
-// Video
-VIDEO.addEventListener('keyup', (event) => {
+window.addEventListener('keyup', (event) => {
   videoKey = event.key;
 
   switch (videoKey) {
+    // Video
     case ' ':
       pauseVideo();
       changePauseIcon();
@@ -777,20 +779,27 @@ VIDEO.addEventListener('keyup', (event) => {
     case 'x':
       changeFitscreen();
       break;
-  }
-});
 
-// Other
-window.addEventListener('keyup', (event) => {
-  videoKey = event.key;
+    case 'f':
+      changeFullscreen();
+      break;
 
-  switch (videoKey) {
+    case ',':
+      previousVideo();
+      break;
+
+    case '.':
+      nextVideo();
+      break;
+
+    // Other
     case 'i':
       openSettings();
       break;
 
     case 'Escape':
       closeSettings();
+      openConsole();
       break;
 
     case 'p':
@@ -818,18 +827,6 @@ window.addEventListener('keyup', (event) => {
 
     case '`':
       openConsole();
-      break;
-
-      case 'f':
-      changeFullscreen();
-      break;
-
-    case ',':
-      previousVideo();
-      break;
-
-    case '.':
-      nextVideo();
       break;
   }
 });
@@ -1139,8 +1136,10 @@ function showAddControls() {
   additionalControls.forEach(control => {
     if (controlsCheckbox.checked) {
       control.classList.remove('control__button--hide');
+      control.removeAttribute('disabled');
     } else {
       control.classList.add('control__button--hide');
+      control.setAttribute('disabled', 'disabled');
     }
   });
 };

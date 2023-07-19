@@ -7,7 +7,8 @@
   align-items: center;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
+  // background-color: rgba(0, 0, 0, 0.8);
+  background-color: #000000;
   transition: 0.5s;
 
   &--hide {
@@ -17,13 +18,25 @@
   }
 }
 
+.console__background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  object-fit: cover;
+}
+
 .console__input {
+  position: relative;
   width: 100%;
   padding: 0 15px;
   color: #FFFFFF;
   font-size: 50px;
   font-weight: 700;
   font-family: inherit;
+  letter-spacing: 5px;
   text-align: center;
   text-transform: uppercase;
   border: none;

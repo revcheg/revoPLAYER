@@ -1,11 +1,11 @@
 // Keyboard
 let videoKey;
 
-// Video
-VIDEO.addEventListener('keyup', (event) => {
+window.addEventListener('keyup', (event) => {
   videoKey = event.key;
 
   switch (videoKey) {
+    // Video
     case ' ':
       pauseVideo();
       changePauseIcon();
@@ -51,20 +51,27 @@ VIDEO.addEventListener('keyup', (event) => {
     case 'x':
       changeFitscreen();
       break;
-  }
-});
 
-// Other
-window.addEventListener('keyup', (event) => {
-  videoKey = event.key;
+    case 'f':
+      changeFullscreen();
+      break;
 
-  switch (videoKey) {
+    case ',':
+      previousVideo();
+      break;
+
+    case '.':
+      nextVideo();
+      break;
+
+    // Other
     case 'i':
       openSettings();
       break;
 
     case 'Escape':
       closeSettings();
+      openConsole();
       break;
 
     case 'p':
@@ -92,18 +99,6 @@ window.addEventListener('keyup', (event) => {
 
     case '`':
       openConsole();
-      break;
-
-      case 'f':
-      changeFullscreen();
-      break;
-
-    case ',':
-      previousVideo();
-      break;
-
-    case '.':
-      nextVideo();
       break;
   }
 });

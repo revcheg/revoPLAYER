@@ -10,9 +10,9 @@
     <link rel="stylesheet" href="css/dark.css" media="(prefers-color-scheme: dark)">
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F8F0FB">
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#02182B">
+    <link rel="preload" href="fonts/roboto-300.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     <link rel="preload" href="fonts/roboto-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     <link rel="preload" href="fonts/roboto-700.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-    <link rel="preload" href="fonts/roboto-300.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     <link rel="icon" href="img/favicons/favicon.svg" media="(prefers-color-scheme: light)" type="image/svg+xml">
     <link rel="icon" href="img/favicons/favicon-dark.svg" media="(prefers-color-scheme: dark)" type="image/svg+xml">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -108,13 +108,13 @@
             </button>
             <input class="control__range  control__range--volume" step="0.1" min="0" max="1" value="0.5" aria-label="Гучність" title="Гучність (up+down arrow)" type="range">
           </div>
-          <button class="button  control__button  control__button--subtitle  control__button--hide  control__button--off" aria-label="Увімкнути субтитри" title="Увімкнути субтитри (c)" type="button">
+          <button class="button  control__button  control__button--subtitle  control__button--hide  control__button--off" aria-label="Увімкнути субтитри" title="Увімкнути субтитри (c)" type="button" disabled>
             <span class="control__info  control__info--hide"></span>
             <svg class="control__icon  control__icon--subtitle" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
               <path d="M16.19 2H7.81C4.17 2 2 4.17 2 7.81v8.37C2 19.83 4.17 22 7.81 22h8.37c3.64 0 5.81-2.17 5.81-5.81V7.81C22 4.17 19.83 2 16.19 2ZM6.5 12.57h2.77c.41 0 .75.34.75.75s-.34.75-.75.75H6.5c-.41 0-.75-.34-.75-.75s.34-.75.75-.75Zm6.47 5.26H6.5c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h6.47a.749.749 0 1 1 0 1.5Zm4.53 0h-1.85c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h1.85c.41 0 .75.34.75.75s-.34.75-.75.75Zm0-3.76h-5.53c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h5.53c.41 0 .75.34.75.75s-.34.75-.75.75Z"/>
             </svg>
           </button>
-          <button class="button  control__button  control__button--speed  control__button--hide" aria-label="Збільшити швидкість відео" title="Збільшити швидкість відео (s)" type="button">
+          <button class="button  control__button  control__button--speed  control__button--hide" aria-label="Збільшити швидкість відео" title="Збільшити швидкість відео (s)" type="button" disabled>
             <span class="control__info  control__info--hide"></span>
             <svg class="control__icon  control__icon--speed" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
               <g stroke-linecap="round" stroke-linejoin="round">
@@ -123,12 +123,12 @@
               </g>
             </svg>
           </button>
-          <button class="button  control__button  control__button--pip  control__button--hide" aria-label="Міні-програвач" title="Міні-програвач (q)" type="button">
+          <button class="button  control__button  control__button--pip  control__button--hide" aria-label="Міні-програвач" title="Міні-програвач (q)" type="button" disabled>
             <svg class="control__icon  control__icon--pip" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16">
               <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h13A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 12.5v-9zM1.5 3a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/><path d="M8 8.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-5a.5.5 0 0 1-.5-.5v-3z"/>
             </svg>
           </button>
-          <button class="button  control__button  control__button--fit  control__button--hide" aria-label="Ростягнути зображення" title="Ростягнути зображення (x)" type="button">
+          <button class="button  control__button  control__button--fit  control__button--hide" aria-label="Ростягнути зображення" title="Ростягнути зображення (x)" type="button" disabled>
             <svg class="control__icon  control__icon--fit" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
               <path d="M18 20.75h-6a.75.75 0 1 1 0-1.5h6A1.25 1.25 0 0 0 19.25 18V6A1.25 1.25 0 0 0 18 4.75H6A1.25 1.25 0 0 0 4.75 6v6a.75.75 0 1 1-1.5 0V6A2.75 2.75 0 0 1 6 3.25h12A2.75 2.75 0 0 1 20.75 6v12A2.75 2.75 0 0 1 18 20.75Z"/>
               <path d="M16 12.75a.76.76 0 0 1-.75-.75V8.75H12a.75.75 0 1 1 0-1.5h4a.76.76 0 0 1 .75.75v4a.76.76 0 0 1-.75.75Z"/>
@@ -136,7 +136,7 @@
               <path d="M8 20.75H5A1.76 1.76 0 0 1 3.25 19v-3A1.76 1.76 0 0 1 5 14.25h3A1.76 1.76 0 0 1 9.75 16v3A1.76 1.76 0 0 1 8 20.75Zm-3-5a.25.25 0 0 0-.25.25v3a.25.25 0 0 0 .25.25h3a.25.25 0 0 0 .25-.25v-3a.25.25 0 0 0-.25-.25H5Z"/>
             </svg>
           </button>
-          <button class="button  control__button  control__button--cinema  control__button--hide" aria-label="Режим кінотеатру" title="Режим кінотеатру (t)" type="button">
+          <button class="button  control__button  control__button--cinema  control__button--hide" aria-label="Режим кінотеатру" title="Режим кінотеатру (t)" type="button" disabled>
             <svg class="control__icon  control__icon--cinema" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
               <path fill-rule="evenodd" d="M11 16H3a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3h18a3 3 0 0 1 3 3v5a3 3 0 0 1-3 3h-8v1h2a1 1 0 1 1 0 2H9a1 1 0 1 1 0-2h2v-1ZM3 7h18a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z" clip-rule="evenodd"/>
             </svg>
@@ -348,7 +348,11 @@
 
     <section class="console  console--hide">
       <h3 class="visually-hidden">Консоль</h3>
-      <input class="console__input" type="text">
+      <video class="console__background" src="video/console.mp4" muted loop playsinline></video>
+      <label>
+        <span class="visually-hidden">Поле введення консолі</span>
+        <input class="console__input" type="text">
+      </label>
     </section>
 
     <script src="js/script.min.js"></script>

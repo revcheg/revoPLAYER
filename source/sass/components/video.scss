@@ -213,6 +213,10 @@
 
   .video__wrapper {
     max-width: 900px;
+
+    &--cinema {
+      max-width: none;
+    }
   }
 }
 
