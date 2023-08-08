@@ -1,0 +1,197 @@
+.body {
+  font-family: "Pricedown", "Roboto", "Arial", sans-serif;
+	background-color: #FFFFFF;
+}
+
+*::-webkit-scrollbar-thumb {
+	background-color: #F195AC;
+}
+
+// Button
+.button {
+
+	&:hover,
+	&:focus {
+		box-shadow: 0 0 10px 3px rgba(#F27DFD, 0.9);
+	}
+
+	&:focus-visible {
+		outline-color: #F27DFD;
+	}
+
+	&--active {
+		box-shadow: 0 0 10px 2px #F27DFD;
+	}
+}
+
+// Control
+.control__line {
+	background-color: #F27DFD;
+
+	&::-webkit-progress-value {
+		background-color: #F27DFD;
+	}
+}
+
+.control__button {
+
+	&--active {
+    box-shadow: 0 0 10px 2px #F27DFD;
+  }
+}
+
+.control__time {
+  font-weight: 500;
+  font-family: "Chalet", "Roboto", "Arial", sans-serif;
+}
+
+.control__range {
+
+	&::-webkit-slider-runnable-track {
+		box-shadow: 0 0 3px 1px rgba(#F27DFD, 0.9);
+	}
+
+	&::-webkit-slider-thumb {
+		background-color: #F27DFD;
+	}
+
+	&:hover,
+	&:focus {
+		box-shadow: 0 0 20px 1px rgba(#F27DFD, 0.9);
+	}
+
+	&:focus-visible {
+		outline: 1px solid #F27DFD;
+	}
+}
+
+.control__icon {
+	fill: #F27DFD;
+
+	&--speed {
+		fill: none;
+
+		path {
+			stroke: #F27DFD;
+		}
+	}
+
+	&--size {
+		fill: none;
+		stroke: #F27DFD;
+	}
+
+	&--min {
+		fill: none;
+		stroke: #F27DFD;
+	}
+}
+
+.control__info {
+  font-weight: 500;
+  font-family: "Chalet", "Roboto", "Arial", sans-serif;
+	background-color: #F27DFD;
+}
+
+// Footer
+.footer__scheme {
+
+	&:checked {
+		box-shadow: 0 0 10px 2px rgba(#F27DFD, 0.7);
+	}
+}
+
+.footer__icon {
+	fill: #F27DFD;
+	stroke: #F27DFD;
+
+	&--transparent {
+		fill: none;
+	}
+}
+
+.footer__copyright {
+	color: #8075FF;
+
+	&--name {
+		color: #F27DFD;
+	}
+}
+
+// Header
+.header__icon {
+	fill: #F27DFD;
+}
+
+// Settings
+.settings {
+	background-color: rgba(#F27DFD, 0.7);
+}
+
+.settings__name {
+  font-weight: 300;
+  font-family: "Chalet", "Roboto", "Arial", sans-serif;
+}
+
+.settings__item {
+  font-weight: 300;
+  font-family: "Chalet", "Roboto", "Arial", sans-serif;
+}
+
+.settings__text {
+  font-weight: 300;
+  font-family: "Chalet", "Roboto", "Arial", sans-serif;
+}
+
+.settings__time {
+  font-weight: 900;
+  font-family: "Pricedown", "Roboto", "Arial", sans-serif;
+}
+
+// Video
+.video__wrapper {
+	box-shadow: 0 0 25px 5px rgba(#F27DFD, 0.9);
+}
+
+.video__icon path {
+	stroke: #F27DFD;
+}
+
+.video__start {
+
+	&::before {
+		background-color: rgba(#F27DFD, 0.2);
+	}
+}
+
+// Statistics
+.statistics {
+	color: #F27DFD;
+}
+
+// Series
+.series__icon {
+	fill: #F27DFD;
+}
+
+.series__item {
+	color: #F27DFD;
+	font-weight: 300;
+}
+
+.series__button {
+	color: #F27DFD;
+
+	&--active {
+		box-shadow: 0 0 10px 1px rgba(#F27DFD, 0.9);
+	}
+}
+
+// Error
+.error {
+  bottom: 35px;
+  padding: 15px 40px;
+  font-size: 30px;
+	box-shadow: 0 0 10px 5px rgba(#F27DFD, 0.4);
+	background-color: rgba(#F27DFD, 0.9);
+}

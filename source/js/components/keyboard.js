@@ -49,7 +49,7 @@ window.addEventListener('keyup', (event) => {
       break;
 
     case 'x':
-      changeFitscreen();
+      changeFitScreen();
       break;
 
     case 'f':
@@ -71,7 +71,7 @@ window.addEventListener('keyup', (event) => {
 
     case 'Escape':
       closeSettings();
-      openConsole();
+      closeConsole();
       break;
 
     case 'p':

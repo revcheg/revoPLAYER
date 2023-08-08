@@ -23,22 +23,18 @@ const consoleContainer = document.querySelector('.console');
 const consoleInput = consoleContainer.querySelector('.console__input');
 const consoleBackground = consoleContainer.querySelector('.console__background');
 
-let consoleFlag = false;
-
 function openConsole() {
-  consoleFlag = !consoleFlag;
+  consoleBackground.src = 'video/console.mp4';
+  consoleBackground.play();
+  consoleContainer.classList.remove('console--hide');
+  VIDEO.blur();
+  consoleInput.value = '';
+  consoleInput.focus();
+}
 
-  if (consoleFlag) {
-    consoleContainer.classList.remove('console--hide');
-    VIDEO.blur();
-    consoleInput.value = '';
-    consoleInput.focus();
-    consoleBackground.play();
-  } else {
-    consoleContainer.classList.add('console--hide');
-    VIDEO.focus();
-    consoleInput.blur();
-  }
+function closeConsole() {
+  consoleContainer.classList.add('console--hide');
+  consoleInput.blur();
 }
 
 function stopPropagation(event) {
@@ -51,14 +47,20 @@ function checkBonus(event) {
     switch (consoleInput.value) {
       case 'unlimited spider man':
         VIDEO.src = 'video/USP-intro.mp4';
-        openConsole();
+        closeConsole();
         showError('Відкрито бонусне відео &#128375;');
         break;
 
       case 'spider man':
         VIDEO.src = 'video/SP-intro.mp4';
-        openConsole();
+        closeConsole();
         showError('Відкрито бонусне відео &#128375;');
+        break;
+
+      case 'vice city':
+        addScheme('vice');
+        closeConsole();
+        showError('Розблокована нова тема &#127847;');
         break;
 
       default:
@@ -282,7 +284,7 @@ function changeSpeed() {
   VIDEO.playbackRate = playbackRate;
 
   speedInfo.classList.remove('control__info--hide');
-  speedInfo.innerHTML = playbackRate;
+  speedInfo.innerHTML = playbackRate + 'x';
 
   if (playbackRate !== 1.0) {
     speedButton.classList.add('control__button--active');
@@ -342,7 +344,7 @@ document.addEventListener('leavepictureinpicture', closePip);
 // Fit
 const fitButton = CONTROLS.querySelector('.control__button--fit');
 
-function changeFitscreen() {
+function changeFitScreen() {
   let currentFit = VIDEO.style.objectFit;
   let changedFit = currentFit === 'cover' ? 'contain' : 'cover';
   VIDEO.style.objectFit = changedFit;
@@ -358,16 +360,15 @@ function changeFitscreen() {
   }
 };
 
-function checkFitscreen() {
-  if (videoWidth === WRAPPER.clientWidth) {
-    fitButton.classList.add('control__button--hide');
-  } else {
+function checkFitScreen() {
+  if (videoWidth < WRAPPER.clientWidth) {
     fitButton.classList.remove('control__button--hide');
+  } else {
+    fitButton.classList.add('control__button--hide');
   }
 };
 
-fitButton.addEventListener('click', changeFitscreen);
-window.addEventListener('fullscreenchange', checkFitscreen);
+fitButton.addEventListener('click', changeFitScreen);
 
 // Cinema mode
 const cinemaButton = CONTROLS.querySelector('.control__button--cinema');
@@ -472,16 +473,16 @@ function handleMouseMove(event) {
 };
 
 function showControls() {
-  CONTROLS.style.transform = 'translateY(0)';
-  STATISTICS.style.transform = 'translateY(0)';
-  statisticsUFH.style.transform = 'translateY(0)';
+  CONTROLS.classList.remove('control--hide');
+  STATISTICS.classList.remove('statistics--hide');
+  statisticsUFH.classList.remove('statistics--hide');
   VIDEO.style.cursor = 'auto';
 };
 
 function hideControls() {
-  CONTROLS.style.transform = 'translateY(100%)';
-  STATISTICS.style.transform = 'translateY(-100%)';
-  statisticsUFH.style.transform = 'translateY(-150%)';
+  CONTROLS.classList.add('control--hide');
+  STATISTICS.classList.add('statistics--hide');
+  statisticsUFH.classList.add('statistics--hide');
   VIDEO.style.cursor = 'none';
 };
 
@@ -777,7 +778,7 @@ window.addEventListener('keyup', (event) => {
       break;
 
     case 'x':
-      changeFitscreen();
+      changeFitScreen();
       break;
 
     case 'f':
@@ -799,7 +800,7 @@ window.addEventListener('keyup', (event) => {
 
     case 'Escape':
       closeSettings();
-      openConsole();
+      closeConsole();
       break;
 
     case 'p':
@@ -844,12 +845,10 @@ function getSavedScheme() {
 	return localStorage.getItem('color-scheme');
 }
 
-// Scheme BETA
+// Scheme
 const favicon = document.querySelector('link[href="img/favicons/favicon.svg"]');
-
 const lightStyles = document.querySelectorAll('link[rel=stylesheet][media*=prefers-color-scheme][media*=light]');
 const darkStyles = document.querySelectorAll('link[rel=stylesheet][media*=prefers-color-scheme][media*=dark]');
-
 const schemeRadios = document.querySelectorAll('.footer__scheme');
 const darkScheme = matchMedia('(prefers-color-scheme: dark)').matches;
 
@@ -859,15 +858,28 @@ function setupSwitcher() {
   if (savedScheme !== null) {
     const currentRadio = document.querySelector(`.footer__scheme[value=${savedScheme}]`);
     currentRadio.checked = true;
-  } else {
-		const currentRadio = document.querySelector(`.footer__scheme[value=auto]`);
-		currentRadio.checked = true;
-	}
+    updateRadioStates(currentRadio);
+  }
 
   [...schemeRadios].forEach((radio) => {
     radio.addEventListener('change', (event) => {
-			setScheme(event.target.value);
+      setScheme(event.target.value);
+      updateRadioStates(event.target);
     });
+  });
+}
+
+function updateRadioStates(activeRadio) {
+  [...schemeRadios].forEach((radio) => {
+    if (radio === activeRadio) {
+      radio.checked = true;
+      radio.setAttribute('checked', 'checked');
+      radio.disabled = true;
+    } else {
+      radio.checked = false;
+      radio.removeAttribute('checked');
+      radio.disabled = false;
+    }
   });
 }
 
@@ -877,8 +889,14 @@ function setupScheme() {
 
   if (savedScheme === null) return;
 
-  if (savedScheme !== systemScheme) {
+  if (savedScheme === 'vice') {
+    addScheme('vice');
+  } else if (savedScheme !== systemScheme) {
     setScheme(savedScheme);
+  } else if (savedScheme === 'light') {
+    switchMedia('light');
+  } else if (savedScheme === 'dark') {
+    switchMedia('dark');
   }
 }
 
@@ -893,38 +911,68 @@ function setScheme(scheme) {
 }
 
 function switchMedia(scheme) {
-	let lightMedia;
-	let darkMedia;
+  let lightMedia;
+  let darkMedia;
 
-	if (scheme === 'auto') {
-		lightMedia = '(prefers-color-scheme: light)';
-		darkMedia = '(prefers-color-scheme: dark)';
-	} else {
-		lightMedia = (scheme === 'light') ? 'all' : 'not all';
-		darkMedia = (scheme === 'dark') ? 'all' : 'not all';
-	}
+  if (scheme === 'auto') {
+    lightMedia = '(prefers-color-scheme: light)';
+    darkMedia = '(prefers-color-scheme: dark)';
+  } else if (scheme === 'light') {
+    lightMedia = 'all';
+    darkMedia = 'not all';
+  } else if (scheme === 'dark') {
+    lightMedia = 'not all';
+    darkMedia = 'all';
+  } else {
+    lightMedia = 'not all';
+    darkMedia = 'not all';
+  }
 
-	[...lightStyles].forEach((link) => {
-			link.media = lightMedia;
-	});
+  [...lightStyles].forEach((link) => {
+    link.media = lightMedia;
+  });
 
-	[...darkStyles].forEach((link) => {
-			link.media = darkMedia;
-	});
+  [...darkStyles].forEach((link) => {
+    link.media = darkMedia;
+  });
 
-	if (scheme === 'dark') {
-		favicon.href = 'img/favicons/favicon-dark.svg';
-	} else {
-		favicon.href = 'img/favicons/favicon.svg';
-	}
+  if (scheme === 'dark') {
+    favicon.href = 'img/favicons/favicon-dark.svg';
+  } else {
+    favicon.href = 'img/favicons/favicon.svg';
+  }
+
+  if (newScheme) {
+    newScheme.media = (scheme === 'vice') ? 'all' : 'not all';
+  }
 }
 
 function getSystemScheme() {
-	return darkScheme ? 'dark' : 'light';
+  return darkScheme ? 'dark' : 'light';
 }
 
 setupSwitcher();
 setupScheme();
+
+let newScheme;
+
+function addScheme(scheme) {
+  let newButton = document.querySelector(`.footer__scheme[value=${scheme}]`);
+  let newLabel = newButton.parentNode;
+
+  updateRadioStates(newButton);
+  newLabel.classList.remove('footer__label--hide');
+
+  newScheme = document.createElement('link');
+  newScheme.setAttribute('rel', 'stylesheet');
+  newScheme.href = `css/${scheme}.css`;
+  document.head.appendChild(newScheme);
+
+  switchMedia(scheme);
+  newScheme.setAttribute('media', 'all');
+
+  saveScheme(scheme);
+}
 
 // Series
 function setActiveButton(button) {
@@ -1188,7 +1236,7 @@ function startVideo() {
   } else if (VIDEO.readyState >= VIDEO.HAVE_CURRENT_DATA || VIDEO.readyState === HTMLMediaElement.HAVE_ENOUGH_DATA) {
     openButton.classList.remove('header__menu--error');
     STARTBUTTON.classList.add('video__start--hide');
-    CONTROLS.classList.remove('control--off', 'control--hide');
+    CONTROLS.classList.remove('control--off');
 
     if (autoplayFlag) {
       VIDEO.addEventListener('loadeddata', startVideo);
@@ -1240,7 +1288,7 @@ function getStatistics() {
   videoDuration = Math.round(VIDEO.duration);
   VIDEORANGE.setAttribute('max', videoDuration);
 
-  checkFitscreen();
+  checkFitScreen();
   setStatistics();
 }
 
@@ -1378,9 +1426,9 @@ function updateSettingsHeight() {
   let activeTabHeight = activeTab.clientHeight;
   let blockOffset = 90;
 
-  if (windowWidth > 768) {
-    blockOffset = 0;
-  }
+  // if (windowWidth > 768) {
+  //   blockOffset = 0;
+  // }
 
   settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - ${blockOffset}px)`;
 

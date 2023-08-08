@@ -22,25 +22,14 @@
   &::-moz-media-controls {
     display: none;
   }
-
-  &::-ms-media-controls {
-    display: none;
-  }
-
-  &::-o-media-panel {
-    display: none;
-  }
-
-  &::before {
-    content: none;
-  }
 }
 
 ::cue {
   font-size: 13px;
-  font-weight: 400;
-  font-family: "Roboto", "Arial", sans-serif;
+  font-weight: 500;
+  font-family: "Chalet", "Roboto", "Arial", sans-serif;
   background-color: transparent;
+  opacity: 0.9;
 }
 
 .video__wrapper {
@@ -78,21 +67,6 @@
 
     .statistics {
       border-top-right-radius: 0;
-    }
-  }
-
-  &:hover {
-
-    .control {
-      transform: translateY(0);
-    }
-
-    .statistics {
-      transform: translateY(0);
-    }
-
-    .statistics__ufh {
-      transform: translateY(0);
     }
   }
 

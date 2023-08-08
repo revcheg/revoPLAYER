@@ -3,22 +3,18 @@ const consoleContainer = document.querySelector('.console');
 const consoleInput = consoleContainer.querySelector('.console__input');
 const consoleBackground = consoleContainer.querySelector('.console__background');
 
-let consoleFlag = false;
-
 function openConsole() {
-  consoleFlag = !consoleFlag;
+  consoleBackground.src = 'video/console.mp4';
+  consoleBackground.play();
+  consoleContainer.classList.remove('console--hide');
+  VIDEO.blur();
+  consoleInput.value = '';
+  consoleInput.focus();
+}
 
-  if (consoleFlag) {
-    consoleContainer.classList.remove('console--hide');
-    VIDEO.blur();
-    consoleInput.value = '';
-    consoleInput.focus();
-    consoleBackground.play();
-  } else {
-    consoleContainer.classList.add('console--hide');
-    VIDEO.focus();
-    consoleInput.blur();
-  }
+function closeConsole() {
+  consoleContainer.classList.add('console--hide');
+  consoleInput.blur();
 }
 
 function stopPropagation(event) {
@@ -31,14 +27,20 @@ function checkBonus(event) {
     switch (consoleInput.value) {
       case 'unlimited spider man':
         VIDEO.src = 'video/USP-intro.mp4';
-        openConsole();
+        closeConsole();
         showError('Відкрито бонусне відео &#128375;');
         break;
 
       case 'spider man':
         VIDEO.src = 'video/SP-intro.mp4';
-        openConsole();
+        closeConsole();
         showError('Відкрито бонусне відео &#128375;');
+        break;
+
+      case 'vice city':
+        addScheme('vice');
+        closeConsole();
+        showError('Розблокована нова тема &#127847;');
         break;
 
       default:

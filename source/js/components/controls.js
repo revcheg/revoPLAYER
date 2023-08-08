@@ -201,7 +201,7 @@ function changeSpeed() {
   VIDEO.playbackRate = playbackRate;
 
   speedInfo.classList.remove('control__info--hide');
-  speedInfo.innerHTML = playbackRate;
+  speedInfo.innerHTML = playbackRate + 'x';
 
   if (playbackRate !== 1.0) {
     speedButton.classList.add('control__button--active');
@@ -261,7 +261,7 @@ document.addEventListener('leavepictureinpicture', closePip);
 // Fit
 const fitButton = CONTROLS.querySelector('.control__button--fit');
 
-function changeFitscreen() {
+function changeFitScreen() {
   let currentFit = VIDEO.style.objectFit;
   let changedFit = currentFit === 'cover' ? 'contain' : 'cover';
   VIDEO.style.objectFit = changedFit;
@@ -277,16 +277,15 @@ function changeFitscreen() {
   }
 };
 
-function checkFitscreen() {
-  if (videoWidth === WRAPPER.clientWidth) {
-    fitButton.classList.add('control__button--hide');
-  } else {
+function checkFitScreen() {
+  if (videoWidth < WRAPPER.clientWidth) {
     fitButton.classList.remove('control__button--hide');
+  } else {
+    fitButton.classList.add('control__button--hide');
   }
 };
 
-fitButton.addEventListener('click', changeFitscreen);
-window.addEventListener('fullscreenchange', checkFitscreen);
+fitButton.addEventListener('click', changeFitScreen);
 
 // Cinema mode
 const cinemaButton = CONTROLS.querySelector('.control__button--cinema');
@@ -391,16 +390,16 @@ function handleMouseMove(event) {
 };
 
 function showControls() {
-  CONTROLS.style.transform = 'translateY(0)';
-  STATISTICS.style.transform = 'translateY(0)';
-  statisticsUFH.style.transform = 'translateY(0)';
+  CONTROLS.classList.remove('control--hide');
+  STATISTICS.classList.remove('statistics--hide');
+  statisticsUFH.classList.remove('statistics--hide');
   VIDEO.style.cursor = 'auto';
 };
 
 function hideControls() {
-  CONTROLS.style.transform = 'translateY(100%)';
-  STATISTICS.style.transform = 'translateY(-100%)';
-  statisticsUFH.style.transform = 'translateY(-150%)';
+  CONTROLS.classList.add('control--hide');
+  STATISTICS.classList.add('statistics--hide');
+  statisticsUFH.classList.add('statistics--hide');
   VIDEO.style.cursor = 'none';
 };
 

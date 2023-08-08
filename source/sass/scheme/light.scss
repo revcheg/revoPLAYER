@@ -11,15 +11,11 @@
 
 	&:hover,
 	&:focus {
-		box-shadow: 0 0 10px 5px rgba(#6320EE, 0.9);
+		box-shadow: 0 0 10px 3px rgba(#6320EE, 0.9);
 	}
 
 	&:focus-visible {
 		outline-color: #6320EE;
-	}
-
-	&:active {
-		box-shadow: 0 0 10px 2px #6320EE;
 	}
 
 	&--active {
@@ -90,10 +86,6 @@
 }
 
 // Footer
-// .footer__theme--active {
-//   box-shadow: 0 0 5px 1px rgba(#6320EE, 0.6);
-// }
-
 .footer__scheme {
 
 	&:checked {

@@ -13,7 +13,7 @@ function startVideo() {
   } else if (VIDEO.readyState >= VIDEO.HAVE_CURRENT_DATA || VIDEO.readyState === HTMLMediaElement.HAVE_ENOUGH_DATA) {
     openButton.classList.remove('header__menu--error');
     STARTBUTTON.classList.add('video__start--hide');
-    CONTROLS.classList.remove('control--off', 'control--hide');
+    CONTROLS.classList.remove('control--off');
 
     if (autoplayFlag) {
       VIDEO.addEventListener('loadeddata', startVideo);

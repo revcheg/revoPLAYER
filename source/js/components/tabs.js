@@ -30,9 +30,9 @@ function updateSettingsHeight() {
   let activeTabHeight = activeTab.clientHeight;
   let blockOffset = 90;
 
-  if (windowWidth > 768) {
-    blockOffset = 0;
-  }
+  // if (windowWidth > 768) {
+  //   blockOffset = 0;
+  // }
 
   settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - ${blockOffset}px)`;
 
