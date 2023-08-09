@@ -36,9 +36,9 @@ function changeSubtitle() {
 }
 
 function clearSubtitle() {
-  subtitle.src = '';
-  subtitle.srclang = '';
-  subtitle.label = '';
+  subtitle.removeAttribute('src');
+  subtitle.removeAttribute('srclang');
+  subtitle.removeAttribute('label');
   subtitle.default = false;
   subtitleTrack.mode = 'hidden';
   subtitleButton.setAttribute('aria-label', 'Увімкнути субтитри');

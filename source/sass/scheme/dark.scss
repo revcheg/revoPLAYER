@@ -17,10 +17,6 @@
   &:focus-visible {
     outline-color: #0197F6;
   }
-
-  &:active {
-    box-shadow: 0 0 10px 2px rgba(#0197F6, 1);
-  }
 }
 
 // Control
@@ -105,7 +101,7 @@
 .footer__copyright {
   color: #0197F6;
 
-  &--name {
+  &--dev {
     color: #FFFFFF;
   }
 }
@@ -133,11 +129,7 @@
 
 // Video
 .video__wrapper {
-  box-shadow: 0 0 25px 5px rgba(#0197F6, 0.9);
-
-  // &--error {
-  //   box-shadow: 0 0 25px 5px rgb(#F35050, 0.9);
-  // }
+  box-shadow: 0 0 15px 5px rgba(#0197F6, 0.9);
 }
 
 .video__icon path {

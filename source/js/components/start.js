@@ -1,4 +1,6 @@
 // Start
+let isVideoPlaying = false;
+
 function startVideo() {
   if (!VIDEO.hasAttribute('src') || VIDEO.src === '' || VIDEO.error) {
     openButton.focus();
@@ -15,17 +17,18 @@ function startVideo() {
     STARTBUTTON.classList.add('video__start--hide');
     CONTROLS.classList.remove('control--off');
 
+    VIDEO.play();
+    VIDEO.focus();
+
+    isVideoPlaying = true;
+
+    getStatistics();
+
     if (autoplayFlag) {
       VIDEO.addEventListener('loadeddata', startVideo);
     } else {
       VIDEO.removeEventListener('loadeddata', startVideo);
     }
-
-    VIDEO.play();
-    VIDEO.focus();
-
-    getStatistics();
-    stayFocus();
   }
 }
 

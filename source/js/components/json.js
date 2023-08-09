@@ -51,11 +51,6 @@ function playCurrentVideo() {
   } else {
     subtitleButton.classList.add('control__button--off');
   }
-
-  VIDEO.addEventListener('error', function() {
-    showError('Не вдалось завантажити відео &#128531;');
-    resetVideo();
-  });
 }
 
 function nextVideo() {

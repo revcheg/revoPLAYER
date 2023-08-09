@@ -28,36 +28,39 @@ function openConsole() {
   consoleBackground.play();
   consoleContainer.classList.remove('console--hide');
   VIDEO.blur();
-  consoleInput.value = '';
   consoleInput.focus();
 }
 
 function closeConsole() {
-  consoleContainer.classList.add('console--hide');
+	consoleContainer.classList.add('console--hide');
+	consoleInput.value = '';
   consoleInput.blur();
 }
 
-function stopPropagation(event) {
-  event.stopPropagation();
-}
+let bonusURL;
 
 function checkBonus(event) {
   if (event.key === 'Enter') {
+    resetVideo();
 
     switch (consoleInput.value) {
       case 'unlimited spider man':
-        VIDEO.src = 'video/USP-intro.mp4';
+        bonusURL = 'video/USP-intro.mp4';
+        setBonusVideo(bonusURL);
         closeConsole();
         showError('Відкрито бонусне відео &#128375;');
         break;
 
       case 'spider man':
-        VIDEO.src = 'video/SP-intro.mp4';
+        bonusURL = 'video/SP-intro.mp4';
+        setBonusVideo(bonusURL);
         closeConsole();
         showError('Відкрито бонусне відео &#128375;');
         break;
 
       case 'vice city':
+				bonusURL = 'video/GTAVC-intro.webm';
+        setBonusVideo(bonusURL);
         addScheme('vice');
         closeConsole();
         showError('Розблокована нова тема &#127847;');
@@ -72,14 +75,38 @@ function checkBonus(event) {
     } else {
       VIDEO.removeEventListener('loadeddata', startVideo);
     }
-
-    consoleInput.value = '';
   }
+}
+
+function setBonusVideo(bonusURL) {
+  // currentVideo = data.bonus.main[0];
+  // currentVideo.src = bonusURL;
+  VIDEO.src = bonusURL;
+  subtitleButton.classList.add('control__button--off');
+}
+
+function stopPropagation(event) {
+  event.stopPropagation();
 }
 
 consoleInput.addEventListener('input', stopPropagation);
 consoleInput.addEventListener('keyup', stopPropagation);
 consoleInput.addEventListener('keyup', checkBonus);
+
+const devButton = document.querySelector('.footer__copyright--dev');
+
+let clickCount = 0;
+
+function handleDevClick() {
+  clickCount++;
+
+  if (clickCount >= 10) {
+    openConsole();
+    clickCount = 0;
+  }
+}
+
+devButton.addEventListener('click', handleDevClick);
 
 // CONTROLS
 VIDEO.controls = false;
@@ -373,6 +400,10 @@ fitButton.addEventListener('click', changeFitScreen);
 // Cinema mode
 const cinemaButton = CONTROLS.querySelector('.control__button--cinema');
 
+if (BODY.clientWidth > 768) {
+  cinemaButton.classList.remove('control__button--off');
+}
+
 let cinemaFlag = false;
 
 function setCinema() {
@@ -475,14 +506,14 @@ function handleMouseMove(event) {
 function showControls() {
   CONTROLS.classList.remove('control--hide');
   STATISTICS.classList.remove('statistics--hide');
-  statisticsUFH.classList.remove('statistics--hide');
+  statisticsUFH.classList.remove('statistics__ufh--hide');
   VIDEO.style.cursor = 'auto';
 };
 
 function hideControls() {
   CONTROLS.classList.add('control--hide');
   STATISTICS.classList.add('statistics--hide');
-  statisticsUFH.classList.add('statistics--hide');
+  statisticsUFH.classList.add('statistics__ufh--hide');
   VIDEO.style.cursor = 'none';
 };
 
@@ -505,7 +536,7 @@ function showError(errorMessage) {
   errorTimeout = setTimeout(() => {
     ERROR.classList.remove('error--animate');
     ERROR.classList.add('error--hide');
-  }, 2000);
+  }, 3000);
 }
 
 // File
@@ -641,11 +672,6 @@ function playCurrentVideo() {
   } else {
     subtitleButton.classList.add('control__button--off');
   }
-
-  VIDEO.addEventListener('error', function() {
-    showError('Не вдалось завантажити відео &#128531;');
-    resetVideo();
-  });
 }
 
 function nextVideo() {
@@ -733,67 +759,71 @@ let videoKey;
 window.addEventListener('keyup', (event) => {
   videoKey = event.key;
 
+  if (isVideoPlaying) {
+    switch (videoKey) {
+      // Video
+      case ' ':
+        pauseVideo();
+        changePauseIcon();
+        break;
+
+      case 'ArrowLeft':
+        VIDEO.currentTime -= 5;
+        VIDEORANGE.value = VIDEO.currentTime;
+        setDuration();
+        break;
+
+      case 'ArrowRight':
+        VIDEO.currentTime += 5;
+        VIDEORANGE.value = VIDEO.currentTime;
+        setDuration();
+        break;
+
+      case 'ArrowUp':
+        changeVolume(0.1);
+        break;
+
+      case 'ArrowDown':
+        changeVolume(-0.1);
+        break;
+
+      case 'm':
+        muteVideo();
+        changeMuteIcon();
+        break;
+
+      case 'c':
+        changeSubtitle();
+        break;
+
+      case 's':
+        changeSpeed();
+        break;
+
+      case 'q':
+        openPip();
+        break;
+
+      case 'x':
+        changeFitScreen();
+        break;
+
+      case 'f':
+        changeFullscreen();
+        break;
+
+      case ',':
+        previousVideo();
+        break;
+
+      case '.':
+        nextVideo();
+        break;
+    }
+  }
+
+  // Other
   switch (videoKey) {
-    // Video
-    case ' ':
-      pauseVideo();
-      changePauseIcon();
-      break;
-
-    case 'ArrowLeft':
-      VIDEO.currentTime -= 5;
-      VIDEORANGE.value = VIDEO.currentTime;
-      setDuration();
-      break;
-
-    case 'ArrowRight':
-      VIDEO.currentTime += 5;
-      VIDEORANGE.value = VIDEO.currentTime;
-      setDuration();
-      break;
-
-    case 'ArrowUp':
-      changeVolume(0.1);
-      break;
-
-    case 'ArrowDown':
-      changeVolume(-0.1);
-      break;
-
-    case 'm':
-      muteVideo();
-      changeMuteIcon();
-      break;
-
-    case 'c':
-      changeSubtitle();
-      break;
-
-    case 's':
-      changeSpeed();
-      break;
-
-    case 'q':
-      openPip();
-      break;
-
-    case 'x':
-      changeFitScreen();
-      break;
-
-    case 'f':
-      changeFullscreen();
-      break;
-
-    case ',':
-      previousVideo();
-      break;
-
-    case '.':
-      nextVideo();
-      break;
-
-    // Other
     case 'i':
       openSettings();
       break;
@@ -928,6 +958,10 @@ function switchMedia(scheme) {
     darkMedia = 'not all';
   }
 
+  if (newScheme) {
+    newScheme.media = (scheme === 'vice') ? 'all' : 'not all';
+  }
+
   [...lightStyles].forEach((link) => {
     link.media = lightMedia;
   });
@@ -940,10 +974,6 @@ function switchMedia(scheme) {
     favicon.href = 'img/favicons/favicon-dark.svg';
   } else {
     favicon.href = 'img/favicons/favicon.svg';
-  }
-
-  if (newScheme) {
-    newScheme.media = (scheme === 'vice') ? 'all' : 'not all';
   }
 }
 
@@ -1003,7 +1033,7 @@ const chooseButtons = document.querySelectorAll('.settings__video');
 chooseButtons.forEach((element) => {
   element.addEventListener('click', function () {
     game = this.getAttribute('data-video');
-    resetVideo();
+    // resetVideo();
     setVideo();
     deepCheckbox.removeAttribute('disabled', 'disabled');
   });
@@ -1017,14 +1047,16 @@ function setVideo() {
 // Reset video
 function resetVideo() {
   VIDEO.pause();
+  VIDEO.removeAttribute('src');
   VIDEO.removeAttribute('crossorigin');
   WRAPPER.className = 'video__wrapper';
   STARTBUTTON.classList.remove('video__start--hide');
-  CONTROLS.classList.add('control--hide');
-  STATISTICS.classList.add('statistics--hide');
+  CONTROLS.classList.add('control--off');
+  STATISTICS.classList.add('statistics--off');
   statisticsUFH.classList.add('statistics--off');
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
+  clearSubtitle();
   stopProgress();
   resetDuration();
 }
@@ -1222,6 +1254,8 @@ function showSeriesList() {
 seriesCheckbox.addEventListener('change', showSeriesList);
 
 // Start
+let isVideoPlaying = false;
+
 function startVideo() {
   if (!VIDEO.hasAttribute('src') || VIDEO.src === '' || VIDEO.error) {
     openButton.focus();
@@ -1238,17 +1272,18 @@ function startVideo() {
     STARTBUTTON.classList.add('video__start--hide');
     CONTROLS.classList.remove('control--off');
 
+    VIDEO.play();
+    VIDEO.focus();
+
+    isVideoPlaying = true;
+
+    getStatistics();
+
     if (autoplayFlag) {
       VIDEO.addEventListener('loadeddata', startVideo);
     } else {
       VIDEO.removeEventListener('loadeddata', startVideo);
     }
-
-    VIDEO.play();
-    VIDEO.focus();
-
-    getStatistics();
-    stayFocus();
   }
 }
 
@@ -1381,9 +1416,9 @@ function changeSubtitle() {
 }
 
 function clearSubtitle() {
-  subtitle.src = '';
-  subtitle.srclang = '';
-  subtitle.label = '';
+  subtitle.removeAttribute('src');
+  subtitle.removeAttribute('srclang');
+  subtitle.removeAttribute('label');
   subtitle.default = false;
   subtitleTrack.mode = 'hidden';
   subtitleButton.setAttribute('aria-label', 'Увімкнути субтитри');
@@ -1477,18 +1512,14 @@ function stopProgress() {
   clearTimeout(progressInterval);
 }
 
-function stayFocus() {
-  if (VIDEO.paused) {
-    VIDEO.blur();
-  } else {
-    VIDEO.focus();
-  }
+function stopPlaying() {
+  isVideoPlaying = false;
 }
 
 VIDEO.addEventListener('play', startProgress);
 VIDEO.addEventListener('pause', stopProgress);
 VIDEO.addEventListener('ended', stopProgress);
-// VIDEO.addEventListener('blur', stayFocus);
+VIDEO.addEventListener('ended', stopPlaying);
 
 // Video handler
 // Waiting
@@ -1508,13 +1539,15 @@ VIDEO.addEventListener('playing', playingVideo);
 function errorVideo() {
   WRAPPER.classList.add('video__wrapper--error');
   showError('Помилка відео &#128528;');
+  isVideoPlaying = false;
+  resetVideo();
 }
 
 function removeErrorVideo() {
   WRAPPER.classList.remove('video__wrapper--error');
 }
 
-// VIDEO.addEventListener('error', errorVideo);
+VIDEO.addEventListener('error', errorVideo);
 VIDEO.addEventListener('loadeddata', removeErrorVideo);
 
 // Pause

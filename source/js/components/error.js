@@ -14,5 +14,5 @@ function showError(errorMessage) {
   errorTimeout = setTimeout(() => {
     ERROR.classList.remove('error--animate');
     ERROR.classList.add('error--hide');
-  }, 2000);
+  }, 3000);
 }

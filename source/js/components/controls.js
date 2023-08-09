@@ -290,6 +290,10 @@ fitButton.addEventListener('click', changeFitScreen);
 // Cinema mode
 const cinemaButton = CONTROLS.querySelector('.control__button--cinema');
 
+if (BODY.clientWidth > 768) {
+  cinemaButton.classList.remove('control__button--off');
+}
+
 let cinemaFlag = false;
 
 function setCinema() {
@@ -392,14 +396,14 @@ function handleMouseMove(event) {
 function showControls() {
   CONTROLS.classList.remove('control--hide');
   STATISTICS.classList.remove('statistics--hide');
-  statisticsUFH.classList.remove('statistics--hide');
+  statisticsUFH.classList.remove('statistics__ufh--hide');
   VIDEO.style.cursor = 'auto';
 };
 
 function hideControls() {
   CONTROLS.classList.add('control--hide');
   STATISTICS.classList.add('statistics--hide');
-  statisticsUFH.classList.add('statistics--hide');
+  statisticsUFH.classList.add('statistics__ufh--hide');
   VIDEO.style.cursor = 'none';
 };
 

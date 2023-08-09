@@ -32,18 +32,14 @@ function stopProgress() {
   clearTimeout(progressInterval);
 }
 
-function stayFocus() {
-  if (VIDEO.paused) {
-    VIDEO.blur();
-  } else {
-    VIDEO.focus();
-  }
+function stopPlaying() {
+  isVideoPlaying = false;
 }
 
 VIDEO.addEventListener('play', startProgress);
 VIDEO.addEventListener('pause', stopProgress);
 VIDEO.addEventListener('ended', stopProgress);
-// VIDEO.addEventListener('blur', stayFocus);
+VIDEO.addEventListener('ended', stopPlaying);
 
 // Video handler
 // Waiting
@@ -63,13 +59,15 @@ VIDEO.addEventListener('playing', playingVideo);
 function errorVideo() {
   WRAPPER.classList.add('video__wrapper--error');
   showError('Помилка відео &#128528;');
+  isVideoPlaying = false;
+  resetVideo();
 }
 
 function removeErrorVideo() {
   WRAPPER.classList.remove('video__wrapper--error');
 }
 
-// VIDEO.addEventListener('error', errorVideo);
+VIDEO.addEventListener('error', errorVideo);
 VIDEO.addEventListener('loadeddata', removeErrorVideo);
 
 // Pause

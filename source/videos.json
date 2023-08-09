@@ -1,4 +1,13 @@
 {
+  "bonus": {
+    "main": [
+      {
+        "title": "Bonus video",
+        "src": "",
+        "description": "Опис відео"
+      }
+    ]
+  },
   "TheWitcher": {
     "main": [
       {

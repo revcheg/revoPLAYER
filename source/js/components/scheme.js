@@ -81,6 +81,10 @@ function switchMedia(scheme) {
     darkMedia = 'not all';
   }
 
+  if (newScheme) {
+    newScheme.media = (scheme === 'vice') ? 'all' : 'not all';
+  }
+
   [...lightStyles].forEach((link) => {
     link.media = lightMedia;
   });
@@ -93,10 +97,6 @@ function switchMedia(scheme) {
     favicon.href = 'img/favicons/favicon-dark.svg';
   } else {
     favicon.href = 'img/favicons/favicon.svg';
-  }
-
-  if (newScheme) {
-    newScheme.media = (scheme === 'vice') ? 'all' : 'not all';
   }
 }
 

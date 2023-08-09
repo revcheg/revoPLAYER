@@ -53,8 +53,6 @@
   width: 30px;
   height: 30px;
   transform: translate(-50%, -50%);
-  // fill: $blue-text;
-  // stroke: $blue-text;
 
   &--transparent {
     fill: none;
@@ -68,14 +66,13 @@
   text-align: right;
   transition: 0.1s;
 
-  &--name {
+  &--dev {
     padding: 0;
     color: #4287F5;
     font-size: inherit;
     font-family: inherit;
     border: none;
     background-color: transparent;
-    cursor: not-allowed;
   }
 }
 
