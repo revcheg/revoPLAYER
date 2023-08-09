@@ -308,9 +308,22 @@
 
 // Error
 .error {
-  bottom: 35px;
+  bottom: 18px;
   padding: 15px 40px;
-  font-size: 30px;
+  font-size: 24px;
 	box-shadow: 0 0 10px 5px rgba(#F27DFD, 0.4);
 	background-color: rgba(#F27DFD, 0.9);
+}
+
+@media (min-width: 768px) {
+	.error {
+		bottom: 22px;
+	}
+}
+
+@media (min-width: 1440px) {
+	.error {
+		bottom: 35px;
+		font-size: 30px;
+	}
 }

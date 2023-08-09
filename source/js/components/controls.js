@@ -278,10 +278,10 @@ function changeFitScreen() {
 };
 
 function checkFitScreen() {
-  if (videoWidth < WRAPPER.clientWidth) {
-    fitButton.classList.remove('control__button--hide');
+  if (videoWidth < WRAPPER.clientWidth || videoWidth < BODY.clientWidth) {
+    fitButton.classList.remove('control__button--off');
   } else {
-    fitButton.classList.add('control__button--hide');
+    fitButton.classList.add('control__button--off');
   }
 };
 
