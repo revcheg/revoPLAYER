@@ -27,14 +27,11 @@ function openConsole() {
   consoleBackground.src = 'video/console.mp4';
   consoleBackground.play();
   consoleContainer.classList.remove('console--hide');
-  VIDEO.blur();
-  consoleInput.focus();
 }
 
 function closeConsole() {
 	consoleContainer.classList.add('console--hide');
 	consoleInput.value = '';
-  consoleInput.blur();
 }
 
 let bonusURL;
@@ -839,17 +836,14 @@ window.addEventListener('keyup', (event) => {
 
     case 'l':
       setScheme('light');
-      setupSwitcher();
       break;
 
     case 'd':
       setScheme('dark');
-      setupSwitcher();
       break;
 
     case 'a':
       setScheme('auto');
-      setupSwitcher();
       break;
 
     case 't':
@@ -877,24 +871,28 @@ function getSavedScheme() {
 
 // Scheme
 const favicon = document.querySelector('link[href="img/favicons/favicon.svg"]');
+const schemeSwitcher = document.querySelector('.footer__switcher');
 const lightStyles = document.querySelectorAll('link[rel=stylesheet][media*=prefers-color-scheme][media*=light]');
 const darkStyles = document.querySelectorAll('link[rel=stylesheet][media*=prefers-color-scheme][media*=dark]');
 const schemeRadios = document.querySelectorAll('.footer__scheme');
 const darkScheme = matchMedia('(prefers-color-scheme: dark)').matches;
 
 function setupSwitcher() {
-  const savedScheme = getSavedScheme();
+  let savedScheme = getSavedScheme();
 
   if (savedScheme !== null) {
-    const currentRadio = document.querySelector(`.footer__scheme[value=${savedScheme}]`);
-    currentRadio.checked = true;
-    updateRadioStates(currentRadio);
+    updateRadioStates(document.querySelector(`.footer__scheme[value=${savedScheme}]`));
   }
+
+  schemeSwitcher.addEventListener('change', (event) => {
+    let selectedScheme = event.target.value;
+    setScheme(selectedScheme);
+  });
 
   [...schemeRadios].forEach((radio) => {
     radio.addEventListener('change', (event) => {
-      setScheme(event.target.value);
-      updateRadioStates(event.target);
+      let selectedScheme = event.target.value;
+      setScheme(selectedScheme);
     });
   });
 }
@@ -938,6 +936,8 @@ function setScheme(scheme) {
   } else {
     saveScheme(scheme);
   }
+
+  updateRadioStates(document.querySelector(`.footer__scheme[value=${scheme}]`));
 }
 
 function switchMedia(scheme) {
@@ -958,10 +958,6 @@ function switchMedia(scheme) {
     darkMedia = 'not all';
   }
 
-  if (newScheme) {
-    newScheme.media = (scheme === 'vice') ? 'all' : 'not all';
-  }
-
   [...lightStyles].forEach((link) => {
     link.media = lightMedia;
   });
@@ -974,6 +970,10 @@ function switchMedia(scheme) {
     favicon.href = 'img/favicons/favicon-dark.svg';
   } else {
     favicon.href = 'img/favicons/favicon.svg';
+  }
+
+  if (newScheme) {
+    newScheme.media = (scheme === 'vice') ? 'all' : 'not all';
   }
 }
 
@@ -1130,32 +1130,6 @@ function showAddStatistic(event) {
 statisticsCheckbox.addEventListener('change', showAddCheckbox);
 statisticsAdditionalCheckbox.addEventListener('change', showAddStatistic);
 
-// Deep mode
-let deepFlag = 'main';
-const deepCheckbox = SETTINGS.querySelector('.settings__checkbox--deep');
-
-deepCheckbox.addEventListener('change', function (event) {
-  if (event.currentTarget.checked) {
-    deepFlag = 'deep';
-  } else {
-    deepFlag = 'main';
-  }
-
-  setVideo();
-});
-
-// HQ mode
-// let hqCheckbox = document.querySelector('.settings__checkbox--hq');
-// let hqFlag;
-
-// hqCheckbox.addEventListener('change', function (event) {
-//   if (event.currentTarget.checked) {
-//     hqFlag = true;
-//   } else {
-//     hqFlag = false;
-//   };
-// });
-
 // Scale player
 const scaleCheckbox = SETTINGS.querySelector('.settings__checkbox--scale');
 
@@ -1185,6 +1159,31 @@ function setScale(event) {
 }
 
 scaleCheckbox.addEventListener('change', setupScale);
+
+// Blur
+const blurCheckbox = SETTINGS.querySelector('.settings__checkbox--blur');
+
+blurCheckbox.addEventListener('change', function (event) {
+  if (event.currentTarget.checked) {
+    BODY.classList.add('blur');
+  } else {
+    BODY.classList.remove('blur');
+  }
+});
+
+// Deep mode
+let deepFlag = 'main';
+const deepCheckbox = SETTINGS.querySelector('.settings__checkbox--deep');
+
+deepCheckbox.addEventListener('change', function (event) {
+  if (event.currentTarget.checked) {
+    deepFlag = 'deep';
+  } else {
+    deepFlag = 'main';
+  }
+
+  setVideo();
+});
 
 // Extra line
 let lineProgress;

@@ -67,32 +67,6 @@ function showAddStatistic(event) {
 statisticsCheckbox.addEventListener('change', showAddCheckbox);
 statisticsAdditionalCheckbox.addEventListener('change', showAddStatistic);
 
-// Deep mode
-let deepFlag = 'main';
-const deepCheckbox = SETTINGS.querySelector('.settings__checkbox--deep');
-
-deepCheckbox.addEventListener('change', function (event) {
-  if (event.currentTarget.checked) {
-    deepFlag = 'deep';
-  } else {
-    deepFlag = 'main';
-  }
-
-  setVideo();
-});
-
-// HQ mode
-// let hqCheckbox = document.querySelector('.settings__checkbox--hq');
-// let hqFlag;
-
-// hqCheckbox.addEventListener('change', function (event) {
-//   if (event.currentTarget.checked) {
-//     hqFlag = true;
-//   } else {
-//     hqFlag = false;
-//   };
-// });
-
 // Scale player
 const scaleCheckbox = SETTINGS.querySelector('.settings__checkbox--scale');
 
@@ -122,6 +96,31 @@ function setScale(event) {
 }
 
 scaleCheckbox.addEventListener('change', setupScale);
+
+// Blur
+const blurCheckbox = SETTINGS.querySelector('.settings__checkbox--blur');
+
+blurCheckbox.addEventListener('change', function (event) {
+  if (event.currentTarget.checked) {
+    BODY.classList.add('blur');
+  } else {
+    BODY.classList.remove('blur');
+  }
+});
+
+// Deep mode
+let deepFlag = 'main';
+const deepCheckbox = SETTINGS.querySelector('.settings__checkbox--deep');
+
+deepCheckbox.addEventListener('change', function (event) {
+  if (event.currentTarget.checked) {
+    deepFlag = 'deep';
+  } else {
+    deepFlag = 'main';
+  }
+
+  setVideo();
+});
 
 // Extra line
 let lineProgress;

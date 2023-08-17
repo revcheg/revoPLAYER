@@ -1,23 +1,27 @@
 // Scheme
 const favicon = document.querySelector('link[href="img/favicons/favicon.svg"]');
+const schemeSwitcher = document.querySelector('.footer__switcher');
 const lightStyles = document.querySelectorAll('link[rel=stylesheet][media*=prefers-color-scheme][media*=light]');
 const darkStyles = document.querySelectorAll('link[rel=stylesheet][media*=prefers-color-scheme][media*=dark]');
 const schemeRadios = document.querySelectorAll('.footer__scheme');
 const darkScheme = matchMedia('(prefers-color-scheme: dark)').matches;
 
 function setupSwitcher() {
-  const savedScheme = getSavedScheme();
+  let savedScheme = getSavedScheme();
 
   if (savedScheme !== null) {
-    const currentRadio = document.querySelector(`.footer__scheme[value=${savedScheme}]`);
-    currentRadio.checked = true;
-    updateRadioStates(currentRadio);
+    updateRadioStates(document.querySelector(`.footer__scheme[value=${savedScheme}]`));
   }
+
+  schemeSwitcher.addEventListener('change', (event) => {
+    let selectedScheme = event.target.value;
+    setScheme(selectedScheme);
+  });
 
   [...schemeRadios].forEach((radio) => {
     radio.addEventListener('change', (event) => {
-      setScheme(event.target.value);
-      updateRadioStates(event.target);
+      let selectedScheme = event.target.value;
+      setScheme(selectedScheme);
     });
   });
 }
@@ -61,6 +65,8 @@ function setScheme(scheme) {
   } else {
     saveScheme(scheme);
   }
+
+  updateRadioStates(document.querySelector(`.footer__scheme[value=${scheme}]`));
 }
 
 function switchMedia(scheme) {
@@ -81,10 +87,6 @@ function switchMedia(scheme) {
     darkMedia = 'not all';
   }
 
-  if (newScheme) {
-    newScheme.media = (scheme === 'vice') ? 'all' : 'not all';
-  }
-
   [...lightStyles].forEach((link) => {
     link.media = lightMedia;
   });
@@ -97,6 +99,10 @@ function switchMedia(scheme) {
     favicon.href = 'img/favicons/favicon-dark.svg';
   } else {
     favicon.href = 'img/favicons/favicon.svg';
+  }
+
+  if (newScheme) {
+    newScheme.media = (scheme === 'vice') ? 'all' : 'not all';
   }
 }
 

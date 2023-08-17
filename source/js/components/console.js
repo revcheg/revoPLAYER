@@ -7,14 +7,11 @@ function openConsole() {
   consoleBackground.src = 'video/console.mp4';
   consoleBackground.play();
   consoleContainer.classList.remove('console--hide');
-  VIDEO.blur();
-  consoleInput.focus();
 }
 
 function closeConsole() {
 	consoleContainer.classList.add('console--hide');
 	consoleInput.value = '';
-  consoleInput.blur();
 }
 
 let bonusURL;

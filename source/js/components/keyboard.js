@@ -84,17 +84,14 @@ window.addEventListener('keyup', (event) => {
 
     case 'l':
       setScheme('light');
-      setupSwitcher();
       break;
 
     case 'd':
       setScheme('dark');
-      setupSwitcher();
       break;
 
     case 'a':
       setScheme('auto');
-      setupSwitcher();
       break;
 
     case 't':

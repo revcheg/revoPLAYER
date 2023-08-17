@@ -128,7 +128,7 @@
 
 .settings__button {
 	padding: 10px 20px;
-	font-size: 18px;
+	font-size: 20px;
 	border: 0;
 	border-radius: 0;
 	transition: 0.3s;
@@ -181,9 +181,16 @@
 }
 
 .settings__time {
-	font-size: 16px;
+	font-size: 18px;
   font-weight: 900;
   font-family: "Pricedown", sans-serif;
+}
+
+.settings__tab--scroll {
+
+	&::-webkit-scrollbar-thumb {
+		background-color: #F27DFD;
+	}
 }
 
 @media (min-width: 768px) {
@@ -308,22 +315,17 @@
 
 // Error
 .error {
-  bottom: 18px;
-  padding: 15px 40px;
+  bottom: 25px;
+  padding: 10px 25px;
   font-size: 24px;
 	box-shadow: 0 0 10px 5px rgba(#F27DFD, 0.4);
 	background-color: rgba(#F27DFD, 0.9);
 }
 
-@media (min-width: 768px) {
-	.error {
-		bottom: 22px;
-	}
-}
-
 @media (min-width: 1440px) {
 	.error {
 		bottom: 35px;
+		padding: 15px 35px;
 		font-size: 30px;
 	}
 }
