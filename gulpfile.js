@@ -50,7 +50,7 @@ export const html = () => {
 
 // Concat
 const scriptConcat = () => {
-  return gulp.src(['source/js/components/global.js', 'source/js/components/*.js'])
+  return gulp.src(['source/js/components/global.js', 'source/js/components/settings.js', 'source/js/components/scheme.js', 'source/js/components/*.js'])
     .pipe(concat('script.js'))
     .pipe(gulp.dest('source/js'))
     .pipe(gulp.dest('build/js'));

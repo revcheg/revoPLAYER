@@ -14,6 +14,7 @@ function closeConsole() {
 	consoleContainer.classList.add('console--hide');
 	consoleInput.value = '';
   consoleInput.blur();
+  VIDEO.focus();
 }
 
 let bonusURL;

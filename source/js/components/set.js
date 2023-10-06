@@ -6,7 +6,6 @@ const chooseButtons = document.querySelectorAll('.settings__video');
 chooseButtons.forEach((element) => {
   element.addEventListener('click', function () {
     game = this.getAttribute('data-video');
-    // resetVideo();
     setVideo();
     deepCheckbox.removeAttribute('disabled', 'disabled');
   });

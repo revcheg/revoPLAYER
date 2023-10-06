@@ -204,6 +204,7 @@
       <div class="settings__control">
         <button class="button  settings__button  settings__button--active" data-tab="general" type="button">Загальні</button>
         <button class="button  settings__button" data-tab="player" type="button">Плеєр</button>
+        <button class="button  settings__button" data-tab="scheme" type="button">Тема</button>
         <button class="button  settings__button" data-tab="sound" type="button">Звук</button>
         <button class="button  settings__button" data-tab="video" type="button">Обрати відео</button>
         <button class="button  settings__button" data-tab="info" type="button">Інформація</button>
@@ -259,8 +260,16 @@
           </label>
         </div>
 
+        <div class="settings__tab" data-tab="scheme">
+          <p class="settings__sub">ТЕМА</p>
+          <label class="settings__label">
+            <input class="settings__checkbox  settings__checkbox--autoscheme" type="checkbox">
+            <span class="settings__name">Використовувати тему пристроя</span>
+          </label>
+        </div>
+
         <div class="settings__tab" data-tab="sound">
-          <p class="settings__sub">ЗВУКИ</p>
+          <p class="settings__sub">ЗВУК</p>
           <label class="settings__label">
             <input class="settings__checkbox  settings__checkbox--sound" type="checkbox" disabled>
             <span class="settings__name">Навалити трішки саунд-дизайну</span>
@@ -274,7 +283,7 @@
           <label class="settings__label  settings__label--file">
             <input class="button  settings__file" aria-label="Завантажити власне відео" title="Завантажити власне відео" accept="video/*" type="file" multiple>
           </label>
-          <label class="settings__label">
+          <label class="settings__label  settings__label--series  settings__label--hide">
             <input class="settings__checkbox  settings__checkbox--series" type="checkbox">
             <span class="settings__name">Винести перелік серій на головний екран</span>
           </label>

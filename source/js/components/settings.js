@@ -178,8 +178,27 @@ function setAutoplay() {
 
 autoplayCheckbox.addEventListener('change', setAutoplay);
 
+// Auto scheme
+const autoschemeCheckbox = SETTINGS.querySelector('.settings__checkbox--autoscheme');
+
+function setAutoscheme() {
+  if (autoschemeCheckbox.checked) {
+    autoschemeCheckbox.checked = true;
+    setScheme('auto');
+    clearScheme();
+    // clearButton();
+  }
+};
+
+function clearAutoscheme() {
+  autoschemeCheckbox.checked = false;
+}
+
+autoschemeCheckbox.addEventListener('change', setAutoscheme);
+
 // Series list
 const seriesCheckbox = SETTINGS.querySelector('.settings__checkbox--series');
+const seriesLabel = SETTINGS.querySelector('.settings__label--series');
 
 function showSeriesList() {
   if (seriesCheckbox.checked) {

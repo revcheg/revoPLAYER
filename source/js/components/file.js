@@ -65,8 +65,9 @@ function validateFiles(videos) {
         showError('Непідтримуваний тип файлу &#128552;');
         INPUTFILE.value = '';
       } else {
-        showError('Відео обрано, готові грати &#128526;');
+        showError('Кіноплівка готова &#127909;');
         VIDEO.setAttribute('crossorigin', 'anonymous');
+        seriesLabel.classList.remove('settings__label--hide');
 				generatingSeries();
         playCurrentVideo();
       }

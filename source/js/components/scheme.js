@@ -16,13 +16,7 @@ function setupSwitcher() {
   schemeSwitcher.addEventListener('change', (event) => {
     let selectedScheme = event.target.value;
     setScheme(selectedScheme);
-  });
-
-  [...schemeRadios].forEach((radio) => {
-    radio.addEventListener('change', (event) => {
-      let selectedScheme = event.target.value;
-      setScheme(selectedScheme);
-    });
+    clearAutoscheme();
   });
 }
 
@@ -61,9 +55,9 @@ function setScheme(scheme) {
   switchMedia(scheme);
 
   if (scheme === 'auto') {
-    clearScheme();
+		clearScheme();
   } else {
-    saveScheme(scheme);
+		saveScheme(scheme);
   }
 
   updateRadioStates(document.querySelector(`.footer__scheme[value=${scheme}]`));
