@@ -3,9 +3,11 @@ let progressInterval;
 let playbackQuality;
 let currentVideoPassed;
 let currentVideoLeft;
+let isVideoPlaying = false;
 
 function startProgress() {
   progressInterval = setTimeout(updateProgress, 1000);
+  isVideoPlaying = true;
 }
 
 function updateProgress() {
@@ -30,16 +32,12 @@ function updateProgress() {
 
 function stopProgress() {
   clearTimeout(progressInterval);
-}
-
-function stopPlaying() {
   isVideoPlaying = false;
 }
 
 VIDEO.addEventListener('play', startProgress);
 VIDEO.addEventListener('pause', stopProgress);
 VIDEO.addEventListener('ended', stopProgress);
-VIDEO.addEventListener('ended', stopPlaying);
 
 // Video handler
 // Waiting

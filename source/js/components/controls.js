@@ -27,7 +27,7 @@ VIDEO.addEventListener('click', changePauseIcon);
 
 // Mute
 const muteButton = CONTROLS.querySelector('.control__button--mute');
-const muteButtonIcon = CONTROLS.querySelector('.control__muted');
+const muteButtonIcon = CONTROLS.querySelector('#muted');
 
 function muteVideo() {
   let savedVolume = VIDEO.volume;
@@ -49,10 +49,12 @@ function muteVideo() {
 
 function changeMuteIcon() {
   if (VIDEO.muted) {
-    muteButtonIcon.classList.remove('control__muted--hide');
+    muteButtonIcon.classList.remove('control__icon--unmuted');
+    muteButtonIcon.classList.add('control__icon--muted');
     muteButton.classList.add('control__button--active');
   } else {
-    muteButtonIcon.classList.add('control__muted--hide');
+    muteButtonIcon.classList.add('control__icon--unmuted');
+    muteButtonIcon.classList.remove('control__icon--muted');
     muteButton.classList.remove('control__button--active');
   }
 }

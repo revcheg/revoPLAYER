@@ -61,20 +61,14 @@
 	fill: #F27DFD;
 
 	&--speed {
-		fill: none;
-
-		path {
-			stroke: #F27DFD;
-		}
+		stroke: #F27DFD;
 	}
 
 	&--size {
-		fill: none;
 		stroke: #F27DFD;
 	}
 
 	&--min {
-		fill: none;
 		stroke: #F27DFD;
 	}
 }
@@ -267,7 +261,7 @@
 	box-shadow: 0 0 15px 5px #F27DFD;
 }
 
-.video__icon path {
+.video__icon {
 	stroke: #F27DFD;
 }
 
@@ -302,7 +296,8 @@
 
 .series__item {
 	color: #F27DFD;
-	font-weight: 300;
+	font-family: "Chalet", sans-serif;
+	font-weight: 500;
 }
 
 .series__button {
@@ -316,16 +311,19 @@
 // Error
 .error {
   bottom: 25px;
-  padding: 10px 25px;
+  padding: 10px 20px;
   font-size: 24px;
-	box-shadow: 0 0 10px 5px rgba(#F27DFD, 0.4);
-	background-color: rgba(#F27DFD, 0.9);
+	font-weight: 500;
+	font-family: "Chalet", sans-serif;
+	box-shadow: none;
+	background-color: rgba(#4D4D4D, 0.95);
+	clip-path: none;
 }
 
 @media (min-width: 1440px) {
 	.error {
 		bottom: 35px;
-		padding: 15px 35px;
+		padding: 15px 25px;
 		font-size: 30px;
 	}
 }

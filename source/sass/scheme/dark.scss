@@ -59,20 +59,14 @@
   fill: #0197F6;
 
   &--speed {
-    fill: none;
-
-    path {
-      stroke: #0197F6;
-    }
+    stroke: #0197F6;
   }
 
   &--size {
-    fill: none;
     stroke: #0197F6;
   }
 
   &--min {
-    fill: none;
     stroke: #0197F6;
   }
 }
@@ -132,7 +126,7 @@
   box-shadow: 0 0 15px 5px rgba(#0197F6, 0.9);
 }
 
-.video__icon path {
+.video__icon {
   stroke: #0197F6;
 }
 

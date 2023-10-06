@@ -37,6 +37,10 @@ function playCurrentVideo() {
   resetDuration();
   updateActiveButton();
 
+  if (!autoplayFlag) {
+    resetVideo();
+  }
+
   if (selectedVideos.length > 0) {
     currentVideo = selectedVideos[currentVideoIndex];
   } else {

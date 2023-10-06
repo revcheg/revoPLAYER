@@ -29,6 +29,7 @@
   font-weight: 500;
   font-family: "Chalet", "Roboto", "Arial", sans-serif;
   text-align: center;
+  text-shadow: 1px 1px 0 #000000;
   background-color: transparent;
 }
 
@@ -135,6 +136,7 @@
   &:focus {
 
     .video__icon {
+      opacity: 1;
       transform: translate(-50%, -50%) scale(1.2);
 
       path {
@@ -155,13 +157,9 @@
   position: absolute;
   top: 50%;
   left: 50%;
+  opacity: 0.6;
   transform: translate(-50%, -50%);
   transition: 0.2s;
-
-  path {
-    opacity: 0.6;
-    transition: 0.2s;
-  }
 }
 
 .video__background {

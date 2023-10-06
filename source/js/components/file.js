@@ -3,51 +3,51 @@ const INPUTFILE = document.querySelector('.settings__file');
 
 let selectedVideos = [];
 
-function handleFileSelection(event) {
+function handleFiles(event) {
   let files = event.target.files;
 
-  SERIESLIST.innerHTML = '';
-
-  Array.from(files).forEach((file, index) => {
+  Array.from(files).forEach((file) => {
     let fileUrl = URL.createObjectURL(file);
-    let fileDescription = file.name;
 
     selectedVideos.push({
       file: file,
       url: fileUrl,
+      src: fileUrl,
       name: file.name,
       type: file.type,
       size: file.size
     });
-
-    const li = document.createElement('li');
-    li.className = 'series__item';
-    const button = document.createElement('button');
-    button.className = 'button series__button';
-    button.type = 'button';
-    button.textContent = fileDescription;
-    li.appendChild(button);
-    SERIESLIST.appendChild(li);
-
-    button.addEventListener('click', () => {
-      currentVideoIndex = index;
-      playCurrentVideo();
-      setActiveButton(button);
-      VIDEO.src = fileUrl;
-    });
-
-    if (index === 0) {
-      button.classList.add('series__button--active');
-    }
   });
 
   validateFiles(selectedVideos);
 }
 
-INPUTFILE.addEventListener('change', resetVideo);
-INPUTFILE.addEventListener('change', handleFileSelection);
+function generatingSeries() {
+  SERIESLIST.innerHTML = '';
 
-// Validate
+  Array.from(selectedVideos).forEach((file, index) => {
+    const li = document.createElement('li');
+    li.className = 'series__item';
+    const button = document.createElement('button');
+    button.className = 'button series__button';
+    button.type = 'button';
+    button.textContent = file.name;
+    li.appendChild(button);
+    SERIESLIST.appendChild(li);
+
+    button.addEventListener('click', () => {
+      setActiveButton(button);
+			currentVideoIndex = index;
+      VIDEO.src = file.url;
+      // playCurrentVideo();
+    });
+  });
+}
+
+INPUTFILE.addEventListener('change', resetVideo);
+INPUTFILE.addEventListener('change', handleFiles);
+
+// Validate uploaded files
 let fileSize;
 let fileType;
 const MAX_FILE_SIZE = 5368709120;
@@ -67,6 +67,7 @@ function validateFiles(videos) {
       } else {
         showError('Відео обрано, готові грати &#128526;');
         VIDEO.setAttribute('crossorigin', 'anonymous');
+				generatingSeries();
         playCurrentVideo();
       }
     }

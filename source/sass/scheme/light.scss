@@ -59,20 +59,14 @@
 	fill: #6320EE;
 
 	&--speed {
-		fill: none;
-
-		path {
-			stroke: #6320EE;
-		}
+		stroke: #6320EE;
 	}
 
 	&--size {
-		fill: none;
 		stroke: #6320EE;
 	}
 
 	&--min {
-		fill: none;
 		stroke: #6320EE;
 	}
 }
@@ -121,7 +115,7 @@
 	box-shadow: 0 0 15px 5px rgba(#6320EE, 0.8);
 }
 
-.video__icon path {
+.video__icon {
 	stroke: #8075FF;
 }
 
@@ -144,7 +138,6 @@
 
 .series__item {
 	color: #8075FF;
-	font-weight: 300;
 }
 
 .series__button {

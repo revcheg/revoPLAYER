@@ -78,26 +78,30 @@ const copyImages = () => {
 }
 
 // WebP
-const createWebp = () => {
-  return gulp.src(['source/img/**/*.{png,jpg}', '!source/img/favicons/*.{png,jpg}'])
-    .pipe(squoosh({
-      webp: {
-        lossless: true,
-      },
-    }))
-    .pipe(gulp.dest('build/img'))
-}
+// const createWebp = () => {
+//   return gulp.src(['source/img/**/*.{png,jpg}', '!source/img/favicons/*.{png,jpg}'])
+//     .pipe(squoosh({
+//       webp: {
+//         lossless: true,
+//       },
+//     }))
+//     .pipe(gulp.dest('build/img'))
+// }
 
 // SVG
-const svg = () =>
-  gulp.src(['source/img/*.svg', '!source/img/sprite/*.svg', '!source/img/favicons/*.svg'])
-    .pipe(svgo())
-    .pipe(gulp.dest('build/img'));
+// const svg = () =>
+//   gulp.src(['source/img/*.svg', '!source/img/sprite/*.svg', '!source/img/favicons/*.svg'])
+//     .pipe(svgo())
+//     .pipe(gulp.dest('build/img'));
 
 // SVG sprite
 const sprite = () => {
   return gulp.src('source/img/sprite/*.svg')
-    .pipe(svgo())
+    .pipe(svgo({
+      plugins: [
+        { removeUselessStrokeAndFill: false }
+      ]
+    }))
     .pipe(svgstore({
       inlineSvg: true
     }))
@@ -168,7 +172,7 @@ export const build = gulp.series(
     scheme,
     html,
     scripts,
-    svg,
+    // svg,
     sprite,
     // createWebp
   ),
@@ -185,7 +189,7 @@ export default gulp.series(
     scheme,
     html,
     scripts,
-    svg,
+    // svg,
     sprite,
     // createWebp
   ),

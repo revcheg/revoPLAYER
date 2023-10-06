@@ -1,6 +1,4 @@
 // Start
-let isVideoPlaying = false;
-
 function startVideo() {
   if (!VIDEO.hasAttribute('src') || VIDEO.src === '' || VIDEO.error) {
     openButton.focus();
@@ -20,14 +18,10 @@ function startVideo() {
     VIDEO.play();
     VIDEO.focus();
 
-    isVideoPlaying = true;
-
     getStatistics();
 
     if (autoplayFlag) {
       VIDEO.addEventListener('loadeddata', startVideo);
-    } else {
-      VIDEO.removeEventListener('loadeddata', startVideo);
     }
   }
 }

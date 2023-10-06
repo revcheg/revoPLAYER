@@ -169,8 +169,10 @@ const autoplayCheckbox = SETTINGS.querySelector('.settings__checkbox--autoplay')
 function setAutoplay() {
   if (autoplayCheckbox.checked) {
     autoplayFlag = true;
+    VIDEO.addEventListener('loadeddata', startVideo);
   } else {
     autoplayFlag = false;
+    VIDEO.removeEventListener('loadeddata', startVideo);
   }
 };
 

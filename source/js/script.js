@@ -27,11 +27,13 @@ function openConsole() {
   consoleBackground.src = 'video/console.mp4';
   consoleBackground.play();
   consoleContainer.classList.remove('console--hide');
+  consoleInput.focus();
 }
 
 function closeConsole() {
 	consoleContainer.classList.add('console--hide');
 	consoleInput.value = '';
+  consoleInput.blur();
 }
 
 let bonusURL;
@@ -134,7 +136,7 @@ VIDEO.addEventListener('click', changePauseIcon);
 
 // Mute
 const muteButton = CONTROLS.querySelector('.control__button--mute');
-const muteButtonIcon = CONTROLS.querySelector('.control__muted');
+const muteButtonIcon = CONTROLS.querySelector('#muted');
 
 function muteVideo() {
   let savedVolume = VIDEO.volume;
@@ -156,10 +158,12 @@ function muteVideo() {
 
 function changeMuteIcon() {
   if (VIDEO.muted) {
-    muteButtonIcon.classList.remove('control__muted--hide');
+    muteButtonIcon.classList.remove('control__icon--unmuted');
+    muteButtonIcon.classList.add('control__icon--muted');
     muteButton.classList.add('control__button--active');
   } else {
-    muteButtonIcon.classList.add('control__muted--hide');
+    muteButtonIcon.classList.add('control__icon--unmuted');
+    muteButtonIcon.classList.remove('control__icon--muted');
     muteButton.classList.remove('control__button--active');
   }
 }
@@ -541,51 +545,51 @@ const INPUTFILE = document.querySelector('.settings__file');
 
 let selectedVideos = [];
 
-function handleFileSelection(event) {
+function handleFiles(event) {
   let files = event.target.files;
 
-  SERIESLIST.innerHTML = '';
-
-  Array.from(files).forEach((file, index) => {
+  Array.from(files).forEach((file) => {
     let fileUrl = URL.createObjectURL(file);
-    let fileDescription = file.name;
 
     selectedVideos.push({
       file: file,
       url: fileUrl,
+      src: fileUrl,
       name: file.name,
       type: file.type,
       size: file.size
     });
-
-    const li = document.createElement('li');
-    li.className = 'series__item';
-    const button = document.createElement('button');
-    button.className = 'button series__button';
-    button.type = 'button';
-    button.textContent = fileDescription;
-    li.appendChild(button);
-    SERIESLIST.appendChild(li);
-
-    button.addEventListener('click', () => {
-      currentVideoIndex = index;
-      playCurrentVideo();
-      setActiveButton(button);
-      VIDEO.src = fileUrl;
-    });
-
-    if (index === 0) {
-      button.classList.add('series__button--active');
-    }
   });
 
   validateFiles(selectedVideos);
 }
 
-INPUTFILE.addEventListener('change', resetVideo);
-INPUTFILE.addEventListener('change', handleFileSelection);
+function generatingSeries() {
+  SERIESLIST.innerHTML = '';
 
-// Validate
+  Array.from(selectedVideos).forEach((file, index) => {
+    const li = document.createElement('li');
+    li.className = 'series__item';
+    const button = document.createElement('button');
+    button.className = 'button series__button';
+    button.type = 'button';
+    button.textContent = file.name;
+    li.appendChild(button);
+    SERIESLIST.appendChild(li);
+
+    button.addEventListener('click', () => {
+      setActiveButton(button);
+			currentVideoIndex = index;
+      VIDEO.src = file.url;
+      // playCurrentVideo();
+    });
+  });
+}
+
+INPUTFILE.addEventListener('change', resetVideo);
+INPUTFILE.addEventListener('change', handleFiles);
+
+// Validate uploaded files
 let fileSize;
 let fileType;
 const MAX_FILE_SIZE = 5368709120;
@@ -605,6 +609,7 @@ function validateFiles(videos) {
       } else {
         showError('Відео обрано, готові грати &#128526;');
         VIDEO.setAttribute('crossorigin', 'anonymous');
+				generatingSeries();
         playCurrentVideo();
       }
     }
@@ -654,6 +659,10 @@ function playCurrentVideo() {
   stopProgress();
   resetDuration();
   updateActiveButton();
+
+  if (!autoplayFlag) {
+    resetVideo();
+  }
 
   if (selectedVideos.length > 0) {
     currentVideo = selectedVideos[currentVideoIndex];
@@ -1232,8 +1241,10 @@ const autoplayCheckbox = SETTINGS.querySelector('.settings__checkbox--autoplay')
 function setAutoplay() {
   if (autoplayCheckbox.checked) {
     autoplayFlag = true;
+    VIDEO.addEventListener('loadeddata', startVideo);
   } else {
     autoplayFlag = false;
+    VIDEO.removeEventListener('loadeddata', startVideo);
   }
 };
 
@@ -1253,8 +1264,6 @@ function showSeriesList() {
 seriesCheckbox.addEventListener('change', showSeriesList);
 
 // Start
-let isVideoPlaying = false;
-
 function startVideo() {
   if (!VIDEO.hasAttribute('src') || VIDEO.src === '' || VIDEO.error) {
     openButton.focus();
@@ -1274,14 +1283,10 @@ function startVideo() {
     VIDEO.play();
     VIDEO.focus();
 
-    isVideoPlaying = true;
-
     getStatistics();
 
     if (autoplayFlag) {
       VIDEO.addEventListener('loadeddata', startVideo);
-    } else {
-      VIDEO.removeEventListener('loadeddata', startVideo);
     }
   }
 }
@@ -1479,9 +1484,11 @@ let progressInterval;
 let playbackQuality;
 let currentVideoPassed;
 let currentVideoLeft;
+let isVideoPlaying = false;
 
 function startProgress() {
   progressInterval = setTimeout(updateProgress, 1000);
+  isVideoPlaying = true;
 }
 
 function updateProgress() {
@@ -1506,16 +1513,12 @@ function updateProgress() {
 
 function stopProgress() {
   clearTimeout(progressInterval);
-}
-
-function stopPlaying() {
   isVideoPlaying = false;
 }
 
 VIDEO.addEventListener('play', startProgress);
 VIDEO.addEventListener('pause', stopProgress);
 VIDEO.addEventListener('ended', stopProgress);
-VIDEO.addEventListener('ended', stopPlaying);
 
 // Video handler
 // Waiting

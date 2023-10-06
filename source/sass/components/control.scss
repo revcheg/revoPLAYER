@@ -88,23 +88,18 @@
     display: none;
   }
 
-  &--speed {
-    fill: none;
-
-    path {
-      stroke: $blue-button;
-    }
+  &--unmuted {
+    transform: translate(-50%, -50%) scale(0);
   }
 
-  &--size {
-    fill: none;
-    stroke: $blue-button;
+  &--muted {
+    transform: translate(-50%, -50%) scale(1);
   }
+}
 
-  &--min {
-    fill: none;
-    stroke: $blue-button;
-  }
+@keyframes muted {
+  from {transform: translate(-50%, -50%) scale(0);}
+  to {transform: translate(-50%, -50%) scale(1);}
 }
 
 .control__info {
@@ -276,6 +271,16 @@
       height: 25px;
     }
 
+    &--unmuted {
+      width: 25px;
+      height: 25px;
+    }
+
+    &--muted {
+      width: 25px;
+      height: 25px;
+    }
+
     &--subtitle {
       width: 25px;
       height: 25px;
@@ -357,6 +362,16 @@
     height: 25px;
 
     &--mute {
+      width: 33px;
+      height: 33px;
+    }
+
+    &--unmuted {
+      width: 33px;
+      height: 33px;
+    }
+
+    &--muted {
       width: 33px;
       height: 33px;
     }
