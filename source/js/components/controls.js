@@ -280,7 +280,7 @@ function changeFitScreen() {
 };
 
 function checkFitScreen() {
-  if (videoWidth < WRAPPER.clientWidth || videoWidth < BODY.clientWidth) {
+  if (videoWidth < BODY.clientWidth) {
     fitButton.classList.remove('control__button--off');
   } else {
     fitButton.classList.add('control__button--off');

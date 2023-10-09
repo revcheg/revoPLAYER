@@ -32,8 +32,8 @@ function getStatistics() {
   videoDuration = Math.round(VIDEO.duration);
   VIDEORANGE.setAttribute('max', videoDuration);
 
-  checkFitScreen();
   setStatistics();
+  checkFitScreen();
 }
 
 function setStatistics() {

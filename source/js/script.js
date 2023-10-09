@@ -731,7 +731,7 @@ function changeFitScreen() {
 };
 
 function checkFitScreen() {
-  if (videoWidth < WRAPPER.clientWidth || videoWidth < BODY.clientWidth) {
+  if (videoWidth < BODY.clientWidth) {
     fitButton.classList.remove('control__button--off');
   } else {
     fitButton.classList.add('control__button--off');
@@ -1103,13 +1103,13 @@ prevButton.addEventListener('click', previousVideo);
 VIDEO.addEventListener('ended', nextVideo);
 
 // Keyboard
-let videoKey;
+let keyboardKey;
 
 window.addEventListener('keyup', (event) => {
-  videoKey = event.key;
+  keyboardKey = event.key;
 
   if (isVideoPlaying) {
-    switch (videoKey) {
+    switch (keyboardKey) {
       // Video
       case ' ':
         pauseVideo();
@@ -1172,7 +1172,7 @@ window.addEventListener('keyup', (event) => {
   }
 
   // Other
-  switch (videoKey) {
+  switch (keyboardKey) {
     case 'i':
       openSettings();
       break;
@@ -1207,6 +1207,10 @@ window.addEventListener('keyup', (event) => {
     case '`':
       openConsole();
       break;
+
+    // case 'b':
+    //   showAddControls();
+    //   break;
   }
 });
 
@@ -1343,8 +1347,8 @@ function getStatistics() {
   videoDuration = Math.round(VIDEO.duration);
   VIDEORANGE.setAttribute('max', videoDuration);
 
-  checkFitScreen();
   setStatistics();
+  checkFitScreen();
 }
 
 function setStatistics() {

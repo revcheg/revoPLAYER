@@ -125,7 +125,7 @@
               <use href="img/sprite.svg#pip"></use>
             </svg>
           </button>
-          <button class="button  control__button  control__button--fit  control__button--hide  control__button--hide--off" aria-label="Ростягнути зображення" title="Ростягнути зображення (x)" type="button" disabled>
+          <button class="button  control__button  control__button--fit  control__button--hide  control__button--off" aria-label="Ростягнути зображення" title="Ростягнути зображення (x)" type="button" disabled>
             <svg class="control__icon  control__icon--fit" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
               <use href="img/sprite.svg#fit"></use>
             </svg>
@@ -355,7 +355,7 @@
 
     <section class="console  console--hide">
       <h3 class="visually-hidden">Консоль</h3>
-      <video class="console__background" muted loop playsinline></video>
+      <video class="console__background" muted loop disablePictureInPicture></video>
       <label>
         <span class="visually-hidden">Поле введення консолі</span>
         <input class="console__input" type="text">

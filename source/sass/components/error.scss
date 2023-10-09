@@ -1,6 +1,6 @@
 .error {
   position: absolute;
-  bottom: 32px;
+  bottom: 98px;
   left: 50%;
   box-sizing: border-box;
   padding: 8px 20px;
@@ -21,6 +21,7 @@
 
 @media (min-width: $tablet-width) {
   .error {
+    bottom: 32px;
     font-size: 16px;
   }
 }
