@@ -170,6 +170,12 @@ const controlsCheckbox = SETTINGS.querySelector('.settings__checkbox--controls')
 const additionalControls = CONTROLS.querySelectorAll('.control__button--hide');
 
 function showAddControls() {
+  if (controlsCheckbox.checked) {
+    controlsCheckbox.checked = false;
+  } else {
+    controlsCheckbox.checked = true;
+  }
+
   additionalControls.forEach(control => {
     if (controlsCheckbox.checked) {
       control.classList.remove('control__button--hide');
@@ -297,9 +303,12 @@ function updateRadioStates(activeRadio) {
   });
 }
 
+let savedScheme;
+let systemScheme;
+
 function setupScheme() {
-  const savedScheme = getSavedScheme();
-  const systemScheme = getSystemScheme();
+  savedScheme = getSavedScheme();
+  systemScheme = getSystemScheme();
 
   if (savedScheme === null) return;
 
@@ -321,15 +330,14 @@ function setScheme(scheme) {
 
   if (scheme === 'auto') {
 		// clearScheme();
-		saveScheme(scheme);
+    saveScheme(scheme);
     autoschemeCheckbox.checked = true;
   } else {
-		saveScheme(scheme);
+    saveScheme(scheme);
     autoschemeCheckbox.checked = false;
   }
 
   clearSchemeButtons();
-
   updateRadioStates(document.querySelector(`.footer__scheme[value=${scheme}]`));
 }
 
@@ -400,22 +408,24 @@ function addScheme(scheme) {
 // const backgroundVideo = document.querySelector('.video__background');
 
 // Console
+const consoleClose = document.querySelector('.console__close');
 const consoleContainer = document.querySelector('.console');
 const consoleInput = consoleContainer.querySelector('.console__input');
 const consoleBackground = consoleContainer.querySelector('.console__background');
 
 function openConsole() {
-  consoleBackground.src = 'video/console.mp4';
-  consoleBackground.play();
+  if (consoleBackground.paused) {
+    consoleBackground.play();
+  }
   consoleContainer.classList.remove('console--hide');
   consoleInput.focus();
 }
 
 function closeConsole() {
+  consoleBackground.pause();
 	consoleContainer.classList.add('console--hide');
 	consoleInput.value = '';
   consoleInput.blur();
-  VIDEO.focus();
 }
 
 let bonusURL;
@@ -470,10 +480,15 @@ function stopPropagation(event) {
   event.stopPropagation();
 }
 
+consoleClose.addEventListener('click', closeConsole);
 consoleInput.addEventListener('input', stopPropagation);
 consoleInput.addEventListener('keyup', stopPropagation);
 consoleInput.addEventListener('keyup', checkBonus);
+// consoleBackground.addEventListener('click', function() {
+//   consoleInput.focus();
+// });
 
+// Open console, dev button
 const devButton = document.querySelector('.footer__copyright--dev');
 
 let clickCount = 0;
@@ -771,7 +786,14 @@ function changeFitScreen() {
 };
 
 function checkFitScreen() {
-  if (videoWidth < BODY.clientWidth) {
+  const userAgent = navigator.userAgent;
+  const isMobile = /Mobile|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+
+  if (isMobile) {
+    fitButton.classList.remove('control__button--off');
+  }
+
+  if (videoWidth < BODY.clientWidth || videoWidth < WRAPPER.clientWidth) {
     fitButton.classList.remove('control__button--off');
   } else {
     fitButton.classList.add('control__button--off');
@@ -779,6 +801,7 @@ function checkFitScreen() {
 };
 
 fitButton.addEventListener('click', changeFitScreen);
+document.addEventListener('fullscreenchange', checkFitScreen);
 
 // Cinema mode
 const cinemaButton = CONTROLS.querySelector('.control__button--cinema');
@@ -1246,9 +1269,9 @@ window.addEventListener('keyup', (event) => {
       openConsole();
       break;
 
-    // case 'b':
-    //   showAddControls();
-    //   break;
+    case 'b':
+      showAddControls();
+      break;
   }
 });
 
@@ -1537,12 +1560,12 @@ function checkActiveTab() {
     let activeTabName = SETTINGS.querySelector('.settings__tab--active').getAttribute('data-tab');
 
     if (activeTabName === 'scheme') {
-      schemeSwitcher.classList.add('footer__switcher--menu');
+      schemeSwitcher.classList.add('footer__switcher--show');
     } else {
-      schemeSwitcher.classList.remove('footer__switcher--menu');
+      schemeSwitcher.classList.remove('footer__switcher--show');
     }
   } else {
-    schemeSwitcher.classList.remove('footer__switcher--menu');
+    schemeSwitcher.classList.remove('footer__switcher--show');
   }
 }
 

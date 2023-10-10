@@ -102,8 +102,8 @@ window.addEventListener('keyup', (event) => {
       openConsole();
       break;
 
-    // case 'b':
-    //   showAddControls();
-    //   break;
+    case 'b':
+      showAddControls();
+      break;
   }
 });

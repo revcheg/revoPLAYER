@@ -152,6 +152,12 @@ const controlsCheckbox = SETTINGS.querySelector('.settings__checkbox--controls')
 const additionalControls = CONTROLS.querySelectorAll('.control__button--hide');
 
 function showAddControls() {
+  if (controlsCheckbox.checked) {
+    controlsCheckbox.checked = false;
+  } else {
+    controlsCheckbox.checked = true;
+  }
+
   additionalControls.forEach(control => {
     if (controlsCheckbox.checked) {
       control.classList.remove('control__button--hide');

@@ -17,6 +17,25 @@
   }
 }
 
+.console__close {
+  position: absolute;
+  right: 25px;
+  bottom: 20px;
+  width: 45px;
+  height: 45px;
+  z-index: 2;
+}
+
+.console__icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30px;
+  height: 30px;
+  transform: translate(-50%, -50%);
+  fill: #FFFFFF;
+}
+
 .console__background {
   position: absolute;
   top: 0;
@@ -48,12 +67,37 @@
 }
 
 @media (min-width: $tablet-width) {
+  .console__close {
+    top: 25px;
+    right: 25px;
+    left: auto;
+    width: 45px;
+    height: 45px;
+  }
+
+  .console__icon {
+    width: 33px;
+    height: 33px;
+  }
+
   .console__input {
     font-size: 60px;
   }
 }
 
 @media (min-width: $desktop-width) {
+  .console__close {
+    top: 35px;
+    right: 35px;
+    width: 60px;
+    height: 60px;
+  }
+
+  .console__icon {
+    width: 40px;
+    height: 40px;
+  }
+
   .console__input {
     font-size: 150px;
   }

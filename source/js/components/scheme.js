@@ -33,9 +33,12 @@ function updateRadioStates(activeRadio) {
   });
 }
 
+let savedScheme;
+let systemScheme;
+
 function setupScheme() {
-  const savedScheme = getSavedScheme();
-  const systemScheme = getSystemScheme();
+  savedScheme = getSavedScheme();
+  systemScheme = getSystemScheme();
 
   if (savedScheme === null) return;
 
@@ -57,15 +60,14 @@ function setScheme(scheme) {
 
   if (scheme === 'auto') {
 		// clearScheme();
-		saveScheme(scheme);
+    saveScheme(scheme);
     autoschemeCheckbox.checked = true;
   } else {
-		saveScheme(scheme);
+    saveScheme(scheme);
     autoschemeCheckbox.checked = false;
   }
 
   clearSchemeButtons();
-
   updateRadioStates(document.querySelector(`.footer__scheme[value=${scheme}]`));
 }
 

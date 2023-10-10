@@ -1,20 +1,22 @@
 // Console
+const consoleClose = document.querySelector('.console__close');
 const consoleContainer = document.querySelector('.console');
 const consoleInput = consoleContainer.querySelector('.console__input');
 const consoleBackground = consoleContainer.querySelector('.console__background');
 
 function openConsole() {
-  consoleBackground.src = 'video/console.mp4';
-  consoleBackground.play();
+  if (consoleBackground.paused) {
+    consoleBackground.play();
+  }
   consoleContainer.classList.remove('console--hide');
   consoleInput.focus();
 }
 
 function closeConsole() {
+  consoleBackground.pause();
 	consoleContainer.classList.add('console--hide');
 	consoleInput.value = '';
   consoleInput.blur();
-  VIDEO.focus();
 }
 
 let bonusURL;
@@ -69,10 +71,15 @@ function stopPropagation(event) {
   event.stopPropagation();
 }
 
+consoleClose.addEventListener('click', closeConsole);
 consoleInput.addEventListener('input', stopPropagation);
 consoleInput.addEventListener('keyup', stopPropagation);
 consoleInput.addEventListener('keyup', checkBonus);
+// consoleBackground.addEventListener('click', function() {
+//   consoleInput.focus();
+// });
 
+// Open console, dev button
 const devButton = document.querySelector('.footer__copyright--dev');
 
 let clickCount = 0;

@@ -47,12 +47,12 @@ function checkActiveTab() {
     let activeTabName = SETTINGS.querySelector('.settings__tab--active').getAttribute('data-tab');
 
     if (activeTabName === 'scheme') {
-      schemeSwitcher.classList.add('footer__switcher--menu');
+      schemeSwitcher.classList.add('footer__switcher--show');
     } else {
-      schemeSwitcher.classList.remove('footer__switcher--menu');
+      schemeSwitcher.classList.remove('footer__switcher--show');
     }
   } else {
-    schemeSwitcher.classList.remove('footer__switcher--menu');
+    schemeSwitcher.classList.remove('footer__switcher--show');
   }
 }
 

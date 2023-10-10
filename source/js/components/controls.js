@@ -280,7 +280,14 @@ function changeFitScreen() {
 };
 
 function checkFitScreen() {
-  if (videoWidth < BODY.clientWidth) {
+  const userAgent = navigator.userAgent;
+  const isMobile = /Mobile|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+
+  if (isMobile) {
+    fitButton.classList.remove('control__button--off');
+  }
+
+  if (videoWidth < BODY.clientWidth || videoWidth < WRAPPER.clientWidth) {
     fitButton.classList.remove('control__button--off');
   } else {
     fitButton.classList.add('control__button--off');
@@ -288,6 +295,7 @@ function checkFitScreen() {
 };
 
 fitButton.addEventListener('click', changeFitScreen);
+document.addEventListener('fullscreenchange', checkFitScreen);
 
 // Cinema mode
 const cinemaButton = CONTROLS.querySelector('.control__button--cinema');
