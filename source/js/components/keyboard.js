@@ -84,12 +84,10 @@ window.addEventListener('keyup', (event) => {
 
     case 'l':
       setScheme('light');
-      clearAutoscheme();
       break;
 
     case 'd':
       setScheme('dark');
-      clearAutoscheme();
       break;
 
     case 'a':

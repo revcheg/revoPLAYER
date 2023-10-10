@@ -32,12 +32,15 @@ function openSettings() {
     SETTINGS.classList.remove('settings--hide');
     SETTINGS.focus();
   }
+
+  checkActiveTab();
 }
 
 function closeSettings() {
   settingsOpen = false;
   SETTINGS.classList.add('settings--hide');
   SETTINGS.blur();
+  checkActiveTab();
 }
 
 openButton.addEventListener('click', openSettings);
@@ -200,16 +203,47 @@ autoplayCheckbox.addEventListener('change', setAutoplay);
 const autoschemeCheckbox = SETTINGS.querySelector('.settings__checkbox--autoscheme');
 
 function setAutoscheme() {
+  clearSchemeButtons();
+
   if (autoschemeCheckbox.checked) {
-    autoschemeCheckbox.checked = true;
     setScheme('auto');
-    clearScheme();
-    // clearButton();
   }
 };
 
-function clearAutoscheme() {
-  autoschemeCheckbox.checked = false;
+function clearSchemeButtons() {
+  const lightSchemeLabel = FOOTER.querySelector('.footer__scheme[value="light"]').parentNode;
+  const darkSchemeLabel = FOOTER.querySelector('.footer__scheme[value="dark"]').parentNode;
+  const autoSchemeLabel = FOOTER.querySelector('.footer__scheme[value="auto"]').parentNode;
+
+  if (autoschemeCheckbox.checked) {
+    lightSchemeLabel.classList.add('footer__label--hide');
+    darkSchemeLabel.classList.add('footer__label--hide');
+
+    setTimeout(() => {
+      lightSchemeLabel.classList.add('footer__label--off');
+      darkSchemeLabel.classList.add('footer__label--off');
+    }, 300);
+
+    setTimeout(() => {
+      autoSchemeLabel.classList.remove('footer__label--off');
+      setTimeout(() => {
+        autoSchemeLabel.classList.remove('footer__label--hide');
+      }, 100);
+    }, 300);
+  } else {
+    autoSchemeLabel.classList.add('footer__label--hide');
+
+    setTimeout(() => {
+      lightSchemeLabel.classList.remove('footer__label--off');
+      darkSchemeLabel.classList.remove('footer__label--off');
+      autoSchemeLabel.classList.add('footer__label--off');
+
+      setTimeout(() => {
+        lightSchemeLabel.classList.remove('footer__label--hide');
+        darkSchemeLabel.classList.remove('footer__label--hide');
+      }, 100);
+    }, 300);
+  }
 }
 
 autoschemeCheckbox.addEventListener('change', setAutoscheme);
@@ -246,7 +280,6 @@ function setupSwitcher() {
   schemeSwitcher.addEventListener('change', (event) => {
     let selectedScheme = event.target.value;
     setScheme(selectedScheme);
-    clearAutoscheme();
   });
 }
 
@@ -278,6 +311,8 @@ function setupScheme() {
     switchMedia('light');
   } else if (savedScheme === 'dark') {
     switchMedia('dark');
+  } else if (savedScheme === 'auto') {
+    clearSchemeButtons();
   }
 }
 
@@ -285,10 +320,15 @@ function setScheme(scheme) {
   switchMedia(scheme);
 
   if (scheme === 'auto') {
-		clearScheme();
+		// clearScheme();
+		saveScheme(scheme);
+    autoschemeCheckbox.checked = true;
   } else {
 		saveScheme(scheme);
+    autoschemeCheckbox.checked = false;
   }
+
+  clearSchemeButtons();
 
   updateRadioStates(document.querySelector(`.footer__scheme[value=${scheme}]`));
 }
@@ -1188,12 +1228,10 @@ window.addEventListener('keyup', (event) => {
 
     case 'l':
       setScheme('light');
-      clearAutoscheme();
       break;
 
     case 'd':
       setScheme('dark');
-      clearAutoscheme();
       break;
 
     case 'a':
@@ -1470,6 +1508,7 @@ tabButtons.forEach(button => {
     document.querySelector(`.settings__tab[data-tab="${tabName}"]`).setAttribute('tabIndex', '0');
     document.querySelector(`.settings__tab[data-tab="${tabName}"]`).focus();
 
+    checkActiveTab();
     updateSettingsHeight();
   });
 });
@@ -1482,10 +1521,6 @@ function updateSettingsHeight() {
   let activeTabHeight = activeTab.clientHeight;
   let blockOffset = 90;
 
-  // if (windowWidth > 768) {
-  //   blockOffset = 0;
-  // }
-
   settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - ${blockOffset}px)`;
 
   if (activeTabHeight > settingsWrapperHeight) {
@@ -1496,6 +1531,20 @@ function updateSettingsHeight() {
 }
 
 updateSettingsHeight();
+
+function checkActiveTab() {
+  if (settingsOpen) {
+    let activeTabName = SETTINGS.querySelector('.settings__tab--active').getAttribute('data-tab');
+
+    if (activeTabName === 'scheme') {
+      schemeSwitcher.classList.add('footer__switcher--menu');
+    } else {
+      schemeSwitcher.classList.remove('footer__switcher--menu');
+    }
+  } else {
+    schemeSwitcher.classList.remove('footer__switcher--menu');
+  }
+}
 
 window.addEventListener('resize', updateSettingsHeight);
 

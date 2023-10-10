@@ -16,7 +16,6 @@ function setupSwitcher() {
   schemeSwitcher.addEventListener('change', (event) => {
     let selectedScheme = event.target.value;
     setScheme(selectedScheme);
-    clearAutoscheme();
   });
 }
 
@@ -48,6 +47,8 @@ function setupScheme() {
     switchMedia('light');
   } else if (savedScheme === 'dark') {
     switchMedia('dark');
+  } else if (savedScheme === 'auto') {
+    clearSchemeButtons();
   }
 }
 
@@ -55,10 +56,15 @@ function setScheme(scheme) {
   switchMedia(scheme);
 
   if (scheme === 'auto') {
-		clearScheme();
+		// clearScheme();
+		saveScheme(scheme);
+    autoschemeCheckbox.checked = true;
   } else {
 		saveScheme(scheme);
+    autoschemeCheckbox.checked = false;
   }
+
+  clearSchemeButtons();
 
   updateRadioStates(document.querySelector(`.footer__scheme[value=${scheme}]`));
 }

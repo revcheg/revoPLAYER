@@ -18,6 +18,7 @@ tabButtons.forEach(button => {
     document.querySelector(`.settings__tab[data-tab="${tabName}"]`).setAttribute('tabIndex', '0');
     document.querySelector(`.settings__tab[data-tab="${tabName}"]`).focus();
 
+    checkActiveTab();
     updateSettingsHeight();
   });
 });
@@ -30,10 +31,6 @@ function updateSettingsHeight() {
   let activeTabHeight = activeTab.clientHeight;
   let blockOffset = 90;
 
-  // if (windowWidth > 768) {
-  //   blockOffset = 0;
-  // }
-
   settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - ${blockOffset}px)`;
 
   if (activeTabHeight > settingsWrapperHeight) {
@@ -44,5 +41,19 @@ function updateSettingsHeight() {
 }
 
 updateSettingsHeight();
+
+function checkActiveTab() {
+  if (settingsOpen) {
+    let activeTabName = SETTINGS.querySelector('.settings__tab--active').getAttribute('data-tab');
+
+    if (activeTabName === 'scheme') {
+      schemeSwitcher.classList.add('footer__switcher--menu');
+    } else {
+      schemeSwitcher.classList.remove('footer__switcher--menu');
+    }
+  } else {
+    schemeSwitcher.classList.remove('footer__switcher--menu');
+  }
+}
 
 window.addEventListener('resize', updateSettingsHeight);
