@@ -1591,7 +1591,7 @@ function checkActiveTab() {
     if (activeTabName === 'scheme') {
       setTimeout(() => {
         schemeSwitcher.classList.add('footer__switcher--show');
-      }, 300);
+      }, 200);
     } else {
       schemeSwitcher.classList.remove('footer__switcher--show');
     }
