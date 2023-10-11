@@ -9,6 +9,7 @@
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
   transition: 0.5s;
+  z-index: 2;
 
   &--hide {
     opacity: 0;
@@ -19,8 +20,8 @@
 
 .console__close {
   position: absolute;
-  right: 25px;
-  bottom: 20px;
+  right: 15px;
+  bottom: 26px;
   width: 45px;
   height: 45px;
   z-index: 2;

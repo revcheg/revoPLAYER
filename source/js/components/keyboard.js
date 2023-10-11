@@ -9,7 +9,6 @@ window.addEventListener('keyup', (event) => {
       // Video
       case ' ':
         pauseVideo();
-        changePauseIcon();
         break;
 
       case 'ArrowLeft':
@@ -33,8 +32,7 @@ window.addEventListener('keyup', (event) => {
         break;
 
       case 'm':
-        muteVideo();
-        changeMuteIcon();
+        setMute();
         break;
 
       case 'c':
@@ -45,8 +43,8 @@ window.addEventListener('keyup', (event) => {
         changeSpeed();
         break;
 
-      case 'q':
-        openPip();
+      case 'p':
+        openPictureInPicture();
         break;
 
       case 'x':
@@ -54,7 +52,7 @@ window.addEventListener('keyup', (event) => {
         break;
 
       case 'f':
-        changeFullscreen();
+        setFullscreen();
         break;
 
       case ',':
@@ -78,7 +76,7 @@ window.addEventListener('keyup', (event) => {
       closeConsole();
       break;
 
-    case 'p':
+    case 'k':
       startVideo();
       break;
 
@@ -95,7 +93,7 @@ window.addEventListener('keyup', (event) => {
       break;
 
     case 't':
-      setCinema();
+      setCinemaMode();
       break;
 
     case '`':

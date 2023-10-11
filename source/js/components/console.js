@@ -1,8 +1,8 @@
 // Console
-const consoleClose = document.querySelector('.console__close');
 const consoleContainer = document.querySelector('.console');
-const consoleInput = consoleContainer.querySelector('.console__input');
+const consoleClose = consoleContainer.querySelector('.console__close');
 const consoleBackground = consoleContainer.querySelector('.console__background');
+const consoleInput = consoleContainer.querySelector('.console__input');
 
 function openConsole() {
   if (consoleBackground.paused) {
@@ -19,37 +19,43 @@ function closeConsole() {
   consoleInput.blur();
 }
 
-let bonusURL;
+consoleClose.addEventListener('click', closeConsole);
+
+// Check command and bonus video
+const consoleCommands = {
+  'unlimited spider man': {
+    videoSrc: 'video/USP-intro.mp4',
+    message: 'Відкрито бонусне відео &#128375;',
+    scheme: null,
+  },
+  'spider man': {
+    videoSrc: 'video/SP-intro.mp4',
+    message: 'Відкрито бонусне відео &#128375;',
+    scheme: null,
+  },
+  'vice city': {
+    videoSrc: 'video/GTAVC-intro.webm',
+    message: 'Розблокована нова тема &#127847;',
+    scheme: 'vice',
+  },
+};
 
 function checkBonus(event) {
   if (event.key === 'Enter') {
     resetVideo();
 
-    switch (consoleInput.value) {
-      case 'unlimited spider man':
-        bonusURL = 'video/USP-intro.mp4';
-        setBonusVideo(bonusURL);
-        closeConsole();
-        showError('Відкрито бонусне відео &#128375;');
-        break;
+    let command = consoleInput.value.toLowerCase();
+    let commandDescription = consoleCommands[command];
 
-      case 'spider man':
-        bonusURL = 'video/SP-intro.mp4';
-        setBonusVideo(bonusURL);
-        closeConsole();
-        showError('Відкрито бонусне відео &#128375;');
-        break;
-
-      case 'vice city':
-				bonusURL = 'video/GTAVC-intro.webm';
-        setBonusVideo(bonusURL);
-        addScheme('vice');
-        closeConsole();
-        showError('Розблокована нова тема &#127847;');
-        break;
-
-      default:
-        showError('Команда неможлива &#128126;');
+    if (commandDescription) {
+      VIDEO.src = commandDescription.videoSrc;
+      if (commandDescription.scheme) {
+        addScheme(commandDescription.scheme);
+      }
+      closeConsole();
+      showError(commandDescription.message);
+    } else {
+      showError('Команда неможлива &#128126;');
     }
 
     if (autoplayFlag) {
@@ -60,37 +66,24 @@ function checkBonus(event) {
   }
 }
 
-function setBonusVideo(bonusURL) {
-  // currentVideo = data.bonus.main[0];
-  // currentVideo.src = bonusURL;
-  VIDEO.src = bonusURL;
-  subtitleButton.classList.add('control__button--off');
-}
-
 function stopPropagation(event) {
   event.stopPropagation();
 }
 
-consoleClose.addEventListener('click', closeConsole);
 consoleInput.addEventListener('input', stopPropagation);
 consoleInput.addEventListener('keyup', stopPropagation);
 consoleInput.addEventListener('keyup', checkBonus);
-// consoleBackground.addEventListener('click', function() {
-//   consoleInput.focus();
-// });
 
 // Open console, dev button
-const devButton = document.querySelector('.footer__copyright--dev');
-
+const devButton = FOOTER.querySelector('.footer__copyright--dev');
+const MAX_DEV_CLICK_COUNT = 10;
 let clickCount = 0;
 
-function handleDevClick() {
-  clickCount++;
-
-  if (clickCount >= 10) {
+function devClicks() {
+  if (++clickCount >= MAX_DEV_CLICK_COUNT) {
     openConsole();
     clickCount = 0;
   }
 }
 
-devButton.addEventListener('click', handleDevClick);
+devButton.addEventListener('click', devClicks);

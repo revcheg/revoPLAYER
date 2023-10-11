@@ -120,7 +120,7 @@
               <use href="img/sprite.svg#speed"></use>
             </svg>
           </button>
-          <button class="button  control__button  control__button--pip  control__button--hide" aria-label="Міні-програвач" title="Міні-програвач (q)" type="button" disabled>
+          <button class="button  control__button  control__button--pip  control__button--hide" aria-label="Міні-програвач" title="Міні-програвач (p)" type="button" disabled>
             <svg class="control__icon  control__icon--pip" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16">
               <use href="img/sprite.svg#pip"></use>
             </svg>
@@ -302,6 +302,10 @@
         <div class="settings__tab" data-tab="patch">
           <p class="settings__sub">PATCH NOTES</p>
           <p class="settings__text">
+            <time class="settings__time" datetime="2023.10.11">11.10.2023</time>
+            Триває підготовка до великих оновлень, тому весь фокус зосереджений на функціоналу який вже є. Видима частина зміниться не дуже явно, але всередині проєкт стане бистріше та стабільніше. SVG + console
+          </p>
+          <p class="settings__text">
             <time class="settings__time" datetime="2023.07.07">07.07.2023</time>
             Новий контрол - режим кінотеатру, поки експериментально, тому можливо його видалення. Знайти можно у додаткових контролах, або клавішою (t).
           </p>
@@ -354,13 +358,13 @@
     </nav>
 
     <section class="console  console--hide">
+      <h3 class="visually-hidden">Консоль</h3>
       <button class="button  console__close" aria-label="Закрити консоль" title="Закрити консоль (esc)" type="button">
         <span class="visually-hidden">Закрити консоль</span>
         <svg class="console__icon" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
           <use href="img/sprite.svg#close"></use>
         </svg>
       </button>
-      <h3 class="visually-hidden">Консоль</h3>
       <video class="console__background" src="video/console.mp4" muted loop disableRemotePlayback disablePictureInPicture></video>
       <label>
         <span class="visually-hidden">Поле введення консолі</span>

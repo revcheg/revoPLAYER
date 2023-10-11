@@ -152,11 +152,7 @@ const controlsCheckbox = SETTINGS.querySelector('.settings__checkbox--controls')
 const additionalControls = CONTROLS.querySelectorAll('.control__button--hide');
 
 function showAddControls() {
-  if (controlsCheckbox.checked) {
-    controlsCheckbox.checked = false;
-  } else {
-    controlsCheckbox.checked = true;
-  }
+  controlsCheckbox.checked = !controlsCheckbox.checked;
 
   additionalControls.forEach(control => {
     if (controlsCheckbox.checked) {
@@ -167,9 +163,10 @@ function showAddControls() {
       control.setAttribute('disabled', 'disabled');
     }
   });
-};
+}
 
 controlsCheckbox.addEventListener('change', showAddControls);
+controlsCheckbox.addEventListener('click', showAddControls);
 
 // Autoplay
 let autoplayFlag = true;

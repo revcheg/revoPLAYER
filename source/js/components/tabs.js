@@ -47,7 +47,9 @@ function checkActiveTab() {
     let activeTabName = SETTINGS.querySelector('.settings__tab--active').getAttribute('data-tab');
 
     if (activeTabName === 'scheme') {
-      schemeSwitcher.classList.add('footer__switcher--show');
+      setTimeout(() => {
+        schemeSwitcher.classList.add('footer__switcher--show');
+      }, 300);
     } else {
       schemeSwitcher.classList.remove('footer__switcher--show');
     }
