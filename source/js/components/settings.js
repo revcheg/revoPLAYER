@@ -207,14 +207,14 @@ function clearSchemeButtons() {
     setTimeout(() => {
       lightSchemeLabel.classList.add('footer__label--off');
       darkSchemeLabel.classList.add('footer__label--off');
-    }, 300);
+    }, 100);
 
     setTimeout(() => {
       autoSchemeLabel.classList.remove('footer__label--off');
       setTimeout(() => {
         autoSchemeLabel.classList.remove('footer__label--hide');
       }, 100);
-    }, 300);
+    }, 100);
   } else {
     autoSchemeLabel.classList.add('footer__label--hide');
 
@@ -227,7 +227,7 @@ function clearSchemeButtons() {
         lightSchemeLabel.classList.remove('footer__label--hide');
         darkSchemeLabel.classList.remove('footer__label--hide');
       }, 100);
-    }, 300);
+    }, 100);
   }
 }
 

@@ -351,27 +351,29 @@ function enterCinemaMode() {
   FOOTER.classList.add('footer--hide');
   SERIES_LIST.classList.add('series--off');
   BODY.style.overflow = 'hidden';
-  WRAPPER.classList.add('video__wrapper--cinema');
-  MAIN.classList.add('main--cinema');
-  VIDEO.focus();
   setTimeout(() => {
     HEADER.style.display = 'none';
     FOOTER.style.display = 'none';
+    WRAPPER.classList.add('video__wrapper--cinema');
+    MAIN.classList.add('main--cinema');
+    VIDEO.focus();
   }, 250);
 }
 
 function exitCinemaMode() {
-  HEADER.style.display = 'flex';
-  FOOTER.style.display = 'flex';
-  HEADER.classList.remove('header--hide');
-  FOOTER.classList.remove('footer--hide');
   if (seriesCheckbox.checked) {
     SERIES_LIST.classList.remove('series--off');
   }
+  HEADER.style.display = 'flex';
+  FOOTER.style.display = 'flex';
   WRAPPER.classList.remove('video__wrapper--cinema');
   MAIN.classList.remove('main--cinema');
   VIDEO.blur();
   BODY.removeAttribute('style');
+  setTimeout(() => {
+    HEADER.classList.remove('header--hide');
+    FOOTER.classList.remove('footer--hide');
+  }, 250);
 }
 
 function setCinemaMode() {
