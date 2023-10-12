@@ -28,7 +28,7 @@ function resetVideo() {
   statisticsUFH.classList.add('statistics--off');
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
-  clearSubtitle();
+  // clearSubtitle();
   stopProgress();
   resetDuration();
 }

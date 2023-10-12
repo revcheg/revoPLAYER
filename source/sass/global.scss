@@ -50,15 +50,19 @@ img {
 
 .blur {
 
-  .control {
-    backdrop-filter: blur(1px);
+  .settings {
+    backdrop-filter: blur(0.6px);
   }
 
   .statistics {
-    backdrop-filter: blur(1px);
+    backdrop-filter: blur(0.6px);
   }
 
-  .settings {
-    backdrop-filter: blur(1px);
+  .control {
+    backdrop-filter: blur(0.6px);
+  }
+
+  .console {
+    backdrop-filter: blur(0.6px);
   }
 }
