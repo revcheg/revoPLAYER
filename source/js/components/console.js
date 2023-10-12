@@ -53,9 +53,9 @@ function checkBonus(event) {
         addScheme(commandDescription.scheme);
       }
       closeConsole();
-      showError(commandDescription.message);
+      showMessage(commandDescription.message);
     } else {
-      showError('Команда неможлива &#128126;');
+      showMessage('Команда неможлива &#128126;');
     }
 
     if (autoplayFlag) {

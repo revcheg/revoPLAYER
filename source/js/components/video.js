@@ -16,7 +16,7 @@ function updateProgress() {
   statisticsBuffer.innerHTML = videoBuffer;
 
   videoCurrentTime = Math.round(VIDEO.currentTime);
-  VIDEORANGE.value = videoCurrentTime;
+  VIDEO_RANGE.value = videoCurrentTime;
 
   // Duration
   currentVideoPassed = formatTime(videoCurrentTime);
@@ -56,7 +56,7 @@ VIDEO.addEventListener('playing', playingVideo);
 // Error
 function errorVideo() {
   WRAPPER.classList.add('video__wrapper--error');
-  showError('Помилка відео &#128528;');
+  showMessage('Помилка відео &#128528;');
   isVideoPlaying = false;
   resetVideo();
 }

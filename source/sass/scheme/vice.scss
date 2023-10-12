@@ -307,8 +307,8 @@
 	}
 }
 
-// Error
-.error {
+// Message
+.message {
   padding: 8px 15px;
 	font-weight: 500;
 	font-family: "Chalet", sans-serif;
@@ -317,7 +317,7 @@
 }
 
 @media (min-width: 1440px) {
-	.error {
+	.message {
 		bottom: 42px;
 		padding: 12px 25px;
 	}

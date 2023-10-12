@@ -1,5 +1,5 @@
 // Set Video
-let game;
+let game = null;
 
 const chooseButtons = document.querySelectorAll('.settings__video');
 
@@ -22,9 +22,9 @@ function resetVideo() {
   VIDEO.removeAttribute('src');
   VIDEO.removeAttribute('crossorigin');
   WRAPPER.className = 'video__wrapper';
-  STARTBUTTON.classList.remove('video__start--hide');
+  START_BUTTON.classList.remove('video__start--hide');
   CONTROLS.classList.add('control--off');
-  STATISTICS.classList.add('statistics--off');
+  // STATISTICS.classList.add('statistics--off');
   statisticsUFH.classList.add('statistics--off');
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');

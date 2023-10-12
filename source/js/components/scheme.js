@@ -3,7 +3,7 @@ const favicon = document.querySelector('link[href="img/favicons/favicon.svg"]');
 const schemeSwitcher = document.querySelector('.footer__switcher');
 const lightStyles = document.querySelectorAll('link[rel=stylesheet][media*=prefers-color-scheme][media*=light]');
 const darkStyles = document.querySelectorAll('link[rel=stylesheet][media*=prefers-color-scheme][media*=dark]');
-const schemeRadios = document.querySelectorAll('.footer__scheme');
+const schemeButton = document.querySelectorAll('.footer__scheme');
 const darkScheme = matchMedia('(prefers-color-scheme: dark)').matches;
 
 function setupSwitcher() {
@@ -20,7 +20,7 @@ function setupSwitcher() {
 }
 
 function updateRadioStates(activeRadio) {
-  [...schemeRadios].forEach((radio) => {
+  [...schemeButton].forEach((radio) => {
     if (radio === activeRadio) {
       radio.checked = true;
       radio.setAttribute('checked', 'checked');
@@ -71,6 +71,7 @@ function setScheme(scheme) {
   updateRadioStates(document.querySelector(`.footer__scheme[value=${scheme}]`));
 }
 
+// Switch media
 function switchMedia(scheme) {
   let lightMedia;
   let darkMedia;
@@ -115,6 +116,7 @@ function getSystemScheme() {
 setupSwitcher();
 setupScheme();
 
+// New scheme
 let newScheme;
 
 function addScheme(scheme) {

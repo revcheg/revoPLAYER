@@ -16,6 +16,12 @@ function pauseVideo() {
   changePauseIcon();
 }
 
+function stopVideo() {
+  VIDEO.pause();
+  playButtonIcon.classList.remove('control__icon--hide');
+  pauseButtonIcon.classList.add('control__icon--hide');
+}
+
 function changePauseIcon() {
   playButtonIcon.classList.toggle('control__icon--hide');
   pauseButtonIcon.classList.toggle('control__icon--hide');
@@ -127,13 +133,14 @@ volumeRange.addEventListener('wheel', wheelVolume);
 const videoPassed = CONTROLS.querySelector('.control__time--passed');
 const videoLeft = CONTROLS.querySelector('.control__time--left');
 
-function setDuration() {
-  let rangeValue = VIDEORANGE.value;
+function changeDuration() {
+  pauseVideo();
+};
 
-  // currentVideoPassed = formatTime(rangeValue);
-  // currentVideoLeft = formatTime(videoDuration - rangeValue);
-  // videoPassed.innerHTML = currentVideoPassed;
-  // videoLeft.innerHTML = currentVideoLeft;
+function setDuration() {
+  let rangeValue = VIDEO_RANGE.value;
+
+  VIDEO.currentTime = rangeValue;
 
   videoPassed.innerHTML = formatTime(rangeValue);
   videoLeft.innerHTML = formatTime(videoDuration - rangeValue);
@@ -142,13 +149,8 @@ function setDuration() {
   line.style.width = Math.round((rangeValue / videoDuration) * 100) + '%';
 };
 
-function changeDuration() {
-  VIDEO.currentTime = VIDEORANGE.value;
-  pauseVideo();
-};
-
 function resetDuration() {
-  VIDEORANGE.value = '0';
+  VIDEO_RANGE.value = '0';
   videoPassed.innerHTML = formatTime(0);
   videoLeft.innerHTML = formatTime(0);
   line.style.width = '0%';
@@ -167,24 +169,23 @@ function formatTime(timeInSeconds) {
   return hours + ':' + minutes + ':' + seconds;
 }
 
-VIDEORANGE.addEventListener('mousedown', pauseVideo);
-VIDEORANGE.addEventListener('change', changeDuration);
-VIDEORANGE.addEventListener('input', setDuration);
+VIDEO_RANGE.addEventListener('mousedown', stopVideo);
+VIDEO_RANGE.addEventListener('change', changeDuration);
+VIDEO_RANGE.addEventListener('input', setDuration);
 
 // Wheel duration
 function wheelDuration(event) {
   event.preventDefault();
   const delta = -Math.sign(event.deltaY);
-  let currentValue = parseFloat(VIDEORANGE.value);
+  let currentValue = parseFloat(VIDEO_RANGE.value);
   let changedValue = currentValue + delta;
 
-  VIDEORANGE.value = changedValue;
-  VIDEO.currentTime = VIDEORANGE.value;
+  VIDEO_RANGE.value = changedValue;
+  VIDEO.currentTime = VIDEO_RANGE.value;
   setDuration();
-  // changeDuration();
 };
 
-VIDEORANGE.addEventListener('wheel', wheelDuration);
+VIDEO_RANGE.addEventListener('wheel', wheelDuration);
 
 // Playback speed
 let playbackRate = 1.0;
@@ -348,7 +349,7 @@ if (BODY.clientWidth > 768) {
 function enterCinemaMode() {
   HEADER.classList.add('header--hide');
   FOOTER.classList.add('footer--hide');
-  SERIESLIST.classList.add('series--off');
+  SERIES_LIST.classList.add('series--off');
   BODY.style.overflow = 'hidden';
   WRAPPER.classList.add('video__wrapper--cinema');
   MAIN.classList.add('main--cinema');
@@ -365,7 +366,7 @@ function exitCinemaMode() {
   HEADER.classList.remove('header--hide');
   FOOTER.classList.remove('footer--hide');
   if (seriesCheckbox.checked) {
-    SERIESLIST.classList.remove('series--off');
+    SERIES_LIST.classList.remove('series--off');
   }
   WRAPPER.classList.remove('video__wrapper--cinema');
   MAIN.classList.remove('main--cinema');
@@ -427,7 +428,7 @@ document.addEventListener('mozfullscreenchange', updateFullscreenButton);
 // Mouse
 let hideControlsTimer;
 
-function handleMouseMove(event) {
+function handleMouseMove() {
   clearTimeout(hideControlsTimer);
   showControls();
 

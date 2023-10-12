@@ -29,7 +29,7 @@
   font-weight: 500;
   font-family: "Chalet", "Roboto", "Arial", sans-serif;
   text-align: center;
-  text-shadow: 0.5px 0.5px 2px #000000, -0.5px -0.5px 2px #000000;
+  text-shadow: 0px 0px 5px #000000, 0px 0px 5px #000000;
   background-color: transparent;
 }
 
@@ -197,7 +197,7 @@
 
 @media (min-width: $desktop-width) {
   ::cue {
-    font-size: 30px;
+    font-size: 28px;
   }
 
   .video__wrapper {

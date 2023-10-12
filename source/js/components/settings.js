@@ -239,9 +239,9 @@ const seriesLabel = SETTINGS.querySelector('.settings__label--series');
 
 function showSeriesList() {
   if (seriesCheckbox.checked) {
-    SERIESLIST.classList.remove('series--off');
+    SERIES_LIST.classList.remove('series--off');
   } else {
-    SERIESLIST.classList.add('series--off');
+    SERIES_LIST.classList.add('series--off');
   }
 };
 
