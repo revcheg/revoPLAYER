@@ -6,8 +6,9 @@
 *.pdf
 *.psd
 *.sublime*
-node_modules/
-source/video/
+node_modules
+backup
+source/video
 build
 npm-debug.*
 source/css/*.css
