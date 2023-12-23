@@ -38,6 +38,11 @@ const consoleCommands = {
     message: 'Розблокована нова тема &#127847;',
     scheme: 'vice',
   },
+  'assassins creed 2': {
+    videoSrc: 'video/ACII-trailer.mp4',
+    message: 'Відкрито бонусне відео',
+    scheme: null,
+  },
 };
 
 function checkBonus(event) {
