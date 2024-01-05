@@ -21,17 +21,15 @@ function closeConsole() {
 
 consoleClose.addEventListener('click', closeConsole);
 
-// Check command and bonus video
+// Command list
 const consoleCommands = {
   'unlimited spider man': {
     videoSrc: 'video/USP-intro.mp4',
     message: 'Відкрито бонусне відео &#128375;',
-    scheme: null,
   },
   'spider man': {
     videoSrc: 'video/SP-intro.mp4',
     message: 'Відкрито бонусне відео &#128375;',
-    scheme: null,
   },
   'vice city': {
     videoSrc: 'video/GTAVC-intro.webm',
@@ -41,7 +39,10 @@ const consoleCommands = {
   'assassins creed 2': {
     videoSrc: 'video/ACII-trailer.mp4',
     message: 'Відкрито бонусне відео',
-    scheme: null,
+  },
+  'tmnt': {
+    videoSrc: 'video/TMNT-intro.mp4',
+    message: 'Кавабанга',
   },
 };
 
