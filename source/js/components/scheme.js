@@ -24,11 +24,11 @@ function updateRadioStates(activeRadio) {
     if (radio === activeRadio) {
       radio.checked = true;
       radio.setAttribute('checked', 'checked');
-      radio.disabled = true;
+      // radio.disabled = true;
     } else {
       radio.checked = false;
       radio.removeAttribute('checked');
-      radio.disabled = false;
+      // radio.disabled = false;
     }
   });
 }

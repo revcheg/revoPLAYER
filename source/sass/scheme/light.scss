@@ -19,6 +19,14 @@
 	}
 }
 
+// Background
+.background {
+
+  &::after {
+    // background-color: rgba(#6320EE, 0.4);
+  }
+}
+
 // Control
 .control__line {
 	background-color: #6320EE;
@@ -101,6 +109,10 @@
 }
 
 // Header
+.header__ufh {
+	background-color: #8075FF;
+}
+
 .header__icon {
 	fill: #8075FF;
 }
@@ -122,7 +134,7 @@
 .video__start {
 
 	&::before {
-		background-color: rgba(#8075FF, 0.2);
+		background-color: rgba(#8075FF, 0.3);
 	}
 }
 

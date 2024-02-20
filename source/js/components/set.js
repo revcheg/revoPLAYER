@@ -25,7 +25,7 @@ function resetVideo() {
   START_BUTTON.classList.remove('video__start--hide');
   CONTROLS.classList.add('control--off');
   // STATISTICS.classList.add('statistics--off');
-  statisticsUFH.classList.add('statistics--off');
+  statisticsUFH.classList.add('header__ufh--off');
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
   // clearSubtitle();

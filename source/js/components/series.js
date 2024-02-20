@@ -3,7 +3,7 @@
 function generatingSeries() {
   SERIES_LIST.innerHTML = '';
 
-  Array.from(selectedVideos).forEach((file, index) => {
+  Array.from(selectedVideo).forEach((file, index) => {
     const li = document.createElement('li');
     li.className = 'series__item';
     const button = document.createElement('button');

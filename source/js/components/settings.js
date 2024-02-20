@@ -100,17 +100,6 @@ function setScale(event) {
 
 scaleCheckbox.addEventListener('change', setupScale);
 
-// Blur
-const blurCheckbox = SETTINGS.querySelector('.settings__checkbox--blur');
-
-blurCheckbox.addEventListener('change', function (event) {
-  if (event.currentTarget.checked) {
-    BODY.classList.add('blur');
-  } else {
-    BODY.classList.remove('blur');
-  }
-});
-
 // Deep mode
 let deepFlag = 'main';
 const deepCheckbox = SETTINGS.querySelector('.settings__checkbox--deep');
@@ -232,6 +221,36 @@ function clearSchemeButtons() {
 }
 
 autoschemeCheckbox.addEventListener('change', setAutoscheme);
+
+// Blur
+const blurCheckbox = SETTINGS.querySelector('.settings__checkbox--blur');
+
+blurCheckbox.addEventListener('change', function (event) {
+  if (event.currentTarget.checked) {
+    BODY.classList.add('blur');
+  } else {
+    BODY.classList.remove('blur');
+  }
+});
+
+// Background
+const background = document.querySelector('.background');
+const backgroundCheckbox = SETTINGS.querySelector('.settings__checkbox--background');
+const backgroundVideo = document.querySelector('.background__video');
+
+function showBackground() {
+  if (backgroundCheckbox.checked) {
+    background.classList.remove('background--off');
+    backgroundVideo.src = VIDEO.src;
+    if (videoCurrentTime) {
+      backgroundVideo.currentTime = videoCurrentTime;
+    }
+  } else {
+    background.classList.add('background--off');
+  }
+}
+
+backgroundCheckbox.addEventListener('change', showBackground);
 
 // Series list
 const seriesCheckbox = SETTINGS.querySelector('.settings__checkbox--series');

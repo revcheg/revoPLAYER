@@ -19,6 +19,14 @@
   }
 }
 
+// Background
+.background {
+
+  &::after {
+    // background-color: rgba(#0197F6, 0.4);
+  }
+}
+
 // Control
 .control__line {
   background-color: #0197F6;
@@ -110,6 +118,10 @@
   path:last-of-type {
     fill: #FFFFFF;
   }
+}
+
+.header__ufh {
+	background-color: #0197F6;
 }
 
 .header__icon {

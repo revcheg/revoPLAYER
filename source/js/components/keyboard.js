@@ -170,7 +170,7 @@ function handleKey(key, handlers) {
           changeSpeed();
           break;
         case 'openPIP':
-          openPictureInPicture();
+          setPictureInPicture();
           break;
         case 'toggleFitScreen':
           changeFitScreen();

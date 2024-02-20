@@ -13,7 +13,7 @@
   transform: translateX(-50%);
   transition: 0.3s;
   clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%);
-  z-index: 3;
+  z-index: 4;
 
   &--hide {
     transform: translateX(-50%) scale(0);

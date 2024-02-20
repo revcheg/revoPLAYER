@@ -16,6 +16,14 @@
 	}
 }
 
+// Background
+.background {
+
+  &::after {
+    // background-color: rgba(#F27DFD, 0.4);
+  }
+}
+
 // Control
 .control__line {
 	background-color: #F27DFD;
@@ -97,6 +105,8 @@
 }
 
 .footer__copyright {
+	font-weight: 500;
+  font-family: "Chalet", sans-serif;
 
 	&--dev {
 		color: #F27DFD;
@@ -109,6 +119,10 @@
 	path:last-child {
 		fill: #8075FF;
 	}
+}
+
+.header__ufh {
+  background-color: #F27DFD;
 }
 
 .header__icon {
@@ -267,7 +281,7 @@
 .video__start {
 
 	&::before {
-		background-color: rgba(#F27DFD, 0.2);
+		background-color: rgba(#F27DFD, 0.3);
 	}
 }
 

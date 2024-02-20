@@ -118,8 +118,8 @@ const copy = (done) => {
     'source/apple-touch-icon.png',
     'source/player.webmanifest',
     'source/video/**/*.{webm,mp4}',
-    'source/videos.json',
-    'source/subtitles/**/*.vtt',
+    'source/video.json',
+    'source/subtitle/**/*.vtt',
     'source/browserconfig.xml',
   ], {
     base: 'source'

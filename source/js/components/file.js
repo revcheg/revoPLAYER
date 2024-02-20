@@ -4,14 +4,14 @@ const MAX_FILE_SIZE = 5368709120;
 const supportedFormats = ['video/mp4', 'video/webm', 'video/mkv', 'video/mov'];
 
 // Check and save uploaded files
-let selectedVideos = [];
+let selectedVideo = [];
 
 function handleFiles(event) {
   const files = Array.from(event.target.files);
 
   files.forEach(file => {
     const fileUrl = URL.createObjectURL(file);
-    selectedVideos.push({
+    selectedVideo.push({
       file,
       url: fileUrl,
       src: fileUrl,
@@ -21,17 +21,17 @@ function handleFiles(event) {
     });
   });
 
-  validateFiles(selectedVideos);
+  validateFiles(selectedVideo);
 }
 
 INPUTFILE.addEventListener('change', resetVideo);
 INPUTFILE.addEventListener('change', handleFiles);
 
 // Validate files
-function validateFiles(videos) {
+function validateFiles(video) {
   let showSuccessMessage = true;
 
-  videos.forEach(video => {
+  video.forEach(video => {
     const fileSize = video.file.size;
     const fileType = video.file.type;
 

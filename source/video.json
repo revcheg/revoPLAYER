@@ -21,14 +21,14 @@
         "title": "The Witcher III, deep video",
         "src": "/video/TheWitcher/deep.webm",
         "description": "Опис відео",
-        "subtitles": {
+        "subtitle": {
           "ua": {
-            "src": "/subtitles/TheWitcher/deep-uk.vtt",
+            "src": "/subtitle/TheWitcher/deep-uk.vtt",
             "srclang": "uk",
             "label": "Ukranian"
           },
           "en": {
-            "src": "/subtitles/TheWitcher/deep-en.vtt",
+            "src": "/subtitle/TheWitcher/deep-en.vtt",
             "srclang": "en",
             "label": "English"
           }
@@ -42,14 +42,14 @@
         "title": "Cyberpunk 2077, main video",
         "src": "/video/Cyberpunk/main.webm",
         "description": "Опис відео",
-        "subtitles": {
+        "subtitle": {
           "ua": {
-            "src": "/subtitles/Cyberpunk/main-uk.vtt",
+            "src": "/subtitle/Cyberpunk/main-uk.vtt",
             "srclang": "uk",
             "label": "Ukranian"
           },
           "en": {
-            "src": "/subtitles/Cyberpunk/main-en.vtt",
+            "src": "/subtitle/Cyberpunk/main-en.vtt",
             "srclang": "en",
             "label": "English"
           }
@@ -61,14 +61,14 @@
         "title": "Cyberpunk 2077, deep video",
         "src": "/video/Cyberpunk/deep.webm",
         "description": "Опис відео",
-        "subtitles": {
+        "subtitle": {
           "ua": {
-            "src": "/subtitles/Cyberpunk/deep-uk.vtt",
+            "src": "/subtitle/Cyberpunk/deep-uk.vtt",
             "srclang": "uk",
             "label": "Ukranian"
           },
           "en": {
-            "src": "/subtitles/Cyberpunk/deep-en.vtt",
+            "src": "/subtitle/Cyberpunk/deep-en.vtt",
             "srclang": "en",
             "label": "English"
           }
@@ -80,14 +80,14 @@
         "title": "Cyberpunk 2077, bonus video",
         "src": "/video/Cyberpunk/bonus.webm",
         "description": "Опис відео",
-        "subtitles": {
+        "subtitle": {
           "ua": {
-            "src": "/subtitles/Cyberpunk/bonus-uk.vtt",
+            "src": "/subtitle/Cyberpunk/bonus-uk.vtt",
             "srclang": "uk",
             "label": "Ukranian"
           },
           "en": {
-            "src": "/subtitles/Cyberpunk/bonus-en.vtt",
+            "src": "/subtitle/Cyberpunk/bonus-en.vtt",
             "srclang": "en",
             "label": "English"
           }

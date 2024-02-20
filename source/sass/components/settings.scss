@@ -11,7 +11,7 @@
   color: #FFFFFF;
   outline: none;
   transition: 0.5s;
-  z-index: 1;
+  z-index: 3;
 
   &--hide {
     opacity: 0;
@@ -65,9 +65,8 @@
   color: #FFFFFF;
   font-size: 16px;
   font-weight: 300;
-  border: 1px solid #FFFFFF;
   border-radius: 30px;
-  transition: 0.2s;
+  transition: 0.3s;
 
   &:last-child {
     margin-right: 0;
@@ -331,6 +330,7 @@
   }
 
   .settings__button {
+    margin-right: 15px;
     padding: 15px 25px;
     font-size: 25px;
   }

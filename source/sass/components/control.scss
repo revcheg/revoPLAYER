@@ -11,13 +11,13 @@
   padding: 15px 10px;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
-  background-color: rgba($dark-element, 0.6);
+  background-color: rgba($dark-element, 0.8);
   transition: 0.8s;
 
   &--hide {
     // opacity: 0;
     pointer-events: none;
-    transform: translateY(100%);
+    transform: translateY(101%);
   }
 
   &--off {

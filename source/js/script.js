@@ -118,17 +118,6 @@ function setScale(event) {
 
 scaleCheckbox.addEventListener('change', setupScale);
 
-// Blur
-const blurCheckbox = SETTINGS.querySelector('.settings__checkbox--blur');
-
-blurCheckbox.addEventListener('change', function (event) {
-  if (event.currentTarget.checked) {
-    BODY.classList.add('blur');
-  } else {
-    BODY.classList.remove('blur');
-  }
-});
-
 // Deep mode
 let deepFlag = 'main';
 const deepCheckbox = SETTINGS.querySelector('.settings__checkbox--deep');
@@ -251,6 +240,36 @@ function clearSchemeButtons() {
 
 autoschemeCheckbox.addEventListener('change', setAutoscheme);
 
+// Blur
+const blurCheckbox = SETTINGS.querySelector('.settings__checkbox--blur');
+
+blurCheckbox.addEventListener('change', function (event) {
+  if (event.currentTarget.checked) {
+    BODY.classList.add('blur');
+  } else {
+    BODY.classList.remove('blur');
+  }
+});
+
+// Background
+const background = document.querySelector('.background');
+const backgroundCheckbox = SETTINGS.querySelector('.settings__checkbox--background');
+const backgroundVideo = document.querySelector('.background__video');
+
+function showBackground() {
+  if (backgroundCheckbox.checked) {
+    background.classList.remove('background--off');
+    backgroundVideo.src = VIDEO.src;
+    if (videoCurrentTime) {
+      backgroundVideo.currentTime = videoCurrentTime;
+    }
+  } else {
+    background.classList.add('background--off');
+  }
+}
+
+backgroundCheckbox.addEventListener('change', showBackground);
+
 // Series list
 const seriesCheckbox = SETTINGS.querySelector('.settings__checkbox--series');
 const seriesLabel = SETTINGS.querySelector('.settings__label--series');
@@ -291,11 +310,11 @@ function updateRadioStates(activeRadio) {
     if (radio === activeRadio) {
       radio.checked = true;
       radio.setAttribute('checked', 'checked');
-      radio.disabled = true;
+      // radio.disabled = true;
     } else {
       radio.checked = false;
       radio.removeAttribute('checked');
-      radio.disabled = false;
+      // radio.disabled = false;
     }
   });
 }
@@ -404,7 +423,23 @@ function addScheme(scheme) {
   saveScheme(scheme);
 }
 
-// const backgroundVideo = document.querySelector('.video__background');
+// Background
+
+function playBackgroundVideo() {
+  backgroundVideo.play();
+}
+
+function pauseBackgroundVideo() {
+  backgroundVideo.pause();
+}
+
+// function updateBackgroundVideo() {
+//   backgroundVideo.currentTime = videoCurrentTime;
+// }
+
+VIDEO.addEventListener('play', playBackgroundVideo);
+VIDEO.addEventListener('pause', pauseBackgroundVideo);
+// VIDEO.addEventListener('timeupdate', updateBackgroundVideo);
 
 // Console
 const consoleContainer = document.querySelector('.console');
@@ -446,11 +481,11 @@ const consoleCommands = {
   },
   'assassins creed 2': {
     videoSrc: 'video/ACII-trailer.mp4',
-    message: 'Відкрито бонусне відео',
+    message: 'Відкрито бонусне відео &#129413;',
   },
   'tmnt': {
     videoSrc: 'video/TMNT-intro.mp4',
-    message: 'Кавабанга',
+    message: 'Кавабанга &#127829;',
   },
 };
 
@@ -516,23 +551,34 @@ function pauseVideo() {
   } else {
     VIDEO.pause();
   }
-
-  changePauseIcon();
 }
 
 function stopVideo() {
   VIDEO.pause();
+  setPauseIcon();
+}
+
+function setPauseIcon() {
   playButtonIcon.classList.remove('control__icon--hide');
   pauseButtonIcon.classList.add('control__icon--hide');
 }
 
-function changePauseIcon() {
-  playButtonIcon.classList.toggle('control__icon--hide');
-  pauseButtonIcon.classList.toggle('control__icon--hide');
+function setPlayIcon() {
+  playButtonIcon.classList.add('control__icon--hide');
+  pauseButtonIcon.classList.remove('control__icon--hide');
 }
+
+// Temp save, delete in future
+
+// function changePauseIcon() {
+//   playButtonIcon.classList.toggle('control__icon--hide');
+//   pauseButtonIcon.classList.toggle('control__icon--hide');
+// }
 
 playButton.addEventListener('click', pauseVideo);
 VIDEO.addEventListener('click', pauseVideo);
+VIDEO.addEventListener('pause', setPauseIcon);
+VIDEO.addEventListener('play', setPlayIcon);
 
 // Mute
 const muteButton = CONTROLS.querySelector('.control__button--mute');
@@ -723,47 +769,18 @@ function changeSpeed() {
 
 speedButton.addEventListener('click', changeSpeed);
 
-// Picture in picture
+// Picture in picture or PiP
 const pipButton = CONTROLS.querySelector('.control__button--pip');
 
-// function openPip() {
-//   if (document.pictureInPictureElement) {
-//     VIDEO.setAttribute('disablePictureInPicture', 'disablePictureInPicture');
-//     document.exitPictureInPicture()
-//       .then(() => {
-//         pipButton.classList.remove('control__button--active');
-//         pipButton.setAttribute('aria-label', 'Міні-програвач');
-//         pipButton.setAttribute('title', 'Міні-програвач (q)');
-//       })
-//       .catch((error) => {
-//         console.error(error);
-//       });
-//   } else {
-//     VIDEO.removeAttribute('disablePictureInPicture');
-//     VIDEO.requestPictureInPicture()
-//       .then(() => {
-//         pipButton.classList.add('control__button--active');
-//         pipButton.setAttribute('aria-label', 'Закрити міні-програвач');
-//         pipButton.setAttribute('title', 'Закрити міні-програвач (q)');
-//       })
-//       .catch((error) => {
-//         console.error(error);
-//       });
-//   }
-// }
-
-// function closePip() {
-//   pipButton.classList.remove('control__button--active');
-//   VIDEO.setAttribute('disablePictureInPicture', 'disablePictureInPicture');
-
-//   if (VIDEO.paused) {
-//     playButtonIcon.classList.remove('control__icon--hide');
-//     pauseButtonIcon.classList.add('control__icon--hide');
-//   } else {
-//     playButtonIcon.classList.add('control__icon--hide');
-//     pauseButtonIcon.classList.remove('control__icon--hide');
-//   }
-// }
+function setPictureInPicture() {
+  if (document.pictureInPictureElement) {
+    VIDEO.setAttribute('disablePictureInPicture', 'disablePictureInPicture');
+    exitPictureInPicture();
+  } else {
+    VIDEO.removeAttribute('disablePictureInPicture');
+    enterPictureInPicture();
+  }
+}
 
 function enterPictureInPicture() {
   VIDEO.requestPictureInPicture()
@@ -789,22 +806,12 @@ function exitPictureInPicture() {
   }
 }
 
-function openPictureInPicture() {
-  if (document.pictureInPictureElement) {
-    VIDEO.setAttribute('disablePictureInPicture', 'disablePictureInPicture');
-    exitPictureInPicture();
-  } else {
-    VIDEO.removeAttribute('disablePictureInPicture');
-    enterPictureInPicture();
-  }
-}
-
 function updatePipButtonAttributes(ariaLabel, title) {
   pipButton.setAttribute('aria-label', ariaLabel);
   pipButton.setAttribute('title', title);
 }
 
-pipButton.addEventListener('click', openPictureInPicture);
+pipButton.addEventListener('click', setPictureInPicture);
 document.addEventListener('leavepictureinpicture', exitPictureInPicture);
 
 // Fit
@@ -946,14 +953,12 @@ function handleMouseMove() {
 function showControls() {
   CONTROLS.classList.remove('control--hide');
   STATISTICS.classList.remove('statistics--hide');
-  statisticsUFH.classList.remove('statistics__ufh--hide');
   VIDEO.style.cursor = 'auto';
 }
 
 function hideControls() {
   CONTROLS.classList.add('control--hide');
   STATISTICS.classList.add('statistics--hide');
-  statisticsUFH.classList.add('statistics__ufh--hide');
   VIDEO.style.cursor = 'none';
 }
 
@@ -974,14 +979,14 @@ const MAX_FILE_SIZE = 5368709120;
 const supportedFormats = ['video/mp4', 'video/webm', 'video/mkv', 'video/mov'];
 
 // Check and save uploaded files
-let selectedVideos = [];
+let selectedVideo = [];
 
 function handleFiles(event) {
   const files = Array.from(event.target.files);
 
   files.forEach(file => {
     const fileUrl = URL.createObjectURL(file);
-    selectedVideos.push({
+    selectedVideo.push({
       file,
       url: fileUrl,
       src: fileUrl,
@@ -991,17 +996,17 @@ function handleFiles(event) {
     });
   });
 
-  validateFiles(selectedVideos);
+  validateFiles(selectedVideo);
 }
 
 INPUTFILE.addEventListener('change', resetVideo);
 INPUTFILE.addEventListener('change', handleFiles);
 
 // Validate files
-function validateFiles(videos) {
+function validateFiles(video) {
   let showSuccessMessage = true;
 
-  videos.forEach(video => {
+  video.forEach(video => {
     const fileSize = video.file.size;
     const fileType = video.file.type;
 
@@ -1038,11 +1043,11 @@ let currentSubcategory = 'deep';
 let currentVideoIndex = 0;
 let data = null;
 
-fetch('videos.json')
+fetch('video.json')
   .then(response => {
     if (!response.ok) {
       showMessage('Помилка загрузки json &#128531;');
-      throw Error('Failed to load videos.json');
+      throw Error('Failed to load video.json');
     }
     return response.json();
   })
@@ -1068,8 +1073,8 @@ function playCurrentVideo() {
     resetVideo();
   }
 
-  if (selectedVideos.length > 0) {
-    currentVideo = selectedVideos[currentVideoIndex];
+  if (selectedVideo.length > 0) {
+    currentVideo = selectedVideo[currentVideoIndex];
   } else {
     currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
   }
@@ -1085,13 +1090,13 @@ function playCurrentVideo() {
 }
 
 function changeVideoIndex(delta) {
-  if (selectedVideos.length > 0) {
+  if (selectedVideo.length > 0) {
     currentVideoIndex += delta;
 
-    if (currentVideoIndex >= selectedVideos.length) {
+    if (currentVideoIndex >= selectedVideo.length) {
       currentVideoIndex = 0;
     } else if (currentVideoIndex < 0) {
-      currentVideoIndex = selectedVideos.length - 1;
+      currentVideoIndex = selectedVideo.length - 1;
     }
   } else {
     currentVideoIndex += delta;
@@ -1322,7 +1327,7 @@ function handleKey(key, handlers) {
           changeSpeed();
           break;
         case 'openPIP':
-          openPictureInPicture();
+          setPictureInPicture();
           break;
         case 'toggleFitScreen':
           changeFitScreen();
@@ -1416,7 +1421,7 @@ function clearMessage() {
 function generatingSeries() {
   SERIES_LIST.innerHTML = '';
 
-  Array.from(selectedVideos).forEach((file, index) => {
+  Array.from(selectedVideo).forEach((file, index) => {
     const li = document.createElement('li');
     li.className = 'series__item';
     const button = document.createElement('button');
@@ -1481,43 +1486,13 @@ function resetVideo() {
   START_BUTTON.classList.remove('video__start--hide');
   CONTROLS.classList.add('control--off');
   // STATISTICS.classList.add('statistics--off');
-  statisticsUFH.classList.add('statistics--off');
+  statisticsUFH.classList.add('header__ufh--off');
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
   // clearSubtitle();
   stopProgress();
   resetDuration();
 }
-
-// Start
-// function startVideo() {
-//   if (!VIDEO.hasAttribute('src') || VIDEO.src === '' || VIDEO.error) {
-//     openButton.focus();
-//     openButton.classList.add('header__menu--error');
-//     setTimeout(() => {
-//       openButton.classList.remove('header__menu--error');
-//     }, 2000);
-
-//     if (VIDEO.error) {
-//       showMessage(VIDEO.error.message);
-//     }
-//   } else if (VIDEO.readyState >= VIDEO.HAVE_CURRENT_DATA || VIDEO.readyState === HTMLMediaElement.HAVE_ENOUGH_DATA) {
-//     openButton.classList.remove('header__menu--error');
-//     START_BUTTON.classList.add('video__start--hide');
-//     CONTROLS.classList.remove('control--off');
-
-//     VIDEO.play();
-//     VIDEO.focus();
-
-//     getStatistics();
-
-//     if (autoplayFlag) {
-//       VIDEO.addEventListener('loadeddata', startVideo);
-//     }
-//   }
-// }
-
-// START_BUTTON.addEventListener('click', startVideo);
 
 // Start
 function startVideo() {
@@ -1567,95 +1542,6 @@ function handleVideoError() {
 START_BUTTON.addEventListener('click', startVideo);
 
 // STATISTICS
-// let videoWidth;
-// let videoHeight;
-// let videoFormat;
-// let videoDuration;
-// let videoBuffer;
-// // let videoFPS;
-// let videoCurrentTime;
-// let windowWidth = window.innerWidth;
-// let windowHeight = window.innerHeight;
-
-// const statisticsClientTime = STATISTICS.querySelector('.statistics__time');
-// const statisticsEndTime = STATISTICS.querySelector('.statistics__end');
-// const statisticsResolution = STATISTICS.querySelector('.statistics__resolution');
-// const statisticsUFH = document.querySelector('.statistics__ufh');
-// const statisticsFormat = STATISTICS.querySelector('.statistics__format');
-// const statisticsDuration = STATISTICS.querySelector('.statistics__duration');
-// // const statisticsFPS = STATISTICS.querySelector('.statistics__fps');
-// const statisticsBuffer = STATISTICS.querySelector('.statistics__buffer');
-
-// function getStatistics() {
-//   STATISTICS.classList.remove('statistics--hide');
-
-//   if (currentVideo.type) {
-//     videoFormat = currentVideo.type.replace('video/', '');
-//   } else {
-//     videoFormat = VIDEO.src.split('.').pop();
-//   }
-
-//   videoWidth = VIDEO.videoWidth;
-//   videoHeight = VIDEO.videoHeight;
-//   videoDuration = Math.round(VIDEO.duration);
-//   VIDEO_RANGE.setAttribute('max', videoDuration);
-
-//   setStatistics();
-//   checkFitScreen();
-// }
-
-// function setStatistics() {
-//   statisticsResolution.innerHTML = videoWidth + 'x' + videoHeight;
-//   statisticsFormat.innerHTML = videoFormat;
-//   statisticsDuration.innerHTML = videoDuration;
-
-//   if (videoWidth >= 3840) {
-//     statisticsUFH.classList.remove('statistics--off');
-//   } else {
-//     statisticsUFH.classList.add('statistics--off');
-//   }
-// }
-
-// // FPS
-// // let framesRendered = 0;
-// // let startTime = null;
-
-// // function countFrames() {
-// //   if (!startTime) {
-// //     startTime = performance.now();
-// //   }
-
-// //   framesRendered++;
-
-// //   if (performance.now() - startTime >= 1000) {
-// //     videoFPS = framesRendered / ((performance.now() - startTime) / 1000);
-// //     statisticsFPS.innerHTML = Math.round(videoFPS);
-// //     framesRendered = 0;
-// //     startTime = null;
-// //   }
-
-// //   requestAnimationFrame(countFrames);
-// // }
-
-// // VIDEO.addEventListener('play', countFrames);
-
-// // Time
-// function getTime() {
-//   const clientDate = new Date();
-//   const clientHours = clientDate.getHours();
-//   const clientMinutes = clientDate.getMinutes();
-//   statisticsClientTime.innerHTML = clientHours + ':' + clientMinutes;
-// }
-
-// function getEndTime() {
-//   const futureDate = new Date();
-//   futureDate.setSeconds(futureDate.getSeconds() + videoDuration);
-//   const futureClientHours = futureDate.getHours();
-//   const futureClientMinutes = futureDate.getMinutes();
-//   statisticsEndTime.innerHTML = futureClientHours + ':' + futureClientMinutes;
-// }
-
-// STATISTICS
 let videoWidth;
 let videoHeight;
 let videoFormat;
@@ -1667,7 +1553,7 @@ let windowHeight = window.innerHeight;
 const statisticsClientTime = STATISTICS.querySelector('.statistics__time');
 const statisticsEndTime = STATISTICS.querySelector('.statistics__end');
 const statisticsResolution = STATISTICS.querySelector('.statistics__resolution');
-const statisticsUFH = document.querySelector('.statistics__ufh');
+const statisticsUFH = document.querySelector('.header__ufh');
 const statisticsFormat = STATISTICS.querySelector('.statistics__format');
 const statisticsDuration = STATISTICS.querySelector('.statistics__duration');
 const statisticsBuffer = STATISTICS.querySelector('.statistics__buffer');
@@ -1697,9 +1583,9 @@ function setStatistics() {
   statisticsDuration.innerHTML = videoDuration;
 
   if (videoWidth >= 3840) {
-    statisticsUFH.classList.remove('statistics--off');
+    statisticsUFH.classList.remove('header__ufh--off');
   } else {
-    statisticsUFH.classList.add('statistics--off');
+    statisticsUFH.classList.add('header__ufh--off');
   }
 }
 
@@ -1986,3 +1872,36 @@ function removePauseAnimation() {
 VIDEO.addEventListener('pause', pauseAnimation);
 VIDEO.addEventListener('playing', removePauseAnimation);
 VIDEO.addEventListener('ended', removePauseAnimation);
+
+// Beta frame test
+
+// function testFramerate() {
+//   const stream = VIDEO.captureStream(); // Отримуємо потік з відео
+//   const mediaRecorder = new MediaRecorder(stream);
+
+//   mediaRecorder.ondataavailable = (event) => {
+//     if (event.data.size > 0) {
+//       const blob = new Blob([event.data], { type: 'video/webm' });
+//       const url = URL.createObjectURL(blob);
+
+//       // Створюємо тимчасовий відео-елемент для отримання метаданих
+//       const tempVideo = document.createElement('video');
+//       tempVideo.src = url;
+
+//       tempVideo.addEventListener('loadedmetadata', () => {
+//         const framerate = tempVideo.webkitDecodedFrameRate || tempVideo.mozDecodedFrameRate || tempVideo.msDecodedFrameRate || tempVideo.oDecodedFrameRate || tempVideo.decodFrameRate || 'Неможливо визначити';
+
+//         console.log('Кадрова частота відео:', framerate, 'fps');
+
+//         // Очищаємо ресурси
+//         tempVideo.remove();
+//         URL.revokeObjectURL(url);
+//       });
+//     }
+//   };
+
+//   // Починаємо запис відео (це призведе до виклику ondataavailable)
+//   mediaRecorder.start();
+// }
+
+// VIDEO.addEventListener('play', testFramerate);

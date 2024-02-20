@@ -12,23 +12,34 @@ function pauseVideo() {
   } else {
     VIDEO.pause();
   }
-
-  changePauseIcon();
 }
 
 function stopVideo() {
   VIDEO.pause();
+  setPauseIcon();
+}
+
+function setPauseIcon() {
   playButtonIcon.classList.remove('control__icon--hide');
   pauseButtonIcon.classList.add('control__icon--hide');
 }
 
-function changePauseIcon() {
-  playButtonIcon.classList.toggle('control__icon--hide');
-  pauseButtonIcon.classList.toggle('control__icon--hide');
+function setPlayIcon() {
+  playButtonIcon.classList.add('control__icon--hide');
+  pauseButtonIcon.classList.remove('control__icon--hide');
 }
+
+// Temp save, delete in future
+
+// function changePauseIcon() {
+//   playButtonIcon.classList.toggle('control__icon--hide');
+//   pauseButtonIcon.classList.toggle('control__icon--hide');
+// }
 
 playButton.addEventListener('click', pauseVideo);
 VIDEO.addEventListener('click', pauseVideo);
+VIDEO.addEventListener('pause', setPauseIcon);
+VIDEO.addEventListener('play', setPlayIcon);
 
 // Mute
 const muteButton = CONTROLS.querySelector('.control__button--mute');
@@ -219,47 +230,18 @@ function changeSpeed() {
 
 speedButton.addEventListener('click', changeSpeed);
 
-// Picture in picture
+// Picture in picture or PiP
 const pipButton = CONTROLS.querySelector('.control__button--pip');
 
-// function openPip() {
-//   if (document.pictureInPictureElement) {
-//     VIDEO.setAttribute('disablePictureInPicture', 'disablePictureInPicture');
-//     document.exitPictureInPicture()
-//       .then(() => {
-//         pipButton.classList.remove('control__button--active');
-//         pipButton.setAttribute('aria-label', 'Міні-програвач');
-//         pipButton.setAttribute('title', 'Міні-програвач (q)');
-//       })
-//       .catch((error) => {
-//         console.error(error);
-//       });
-//   } else {
-//     VIDEO.removeAttribute('disablePictureInPicture');
-//     VIDEO.requestPictureInPicture()
-//       .then(() => {
-//         pipButton.classList.add('control__button--active');
-//         pipButton.setAttribute('aria-label', 'Закрити міні-програвач');
-//         pipButton.setAttribute('title', 'Закрити міні-програвач (q)');
-//       })
-//       .catch((error) => {
-//         console.error(error);
-//       });
-//   }
-// }
-
-// function closePip() {
-//   pipButton.classList.remove('control__button--active');
-//   VIDEO.setAttribute('disablePictureInPicture', 'disablePictureInPicture');
-
-//   if (VIDEO.paused) {
-//     playButtonIcon.classList.remove('control__icon--hide');
-//     pauseButtonIcon.classList.add('control__icon--hide');
-//   } else {
-//     playButtonIcon.classList.add('control__icon--hide');
-//     pauseButtonIcon.classList.remove('control__icon--hide');
-//   }
-// }
+function setPictureInPicture() {
+  if (document.pictureInPictureElement) {
+    VIDEO.setAttribute('disablePictureInPicture', 'disablePictureInPicture');
+    exitPictureInPicture();
+  } else {
+    VIDEO.removeAttribute('disablePictureInPicture');
+    enterPictureInPicture();
+  }
+}
 
 function enterPictureInPicture() {
   VIDEO.requestPictureInPicture()
@@ -285,22 +267,12 @@ function exitPictureInPicture() {
   }
 }
 
-function openPictureInPicture() {
-  if (document.pictureInPictureElement) {
-    VIDEO.setAttribute('disablePictureInPicture', 'disablePictureInPicture');
-    exitPictureInPicture();
-  } else {
-    VIDEO.removeAttribute('disablePictureInPicture');
-    enterPictureInPicture();
-  }
-}
-
 function updatePipButtonAttributes(ariaLabel, title) {
   pipButton.setAttribute('aria-label', ariaLabel);
   pipButton.setAttribute('title', title);
 }
 
-pipButton.addEventListener('click', openPictureInPicture);
+pipButton.addEventListener('click', setPictureInPicture);
 document.addEventListener('leavepictureinpicture', exitPictureInPicture);
 
 // Fit
@@ -442,14 +414,12 @@ function handleMouseMove() {
 function showControls() {
   CONTROLS.classList.remove('control--hide');
   STATISTICS.classList.remove('statistics--hide');
-  statisticsUFH.classList.remove('statistics__ufh--hide');
   VIDEO.style.cursor = 'auto';
 }
 
 function hideControls() {
   CONTROLS.classList.add('control--hide');
   STATISTICS.classList.add('statistics--hide');
-  statisticsUFH.classList.add('statistics__ufh--hide');
   VIDEO.style.cursor = 'none';
 }
 

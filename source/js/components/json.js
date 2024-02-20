@@ -7,11 +7,11 @@ let currentSubcategory = 'deep';
 let currentVideoIndex = 0;
 let data = null;
 
-fetch('videos.json')
+fetch('video.json')
   .then(response => {
     if (!response.ok) {
       showMessage('Помилка загрузки json &#128531;');
-      throw Error('Failed to load videos.json');
+      throw Error('Failed to load video.json');
     }
     return response.json();
   })
@@ -37,8 +37,8 @@ function playCurrentVideo() {
     resetVideo();
   }
 
-  if (selectedVideos.length > 0) {
-    currentVideo = selectedVideos[currentVideoIndex];
+  if (selectedVideo.length > 0) {
+    currentVideo = selectedVideo[currentVideoIndex];
   } else {
     currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
   }
@@ -54,13 +54,13 @@ function playCurrentVideo() {
 }
 
 function changeVideoIndex(delta) {
-  if (selectedVideos.length > 0) {
+  if (selectedVideo.length > 0) {
     currentVideoIndex += delta;
 
-    if (currentVideoIndex >= selectedVideos.length) {
+    if (currentVideoIndex >= selectedVideo.length) {
       currentVideoIndex = 0;
     } else if (currentVideoIndex < 0) {
-      currentVideoIndex = selectedVideos.length - 1;
+      currentVideoIndex = selectedVideo.length - 1;
     }
   } else {
     currentVideoIndex += delta;

@@ -50,6 +50,13 @@ img {
 
 .blur {
 
+  .background {
+
+    &::after {
+      backdrop-filter: blur(3px);
+    }
+  }
+
   .settings {
     backdrop-filter: blur(0.6px);
   }

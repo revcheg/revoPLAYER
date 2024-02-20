@@ -38,11 +38,11 @@ const consoleCommands = {
   },
   'assassins creed 2': {
     videoSrc: 'video/ACII-trailer.mp4',
-    message: 'Відкрито бонусне відео',
+    message: 'Відкрито бонусне відео &#129413;',
   },
   'tmnt': {
     videoSrc: 'video/TMNT-intro.mp4',
-    message: 'Кавабанга',
+    message: 'Кавабанга &#127829;',
   },
 };
 
