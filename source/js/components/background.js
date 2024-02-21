@@ -1,5 +1,4 @@
 // Background
-
 function playBackgroundVideo() {
   backgroundVideo.play();
 }

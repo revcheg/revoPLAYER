@@ -424,7 +424,6 @@ function addScheme(scheme) {
 }
 
 // Background
-
 function playBackgroundVideo() {
   backgroundVideo.play();
 }
@@ -833,20 +832,7 @@ function changeFitScreen() {
   }
 };
 
-function checkFitScreen() {
-  const userAgent = navigator.userAgent;
-  const isMobile = /Mobile|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
-  const shouldShowButton = isMobile || videoWidth < BODY.clientWidth || videoWidth < WRAPPER.clientWidth;
-
-  if (shouldShowButton) {
-    fitButton.classList.remove('control__button--off');
-  } else {
-    fitButton.classList.add('control__button--off');
-  }
-};
-
 fitButton.addEventListener('click', changeFitScreen);
-document.addEventListener('fullscreenchange', checkFitScreen);
 
 // Cinema mode
 let cinemaFlag = false;
@@ -1561,7 +1547,6 @@ const statisticsBuffer = STATISTICS.querySelector('.statistics__buffer');
 function getStatistics() {
   updateVideoProperties();
   setStatistics();
-  checkFitScreen();
 }
 
 function updateVideoProperties() {

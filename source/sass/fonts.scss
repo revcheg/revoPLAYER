@@ -1,3 +1,4 @@
+// Main font
 @font-face {
   font-display: swap;
   font-family: 'Roboto';
@@ -22,6 +23,7 @@
   src: url('../fonts/roboto-700.woff2') format('woff2');
 }
 
+// Subtitle
 @font-face {
   font-display: swap;
   font-family: 'Chalet';
@@ -38,6 +40,7 @@
   src: url('../fonts/chalet-500.woff2') format('woff2');
 }
 
+// Vice scheme
 @font-face {
   font-display: swap;
   font-family: 'Pricedown';

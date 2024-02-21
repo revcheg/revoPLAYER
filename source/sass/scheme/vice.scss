@@ -17,12 +17,12 @@
 }
 
 // Background
-.background {
+// .background {
 
-  &::after {
-    // background-color: rgba(#F27DFD, 0.4);
-  }
-}
+//   &::after {
+//     background-color: rgba(#F27DFD, 0.4);
+//   }
+// }
 
 // Control
 .control__line {
@@ -105,7 +105,6 @@
 }
 
 .footer__copyright {
-	font-weight: 500;
   font-family: "Chalet", sans-serif;
 
 	&--dev {

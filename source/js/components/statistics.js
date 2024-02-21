@@ -18,7 +18,6 @@ const statisticsBuffer = STATISTICS.querySelector('.statistics__buffer');
 function getStatistics() {
   updateVideoProperties();
   setStatistics();
-  checkFitScreen();
 }
 
 function updateVideoProperties() {
