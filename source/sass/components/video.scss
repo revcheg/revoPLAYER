@@ -120,6 +120,7 @@
   border-radius: 10px;
   transition: background-color 0.8s, opacity 0.8s, transform 0s;
   transition-delay: 0s, 0s, 0.3s;
+  z-index: 5;
 
   &--hide {
     background-color: transparent;
@@ -166,8 +167,26 @@
   transition: 0.2s;
 }
 
-.video__background {
-  display: none;
+.video__name {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  margin: 0;
+  padding: 20px 25px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: "Chalet", sans-serif;
+  transition: 0.8s;
+  text-shadow: 0px 0px 5px #000000, 0px 0px 5px #000000;
+
+  &--hide {
+    opacity: 0;
+    transform: translateY(-101%);
+  }
+
+  &--off {
+    display: none;
+  }
 }
 
 @media (min-width: $tablet-width) {
@@ -182,6 +201,11 @@
   .video__icon {
     width: 150px;
     height: 150px;
+  }
+
+  .video__name {
+    padding: 30px 40px;
+    font-size: 16px;
   }
 }
 
@@ -224,5 +248,9 @@
   .video__icon {
     width: 250px;
     height: 250px;
+  }
+
+  .video__name {
+    font-size: 22px;
   }
 }

@@ -55,6 +55,8 @@
           </svg>
         </button>
 
+        <p class="video__name  video__name--hide  video__name--off">Назва відео</p>
+
         <section class="statistics  statistics--hide  statistics--off">
           <h3 class="visually-hidden">Статистика відео</h3>
           <p class="statistics__category  statistics__category--hide"><span class="statistics__time">00:00</span> (<span class="statistics__end">00:00</span>)</p>
@@ -256,6 +258,10 @@
             <input class="settings__checkbox  settings__checkbox--autoplay" type="checkbox" checked>
             <span class="settings__name">Автоперемикання серій</span>
           </label>
+          <!-- <label class="settings__label">
+            <input class="settings__checkbox  settings__checkbox--subtitle" type="checkbox">
+            <span class="settings__name">Додати фон для субтитрів</span>
+          </label> -->
         </div>
 
         <div class="settings__tab" data-tab="scheme">
@@ -291,7 +297,7 @@
           </label>
           <label class="settings__label  settings__label--series  settings__label--hide">
             <input class="settings__checkbox  settings__checkbox--series" type="checkbox">
-            <span class="settings__name">Винести перелік серій на головний екран</span>
+            <span class="settings__name">Показати перелік відео</span>
           </label>
         </div>
 
@@ -307,6 +313,10 @@
 
         <div class="settings__tab" data-tab="patch">
           <p class="settings__sub">PATCH NOTES</p>
+          <p class="settings__text">
+            <time class="settings__time" datetime="2024.02.22">22.02.2024</time>
+            Виправлення багів попередніх релізів. Зроблено вивід назви відео в кут плеєра.
+          </p>
           <p class="settings__text">
             <time class="settings__time" datetime="2024.02.20">20.02.2024</time>
             Дороблена синхронізація контролів у режимі картинка в картинці (PiP). Додана нова фіча - дублювання відео на фон головного екрану, поки бета варіант. Дрібні косметичні виправлення.

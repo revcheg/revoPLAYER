@@ -4,14 +4,14 @@ const MAX_FILE_SIZE = 5368709120;
 const supportedFormats = ['video/mp4', 'video/webm', 'video/mkv', 'video/mov'];
 
 // Check and save uploaded files
-let selectedVideo = [];
+let uploadedVideo = [];
 
 function handleFiles(event) {
   const files = Array.from(event.target.files);
 
   files.forEach(file => {
     const fileUrl = URL.createObjectURL(file);
-    selectedVideo.push({
+    uploadedVideo.push({
       file,
       url: fileUrl,
       src: fileUrl,
@@ -21,19 +21,19 @@ function handleFiles(event) {
     });
   });
 
-  validateFiles(selectedVideo);
+  validateFiles(uploadedVideo);
 }
 
 INPUTFILE.addEventListener('change', resetVideo);
 INPUTFILE.addEventListener('change', handleFiles);
 
 // Validate files
-function validateFiles(video) {
+function validateFiles(uploadedVideo) {
   let showSuccessMessage = true;
 
-  video.forEach(video => {
-    const fileSize = video.file.size;
-    const fileType = video.file.type;
+  uploadedVideo.forEach(video => {
+    let fileSize = video.file.size;
+    let fileType = video.file.type;
 
     if (fileSize > MAX_FILE_SIZE) {
       showMessage('Файл завеликий &#128548;');
@@ -45,11 +45,13 @@ function validateFiles(video) {
   });
 
   if (showSuccessMessage) {
-    showMessage('Кіноплівка готова &#127909;');
+    if (uploadedVideo.length > 1) {
+      seriesLabel.classList.remove('settings__label--hide');
+    }
     VIDEO.setAttribute('crossorigin', 'anonymous');
-    seriesLabel.classList.remove('settings__label--hide');
     generatingSeries();
     playCurrentVideo();
+    showMessage('Кінострічка готова &#127909;');
   }
 
   INPUTFILE.value = '';

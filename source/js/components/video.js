@@ -80,36 +80,3 @@ function removePauseAnimation() {
 VIDEO.addEventListener('pause', pauseAnimation);
 VIDEO.addEventListener('playing', removePauseAnimation);
 VIDEO.addEventListener('ended', removePauseAnimation);
-
-// Beta frame test
-
-// function testFramerate() {
-//   const stream = VIDEO.captureStream(); // Отримуємо потік з відео
-//   const mediaRecorder = new MediaRecorder(stream);
-
-//   mediaRecorder.ondataavailable = (event) => {
-//     if (event.data.size > 0) {
-//       const blob = new Blob([event.data], { type: 'video/webm' });
-//       const url = URL.createObjectURL(blob);
-
-//       // Створюємо тимчасовий відео-елемент для отримання метаданих
-//       const tempVideo = document.createElement('video');
-//       tempVideo.src = url;
-
-//       tempVideo.addEventListener('loadedmetadata', () => {
-//         const framerate = tempVideo.webkitDecodedFrameRate || tempVideo.mozDecodedFrameRate || tempVideo.msDecodedFrameRate || tempVideo.oDecodedFrameRate || tempVideo.decodFrameRate || 'Неможливо визначити';
-
-//         console.log('Кадрова частота відео:', framerate, 'fps');
-
-//         // Очищаємо ресурси
-//         tempVideo.remove();
-//         URL.revokeObjectURL(url);
-//       });
-//     }
-//   };
-
-//   // Починаємо запис відео (це призведе до виклику ondataavailable)
-//   mediaRecorder.start();
-// }
-
-// VIDEO.addEventListener('play', testFramerate);

@@ -1,7 +1,7 @@
 // CONTROLS
 VIDEO.controls = false;
 
-// Pause
+// Pause and play
 const playButton = CONTROLS.querySelector('.control__button--play');
 const playButtonIcon = CONTROLS.querySelector('.control__icon--play');
 const pauseButtonIcon = CONTROLS.querySelector('.control__icon--pause');
@@ -16,7 +16,6 @@ function pauseVideo() {
 
 function stopVideo() {
   VIDEO.pause();
-  setPauseIcon();
 }
 
 function setPauseIcon() {
@@ -28,13 +27,6 @@ function setPlayIcon() {
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
 }
-
-// Temp save, delete in future
-
-// function changePauseIcon() {
-//   playButtonIcon.classList.toggle('control__icon--hide');
-//   pauseButtonIcon.classList.toggle('control__icon--hide');
-// }
 
 playButton.addEventListener('click', pauseVideo);
 VIDEO.addEventListener('click', pauseVideo);
@@ -144,9 +136,9 @@ volumeRange.addEventListener('wheel', wheelVolume);
 const videoPassed = CONTROLS.querySelector('.control__time--passed');
 const videoLeft = CONTROLS.querySelector('.control__time--left');
 
-function changeDuration() {
-  pauseVideo();
-};
+// function changeDuration() {
+//   pauseVideo();
+// };
 
 function setDuration() {
   let rangeValue = VIDEO_RANGE.value;
@@ -181,8 +173,8 @@ function formatTime(timeInSeconds) {
 }
 
 VIDEO_RANGE.addEventListener('mousedown', stopVideo);
-VIDEO_RANGE.addEventListener('change', changeDuration);
 VIDEO_RANGE.addEventListener('input', setDuration);
+VIDEO_RANGE.addEventListener('change', pauseVideo);
 
 // Wheel duration
 function wheelDuration(event) {
@@ -399,15 +391,17 @@ function handleMouseMove() {
 }
 
 function showControls() {
-  CONTROLS.classList.remove('control--hide');
-  STATISTICS.classList.remove('statistics--hide');
+  statisticsName.classList.remove('video__name--hide');
   VIDEO.style.cursor = 'auto';
+  STATISTICS.classList.remove('statistics--hide');
+  CONTROLS.classList.remove('control--hide');
 }
 
 function hideControls() {
-  CONTROLS.classList.add('control--hide');
-  STATISTICS.classList.add('statistics--hide');
+  statisticsName.classList.add('video__name--hide');
   VIDEO.style.cursor = 'none';
+  STATISTICS.classList.add('statistics--hide');
+  CONTROLS.classList.add('control--hide');
 }
 
 function resetHideControlsTimer() {

@@ -47,6 +47,7 @@
 // subtitleButton.addEventListener('click', changeSubtitle);
 
 const subtitles = document.querySelectorAll('.video__subtitle');
+const subtitlesTrack = VIDEO.textTracks;
 const subtitleButton = CONTROLS.querySelector('.control__button--subtitle');
 const subtitleInfo = subtitleButton.querySelector('.control__info');
 

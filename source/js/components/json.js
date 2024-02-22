@@ -26,9 +26,7 @@ fetch('video.json')
 let currentVideo;
 
 function playCurrentVideo() {
-  playButtonIcon.classList.add('control__icon--hide');
-  pauseButtonIcon.classList.remove('control__icon--hide');
-
+  setPlayIcon();
   stopProgress();
   resetDuration();
   updateActiveButton();
@@ -37,8 +35,8 @@ function playCurrentVideo() {
     resetVideo();
   }
 
-  if (selectedVideo.length > 0) {
-    currentVideo = selectedVideo[currentVideoIndex];
+  if (uploadedVideo.length > 0) {
+    currentVideo = uploadedVideo[currentVideoIndex];
   } else {
     currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
   }
@@ -54,13 +52,13 @@ function playCurrentVideo() {
 }
 
 function changeVideoIndex(delta) {
-  if (selectedVideo.length > 0) {
+  if (uploadedVideo.length > 0) {
     currentVideoIndex += delta;
 
-    if (currentVideoIndex >= selectedVideo.length) {
+    if (currentVideoIndex >= uploadedVideo.length) {
       currentVideoIndex = 0;
     } else if (currentVideoIndex < 0) {
-      currentVideoIndex = selectedVideo.length - 1;
+      currentVideoIndex = uploadedVideo.length - 1;
     }
   } else {
     currentVideoIndex += delta;

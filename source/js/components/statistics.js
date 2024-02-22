@@ -7,6 +7,7 @@ let videoCurrentTime;
 let windowWidth = window.innerWidth;
 let windowHeight = window.innerHeight;
 
+const statisticsName = document.querySelector('.video__name');
 const statisticsClientTime = STATISTICS.querySelector('.statistics__time');
 const statisticsEndTime = STATISTICS.querySelector('.statistics__end');
 const statisticsResolution = STATISTICS.querySelector('.statistics__resolution');
@@ -15,12 +16,27 @@ const statisticsFormat = STATISTICS.querySelector('.statistics__format');
 const statisticsDuration = STATISTICS.querySelector('.statistics__duration');
 const statisticsBuffer = STATISTICS.querySelector('.statistics__buffer');
 
-function getStatistics() {
-  updateVideoProperties();
-  setStatistics();
-}
+// function getStatistics() {
+//   updateVideoProperties();
+//   setStatistics();
+// }
 
-function updateVideoProperties() {
+// function updateVideoProperties() {
+//   videoWidth = VIDEO.videoWidth;
+//   videoHeight = VIDEO.videoHeight;
+//   videoDuration = Math.round(VIDEO.duration);
+//   VIDEO_RANGE.setAttribute('max', videoDuration);
+
+//   if (currentVideo.type) {
+//     videoFormat = currentVideo.type.replace('video/', '');
+//   } else {
+//     videoFormat = VIDEO.src.split('.').pop();
+//   }
+// }
+
+function getStatistics() {
+  statisticsName.classList.remove('video__name--off');
+
   videoWidth = VIDEO.videoWidth;
   videoHeight = VIDEO.videoHeight;
   videoDuration = Math.round(VIDEO.duration);
@@ -31,9 +47,13 @@ function updateVideoProperties() {
   } else {
     videoFormat = VIDEO.src.split('.').pop();
   }
+
+  setStatistics();
 }
 
 function setStatistics() {
+  statisticsName.innerHTML = currentVideo.name;
+
   statisticsResolution.innerHTML = videoWidth + 'x' + videoHeight;
   statisticsFormat.innerHTML = videoFormat;
   statisticsDuration.innerHTML = videoDuration;

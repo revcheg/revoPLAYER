@@ -21,6 +21,7 @@ function resetVideo() {
   VIDEO.pause();
   VIDEO.removeAttribute('src');
   VIDEO.removeAttribute('crossorigin');
+  statisticsName.classList.add('video__name--off');
   WRAPPER.className = 'video__wrapper';
   START_BUTTON.classList.remove('video__start--hide');
   CONTROLS.classList.add('control--off');

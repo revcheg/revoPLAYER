@@ -2,6 +2,7 @@
   "bonus": {
     "main": [
       {
+        "name": "Назва відео",
         "title": "Bonus video",
         "src": "",
         "description": "Опис відео"
@@ -11,6 +12,7 @@
   "TheWitcher": {
     "main": [
       {
+        "name": "Назва відео",
         "title": "The Witcher III, main video",
         "src": "/video/TheWitcher/main.webm",
         "description": "Опис відео"
@@ -18,6 +20,7 @@
     ],
     "deep": [
       {
+        "name": "The Witcher III - Дикій Гін / deep",
         "title": "The Witcher III, deep video",
         "src": "/video/TheWitcher/deep.webm",
         "description": "Опис відео",
@@ -39,59 +42,26 @@
   "Cyberpunk": {
     "main": [
       {
+        "name": "Назва відео",
         "title": "Cyberpunk 2077, main video",
         "src": "/video/Cyberpunk/main.webm",
-        "description": "Опис відео",
-        "subtitle": {
-          "ua": {
-            "src": "/subtitle/Cyberpunk/main-uk.vtt",
-            "srclang": "uk",
-            "label": "Ukranian"
-          },
-          "en": {
-            "src": "/subtitle/Cyberpunk/main-en.vtt",
-            "srclang": "en",
-            "label": "English"
-          }
-        }
+        "description": "Опис відео"
       }
     ],
     "deep": [
       {
+        "name": "Назва відео",
         "title": "Cyberpunk 2077, deep video",
         "src": "/video/Cyberpunk/deep.webm",
-        "description": "Опис відео",
-        "subtitle": {
-          "ua": {
-            "src": "/subtitle/Cyberpunk/deep-uk.vtt",
-            "srclang": "uk",
-            "label": "Ukranian"
-          },
-          "en": {
-            "src": "/subtitle/Cyberpunk/deep-en.vtt",
-            "srclang": "en",
-            "label": "English"
-          }
-        }
+        "description": "Опис відео"
       }
     ],
     "bonus": [
       {
+        "name": "Назва відео",
         "title": "Cyberpunk 2077, bonus video",
         "src": "/video/Cyberpunk/bonus.webm",
-        "description": "Опис відео",
-        "subtitle": {
-          "ua": {
-            "src": "/subtitle/Cyberpunk/bonus-uk.vtt",
-            "srclang": "uk",
-            "label": "Ukranian"
-          },
-          "en": {
-            "src": "/subtitle/Cyberpunk/bonus-en.vtt",
-            "srclang": "en",
-            "label": "English"
-          }
-        }
+        "description": "Опис відео"
       }
     ]
   }

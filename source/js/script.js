@@ -187,9 +187,35 @@ function setAutoplay() {
     autoplayFlag = false;
     VIDEO.removeEventListener('loadeddata', startVideo);
   }
-};
+}
 
 autoplayCheckbox.addEventListener('change', setAutoplay);
+
+// Subtitle background
+// const subtitleCheckbox = SETTINGS.querySelector('.settings__checkbox--subtitle');
+
+// function setBackgroundSubtitle() {
+//   const textTracks = VIDEO.textTracks;
+
+//   for (const track of textTracks) {
+//     const cues = track.cues;
+
+//     // Перевірка, чи `cues` визначено та чи є ітерабельним
+//     if (cues && cues.length > 0) {
+//       for (let i = 0; i < cues.length; i++) {
+//         const cue = cues[i];
+//         const cueElement = cue.getCueAsHTML();
+
+//         // Перевірка, чи є HTML-представлення та чи має елемент стиль
+//         if (cueElement && cueElement.style) {
+//           cueElement.style.backgroundColor = subtitleCheckbox.checked ? 'rgba(255, 0, 0, 0.5)' : 'transparent';
+//         }
+//       }
+//     }
+//   }
+// }
+
+// subtitleCheckbox.addEventListener('change', setBackgroundSubtitle);
 
 // Auto scheme
 const autoschemeCheckbox = SETTINGS.querySelector('.settings__checkbox--autoscheme');
@@ -539,7 +565,7 @@ devButton.addEventListener('click', devClicks);
 // CONTROLS
 VIDEO.controls = false;
 
-// Pause
+// Pause and play
 const playButton = CONTROLS.querySelector('.control__button--play');
 const playButtonIcon = CONTROLS.querySelector('.control__icon--play');
 const pauseButtonIcon = CONTROLS.querySelector('.control__icon--pause');
@@ -554,7 +580,6 @@ function pauseVideo() {
 
 function stopVideo() {
   VIDEO.pause();
-  setPauseIcon();
 }
 
 function setPauseIcon() {
@@ -566,13 +591,6 @@ function setPlayIcon() {
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
 }
-
-// Temp save, delete in future
-
-// function changePauseIcon() {
-//   playButtonIcon.classList.toggle('control__icon--hide');
-//   pauseButtonIcon.classList.toggle('control__icon--hide');
-// }
 
 playButton.addEventListener('click', pauseVideo);
 VIDEO.addEventListener('click', pauseVideo);
@@ -682,9 +700,9 @@ volumeRange.addEventListener('wheel', wheelVolume);
 const videoPassed = CONTROLS.querySelector('.control__time--passed');
 const videoLeft = CONTROLS.querySelector('.control__time--left');
 
-function changeDuration() {
-  pauseVideo();
-};
+// function changeDuration() {
+//   pauseVideo();
+// };
 
 function setDuration() {
   let rangeValue = VIDEO_RANGE.value;
@@ -719,8 +737,8 @@ function formatTime(timeInSeconds) {
 }
 
 VIDEO_RANGE.addEventListener('mousedown', stopVideo);
-VIDEO_RANGE.addEventListener('change', changeDuration);
 VIDEO_RANGE.addEventListener('input', setDuration);
+VIDEO_RANGE.addEventListener('change', pauseVideo);
 
 // Wheel duration
 function wheelDuration(event) {
@@ -937,15 +955,17 @@ function handleMouseMove() {
 }
 
 function showControls() {
-  CONTROLS.classList.remove('control--hide');
-  STATISTICS.classList.remove('statistics--hide');
+  statisticsName.classList.remove('video__name--hide');
   VIDEO.style.cursor = 'auto';
+  STATISTICS.classList.remove('statistics--hide');
+  CONTROLS.classList.remove('control--hide');
 }
 
 function hideControls() {
-  CONTROLS.classList.add('control--hide');
-  STATISTICS.classList.add('statistics--hide');
+  statisticsName.classList.add('video__name--hide');
   VIDEO.style.cursor = 'none';
+  STATISTICS.classList.add('statistics--hide');
+  CONTROLS.classList.add('control--hide');
 }
 
 function resetHideControlsTimer() {
@@ -965,14 +985,14 @@ const MAX_FILE_SIZE = 5368709120;
 const supportedFormats = ['video/mp4', 'video/webm', 'video/mkv', 'video/mov'];
 
 // Check and save uploaded files
-let selectedVideo = [];
+let uploadedVideo = [];
 
 function handleFiles(event) {
   const files = Array.from(event.target.files);
 
   files.forEach(file => {
     const fileUrl = URL.createObjectURL(file);
-    selectedVideo.push({
+    uploadedVideo.push({
       file,
       url: fileUrl,
       src: fileUrl,
@@ -982,19 +1002,19 @@ function handleFiles(event) {
     });
   });
 
-  validateFiles(selectedVideo);
+  validateFiles(uploadedVideo);
 }
 
 INPUTFILE.addEventListener('change', resetVideo);
 INPUTFILE.addEventListener('change', handleFiles);
 
 // Validate files
-function validateFiles(video) {
+function validateFiles(uploadedVideo) {
   let showSuccessMessage = true;
 
-  video.forEach(video => {
-    const fileSize = video.file.size;
-    const fileType = video.file.type;
+  uploadedVideo.forEach(video => {
+    let fileSize = video.file.size;
+    let fileType = video.file.type;
 
     if (fileSize > MAX_FILE_SIZE) {
       showMessage('Файл завеликий &#128548;');
@@ -1006,11 +1026,13 @@ function validateFiles(video) {
   });
 
   if (showSuccessMessage) {
-    showMessage('Кіноплівка готова &#127909;');
+    if (uploadedVideo.length > 1) {
+      seriesLabel.classList.remove('settings__label--hide');
+    }
     VIDEO.setAttribute('crossorigin', 'anonymous');
-    seriesLabel.classList.remove('settings__label--hide');
     generatingSeries();
     playCurrentVideo();
+    showMessage('Кінострічка готова &#127909;');
   }
 
   INPUTFILE.value = '';
@@ -1048,9 +1070,7 @@ fetch('video.json')
 let currentVideo;
 
 function playCurrentVideo() {
-  playButtonIcon.classList.add('control__icon--hide');
-  pauseButtonIcon.classList.remove('control__icon--hide');
-
+  setPlayIcon();
   stopProgress();
   resetDuration();
   updateActiveButton();
@@ -1059,8 +1079,8 @@ function playCurrentVideo() {
     resetVideo();
   }
 
-  if (selectedVideo.length > 0) {
-    currentVideo = selectedVideo[currentVideoIndex];
+  if (uploadedVideo.length > 0) {
+    currentVideo = uploadedVideo[currentVideoIndex];
   } else {
     currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
   }
@@ -1076,13 +1096,13 @@ function playCurrentVideo() {
 }
 
 function changeVideoIndex(delta) {
-  if (selectedVideo.length > 0) {
+  if (uploadedVideo.length > 0) {
     currentVideoIndex += delta;
 
-    if (currentVideoIndex >= selectedVideo.length) {
+    if (currentVideoIndex >= uploadedVideo.length) {
       currentVideoIndex = 0;
     } else if (currentVideoIndex < 0) {
-      currentVideoIndex = selectedVideo.length - 1;
+      currentVideoIndex = uploadedVideo.length - 1;
     }
   } else {
     currentVideoIndex += delta;
@@ -1407,7 +1427,7 @@ function clearMessage() {
 function generatingSeries() {
   SERIES_LIST.innerHTML = '';
 
-  Array.from(selectedVideo).forEach((file, index) => {
+  Array.from(uploadedVideo).forEach((file, index) => {
     const li = document.createElement('li');
     li.className = 'series__item';
     const button = document.createElement('button');
@@ -1468,6 +1488,7 @@ function resetVideo() {
   VIDEO.pause();
   VIDEO.removeAttribute('src');
   VIDEO.removeAttribute('crossorigin');
+  statisticsName.classList.add('video__name--off');
   WRAPPER.className = 'video__wrapper';
   START_BUTTON.classList.remove('video__start--hide');
   CONTROLS.classList.add('control--off');
@@ -1536,6 +1557,7 @@ let videoCurrentTime;
 let windowWidth = window.innerWidth;
 let windowHeight = window.innerHeight;
 
+const statisticsName = document.querySelector('.video__name');
 const statisticsClientTime = STATISTICS.querySelector('.statistics__time');
 const statisticsEndTime = STATISTICS.querySelector('.statistics__end');
 const statisticsResolution = STATISTICS.querySelector('.statistics__resolution');
@@ -1544,12 +1566,27 @@ const statisticsFormat = STATISTICS.querySelector('.statistics__format');
 const statisticsDuration = STATISTICS.querySelector('.statistics__duration');
 const statisticsBuffer = STATISTICS.querySelector('.statistics__buffer');
 
-function getStatistics() {
-  updateVideoProperties();
-  setStatistics();
-}
+// function getStatistics() {
+//   updateVideoProperties();
+//   setStatistics();
+// }
 
-function updateVideoProperties() {
+// function updateVideoProperties() {
+//   videoWidth = VIDEO.videoWidth;
+//   videoHeight = VIDEO.videoHeight;
+//   videoDuration = Math.round(VIDEO.duration);
+//   VIDEO_RANGE.setAttribute('max', videoDuration);
+
+//   if (currentVideo.type) {
+//     videoFormat = currentVideo.type.replace('video/', '');
+//   } else {
+//     videoFormat = VIDEO.src.split('.').pop();
+//   }
+// }
+
+function getStatistics() {
+  statisticsName.classList.remove('video__name--off');
+
   videoWidth = VIDEO.videoWidth;
   videoHeight = VIDEO.videoHeight;
   videoDuration = Math.round(VIDEO.duration);
@@ -1560,9 +1597,13 @@ function updateVideoProperties() {
   } else {
     videoFormat = VIDEO.src.split('.').pop();
   }
+
+  setStatistics();
 }
 
 function setStatistics() {
+  statisticsName.innerHTML = currentVideo.name;
+
   statisticsResolution.innerHTML = videoWidth + 'x' + videoHeight;
   statisticsFormat.innerHTML = videoFormat;
   statisticsDuration.innerHTML = videoDuration;
@@ -1653,6 +1694,7 @@ function getEndTime() {
 // subtitleButton.addEventListener('click', changeSubtitle);
 
 const subtitles = document.querySelectorAll('.video__subtitle');
+const subtitlesTrack = VIDEO.textTracks;
 const subtitleButton = CONTROLS.querySelector('.control__button--subtitle');
 const subtitleInfo = subtitleButton.querySelector('.control__info');
 
@@ -1857,36 +1899,3 @@ function removePauseAnimation() {
 VIDEO.addEventListener('pause', pauseAnimation);
 VIDEO.addEventListener('playing', removePauseAnimation);
 VIDEO.addEventListener('ended', removePauseAnimation);
-
-// Beta frame test
-
-// function testFramerate() {
-//   const stream = VIDEO.captureStream(); // Отримуємо потік з відео
-//   const mediaRecorder = new MediaRecorder(stream);
-
-//   mediaRecorder.ondataavailable = (event) => {
-//     if (event.data.size > 0) {
-//       const blob = new Blob([event.data], { type: 'video/webm' });
-//       const url = URL.createObjectURL(blob);
-
-//       // Створюємо тимчасовий відео-елемент для отримання метаданих
-//       const tempVideo = document.createElement('video');
-//       tempVideo.src = url;
-
-//       tempVideo.addEventListener('loadedmetadata', () => {
-//         const framerate = tempVideo.webkitDecodedFrameRate || tempVideo.mozDecodedFrameRate || tempVideo.msDecodedFrameRate || tempVideo.oDecodedFrameRate || tempVideo.decodFrameRate || 'Неможливо визначити';
-
-//         console.log('Кадрова частота відео:', framerate, 'fps');
-
-//         // Очищаємо ресурси
-//         tempVideo.remove();
-//         URL.revokeObjectURL(url);
-//       });
-//     }
-//   };
-
-//   // Починаємо запис відео (це призведе до виклику ondataavailable)
-//   mediaRecorder.start();
-// }
-
-// VIDEO.addEventListener('play', testFramerate);

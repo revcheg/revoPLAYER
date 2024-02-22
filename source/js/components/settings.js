@@ -169,9 +169,35 @@ function setAutoplay() {
     autoplayFlag = false;
     VIDEO.removeEventListener('loadeddata', startVideo);
   }
-};
+}
 
 autoplayCheckbox.addEventListener('change', setAutoplay);
+
+// Subtitle background
+// const subtitleCheckbox = SETTINGS.querySelector('.settings__checkbox--subtitle');
+
+// function setBackgroundSubtitle() {
+//   const textTracks = VIDEO.textTracks;
+
+//   for (const track of textTracks) {
+//     const cues = track.cues;
+
+//     // Перевірка, чи `cues` визначено та чи є ітерабельним
+//     if (cues && cues.length > 0) {
+//       for (let i = 0; i < cues.length; i++) {
+//         const cue = cues[i];
+//         const cueElement = cue.getCueAsHTML();
+
+//         // Перевірка, чи є HTML-представлення та чи має елемент стиль
+//         if (cueElement && cueElement.style) {
+//           cueElement.style.backgroundColor = subtitleCheckbox.checked ? 'rgba(255, 0, 0, 0.5)' : 'transparent';
+//         }
+//       }
+//     }
+//   }
+// }
+
+// subtitleCheckbox.addEventListener('change', setBackgroundSubtitle);
 
 // Auto scheme
 const autoschemeCheckbox = SETTINGS.querySelector('.settings__checkbox--autoscheme');
