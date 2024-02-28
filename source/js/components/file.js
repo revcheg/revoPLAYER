@@ -1,6 +1,7 @@
 // File
-const INPUTFILE = document.querySelector('.settings__file');
 const MAX_FILE_SIZE = 5368709120;
+const INPUTFILE = document.querySelector('.settings__file');
+const INPUTFILE_OUTPUT = document.querySelector('.settings__output');
 const supportedFormats = ['video/mp4', 'video/webm', 'video/mkv', 'video/mov'];
 
 // Check and save uploaded files
@@ -48,6 +49,7 @@ function validateFiles(uploadedVideo) {
     if (uploadedVideo.length > 1) {
       seriesLabel.classList.remove('settings__label--hide');
     }
+    INPUTFILE_OUTPUT.innerHTML = uploadedVideo[0].name;
     VIDEO.setAttribute('crossorigin', 'anonymous');
     generatingSeries();
     playCurrentVideo();

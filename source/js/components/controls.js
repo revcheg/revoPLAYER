@@ -14,6 +14,10 @@ function pauseVideo() {
   }
 }
 
+function playVideo() {
+  VIDEO.play();
+}
+
 function stopVideo() {
   VIDEO.pause();
 }
@@ -174,7 +178,7 @@ function formatTime(timeInSeconds) {
 
 VIDEO_RANGE.addEventListener('mousedown', stopVideo);
 VIDEO_RANGE.addEventListener('input', setDuration);
-VIDEO_RANGE.addEventListener('change', pauseVideo);
+VIDEO_RANGE.addEventListener('change', playVideo);
 
 // Wheel duration
 function wheelDuration(event) {

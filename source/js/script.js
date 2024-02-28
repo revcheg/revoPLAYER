@@ -57,7 +57,6 @@ function showAddCheckbox(event) {
 
   STATISTICS.classList.toggle('statistics--off', !checked);
   statisticsAdditional.classList.toggle('settings__label--hide', !checked);
-  statisticsAdditionalCheckbox.disabled = !checked;
 
   if (!checked) {
     statisticsAdditionalCheckbox.checked = false;
@@ -164,10 +163,8 @@ function showAddControls() {
   additionalControls.forEach(control => {
     if (controlsCheckbox.checked) {
       control.classList.remove('control__button--hide');
-      control.removeAttribute('disabled');
     } else {
       control.classList.add('control__button--hide');
-      control.setAttribute('disabled', 'disabled');
     }
   });
 }
@@ -336,11 +333,9 @@ function updateRadioStates(activeRadio) {
     if (radio === activeRadio) {
       radio.checked = true;
       radio.setAttribute('checked', 'checked');
-      // radio.disabled = true;
     } else {
       radio.checked = false;
       radio.removeAttribute('checked');
-      // radio.disabled = false;
     }
   });
 }
@@ -578,6 +573,10 @@ function pauseVideo() {
   }
 }
 
+function playVideo() {
+  VIDEO.play();
+}
+
 function stopVideo() {
   VIDEO.pause();
 }
@@ -738,7 +737,7 @@ function formatTime(timeInSeconds) {
 
 VIDEO_RANGE.addEventListener('mousedown', stopVideo);
 VIDEO_RANGE.addEventListener('input', setDuration);
-VIDEO_RANGE.addEventListener('change', pauseVideo);
+VIDEO_RANGE.addEventListener('change', playVideo);
 
 // Wheel duration
 function wheelDuration(event) {
@@ -980,8 +979,9 @@ WRAPPER.addEventListener('mouseleave', hideControls);
 WRAPPER.addEventListener('mouseenter', resetHideControlsTimer);
 
 // File
-const INPUTFILE = document.querySelector('.settings__file');
 const MAX_FILE_SIZE = 5368709120;
+const INPUTFILE = document.querySelector('.settings__file');
+const INPUTFILE_OUTPUT = document.querySelector('.settings__output');
 const supportedFormats = ['video/mp4', 'video/webm', 'video/mkv', 'video/mov'];
 
 // Check and save uploaded files
@@ -1029,6 +1029,7 @@ function validateFiles(uploadedVideo) {
     if (uploadedVideo.length > 1) {
       seriesLabel.classList.remove('settings__label--hide');
     }
+    INPUTFILE_OUTPUT.innerHTML = uploadedVideo[0].name;
     VIDEO.setAttribute('crossorigin', 'anonymous');
     generatingSeries();
     playCurrentVideo();

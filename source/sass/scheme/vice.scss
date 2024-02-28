@@ -199,6 +199,17 @@
 	}
 }
 
+.settings__label {
+
+	&--hide {
+		margin-top: -29px;
+	}
+}
+
+.settings__output {
+	font-family: "Chalet", sans-serif;
+}
+
 @media (min-width: 768px) {
 	.settings__button {
 		font-size: 25px;
@@ -216,7 +227,7 @@
 	.settings__label {
 
 		&--hide {
-			margin-top: -42px;
+			margin-top: -41px;
 		}
 	}
 
@@ -284,9 +295,16 @@
 	}
 }
 
+.video__name {
+	font-weight: 500;
+	font-family: "Chalet", sans-serif;
+}
+
 // Statistics
 .statistics {
 	color: #F27DFD;
+	font-weight: 500;
+	font-family: "Chalet", sans-serif;
 }
 
 @media (min-width: 768px) {

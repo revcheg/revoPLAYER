@@ -10,9 +10,9 @@
     <link rel="stylesheet" href="css/dark.css" media="(prefers-color-scheme: dark)">
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F8F0FB">
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#02182B">
-    <link rel="preload" href="fonts/roboto-300.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-    <link rel="preload" href="fonts/roboto-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-    <link rel="preload" href="fonts/roboto-700.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="fonts/nunito-300.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="fonts/nunito-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="fonts/nunito-700.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     <link rel="icon" href="img/favicons/favicon.svg" media="(prefers-color-scheme: light)" type="image/svg+xml">
     <link rel="icon" href="img/favicons/favicon-dark.svg" media="(prefers-color-scheme: dark)" type="image/svg+xml">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -55,7 +55,7 @@
           </svg>
         </button>
 
-        <p class="video__name  video__name--hide  video__name--off">Назва відео</p>
+        <p class="video__name  video__name--hide  video__name--off">Назва стрічки</p>
 
         <section class="statistics  statistics--hide  statistics--off">
           <h3 class="visually-hidden">Статистика відео</h3>
@@ -112,29 +112,29 @@
             </button>
             <input class="control__range  control__range--volume" step="0.1" min="0" max="1" value="0.5" aria-label="Гучність" title="Гучність (up+down arrow)" type="range">
           </div>
-          <button class="button  control__button  control__button--subtitle  control__button--hide  control__button--off" aria-label="Увімкнути субтитри" title="Увімкнути субтитри (c)" type="button" disabled>
+          <button class="button  control__button  control__button--subtitle  control__button--hide  control__button--off" aria-label="Увімкнути субтитри" title="Увімкнути субтитри (c)" type="button">
             <span class="control__info  control__info--hide"></span>
             <svg class="control__icon  control__icon--subtitle" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
               <use href="img/sprite.svg#subtitle"></use>
             </svg>
           </button>
-          <button class="button  control__button  control__button--speed  control__button--hide" aria-label="Збільшити швидкість відео" title="Збільшити швидкість відео (s)" type="button" disabled>
+          <button class="button  control__button  control__button--speed  control__button--hide" aria-label="Збільшити швидкість відео" title="Збільшити швидкість відео (s)" type="button">
             <span class="control__info  control__info--hide"></span>
             <svg class="control__icon  control__icon--speed" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
               <use href="img/sprite.svg#speed"></use>
             </svg>
           </button>
-          <button class="button  control__button  control__button--pip  control__button--hide" aria-label="Міні-програвач" title="Міні-програвач (p)" type="button" disabled>
+          <button class="button  control__button  control__button--pip  control__button--hide" aria-label="Міні-програвач" title="Міні-програвач (p)" type="button">
             <svg class="control__icon  control__icon--pip" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16">
               <use href="img/sprite.svg#pip"></use>
             </svg>
           </button>
-          <button class="button  control__button  control__button--fit  control__button--hide  control__button--off" aria-label="Ростягнути зображення" title="Ростягнути зображення (x)" type="button" disabled>
+          <button class="button  control__button  control__button--fit  control__button--hide  control__button--off" aria-label="Ростягнути зображення" title="Ростягнути зображення (x)" type="button">
             <svg class="control__icon  control__icon--fit" xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 32 32">
               <use href="img/sprite.svg#fit"></use>
             </svg>
           </button>
-          <button class="button  control__button  control__button--cinema  control__button--hide  control__button--off" aria-label="Режим кінотеатру" title="Режим кінотеатру (t)" type="button" disabled>
+          <button class="button  control__button  control__button--cinema  control__button--hide  control__button--off" aria-label="Режим кінотеатру" title="Режим кінотеатру (t)" type="button">
             <svg class="control__icon  control__icon--cinema" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
               <use href="img/sprite.svg#cinema"></use>
             </svg>
@@ -223,15 +223,15 @@
             <span class="settings__name">Зробити плеєр об'ємним</span>
           </label>
           <label class="settings__label">
-            <input class="settings__checkbox  settings__checkbox--hq" type="checkbox" disabled>
+            <input class="settings__checkbox  settings__checkbox--hq" type="checkbox">
             <span class="settings__name">Найкраща якість (чекаємо сервер)</span>
           </label>
           <label class="settings__label">
-            <input class="settings__checkbox  settings__checkbox--deep" type="checkbox" disabled>
+            <input class="settings__checkbox  settings__checkbox--deep" type="checkbox">
             <span class="settings__name">Deep mode</span>
           </label>
           <!-- <label class="settings__label">
-            <input class="settings__checkbox  settings__checkbox--background" type="checkbox" disabled>
+            <input class="settings__checkbox  settings__checkbox--background" type="checkbox">
             <span class="settings__name">Додати слой відео на фон (для впевнених у собі)</span>
           </label> -->
         </div>
@@ -243,7 +243,7 @@
             <span class="settings__name">Відображати вікно статистики</span>
           </label>
           <label class="settings__label  settings__label--add  settings__label--hide">
-            <input class="settings__checkbox  settings__checkbox--additional" type="checkbox" disabled>
+            <input class="settings__checkbox  settings__checkbox--additional" type="checkbox">
             <span class="settings__name">Доповнена статистика</span>
           </label>
           <label class="settings__label">
@@ -294,6 +294,7 @@
           <button class="button  settings__video" data-video="Cyberpunk" aria-label="Увімкнути відео Cyberpunk 2077" title="Увімкнути відео Cyberpunk 2077" type="button">Cyberpunk 2077</button>
           <label class="settings__label  settings__label--file">
             <input class="button  settings__file" aria-label="Завантажити власне відео" title="Завантажити власне відео" accept="video/*" type="file" multiple>
+            <span class="settings__output">Обрати власне відео</span>
           </label>
           <label class="settings__label  settings__label--series  settings__label--hide">
             <input class="settings__checkbox  settings__checkbox--series" type="checkbox">
