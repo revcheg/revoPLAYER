@@ -1540,7 +1540,7 @@ function handleVideoError() {
   openButton.classList.add('header__menu--error');
   setTimeout(() => {
     openButton.classList.remove('header__menu--error');
-  }, 2000);
+  }, 2100);
 
   if (VIDEO.error) {
     showMessage(VIDEO.error.message);

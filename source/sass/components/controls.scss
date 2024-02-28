@@ -91,11 +91,11 @@
   }
 
   &--unmuted {
-    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
   }
 
   &--muted {
-    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
   }
 }
 

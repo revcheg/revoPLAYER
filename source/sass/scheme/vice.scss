@@ -203,14 +203,6 @@
 	}
 }
 
-.settings__label {
-	margin-bottom: 13px;
-
-	&--hide {
-		margin-top: -33px;
-	}
-}
-
 .settings__output {
 	font-family: "Chalet", sans-serif;
 }
@@ -232,7 +224,7 @@
 	.settings__label {
 
 		&--hide {
-			margin-top: -41px;
+			margin-top: -35px;
 		}
 	}
 
@@ -262,13 +254,6 @@
 
 	.settings__name {
 		font-size: 25px;
-	}
-
-	.settings__label {
-
-		&--hide {
-			margin-top: -45px;
-		}
 	}
 
 	.settings__item {
