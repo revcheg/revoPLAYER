@@ -61,13 +61,13 @@
 .settings__button {
   // position: relative;
   margin-right: 15px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   padding: 10px 15px;
   color: #FFFFFF;
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 700;
   border-radius: 30px;
-  transition: 0.6s;
+  transition: all 0.6s, font-size 0s;
 
   &:last-child {
     margin-right: 0;

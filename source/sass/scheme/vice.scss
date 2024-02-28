@@ -133,6 +133,10 @@
 	background-color: rgba(#7D88FD, 0.9);
 }
 
+.settings__control {
+	padding: 0px;
+}
+
 .settings__button {
 	padding: 10px 20px;
 	font-size: 20px;
@@ -200,9 +204,10 @@
 }
 
 .settings__label {
+	margin-bottom: 13px;
 
 	&--hide {
-		margin-top: -29px;
+		margin-top: -33px;
 	}
 }
 
