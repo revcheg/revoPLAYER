@@ -75,6 +75,10 @@
   &--prev {
     transform: rotate(180deg);
   }
+
+  &--fit {
+    display: none;
+  }
 }
 
 .control__icon {

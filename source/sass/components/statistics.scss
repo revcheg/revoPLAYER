@@ -7,10 +7,9 @@
   border-top-right-radius: 10px;
   border-bottom-left-radius: 10px;
   background-color: rgba($dark-element, 0.8);
-  transition: 0.8s;
+  transition: 0.7s;
 
   &--hide {
-    opacity: 0;
     transform: translateY(-101%);
   }
 
