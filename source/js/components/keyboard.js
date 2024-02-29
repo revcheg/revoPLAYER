@@ -142,7 +142,7 @@ function handleKey(key, handlers) {
     if (handlers[action] === key) {
       switch (action) {
         case 'playPause':
-          pauseVideo();
+          toggleVideo();
           break;
         case 'skipBackward':
           VIDEO.currentTime -= 5;

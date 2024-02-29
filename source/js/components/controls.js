@@ -6,11 +6,11 @@ const playButton = CONTROLS.querySelector('.control__button--play');
 const playButtonIcon = CONTROLS.querySelector('.control__icon--play');
 const pauseButtonIcon = CONTROLS.querySelector('.control__icon--pause');
 
-function pauseVideo() {
+function toggleVideo() {
   if (VIDEO.paused) {
-    VIDEO.play();
+    playVideo();
   } else {
-    VIDEO.pause();
+    pauseVideo();
   }
 }
 
@@ -18,7 +18,7 @@ function playVideo() {
   VIDEO.play();
 }
 
-function stopVideo() {
+function pauseVideo() {
   VIDEO.pause();
 }
 
@@ -32,8 +32,8 @@ function setPlayIcon() {
   pauseButtonIcon.classList.remove('control__icon--hide');
 }
 
-playButton.addEventListener('click', pauseVideo);
-VIDEO.addEventListener('click', pauseVideo);
+playButton.addEventListener('click', toggleVideo);
+VIDEO.addEventListener('click', toggleVideo);
 VIDEO.addEventListener('pause', setPauseIcon);
 VIDEO.addEventListener('play', setPlayIcon);
 
@@ -176,7 +176,7 @@ function formatTime(timeInSeconds) {
   return hours + ':' + minutes + ':' + seconds;
 }
 
-VIDEO_RANGE.addEventListener('mousedown', stopVideo);
+VIDEO_RANGE.addEventListener('mousedown', pauseVideo);
 VIDEO_RANGE.addEventListener('input', setDuration);
 VIDEO_RANGE.addEventListener('change', playVideo);
 

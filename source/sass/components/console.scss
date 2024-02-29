@@ -56,7 +56,6 @@
   font-size: 50px;
   font-weight: 700;
   font-family: inherit;
-  // letter-spacing: 5px;
   text-align: center;
   text-transform: uppercase;
   border: none;
@@ -65,6 +64,27 @@
   &:focus {
     outline: none;
   }
+
+  &--checkbox {
+    width: auto;
+    padding: 0;
+  }
+}
+
+.console__label {
+  position: absolute;
+  bottom: 35px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.console__dev {
+  margin-left: 5px;
+  font-size: 15px;
+  font-weight: 300;
+  opacity: 0.6;
 }
 
 @media (min-width: $tablet-width) {
@@ -84,6 +104,15 @@
   .console__input {
     font-size: 60px;
   }
+
+  .console__label {
+    left: 30px;
+  }
+
+  .console__dev {
+    margin-left: 10px;
+    font-size: 18px;
+  }
 }
 
 @media (min-width: $desktop-width) {
@@ -101,5 +130,15 @@
 
   .console__input {
     font-size: 150px;
+  }
+
+  .console__label {
+    bottom: 55px;
+    left: 55px;
+  }
+
+  .console__dev {
+    margin-left: 10px;
+    font-size: 22px;
   }
 }

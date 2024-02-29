@@ -564,6 +564,38 @@ function devClicks() {
 
 devButton.addEventListener('click', devClicks);
 
+// Execute command
+const devConsoleCheckbox = consoleContainer.querySelector('.console__input--checkbox');
+
+function executeCommand() {
+  let command = consoleInput.value;
+
+  try {
+    let result = eval(command);
+    showMessage('Результат: ' + result);
+  } catch (error) {
+    showMessage('Помилка: ' + error.message);
+  }
+
+  consoleInput.value = '';
+}
+
+function activateDevConsole() {
+  if (devConsoleCheckbox.checked) {
+    consoleInput.removeEventListener('keyup', checkBonus);
+    consoleInput.addEventListener('keyup', function(event) {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        executeCommand();
+      }
+    });
+  } else {
+    consoleInput.removeEventListener('keyup', executeCommand);
+    consoleInput.addEventListener('keyup', checkBonus);
+  }
+}
+
+devConsoleCheckbox.addEventListener('change', activateDevConsole);
+
 // CONTROLS
 VIDEO.controls = false;
 
@@ -572,11 +604,11 @@ const playButton = CONTROLS.querySelector('.control__button--play');
 const playButtonIcon = CONTROLS.querySelector('.control__icon--play');
 const pauseButtonIcon = CONTROLS.querySelector('.control__icon--pause');
 
-function pauseVideo() {
+function toggleVideo() {
   if (VIDEO.paused) {
-    VIDEO.play();
+    playVideo();
   } else {
-    VIDEO.pause();
+    pauseVideo();
   }
 }
 
@@ -584,7 +616,7 @@ function playVideo() {
   VIDEO.play();
 }
 
-function stopVideo() {
+function pauseVideo() {
   VIDEO.pause();
 }
 
@@ -598,8 +630,8 @@ function setPlayIcon() {
   pauseButtonIcon.classList.remove('control__icon--hide');
 }
 
-playButton.addEventListener('click', pauseVideo);
-VIDEO.addEventListener('click', pauseVideo);
+playButton.addEventListener('click', toggleVideo);
+VIDEO.addEventListener('click', toggleVideo);
 VIDEO.addEventListener('pause', setPauseIcon);
 VIDEO.addEventListener('play', setPlayIcon);
 
@@ -742,7 +774,7 @@ function formatTime(timeInSeconds) {
   return hours + ':' + minutes + ':' + seconds;
 }
 
-VIDEO_RANGE.addEventListener('mousedown', stopVideo);
+VIDEO_RANGE.addEventListener('mousedown', pauseVideo);
 VIDEO_RANGE.addEventListener('input', setDuration);
 VIDEO_RANGE.addEventListener('change', playVideo);
 
@@ -1313,7 +1345,7 @@ function handleKey(key, handlers) {
     if (handlers[action] === key) {
       switch (action) {
         case 'playPause':
-          pauseVideo();
+          toggleVideo();
           break;
         case 'skipBackward':
           VIDEO.currentTime -= 5;
