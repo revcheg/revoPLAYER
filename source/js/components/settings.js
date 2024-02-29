@@ -256,7 +256,7 @@ blurCheckbox.addEventListener('change', function (event) {
   }
 });
 
-// Background
+// Background video
 const background = document.querySelector('.background');
 const backgroundCheckbox = SETTINGS.querySelector('.settings__checkbox--background');
 const backgroundVideo = document.querySelector('.background__video');
@@ -264,12 +264,16 @@ const backgroundVideo = document.querySelector('.background__video');
 function showBackground() {
   if (backgroundCheckbox.checked) {
     background.classList.remove('background--off');
-    backgroundVideo.src = VIDEO.src;
+    if (VIDEO.src) {
+      backgroundVideo.src = VIDEO.src;
+    }
+
     if (videoCurrentTime) {
       backgroundVideo.currentTime = videoCurrentTime;
     }
   } else {
     background.classList.add('background--off');
+    backgroundVideo.removeAttribute('src');
   }
 }
 

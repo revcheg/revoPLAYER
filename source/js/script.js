@@ -274,7 +274,7 @@ blurCheckbox.addEventListener('change', function (event) {
   }
 });
 
-// Background
+// Background video
 const background = document.querySelector('.background');
 const backgroundCheckbox = SETTINGS.querySelector('.settings__checkbox--background');
 const backgroundVideo = document.querySelector('.background__video');
@@ -282,12 +282,16 @@ const backgroundVideo = document.querySelector('.background__video');
 function showBackground() {
   if (backgroundCheckbox.checked) {
     background.classList.remove('background--off');
-    backgroundVideo.src = VIDEO.src;
+    if (VIDEO.src) {
+      backgroundVideo.src = VIDEO.src;
+    }
+
     if (videoCurrentTime) {
       backgroundVideo.currentTime = videoCurrentTime;
     }
   } else {
     background.classList.add('background--off');
+    backgroundVideo.removeAttribute('src');
   }
 }
 
@@ -550,8 +554,11 @@ let clickCount = 0;
 
 function devClicks() {
   if (++clickCount >= MAX_DEV_CLICK_COUNT) {
-    openConsole();
     clickCount = 0;
+    openConsole();
+    showMessage('Консоль розробника розблокована &#129323;');
+  } else {
+    showMessage(`Залишилось ${MAX_DEV_CLICK_COUNT - clickCount} кліків`);
   }
 }
 
@@ -1488,6 +1495,7 @@ function setVideo() {
 function resetVideo() {
   VIDEO.pause();
   VIDEO.removeAttribute('src');
+  VIDEO.removeAttribute('preload');
   VIDEO.removeAttribute('crossorigin');
   statisticsName.classList.add('video__name--off');
   WRAPPER.className = 'video__wrapper';

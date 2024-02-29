@@ -20,6 +20,7 @@ function setVideo() {
 function resetVideo() {
   VIDEO.pause();
   VIDEO.removeAttribute('src');
+  VIDEO.removeAttribute('preload');
   VIDEO.removeAttribute('crossorigin');
   statisticsName.classList.add('video__name--off');
   WRAPPER.className = 'video__wrapper';

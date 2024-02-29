@@ -87,8 +87,11 @@ let clickCount = 0;
 
 function devClicks() {
   if (++clickCount >= MAX_DEV_CLICK_COUNT) {
-    openConsole();
     clickCount = 0;
+    openConsole();
+    showMessage('Консоль розробника розблокована &#129323;');
+  } else {
+    showMessage(`Залишилось ${MAX_DEV_CLICK_COUNT - clickCount} кліків`);
   }
 }
 

@@ -163,6 +163,14 @@
   }
 }
 
+.settings__label {
+	margin-bottom: 10px;
+
+	&--hide {
+		margin-top: -29px;
+	}
+}
+
 .settings__video {
 	font-family: "Chalet", sans-serif;
 }
@@ -224,7 +232,7 @@
 	.settings__label {
 
 		&--hide {
-			margin-top: -35px;
+			margin-top: -36px;
 		}
 	}
 
@@ -254,6 +262,13 @@
 
 	.settings__name {
 		font-size: 25px;
+	}
+
+	.settings__label {
+
+		&--hide {
+			margin-top: -39px;
+		}
 	}
 
 	.settings__item {
@@ -297,15 +312,20 @@
 	font-family: "Chalet", sans-serif;
 }
 
+.statistics__category {
+	margin-bottom: 5px;
+}
+
 @media (min-width: 768px) {
 	.statistics__category {
-		font-size: 15px;
+		font-size: 13px;
 	}
 }
 
 @media (min-width: 1440px) {
 	.statistics__category {
-		font-size: 18px;
+		margin-bottom: 8px;
+		font-size: 16px;
 	}
 }
 

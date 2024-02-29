@@ -65,7 +65,6 @@
   color: #FFFFFF;
   font-size: 16px;
   font-weight: 700;
-  text-transform: uppercase;
   border-radius: 30px;
   transition: all 0.6s, font-size 0s;
 
@@ -114,8 +113,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 10px;
-  line-height: 1.25rem;
+  margin-bottom: 8px;
   cursor: pointer;
   transition: 0.2s;
 
@@ -134,7 +132,7 @@
     width: fit-content;
     margin: 0 auto;
     margin-bottom: 15px;
-    padding: 12px 15px;
+    padding: 11px 15px;
     color: #FFFFFF;
     font-size: 15px;
     font-weight: 300;
@@ -180,7 +178,6 @@
   padding: 0 15px;
   padding-right: 25px;
   font-weight: 300;
-  line-height: 1.25rem;
 
   &:last-child {
     margin-bottom: 0;
@@ -196,7 +193,6 @@
 .settings__item {
   margin-bottom: 15px;
   font-weight: 300;
-  line-height: 1.25rem;
   list-style: inside;
 
   &:last-child {
@@ -273,14 +269,13 @@
 
   .settings__label {
     justify-content: center;
-    margin-bottom: 15px;
 
     &--hide {
-      margin-top: -35px;
+      margin-top: -33px;
     }
 
     &--file {
-      padding: 15px 25px;
+      padding: 16px 25px;
       font-size: 18px;
     }
   }
@@ -310,6 +305,10 @@
     max-width: 185px;
     padding: 15px 20px;
     font-size: 18px;
+  }
+
+  .settings__output {
+    max-width: 200px;
   }
 }
 
@@ -362,9 +361,14 @@
   }
 
   .settings__label {
+    margin-bottom: 12px;
+
+    &--hide {
+      margin-top: -46px;
+    }
 
     &--file {
-      padding: 15px 25px;
+      padding: 20px 25px;
       font-size: 25px;
     }
   }
