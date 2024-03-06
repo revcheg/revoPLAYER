@@ -10,7 +10,7 @@
   padding: 20px 10px;
   color: #FFFFFF;
   outline: none;
-  transition: 0.7s;
+  transition: 0.8s;
   z-index: 3;
 
   &--hide {
@@ -113,7 +113,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   cursor: pointer;
   transition: 0.2s;
 
@@ -123,7 +123,7 @@
 
   &--hide {
     position: relative;
-    margin-top: -30px;
+    margin-top: -28px;
     opacity: 0;
     transform: scale(0);
   }
@@ -132,12 +132,12 @@
     width: fit-content;
     margin: 0 auto;
     margin-bottom: 15px;
-    padding: 11px 15px;
-    color: #FFFFFF;
+    padding: 12px 15px;
     font-size: 15px;
     font-weight: 300;
     border: 1px solid #FCF811;
     border-radius: 30px;
+    transition: 0.3s;
   }
 }
 
@@ -271,11 +271,11 @@
     justify-content: center;
 
     &--hide {
-      margin-top: -32px;
+      margin-top: -30px;
     }
 
     &--file {
-      padding: 16px 25px;
+      padding: 15px 25px;
       font-size: 18px;
     }
   }
@@ -361,15 +361,15 @@
   }
 
   .settings__label {
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 
     &--hide {
-      margin-top: -46px;
+      margin-top: -44px;
     }
 
     &--file {
-      padding: 20px 25px;
-      font-size: 25px;
+      padding: 15px 25px;
+      font-size: 22px;
     }
   }
 
@@ -396,7 +396,7 @@
   }
 
   .settings__video {
-    font-size: 25px;
+    font-size: 22px;
   }
 
   .settings__file {

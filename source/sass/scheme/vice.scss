@@ -1,5 +1,6 @@
 .body {
-  font-family: "Pricedown", "Roboto", "Arial", sans-serif;
+	font-weight: 300;
+  font-family: "Chalet", "Roboto", "Arial", sans-serif;
 	background-color: #F8F0FB;
 }
 
@@ -42,7 +43,6 @@
 
 .control__time {
   font-weight: 500;
-  font-family: "Chalet", sans-serif;
 }
 
 .control__range {
@@ -83,7 +83,6 @@
 
 .control__info {
   font-weight: 500;
-  font-family: "Chalet", sans-serif;
 	background-color: #F27DFD;
 }
 
@@ -105,7 +104,6 @@
 }
 
 .footer__copyright {
-  font-family: "Chalet", sans-serif;
 
 	&--dev {
 		color: #F27DFD;
@@ -133,15 +131,15 @@
 	background-color: rgba(#7D88FD, 0.9);
 }
 
-.settings__control {
-	padding: 0px;
-}
-
 .settings__button {
+	margin-right: 0;
 	padding: 10px 20px;
 	font-size: 20px;
+	font-weight: 900;
+  font-family: "Pricedown", sans-serif;
 	border: 0;
 	border-radius: 0;
+	transition: all 0.6s, font-size 0s, margin 0s;
 
 	&:nth-child(odd) {
 		clip-path: polygon(10% 0, 100% 5%, 90% 98%, 0% 100%);
@@ -167,35 +165,14 @@
 	margin-bottom: 10px;
 
 	&--hide {
-		margin-top: -29px;
+		margin-top: -32px;
 	}
-}
-
-.settings__video {
-	font-family: "Chalet", sans-serif;
-}
-
-.settings__file {
-	font-family: "Chalet", sans-serif;
 }
 
 .settings__sub {
 	font-size: 28px;
-}
-
-.settings__name {
-  font-weight: 300;
-  font-family: "Chalet", sans-serif;
-}
-
-.settings__item {
-  font-weight: 300;
-  font-family: "Chalet", sans-serif;
-}
-
-.settings__text {
-  font-weight: 300;
-  font-family: "Chalet", sans-serif;
+	font-weight: 900;
+  font-family: "Pricedown", sans-serif;
 }
 
 .settings__time {
@@ -211,12 +188,9 @@
 	}
 }
 
-.settings__output {
-	font-family: "Chalet", sans-serif;
-}
-
 @media (min-width: 768px) {
 	.settings__button {
+		margin-right: 10px;
 		font-size: 25px;
 	}
 
@@ -232,7 +206,7 @@
 	.settings__label {
 
 		&--hide {
-			margin-top: -36px;
+			margin-top: -40px;
 		}
 	}
 
@@ -267,7 +241,7 @@
 	.settings__label {
 
 		&--hide {
-			margin-top: -39px;
+			margin-top: -44px;
 		}
 	}
 
@@ -302,29 +276,24 @@
 
 .video__name {
 	font-weight: 500;
-	font-family: "Chalet", sans-serif;
 }
 
 // Statistics
 .statistics {
 	color: #F27DFD;
 	font-weight: 500;
-	font-family: "Chalet", sans-serif;
-}
-
-.statistics__category {
-	margin-bottom: 5px;
 }
 
 @media (min-width: 768px) {
 	.statistics__category {
+		margin-bottom: 5px;
 		font-size: 13px;
 	}
 }
 
 @media (min-width: 1440px) {
 	.statistics__category {
-		margin-bottom: 8px;
+		margin-bottom: 6px;
 		font-size: 16px;
 	}
 }
@@ -336,7 +305,6 @@
 
 .series__item {
 	color: #F27DFD;
-	font-family: "Chalet", sans-serif;
 	font-weight: 500;
 }
 
@@ -352,7 +320,6 @@
 .message {
   padding: 8px 15px;
 	font-weight: 500;
-	font-family: "Chalet", sans-serif;
 	background-color: rgba(#4D4D4D, 0.95);
 	clip-path: none;
 }
@@ -362,9 +329,4 @@
 		bottom: 42px;
 		padding: 12px 25px;
 	}
-}
-
-// Console
-.console__dev {
-	font-family: "Chalet", sans-serif;
 }

@@ -20,12 +20,12 @@
 }
 
 // Background
-.background {
+// .background {
 
-  &::after {
-    // background-color: rgba(#0197F6, 0.4);
-  }
-}
+//   &::after {
+//     background-color: rgba(#0197F6, 0.4);
+//   }
+// }
 
 // Control
 .control__line {
@@ -131,6 +131,17 @@
 // Settings
 .settings {
 	background-color: rgba(#02182B, 0.9);
+}
+
+.settings__label {
+
+	&--file {
+
+		&:hover,
+    &:focus {
+      box-shadow: 0 0 10px 3px rgba(#FCF811, 0.8);
+    }
+	}
 }
 
 // Video

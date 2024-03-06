@@ -292,8 +292,8 @@
           <p class="settings__sub">ОБРАТИ ВІДЕО</p>
           <button class="button  settings__video" data-video="TheWitcher" aria-label="Увімкнути відео Witcher" title="Увімкнути відео Witcher" type="button">The Witcher III</button>
           <button class="button  settings__video" data-video="Cyberpunk" aria-label="Увімкнути відео Cyberpunk 2077" title="Увімкнути відео Cyberpunk 2077" type="button">Cyberpunk 2077</button>
-          <label class="settings__label  settings__label--file">
-            <input class="button  settings__file" aria-label="Завантажити власне відео" title="Завантажити власне відео" accept="video/*" type="file" multiple>
+          <label class="button  settings__label  settings__label--file">
+            <input class="settings__file" aria-label="Завантажити власне відео" title="Завантажити власне відео" accept="video/*" type="file" multiple>
             <span class="settings__output">Обрати власне відео</span>
           </label>
           <label class="settings__label  settings__label--series  settings__label--hide">
@@ -393,12 +393,12 @@
       <video class="console__background" src="video/console.mp4" muted loop disableRemotePlayback disablePictureInPicture></video>
       <label>
         <span class="visually-hidden">Поле введення консолі</span>
-        <input class="console__input" type="text">
+        <input class="console__input" type="text" placeholder="take control">
       </label>
-      <label class="console__label">
+      <!-- <label class="console__label">
         <input class="console__input  console__input--checkbox" type="checkbox">
         <span class="console__dev">Режим консолі</span>
-      </label>
+      </label> -->
     </section>
 
     <script src="js/script.min.js"></script>

@@ -564,37 +564,37 @@ function devClicks() {
 
 devButton.addEventListener('click', devClicks);
 
-// Execute command
-const devConsoleCheckbox = consoleContainer.querySelector('.console__input--checkbox');
+// Execute dev command
+// const devConsoleCheckbox = consoleContainer.querySelector('.console__input--checkbox');
 
-function executeCommand() {
-  let command = consoleInput.value;
+// function executeCommand() {
+//   let command = consoleInput.value;
 
-  try {
-    let result = eval(command);
-    showMessage('Результат: ' + result);
-  } catch (error) {
-    showMessage('Помилка: ' + error.message);
-  }
+//   try {
+//     let result = eval(command);
+//     showMessage('Результат: ' + result);
+//   } catch (error) {
+//     showMessage('Помилка: ' + error.message);
+//   }
 
-  consoleInput.value = '';
-}
+//   consoleInput.value = '';
+// }
 
-function activateDevConsole() {
-  if (devConsoleCheckbox.checked) {
-    consoleInput.removeEventListener('keyup', checkBonus);
-    consoleInput.addEventListener('keyup', function(event) {
-      if (event.key === 'Enter' && !event.shiftKey) {
-        executeCommand();
-      }
-    });
-  } else {
-    consoleInput.removeEventListener('keyup', executeCommand);
-    consoleInput.addEventListener('keyup', checkBonus);
-  }
-}
+// function activateDevConsole() {
+//   if (devConsoleCheckbox.checked) {
+//     consoleInput.removeEventListener('keyup', checkBonus);
+//     consoleInput.addEventListener('keyup', function(event) {
+//       if (event.key === 'Enter' && !event.shiftKey) {
+//         executeCommand();
+//       }
+//     });
+//   } else {
+//     consoleInput.removeEventListener('keyup', executeCommand);
+//     consoleInput.addEventListener('keyup', checkBonus);
+//   }
+// }
 
-devConsoleCheckbox.addEventListener('change', activateDevConsole);
+// devConsoleCheckbox.addEventListener('change', activateDevConsole);
 
 // CONTROLS
 VIDEO.controls = false;
