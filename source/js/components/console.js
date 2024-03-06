@@ -61,6 +61,7 @@ function checkBonus(event) {
       closeConsole();
       showMessage(commandDescription.message);
     } else {
+      consoleInput.value = '';
       showMessage('Команда неможлива &#128126;');
     }
 

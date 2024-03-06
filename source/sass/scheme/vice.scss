@@ -165,7 +165,18 @@
 	margin-bottom: 10px;
 
 	&--hide {
-		margin-top: -32px;
+		margin-top: -29px;
+	}
+}
+
+.settings__video {
+
+	&--file {
+
+		&:hover,
+    &:focus {
+      box-shadow: 0 0 10px 3px rgba(#FCF811, 0.8);
+    }
 	}
 }
 
@@ -206,7 +217,7 @@
 	.settings__label {
 
 		&--hide {
-			margin-top: -40px;
+			margin-top: -36px;
 		}
 	}
 
@@ -241,7 +252,7 @@
 	.settings__label {
 
 		&--hide {
-			margin-top: -44px;
+			margin-top: -39px;
 		}
 	}
 
