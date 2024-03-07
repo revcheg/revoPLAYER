@@ -68,16 +68,8 @@
     display: none;
   }
 
-  &--off {
-    display: none;
-  }
-
   &--prev {
     transform: rotate(180deg);
-  }
-
-  &--fit {
-    display: none;
   }
 }
 
@@ -352,6 +344,11 @@
 
   .control__time {
     font-size: 13px;
+    margin-right: 5px;
+  }
+
+  .control__range {
+    margin-right: 5px;
   }
 }
 

@@ -31,7 +31,7 @@
 ::cue {
   font-size: 13px;
   font-weight: 500;
-  font-family: "Chalet", "Roboto", "Arial", sans-serif;
+  font-family: "Chalet", "Nunito", "Roboto", "Arial", sans-serif;
   text-align: center;
   text-shadow: 0px 0px 5px #000000, 0px 0px 5px #000000;
   background-color: transparent;
@@ -67,10 +67,6 @@
 
     .control__button--pip {
       display: none;
-    }
-
-    .control__button--fit {
-      display: block;
     }
 
     .control__button--cinema {

@@ -77,18 +77,6 @@ function changeMuteIcon() {
   muteButton.classList.toggle('control__button--active', isMuted);
 }
 
-// function changeMuteIcon() {
-//   if (VIDEO.muted) {
-//     muteButtonIcon.classList.remove('control__icon--unmuted');
-//     muteButtonIcon.classList.add('control__icon--muted');
-//     muteButton.classList.add('control__button--active');
-//   } else {
-//     muteButtonIcon.classList.add('control__icon--unmuted');
-//     muteButtonIcon.classList.remove('control__icon--muted');
-//     muteButton.classList.remove('control__button--active');
-//   }
-// }
-
 muteButton.addEventListener('click', setMute);
 
 // Volume
@@ -128,21 +116,9 @@ function wheelVolume(event) {
 
 volumeRange.addEventListener('wheel', wheelVolume);
 
-// function wheelVolume(event) {
-//   event.preventDefault();
-//   const delta = -Math.sign(event.deltaY);
-//   changeVolume(delta * 0.1);
-// };
-
-// volumeRange.addEventListener('wheel', wheelVolume);
-
 // Duration, range
 const videoPassed = CONTROLS.querySelector('.control__time--passed');
 const videoLeft = CONTROLS.querySelector('.control__time--left');
-
-// function changeDuration() {
-//   pauseVideo();
-// };
 
 function setDuration() {
   let rangeValue = VIDEO_RANGE.value;
@@ -154,7 +130,7 @@ function setDuration() {
 
   line.value = rangeValue;
   line.style.width = Math.round((rangeValue / videoDuration) * 100) + '%';
-};
+}
 
 function resetDuration() {
   VIDEO_RANGE.value = '0';
@@ -190,7 +166,7 @@ function wheelDuration(event) {
   VIDEO_RANGE.value = changedValue;
   VIDEO.currentTime = VIDEO_RANGE.value;
   setDuration();
-};
+}
 
 VIDEO_RANGE.addEventListener('wheel', wheelDuration);
 
@@ -222,7 +198,13 @@ function changeSpeed() {
     speedButton.classList.remove('control__button--active');
     speedInfo.classList.add('control__info--hide');
   }
-};
+}
+
+function resetPlaybackSpeed() {
+  playbackRate = 1.0;
+  speedButton.classList.remove('control__button--active');
+  speedInfo.classList.add('control__info--hide');
+}
 
 speedButton.addEventListener('click', changeSpeed);
 
@@ -288,7 +270,7 @@ function changeFitScreen() {
     fitButton.setAttribute('aria-label', 'Зменшити зображення');
     fitButton.setAttribute('title', 'Зменшити зображення (x)');
   }
-};
+}
 
 fitButton.addEventListener('click', changeFitScreen);
 

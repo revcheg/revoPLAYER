@@ -30,6 +30,7 @@ function playCurrentVideo() {
   stopProgress();
   resetDuration();
   updateActiveButton();
+  resetPlaybackSpeed();
 
   if (!autoplayFlag) {
     resetVideo();
