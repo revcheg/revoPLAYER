@@ -226,14 +226,14 @@
 
 .settings__counter {
   position: absolute;
-  top: 8px;
-  right: -35px;
+  top: 5px;
+  right: -45px;
   box-sizing: border-box;
-  min-width: 25px;
-  min-height: 25px;
-  padding: 5px;
+  min-width: 35px;
+  min-height: 35px;
+  padding: 9px 6px;
   text-align: center;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 400;
   border-radius: 50%;
   transition: 0.2s;
@@ -320,8 +320,7 @@
   }
 
   .settings__counter {
-    top: 12px;
-    right: -40px;
+    top: 10px;
   }
 }
 
@@ -413,8 +412,8 @@
   }
 
   .settings__counter {
-    right: -45px;
-    padding: 7px;
+    top: 12px;
+    right: -50px;
     font-size: 14px;
   }
 }

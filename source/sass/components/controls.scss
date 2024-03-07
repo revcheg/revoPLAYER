@@ -68,6 +68,10 @@
     display: none;
   }
 
+  &--off {
+    display: none;
+  }
+
   &--prev {
     transform: rotate(180deg);
   }
@@ -172,6 +176,7 @@
   padding: 10px;
   border-radius: 5px;
   background-color: transparent;
+  cursor: pointer;
   transition: 0.2s;
 
   &::-webkit-slider-runnable-track {
@@ -188,7 +193,7 @@
     margin-top: -5px;
     border-radius: 50%;
     transition: 0.2s;
-    cursor: pointer;
+    cursor: w-resize;
   }
 
   // &::-moz-range-track {

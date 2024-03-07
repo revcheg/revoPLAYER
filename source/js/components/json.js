@@ -50,9 +50,9 @@ function playCurrentVideo() {
   VIDEO.setAttribute('alt', currentVideo.description);
 
   if (currentVideo.subtitle) {
-    subtitleButton.classList.remove('control__button--hide');
+    subtitleButton.classList.remove('control__button--off');
   } else {
-    subtitleButton.classList.add('control__button--hide');
+    subtitleButton.classList.add('control__button--off');
   }
 }
 

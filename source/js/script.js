@@ -680,11 +680,11 @@ muteButton.addEventListener('click', setMute);
 
 // Volume
 VIDEO.volume = 0.5;
-
 const volumeRange = CONTROLS.querySelector('.control__range--volume');
+let changedVolume;
 
 function changeVolume(amount) {
-  let changedVolume = Math.max(0, Math.min(1, VIDEO.volume + amount));
+  changedVolume = Math.max(0, Math.min(1, VIDEO.volume + amount));
   VIDEO.volume = changedVolume;
   volumeRange.value = changedVolume;
   updateVolume();
@@ -702,6 +702,10 @@ function updateVolume() {
   changeMuteIcon();
 }
 
+function formatVolumePercentage(volume) {
+  return (volume * 100).toFixed(0) + '%';
+}
+
 volumeRange.addEventListener('input', updateVolume);
 
 // Wheel volume
@@ -710,10 +714,12 @@ function wheelVolume(event) {
   if (typeof event.deltaY !== 'undefined' && !isNaN(event.deltaY)) {
     const delta = -Math.sign(event.deltaY);
     changeVolume(delta * 0.1);
+    showMessage('Гучність ' + formatVolumePercentage(changedVolume));
   }
 }
 
 volumeRange.addEventListener('wheel', wheelVolume);
+VIDEO.addEventListener('wheel', wheelVolume);
 
 // Duration, range
 const videoPassed = CONTROLS.querySelector('.control__time--passed');
@@ -852,7 +858,7 @@ function updatePipButtonAttributes(ariaLabel, title) {
 pipButton.addEventListener('click', setPictureInPicture);
 document.addEventListener('leavepictureinpicture', exitPictureInPicture);
 
-// Fit
+// Fit Screen
 const fitButton = CONTROLS.querySelector('.control__button--fit');
 
 function changeFitScreen() {
@@ -868,6 +874,18 @@ function changeFitScreen() {
     fitButton.classList.toggle('control__button--active');
     fitButton.setAttribute('aria-label', 'Зменшити зображення');
     fitButton.setAttribute('title', 'Зменшити зображення (x)');
+  }
+}
+
+function checkFitScreen() {
+  let aspectRatio = videoWidth / videoHeight;
+
+  const targetAspectRatio = 16 / 9;
+
+  if (aspectRatio !== targetAspectRatio) {
+    fitButton.classList.remove('control__button--off');
+  } else {
+    fitButton.classList.add('control__button--off');
   }
 }
 
@@ -1121,9 +1139,9 @@ function playCurrentVideo() {
   VIDEO.setAttribute('alt', currentVideo.description);
 
   if (currentVideo.subtitle) {
-    subtitleButton.classList.remove('control__button--hide');
+    subtitleButton.classList.remove('control__button--off');
   } else {
-    subtitleButton.classList.add('control__button--hide');
+    subtitleButton.classList.add('control__button--off');
   }
 }
 
@@ -1623,6 +1641,7 @@ function getStatistics() {
     videoFormat = VIDEO.src.split('.').pop();
   }
 
+  checkFitScreen();
   setStatistics();
 }
 

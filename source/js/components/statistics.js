@@ -30,6 +30,7 @@ function getStatistics() {
     videoFormat = VIDEO.src.split('.').pop();
   }
 
+  checkFitScreen();
   setStatistics();
 }
 
