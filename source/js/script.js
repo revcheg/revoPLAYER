@@ -483,24 +483,29 @@ consoleClose.addEventListener('click', closeConsole);
 // Command list
 const consoleCommands = {
   'unlimited spider man': {
-    videoSrc: 'video/USP-intro.mp4',
+    currentCategory: 'bonus',
+    currentSubcategory: 'Unlimited Spider Man',
     message: 'Відкрито бонусне відео &#128375;',
   },
   'spider man': {
-    videoSrc: 'video/SP-intro.mp4',
+    currentCategory: 'bonus',
+    currentSubcategory: 'Spider Man',
     message: 'Відкрито бонусне відео &#128375;',
   },
   'vice city': {
-    videoSrc: 'video/GTAVC-intro.webm',
+    currentCategory: 'bonus',
+    currentSubcategory: 'Vice City',
     message: 'Розблокована нова тема &#127847;',
     scheme: 'vice',
   },
   'assassins creed 2': {
-    videoSrc: 'video/ACII-trailer.mp4',
+    currentCategory: 'bonus',
+    currentSubcategory: 'Assassins Creed 2',
     message: 'Відкрито бонусне відео &#129413;',
   },
   'tmnt': {
-    videoSrc: 'video/TMNT-intro.mp4',
+    currentCategory: 'bonus',
+    currentSubcategory: 'TMNT',
     message: 'Кавабанга &#127829;',
   },
 };
@@ -513,10 +518,13 @@ function checkBonus(event) {
     let commandDescription = consoleCommands[command];
 
     if (commandDescription) {
-      VIDEO.src = commandDescription.videoSrc;
+      currentCategory = commandDescription.currentCategory;
+      currentSubcategory = commandDescription.currentSubcategory;
+      currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
       if (commandDescription.scheme) {
         addScheme(commandDescription.scheme);
       }
+      playCurrentVideo();
       closeConsole();
       showMessage(commandDescription.message);
     } else {
@@ -1112,10 +1120,10 @@ function playCurrentVideo() {
   VIDEO.setAttribute('src', currentVideo.src);
   VIDEO.setAttribute('alt', currentVideo.description);
 
-  if (currentVideo.subtitles) {
-    subtitleButton.classList.remove('control__button--off');
+  if (currentVideo.subtitle) {
+    subtitleButton.classList.remove('control__button--hide');
   } else {
-    subtitleButton.classList.add('control__button--off');
+    subtitleButton.classList.add('control__button--hide');
   }
 }
 

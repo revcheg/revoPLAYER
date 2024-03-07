@@ -1,10 +1,42 @@
 {
   "bonus": {
-    "main": [
+    "Unlimited Spider Man": [
       {
-        "name": "Назва відео",
+        "name": "Unlimited Spider Man",
         "title": "Bonus video",
-        "src": "",
+        "src": "video/USP-intro.mp4",
+        "description": "Опис відео"
+      }
+    ],
+    "Spider Man": [
+      {
+        "name": "Spider Man",
+        "title": "Bonus video",
+        "src": "video/SP-intro.mp4",
+        "description": "Опис відео"
+      }
+    ],
+    "Vice City": [
+      {
+        "name": "Vice City",
+        "title": "Bonus video",
+        "src": "video/GTAVC-intro.webm",
+        "description": "Опис відео"
+      }
+    ],
+    "Assassins Creed 2": [
+      {
+        "name": "Assassins Creed 2",
+        "title": "Bonus video",
+        "src": "video/ACII-trailer.mp4",
+        "description": "Опис відео"
+      }
+    ],
+    "TMNT": [
+      {
+        "name": "TMNT",
+        "title": "Bonus video",
+        "src": "video/TMNT-intro.mp4",
         "description": "Опис відео"
       }
     ]
