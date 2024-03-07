@@ -23,6 +23,7 @@
 
     <div class="background  background--off">
       <video class="background__video" muted aria-label="Фонове відео дублююче головне відео" alt="Фонове відео дублююче головне відео" disableRemotePlayback disablePictureInPicture></video>
+      <div class="background__overlay"></div>
     </div>
 
     <header class="header">
@@ -55,7 +56,7 @@
           </svg>
         </button>
 
-        <p class="video__name  video__name--hide  video__name--off">Назва стрічки</p>
+        <p class="statistics__name  statistics__name--hide  statistics__name--off">Назва стрічки</p>
 
         <section class="statistics  statistics--hide  statistics--off">
           <h3 class="visually-hidden">Статистика відео</h3>
@@ -223,17 +224,9 @@
             <span class="settings__name">Зробити плеєр об'ємним</span>
           </label>
           <label class="settings__label">
-            <input class="settings__checkbox  settings__checkbox--hq" type="checkbox">
-            <span class="settings__name">Найкраща якість (чекаємо сервер)</span>
-          </label>
-          <label class="settings__label">
             <input class="settings__checkbox  settings__checkbox--deep" type="checkbox">
             <span class="settings__name">Deep mode</span>
           </label>
-          <!-- <label class="settings__label">
-            <input class="settings__checkbox  settings__checkbox--background" type="checkbox">
-            <span class="settings__name">Додати слой відео на фон (для впевнених у собі)</span>
-          </label> -->
         </div>
 
         <div class="settings__tab" data-tab="player">
@@ -272,7 +265,7 @@
           </label>
           <label class="settings__label">
             <input class="settings__checkbox  settings__checkbox--blur" type="checkbox">
-            <span class="settings__name">Увімкнути blur на інтерфейсі</span>
+            <span class="settings__name">Увімкнути blur на дієвидло</span>
           </label>
           <label class="settings__label">
             <input class="settings__checkbox  settings__checkbox--background" type="checkbox">
@@ -292,13 +285,10 @@
           <p class="settings__sub">ОБРАТИ ВІДЕО</p>
           <button class="button  settings__video" data-video="TheWitcher" aria-label="Увімкнути відео Witcher" title="Увімкнути відео Witcher" type="button">The Witcher III</button>
           <button class="button  settings__video" data-video="Cyberpunk" aria-label="Увімкнути відео Cyberpunk 2077" title="Увімкнути відео Cyberpunk 2077" type="button">Cyberpunk 2077</button>
-          <!-- <label class="button  settings__label  settings__label--file">
-            <input class="settings__file" aria-label="Завантажити власне відео" title="Завантажити власне відео" accept="video/*" type="file" multiple>
-            <span class="settings__output">Обрати власне відео</span>
-          </label> -->
           <label class="button  settings__video  settings__video--file">
             <input class="settings__file" aria-label="Завантажити власне відео" title="Завантажити власне відео" accept="video/*" type="file" multiple>
             <span class="settings__output">Обрати власне відео</span>
+            <span class="settings__counter  settings__counter--hide">+0</span>
           </label>
           <label class="settings__label  settings__label--series  settings__label--hide">
             <input class="settings__checkbox  settings__checkbox--series" type="checkbox">

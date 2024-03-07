@@ -1,8 +1,9 @@
 // File
 const MAX_FILE_SIZE = 5368709120;
-const INPUTFILE = document.querySelector('.settings__file');
-const INPUTFILE_OUTPUT = document.querySelector('.settings__output');
-const supportedFormats = ['video/mp4', 'video/webm', 'video/mkv', 'video/mov'];
+const INPUTFILE = SETTINGS.querySelector('.settings__file');
+const INPUTFILE_OUTPUT = SETTINGS.querySelector('.settings__output');
+const INPUTFILE_COUNTER = SETTINGS.querySelector('.settings__counter');
+const supportedFormats = ['video/mp4', 'video/webm'];
 
 // Check and save uploaded files
 let uploadedVideo = [];
@@ -47,9 +48,12 @@ function validateFiles(uploadedVideo) {
 
   if (showSuccessMessage) {
     if (uploadedVideo.length > 1) {
+      INPUTFILE_COUNTER.innerHTML = '+' + (uploadedVideo.length - 1);
+      INPUTFILE_COUNTER.classList.remove('settings__counter--hide');
       seriesLabel.classList.remove('settings__label--hide');
     }
-    INPUTFILE_OUTPUT.innerHTML = uploadedVideo[0].name;
+    let lastUploadedVideo = uploadedVideo[uploadedVideo.length - 1];
+    INPUTFILE_OUTPUT.innerHTML = lastUploadedVideo.name;
     VIDEO.setAttribute('crossorigin', 'anonymous');
     generatingSeries();
     playCurrentVideo();

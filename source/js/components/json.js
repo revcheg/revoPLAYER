@@ -41,6 +41,10 @@ function playCurrentVideo() {
     currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
   }
 
+  if (backgroundFlag) {
+    backgroundVideo.src = currentVideo.src;
+  }
+
   VIDEO.setAttribute('src', currentVideo.src);
   VIDEO.setAttribute('alt', currentVideo.description);
 

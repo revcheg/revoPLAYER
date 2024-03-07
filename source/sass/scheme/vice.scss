@@ -162,11 +162,15 @@
 }
 
 .settings__label {
-	margin-bottom: 10px;
+	margin-bottom: 12px;
 
 	&--hide {
-		margin-top: -29px;
+		margin-top: -31px;
 	}
+}
+
+.settings__item {
+	line-height: 1.25em;
 }
 
 .settings__video {
@@ -180,6 +184,11 @@
 	}
 }
 
+.settings__counter {
+	font-weight: 500;
+	background-color: #F27DFD;
+}
+
 .settings__sub {
 	font-size: 28px;
 	font-weight: 900;
@@ -190,6 +199,10 @@
 	font-size: 18px;
   font-weight: 900;
   font-family: "Pricedown", sans-serif;
+}
+
+.settings__text {
+	line-height: 1.25em;
 }
 
 .settings__tab--scroll {
@@ -217,7 +230,7 @@
 	.settings__label {
 
 		&--hide {
-			margin-top: -36px;
+			margin-top: -38px;
 		}
 	}
 
@@ -252,7 +265,7 @@
 	.settings__label {
 
 		&--hide {
-			margin-top: -39px;
+			margin-top: -41px;
 		}
 	}
 

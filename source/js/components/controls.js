@@ -395,14 +395,14 @@ function handleMouseMove() {
 }
 
 function showControls() {
-  statisticsName.classList.remove('video__name--hide');
+  statisticsName.classList.remove('statistics__name--hide');
   VIDEO.style.cursor = 'auto';
   STATISTICS.classList.remove('statistics--hide');
   CONTROLS.classList.remove('control--hide');
 }
 
 function hideControls() {
-  statisticsName.classList.add('video__name--hide');
+  statisticsName.classList.add('statistics__name--hide');
   VIDEO.style.cursor = 'none';
   STATISTICS.classList.add('statistics--hide');
   CONTROLS.classList.add('control--hide');

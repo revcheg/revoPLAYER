@@ -217,10 +217,31 @@
 }
 
 .settings__output {
+  display: block;
   max-width: 150px;
   text-overflow: ellipsis;
   text-wrap: nowrap;
   overflow: hidden;
+}
+
+.settings__counter {
+  position: absolute;
+  top: 8px;
+  right: -35px;
+  box-sizing: border-box;
+  min-width: 25px;
+  min-height: 25px;
+  padding: 5px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 400;
+  border-radius: 50%;
+  transition: 0.2s;
+
+  &--hide {
+    opacity: 0;
+    transform: scale(0);
+  }
 }
 
 @media (min-width: $tablet-width) {
@@ -296,6 +317,11 @@
 
   .settings__output {
     max-width: 200px;
+  }
+
+  .settings__counter {
+    top: 12px;
+    right: -40px;
   }
 }
 
@@ -384,5 +410,11 @@
   .settings__file {
     max-width: 240px;
     font-size: 25px;
+  }
+
+  .settings__counter {
+    right: -45px;
+    padding: 7px;
+    font-size: 14px;
   }
 }

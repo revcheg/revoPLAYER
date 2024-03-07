@@ -257,13 +257,17 @@ blurCheckbox.addEventListener('change', function (event) {
 });
 
 // Background video
+let backgroundFlag = false;
+
 const background = document.querySelector('.background');
 const backgroundCheckbox = SETTINGS.querySelector('.settings__checkbox--background');
 const backgroundVideo = document.querySelector('.background__video');
 
 function showBackground() {
   if (backgroundCheckbox.checked) {
+    backgroundFlag = true;
     background.classList.remove('background--off');
+
     if (VIDEO.src) {
       backgroundVideo.src = VIDEO.src;
     }
@@ -272,6 +276,7 @@ function showBackground() {
       backgroundVideo.currentTime = videoCurrentTime;
     }
   } else {
+    backgroundFlag = false;
     background.classList.add('background--off');
     backgroundVideo.removeAttribute('src');
   }

@@ -37,6 +37,27 @@
   }
 }
 
+.statistics__name {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  margin: 0;
+  padding: 15px 18px;
+  font-size: 13px;
+  font-weight: 400;
+  transition: 0.7s;
+  text-shadow: 0px 0px 5px #000000, 0px 0px 5px #000000;
+
+  &--hide {
+    opacity: 0;
+    transform: translateY(-101%);
+  }
+
+  &--off {
+    display: none;
+  }
+}
+
 @media (min-width: $tablet-width) {
   .statistics {
     padding: 15px 22px;
@@ -45,6 +66,11 @@
   .statistics__category {
     margin-bottom: 3px;
     font-size: 13px;
+  }
+
+  .statistics__name {
+    padding: 30px 40px;
+    font-size: 16px;
   }
 }
 
@@ -56,5 +82,9 @@
   .statistics__category {
     margin-bottom: 5px;
     font-size: 16px;
+  }
+
+  .statistics__name {
+    font-size: 22px;
   }
 }

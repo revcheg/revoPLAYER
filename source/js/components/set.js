@@ -1,28 +1,35 @@
 // Set Video
 let game = null;
 
-const chooseButtons = document.querySelectorAll('.settings__video');
+const chooseButtons = SETTINGS.querySelectorAll('.settings__video');
 
 chooseButtons.forEach((element) => {
-  element.addEventListener('click', function () {
-    game = this.getAttribute('data-video');
-    setVideo();
-    deepCheckbox.removeAttribute('disabled', 'disabled');
-  });
+  element.addEventListener('click', selectGame);
 });
+
+function selectGame() {
+  game = this.getAttribute('data-video');
+  setVideo();
+}
 
 function setVideo() {
   VIDEO.src = 'video/' + game + '/' + deepFlag + '.webm';
   VIDEO.preload = 'auto';
 }
 
+// Delete choose event from upload button
+const fileButton = SETTINGS.querySelector('.settings__video--file');
+
+fileButton.removeEventListener('click', selectGame);
+
 // Reset video
 function resetVideo() {
-  VIDEO.pause();
+  pauseVideo();
+  VIDEO.src = '';
   VIDEO.removeAttribute('src');
   VIDEO.removeAttribute('preload');
   VIDEO.removeAttribute('crossorigin');
-  statisticsName.classList.add('video__name--off');
+  statisticsName.classList.add('statistics__name--off');
   WRAPPER.className = 'video__wrapper';
   START_BUTTON.classList.remove('video__start--hide');
   CONTROLS.classList.add('control--off');
@@ -33,4 +40,7 @@ function resetVideo() {
   // clearSubtitle();
   stopProgress();
   resetDuration();
+  backgroundVideo.pause();
+  backgroundVideo.src = '';
+  backgroundVideo.removeAttribute('src');
 }

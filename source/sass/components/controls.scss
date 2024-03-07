@@ -346,22 +346,17 @@
   .control__duration {
     order: 3;
     width: auto;
-    margin-right: 10px;
+    margin-right: 15px;
     margin-bottom: 0;
   }
 
   .control__time {
-    margin-right: 10px;
     font-size: 13px;
   }
 }
 
 @media (min-width: $laptop-width) {
   .control__button {
-    margin-right: 10px;
-  }
-
-  .control__time {
     margin-right: 10px;
   }
 
@@ -455,15 +450,17 @@
     }
   }
 
+  .control__duration {
+    margin-right: 15px;
+  }
+
   .control__time {
     min-width: 65px;
-    margin-right: 15px;
     font-size: 15px;
   }
 
   .control__range {
     height: 10px;
-    margin-right: 15px;
 
     &::-webkit-slider-runnable-track {
       height: 10px;

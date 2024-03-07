@@ -275,13 +275,17 @@ blurCheckbox.addEventListener('change', function (event) {
 });
 
 // Background video
+let backgroundFlag = false;
+
 const background = document.querySelector('.background');
 const backgroundCheckbox = SETTINGS.querySelector('.settings__checkbox--background');
 const backgroundVideo = document.querySelector('.background__video');
 
 function showBackground() {
   if (backgroundCheckbox.checked) {
+    backgroundFlag = true;
     background.classList.remove('background--off');
+
     if (VIDEO.src) {
       backgroundVideo.src = VIDEO.src;
     }
@@ -290,6 +294,7 @@ function showBackground() {
       backgroundVideo.currentTime = videoCurrentTime;
     }
   } else {
+    backgroundFlag = false;
     background.classList.add('background--off');
     backgroundVideo.removeAttribute('src');
   }
@@ -994,14 +999,14 @@ function handleMouseMove() {
 }
 
 function showControls() {
-  statisticsName.classList.remove('video__name--hide');
+  statisticsName.classList.remove('statistics__name--hide');
   VIDEO.style.cursor = 'auto';
   STATISTICS.classList.remove('statistics--hide');
   CONTROLS.classList.remove('control--hide');
 }
 
 function hideControls() {
-  statisticsName.classList.add('video__name--hide');
+  statisticsName.classList.add('statistics__name--hide');
   VIDEO.style.cursor = 'none';
   STATISTICS.classList.add('statistics--hide');
   CONTROLS.classList.add('control--hide');
@@ -1020,9 +1025,10 @@ WRAPPER.addEventListener('mouseenter', resetHideControlsTimer);
 
 // File
 const MAX_FILE_SIZE = 5368709120;
-const INPUTFILE = document.querySelector('.settings__file');
-const INPUTFILE_OUTPUT = document.querySelector('.settings__output');
-const supportedFormats = ['video/mp4', 'video/webm', 'video/mkv', 'video/mov'];
+const INPUTFILE = SETTINGS.querySelector('.settings__file');
+const INPUTFILE_OUTPUT = SETTINGS.querySelector('.settings__output');
+const INPUTFILE_COUNTER = SETTINGS.querySelector('.settings__counter');
+const supportedFormats = ['video/mp4', 'video/webm'];
 
 // Check and save uploaded files
 let uploadedVideo = [];
@@ -1067,9 +1073,12 @@ function validateFiles(uploadedVideo) {
 
   if (showSuccessMessage) {
     if (uploadedVideo.length > 1) {
+      INPUTFILE_COUNTER.innerHTML = '+' + (uploadedVideo.length - 1);
+      INPUTFILE_COUNTER.classList.remove('settings__counter--hide');
       seriesLabel.classList.remove('settings__label--hide');
     }
-    INPUTFILE_OUTPUT.innerHTML = uploadedVideo[0].name;
+    let lastUploadedVideo = uploadedVideo[uploadedVideo.length - 1];
+    INPUTFILE_OUTPUT.innerHTML = lastUploadedVideo.name;
     VIDEO.setAttribute('crossorigin', 'anonymous');
     generatingSeries();
     playCurrentVideo();
@@ -1124,6 +1133,10 @@ function playCurrentVideo() {
     currentVideo = uploadedVideo[currentVideoIndex];
   } else {
     currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
+  }
+
+  if (backgroundFlag) {
+    backgroundVideo.src = currentVideo.src;
   }
 
   VIDEO.setAttribute('src', currentVideo.src);
@@ -1509,28 +1522,35 @@ function updateActiveButton() {
 // Set Video
 let game = null;
 
-const chooseButtons = document.querySelectorAll('.settings__video');
+const chooseButtons = SETTINGS.querySelectorAll('.settings__video');
 
 chooseButtons.forEach((element) => {
-  element.addEventListener('click', function () {
-    game = this.getAttribute('data-video');
-    setVideo();
-    deepCheckbox.removeAttribute('disabled', 'disabled');
-  });
+  element.addEventListener('click', selectGame);
 });
+
+function selectGame() {
+  game = this.getAttribute('data-video');
+  setVideo();
+}
 
 function setVideo() {
   VIDEO.src = 'video/' + game + '/' + deepFlag + '.webm';
   VIDEO.preload = 'auto';
 }
 
+// Delete choose event from upload button
+const fileButton = SETTINGS.querySelector('.settings__video--file');
+
+fileButton.removeEventListener('click', selectGame);
+
 // Reset video
 function resetVideo() {
-  VIDEO.pause();
+  pauseVideo();
+  VIDEO.src = '';
   VIDEO.removeAttribute('src');
   VIDEO.removeAttribute('preload');
   VIDEO.removeAttribute('crossorigin');
-  statisticsName.classList.add('video__name--off');
+  statisticsName.classList.add('statistics__name--off');
   WRAPPER.className = 'video__wrapper';
   START_BUTTON.classList.remove('video__start--hide');
   CONTROLS.classList.add('control--off');
@@ -1541,6 +1561,9 @@ function resetVideo() {
   // clearSubtitle();
   stopProgress();
   resetDuration();
+  backgroundVideo.pause();
+  backgroundVideo.src = '';
+  backgroundVideo.removeAttribute('src');
 }
 
 // Start
@@ -1599,35 +1622,17 @@ let videoCurrentTime;
 let windowWidth = window.innerWidth;
 let windowHeight = window.innerHeight;
 
-const statisticsName = document.querySelector('.video__name');
+const statisticsName = WRAPPER.querySelector('.statistics__name');
 const statisticsClientTime = STATISTICS.querySelector('.statistics__time');
 const statisticsEndTime = STATISTICS.querySelector('.statistics__end');
 const statisticsResolution = STATISTICS.querySelector('.statistics__resolution');
-const statisticsUFH = document.querySelector('.header__ufh');
+const statisticsUFH = HEADER.querySelector('.header__ufh');
 const statisticsFormat = STATISTICS.querySelector('.statistics__format');
 const statisticsDuration = STATISTICS.querySelector('.statistics__duration');
 const statisticsBuffer = STATISTICS.querySelector('.statistics__buffer');
 
-// function getStatistics() {
-//   updateVideoProperties();
-//   setStatistics();
-// }
-
-// function updateVideoProperties() {
-//   videoWidth = VIDEO.videoWidth;
-//   videoHeight = VIDEO.videoHeight;
-//   videoDuration = Math.round(VIDEO.duration);
-//   VIDEO_RANGE.setAttribute('max', videoDuration);
-
-//   if (currentVideo.type) {
-//     videoFormat = currentVideo.type.replace('video/', '');
-//   } else {
-//     videoFormat = VIDEO.src.split('.').pop();
-//   }
-// }
-
 function getStatistics() {
-  statisticsName.classList.remove('video__name--off');
+  statisticsName.classList.remove('statistics__name--off');
 
   videoWidth = VIDEO.videoWidth;
   videoHeight = VIDEO.videoHeight;
