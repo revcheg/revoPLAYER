@@ -131,8 +131,8 @@ function setDuration() {
 
   VIDEO.currentTime = rangeValue;
 
-  videoPassed.innerHTML = formatTime(rangeValue);
-  videoLeft.innerHTML = formatTime(videoDuration - rangeValue);
+  videoPassed.innerText = formatTime(rangeValue);
+  videoLeft.innerText = formatTime(videoDuration - rangeValue);
 
   line.value = rangeValue;
   line.style.width = Math.round((rangeValue / videoDuration) * 100) + '%';
@@ -140,8 +140,8 @@ function setDuration() {
 
 function resetDuration() {
   VIDEO_RANGE.value = '0';
-  videoPassed.innerHTML = formatTime(0);
-  videoLeft.innerHTML = formatTime(0);
+  videoPassed.innerText = formatTime(0);
+  videoLeft.innerText = formatTime(0);
   line.style.width = '0%';
   line.value = 0;
 }
@@ -211,7 +211,7 @@ function changeSpeed() {
   VIDEO.playbackRate = playbackRate;
 
   speedInfo.classList.remove('control__info--hide');
-  speedInfo.innerHTML = playbackRate + 'x';
+  speedInfo.innerText = playbackRate + 'x';
 
   if (playbackRate !== 1.0) {
     speedButton.classList.add('control__button--active');

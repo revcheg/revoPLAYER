@@ -1,4 +1,5 @@
 // STATISTICS
+let videoName;
 let videoWidth;
 let videoHeight;
 let videoFormat;
@@ -34,10 +35,16 @@ function getStatistics() {
 }
 
 function setStatistics() {
-  statisticsName.innerHTML = currentVideo.name;
+  videoName = currentVideo.name;
 
-  statisticsResolution.innerHTML = videoWidth + 'x' + videoHeight;
-  statisticsFormat.innerHTML = videoFormat;
+  if (currentVideo.year) {
+    videoName += ' / ' + currentVideo.year;
+  }
+
+  statisticsName.innerText = videoName;
+
+  statisticsResolution.innerText = videoWidth + 'x' + videoHeight;
+  statisticsFormat.innerText = videoFormat;
 
   if (videoWidth >= 3840) {
     statisticsUFH.classList.remove('header__ufh--off');
@@ -49,7 +56,7 @@ function setStatistics() {
 function updateBuffered() {
   if (VIDEO.buffered.length > 0) {
     videoBuffer = Math.floor(VIDEO.buffered.end(0));
-    statisticsBuffer.innerHTML = videoBuffer;
+    statisticsBuffer.innerText = videoBuffer;
   }
 }
 
@@ -65,7 +72,7 @@ function getTime() {
   const clientDate = new Date();
   const clientHours = clientDate.getHours();
   const clientMinutes = clientDate.getMinutes();
-  statisticsClientTime.innerHTML = clientHours + ':' + clientMinutes;
+  statisticsClientTime.innerText = clientHours + ':' + clientMinutes;
 }
 
 function getEndTime() {
@@ -73,5 +80,5 @@ function getEndTime() {
   futureDate.setSeconds(futureDate.getSeconds() + videoDuration);
   const futureClientHours = futureDate.getHours();
   const futureClientMinutes = futureDate.getMinutes();
-  statisticsEndTime.innerHTML = futureClientHours + ':' + futureClientMinutes;
+  statisticsEndTime.innerText = futureClientHours + ':' + futureClientMinutes;
 }

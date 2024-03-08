@@ -13,7 +13,7 @@ function showMessage(message, duration = 3000) {
   // }
 
   MESSAGE.classList.remove('message--hide');
-  MESSAGE.innerHTML = message;
+  MESSAGE.innerText = message;
 
   if (!MESSAGE.classList.contains('message--animate')) {
     MESSAGE.classList.add('message--animate');

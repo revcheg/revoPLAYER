@@ -26,7 +26,7 @@
 //   subtitleButton.setAttribute('title', 'Вимкнути субтитри (c)');
 //   subtitleButton.classList.add('control__button--active');
 //   subtitleInfo.classList.remove('control__info--hide');
-//   subtitleInfo.innerHTML = currentSubtitle.srclang;
+//   subtitleInfo.innerText = currentSubtitle.srclang;
 // }
 
 // function clearSubtitle() {
@@ -81,7 +81,7 @@ function enableSubtitle(subtitle) {
   subtitleButton.setAttribute('title', 'Вимкнути субтитри (c)');
   subtitleButton.classList.add('control__button--active');
   subtitleInfo.classList.remove('control__info--hide');
-  subtitleInfo.innerHTML = subtitle.srclang;
+  subtitleInfo.innerText = subtitle.srclang;
 }
 
 function disableSubtitle() {

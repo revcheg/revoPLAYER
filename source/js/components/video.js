@@ -13,7 +13,7 @@ function startProgress() {
 function updateProgress() {
   // Buffer
   videoBuffer = Math.round(VIDEO.buffered.end(0));
-  statisticsBuffer.innerHTML = videoBuffer;
+  statisticsBuffer.innerText = videoBuffer;
 
   videoCurrentTime = Math.round(VIDEO.currentTime);
   VIDEO_RANGE.value = videoCurrentTime;
@@ -21,8 +21,8 @@ function updateProgress() {
   // Duration
   currentVideoPassed = formatTime(videoCurrentTime);
   currentVideoLeft = formatTime(videoDuration - videoCurrentTime);
-  videoPassed.innerHTML = currentVideoPassed;
-  videoLeft.innerHTML = currentVideoLeft;
+  videoPassed.innerText = currentVideoPassed;
+  videoLeft.innerText = currentVideoLeft;
 
   startProgress();
   getTime();

@@ -5,7 +5,8 @@
         "name": "Unlimited Spider Man",
         "title": "Bonus video",
         "src": "video/USP-intro.mp4",
-        "description": "Опис відео"
+        "description": "Опис відео",
+        "year": "1999"
       }
     ],
     "Spider Man": [
@@ -13,15 +14,17 @@
         "name": "Spider Man",
         "title": "Bonus video",
         "src": "video/SP-intro.mp4",
-        "description": "Опис відео"
+        "description": "Опис відео",
+        "year": "1994"
       }
     ],
     "Vice City": [
       {
-        "name": "Vice City",
+        "name": "GTA Vice City",
         "title": "Bonus video",
         "src": "video/GTAVC-intro.webm",
-        "description": "Опис відео"
+        "description": "Опис відео",
+        "year": "2002"
       }
     ],
     "Assassins Creed 2": [
@@ -29,7 +32,8 @@
         "name": "Assassins Creed 2",
         "title": "Bonus video",
         "src": "video/ACII-trailer.mp4",
-        "description": "Опис відео"
+        "description": "Опис відео",
+        "year": "2009"
       }
     ],
     "TMNT": [
@@ -37,7 +41,8 @@
         "name": "TMNT",
         "title": "Bonus video",
         "src": "video/TMNT-intro.mp4",
-        "description": "Опис відео"
+        "description": "Опис відео",
+        "year": "2003"
       }
     ]
   },

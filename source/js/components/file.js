@@ -48,12 +48,12 @@ function validateFiles(uploadedVideo) {
 
   if (showSuccessMessage) {
     if (uploadedVideo.length > 1) {
-      INPUTFILE_COUNTER.innerHTML = '+' + uploadedVideo.length;
+      INPUTFILE_COUNTER.innerText = '+' + uploadedVideo.length;
       INPUTFILE_COUNTER.classList.remove('settings__counter--hide');
       seriesLabel.classList.remove('settings__label--hide');
     }
     let lastUploadedVideo = uploadedVideo[uploadedVideo.length - 1];
-    INPUTFILE_OUTPUT.innerHTML = lastUploadedVideo.name;
+    INPUTFILE_OUTPUT.innerText = lastUploadedVideo.name;
     VIDEO.setAttribute('crossorigin', 'anonymous');
     generatingSeries();
     playCurrentVideo();

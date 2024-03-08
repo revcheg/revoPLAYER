@@ -1,7 +1,7 @@
 // Series
 // Generating series button
 function generatingSeries() {
-  SERIES_LIST.innerHTML = '';
+  SERIES_LIST.innerText = '';
 
   Array.from(uploadedVideo).forEach((file, index) => {
     const li = document.createElement('li');
