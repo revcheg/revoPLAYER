@@ -10,7 +10,7 @@
   padding: 20px 10px;
   color: #FFFFFF;
   outline: none;
-  transition: 0.8s;
+  transition: all 0.8s, background-color 0.4s;
   z-index: 3;
 
   &--hide {

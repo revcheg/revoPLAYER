@@ -195,18 +195,20 @@ subtitleCheckbox.addEventListener('change', setBackgroundSubtitle);
 // Auto scheme
 const autoschemeCheckbox = SETTINGS.querySelector('.settings__checkbox--autoscheme');
 
-function setAutoscheme() {
-  clearSchemeButtons();
-
+function setAutoScheme() {
   if (autoschemeCheckbox.checked) {
     setScheme('auto');
+  } else {
+    setScheme(selectedScheme);
   }
-};
 
-function clearSchemeButtons() {
+  toggleSchemeButtons();
+}
+
+function toggleSchemeButtons() {
   const lightSchemeLabel = FOOTER.querySelector('.footer__scheme[value="light"]').parentNode;
-  const darkSchemeLabel = FOOTER.querySelector('.footer__scheme[value="dark"]').parentNode;
   const autoSchemeLabel = FOOTER.querySelector('.footer__scheme[value="auto"]').parentNode;
+  const darkSchemeLabel = FOOTER.querySelector('.footer__scheme[value="dark"]').parentNode;
 
   if (autoschemeCheckbox.checked) {
     lightSchemeLabel.classList.add('footer__label--hide');
@@ -215,14 +217,14 @@ function clearSchemeButtons() {
     setTimeout(() => {
       lightSchemeLabel.classList.add('footer__label--off');
       darkSchemeLabel.classList.add('footer__label--off');
-    }, 100);
+    }, 150);
 
     setTimeout(() => {
       autoSchemeLabel.classList.remove('footer__label--off');
       setTimeout(() => {
         autoSchemeLabel.classList.remove('footer__label--hide');
-      }, 100);
-    }, 100);
+      }, 150);
+    }, 150);
   } else {
     autoSchemeLabel.classList.add('footer__label--hide');
 
@@ -234,12 +236,12 @@ function clearSchemeButtons() {
       setTimeout(() => {
         lightSchemeLabel.classList.remove('footer__label--hide');
         darkSchemeLabel.classList.remove('footer__label--hide');
-      }, 100);
-    }, 100);
+      }, 150);
+    }, 150);
   }
 }
 
-autoschemeCheckbox.addEventListener('change', setAutoscheme);
+autoschemeCheckbox.addEventListener('change', setAutoScheme);
 
 // Blur
 const blurCheckbox = SETTINGS.querySelector('.settings__checkbox--blur');
@@ -255,24 +257,16 @@ blurCheckbox.addEventListener('change', function (event) {
 // Background video
 let backgroundFlag = false;
 
-const background = document.querySelector('.background');
 const backgroundCheckbox = SETTINGS.querySelector('.settings__checkbox--background');
-const backgroundVideo = document.querySelector('.background__video');
 
 function showBackground() {
   if (backgroundCheckbox.checked) {
     backgroundFlag = true;
     background.classList.remove('background--off');
-
-    if (VIDEO.src) {
-      backgroundVideo.src = VIDEO.src;
-    }
-
-    if (videoCurrentTime) {
-      backgroundVideo.currentTime = videoCurrentTime;
-    }
+    setupBackground();
   } else {
     backgroundFlag = false;
+    pauseBackgroundVideo();
     background.classList.add('background--off');
     backgroundVideo.removeAttribute('src');
   }
@@ -302,15 +296,20 @@ const darkStyles = document.querySelectorAll('link[rel=stylesheet][media*=prefer
 const schemeButton = document.querySelectorAll('.footer__scheme');
 const darkScheme = matchMedia('(prefers-color-scheme: dark)').matches;
 
+let savedScheme;
+let systemScheme;
+let selectedScheme;
+
 function setupSwitcher() {
-  let savedScheme = getSavedScheme();
+  savedScheme = getSavedScheme();
+  selectedScheme = savedScheme;
 
   if (savedScheme !== null) {
     updateRadioStates(document.querySelector(`.footer__scheme[value=${savedScheme}]`));
   }
 
   schemeSwitcher.addEventListener('change', (event) => {
-    let selectedScheme = event.target.value;
+    selectedScheme = event.target.value;
     setScheme(selectedScheme);
   });
 }
@@ -327,9 +326,6 @@ function updateRadioStates(activeRadio) {
   });
 }
 
-let savedScheme;
-let systemScheme;
-
 function setupScheme() {
   savedScheme = getSavedScheme();
   systemScheme = getSystemScheme();
@@ -345,7 +341,7 @@ function setupScheme() {
   } else if (savedScheme === 'dark') {
     switchMedia('dark');
   } else if (savedScheme === 'auto') {
-    clearSchemeButtons();
+    toggleSchemeButtons();
   }
 }
 
@@ -361,7 +357,7 @@ function setScheme(scheme) {
     autoschemeCheckbox.checked = false;
   }
 
-  clearSchemeButtons();
+  toggleSchemeButtons();
   updateRadioStates(document.querySelector(`.footer__scheme[value=${scheme}]`));
 }
 
@@ -432,6 +428,19 @@ function addScheme(scheme) {
 }
 
 // Background
+const background = document.querySelector('.background');
+const backgroundVideo = document.querySelector('.background__video');
+
+function setupBackground() {
+  if (VIDEO.src) {
+    backgroundVideo.src = VIDEO.src;
+  }
+
+  if (videoCurrentTime) {
+    backgroundVideo.currentTime = videoCurrentTime;
+  }
+}
+
 function playBackgroundVideo() {
   backgroundVideo.play();
 }
@@ -440,13 +449,8 @@ function pauseBackgroundVideo() {
   backgroundVideo.pause();
 }
 
-// function updateBackgroundVideo() {
-//   backgroundVideo.currentTime = videoCurrentTime;
-// }
-
 VIDEO.addEventListener('play', playBackgroundVideo);
 VIDEO.addEventListener('pause', pauseBackgroundVideo);
-// VIDEO.addEventListener('timeupdate', updateBackgroundVideo);
 
 // Console
 const consoleContainer = document.querySelector('.console');
@@ -505,7 +509,7 @@ function executeCommand(event) {
   if (event.key === 'Enter') {
     resetVideo();
 
-    let command = consoleInput.value.toLowerCase();
+    let command = consoleInput.value.trim().toLowerCase();
     let commandDescription = consoleCommands[command];
 
     if (commandDescription) {
@@ -557,36 +561,34 @@ function devClicks() {
 devButton.addEventListener('click', devClicks);
 
 // Execute dev command
-// const devConsoleCheckbox = consoleContainer.querySelector('.console__input--checkbox');
+const devConsoleCheckbox = consoleContainer.querySelector('.console__input--checkbox');
 
-// function execute() {
-//   let command = consoleInput.value;
+function executeDevCommand(event) {
+  if (event.key === 'Enter' && !event.shiftKey) {
+    let command = consoleInput.value;
 
-//   try {
-//     let result = eval(command);
-//     showMessage('Результат: ' + result);
-//   } catch (error) {
-//     showMessage('Помилка: ' + error.message);
-//   }
+    try {
+      let result = eval(command);
+      showMessage('Результат: ' + result);
+    } catch (error) {
+      showMessage('Помилка: ' + error.message);
+    }
 
-//   consoleInput.value = '';
-// }
+    consoleInput.value = '';
+  }
+}
 
-// function activateDevConsole() {
-//   if (devConsoleCheckbox.checked) {
-//     consoleInput.removeEventListener('keyup', execute);
-//     consoleInput.addEventListener('keyup', function(event) {
-//       if (event.key === 'Enter' && !event.shiftKey) {
-//         execute();
-//       }
-//     });
-//   } else {
-//     consoleInput.removeEventListener('keyup', execute);
-//     consoleInput.addEventListener('keyup', executeCommand);
-//   }
-// }
+function activateDevConsole() {
+  if (devConsoleCheckbox.checked) {
+    consoleInput.removeEventListener('keyup', executeCommand);
+    consoleInput.addEventListener('keyup', executeDevCommand);
+  } else {
+    consoleInput.removeEventListener('keyup', executeDevCommand);
+    consoleInput.addEventListener('keyup', executeCommand);
+  }
+}
 
-// devConsoleCheckbox.addEventListener('change', activateDevConsole);
+devConsoleCheckbox.addEventListener('change', activateDevConsole);
 
 // CONTROLS
 VIDEO.controls = false;
@@ -671,7 +673,9 @@ muteButton.addEventListener('click', setMute);
 
 // Volume
 VIDEO.volume = 0.5;
+
 const volumeRange = CONTROLS.querySelector('.control__range--volume');
+
 let changedVolume;
 
 function changeVolume(amount) {
@@ -726,6 +730,8 @@ function setDuration() {
 
   line.value = rangeValue;
   line.style.width = Math.round((rangeValue / videoDuration) * 100) + '%';
+
+  backgroundVideo.currentTime = rangeValue;
 }
 
 function resetDuration() {
@@ -1050,6 +1056,8 @@ function handleFiles(event) {
   });
 
   validateFiles(uploadedVideo);
+
+  clearVideoButtons();
 }
 
 INPUTFILE.addEventListener('change', resetVideo);
@@ -1078,12 +1086,13 @@ function validateFiles(uploadedVideo) {
       INPUTFILE_COUNTER.classList.remove('settings__counter--hide');
       seriesLabel.classList.remove('settings__label--hide');
     }
+
     let lastUploadedVideo = uploadedVideo[uploadedVideo.length - 1];
     INPUTFILE_OUTPUT.innerText = lastUploadedVideo.name;
     VIDEO.setAttribute('crossorigin', 'anonymous');
     generatingSeries();
     playCurrentVideo();
-    showMessage('Кінострічка готова &#127909;');
+    showMessage('Кінострічка готова &#128252;');
   }
 
   INPUTFILE.value = '';
@@ -1327,6 +1336,8 @@ VIDEO.addEventListener('ended', () => changeVideoIndex(1));
 
 const keyHandlers = {
   playPause: ' ',
+  nextVideoIndex: '.',
+  prevVideoIndex: ',',
   skipBackward: 'ArrowLeft',
   skipForward: 'ArrowRight',
   changeVolumeUp: 'ArrowUp',
@@ -1343,12 +1354,9 @@ const keyHandlers = {
   startVideo: 'k',
   setLightScheme: 'l',
   setDarkScheme: 'd',
-  setAutoScheme: 'a',
   setCinemaMode: 't',
   openConsole: '`',
-  showAddControls: 'b',
-  nextVideoIndex: '.',
-  prevVideoIndex: ',',
+  showAddControls: 'b'
 };
 
 window.addEventListener('keyup', (event) => {
@@ -1359,44 +1367,56 @@ window.addEventListener('keyup', (event) => {
 function handleKey(key, handlers) {
   for (const action in handlers) {
     if (handlers[action] === key) {
-      switch (action) {
-        case 'playPause':
+      if (isVideoPlaying) {
+        switch (action) {
+          case 'playPause':
           toggleVideo();
           break;
-        case 'skipBackward':
-          VIDEO.currentTime -= 5;
-          VIDEO_RANGE.value = VIDEO.currentTime;
-          setDuration();
-          break;
-        case 'skipForward':
-          VIDEO.currentTime += 5;
-          VIDEO_RANGE.value = VIDEO.currentTime;
-          setDuration();
-          break;
-        case 'changeVolumeUp':
-          changeVolume(0.1);
-          break;
-        case 'changeVolumeDown':
-          changeVolume(-0.1);
-          break;
-        case 'toggleMute':
-          setMute();
-          break;
-        case 'setSubtitle':
-          setSubtitle();
-          break;
-        case 'changeSpeed':
-          changeSpeed();
-          break;
-        case 'openPIP':
-          setPictureInPicture();
-          break;
-        case 'toggleFitScreen':
-          changeFitScreen();
-          break;
-        case 'toggleFullscreen':
-          setFullscreen();
-          break;
+          case 'nextVideoIndex':
+            changeVideoIndex(1);
+            break;
+          case 'prevVideoIndex':
+            changeVideoIndex(-1);
+            break;
+          case 'skipBackward':
+            VIDEO.currentTime -= 5;
+            VIDEO_RANGE.value = VIDEO.currentTime;
+            setDuration();
+            break;
+          case 'skipForward':
+            VIDEO.currentTime += 5;
+            VIDEO_RANGE.value = VIDEO.currentTime;
+            setDuration();
+            break;
+          case 'changeVolumeUp':
+            changeVolume(0.1);
+            break;
+          case 'changeVolumeDown':
+            changeVolume(-0.1);
+            break;
+          case 'toggleMute':
+            setMute();
+            break;
+          case 'setSubtitle':
+            setSubtitle();
+            break;
+          case 'changeSpeed':
+            changeSpeed();
+            break;
+          case 'openPIP':
+            setPictureInPicture();
+            break;
+          case 'toggleFitScreen':
+            changeFitScreen();
+            break;
+          case 'toggleFullscreen':
+            setFullscreen();
+            break;
+          }
+      }
+
+      // Other
+      switch (action) {
         case 'openSettings':
           openSettings();
           break;
@@ -1413,9 +1433,6 @@ function handleKey(key, handlers) {
         case 'setDarkScheme':
           setScheme('dark');
           break;
-        case 'setAutoScheme':
-          setScheme('auto');
-          break;
         case 'setCinemaMode':
           setCinemaMode();
           break;
@@ -1424,12 +1441,6 @@ function handleKey(key, handlers) {
           break;
         case 'showAddControls':
           showAddControls();
-          break;
-        case 'nextVideoIndex':
-          changeVideoIndex(1);
-          break;
-        case 'prevVideoIndex':
-          changeVideoIndex(-1);
           break;
       }
     }
@@ -1451,26 +1462,43 @@ function getSavedScheme() {
 
 // Message
 let messageTimeout;
+let isMessageVisible = false;
+
+MESSAGE.addEventListener('mouseover', () => {
+  if (!isMessageVisible) {
+    isMessageVisible = true;
+  }
+
+  if (messageTimeout) {
+    clearTimeout(messageTimeout);
+  }
+});
+
+MESSAGE.addEventListener('mouseout', () => {
+  if (isMessageVisible) {
+    messageTimeout = setTimeout(() => {
+      clearMessage();
+      isMessageVisible = false;
+    }, 3000);
+  }
+});
 
 function showMessage(message, duration = 3000) {
   if (messageTimeout) {
     clearTimeout(messageTimeout);
   }
 
-  // if (VIDEO.error) {
-  //   MESSAGE.classList.add('message--error');
-  // } else {
-  //   MESSAGE.classList.remove('message--error');
-  // }
-
   MESSAGE.classList.remove('message--hide');
-  MESSAGE.innerText = message;
+  MESSAGE.innerHTML = message;
 
   if (!MESSAGE.classList.contains('message--animate')) {
     MESSAGE.classList.add('message--animate');
   }
 
-  messageTimeout = setTimeout(clearMessage, duration);
+  messageTimeout = setTimeout(() => {
+    clearMessage();
+    isMessageVisible = false;
+  }, duration);
 }
 
 function clearMessage() {
@@ -1526,13 +1554,15 @@ let game = null;
 
 const chooseButtons = SETTINGS.querySelectorAll('.settings__video');
 
-chooseButtons.forEach((element) => {
-  element.addEventListener('click', selectGame);
-});
-
 function selectGame() {
-  game = this.getAttribute('data-video');
-  setVideo();
+  clearVideoButtons();
+  if (this.getAttribute('data-video') == 'Custom') {
+    return
+  } else {
+    this.classList.add('settings__video--active');
+    game = this.getAttribute('data-video');
+    setVideo();
+  }
 }
 
 function setVideo() {
@@ -1540,10 +1570,15 @@ function setVideo() {
   VIDEO.preload = 'auto';
 }
 
-// Delete choose event from upload button
-const fileButton = SETTINGS.querySelector('.settings__video--file');
+function clearVideoButtons() {
+  chooseButtons.forEach((element) => {
+    element.classList.remove('settings__video--active');
+  });
+}
 
-fileButton.removeEventListener('click', selectGame);
+chooseButtons.forEach((element) => {
+  element.addEventListener('click', selectGame);
+});
 
 // Reset video
 function resetVideo() {
@@ -1591,7 +1626,6 @@ function handleVideoPlay() {
   START_BUTTON.classList.add('video__start--hide');
   CONTROLS.classList.remove('control--off');
 
-  // VIDEO.play();
   playVideo();
   VIDEO.focus();
 
@@ -1608,6 +1642,8 @@ function handleVideoError() {
   setTimeout(() => {
     openButton.classList.remove('header__menu--error');
   }, 2100);
+
+  showMessage('Відео відсутнє, спробуйте обрати інше');
 
   if (VIDEO.error) {
     showMessage(VIDEO.error.message);

@@ -1,7 +1,7 @@
 .control {
   position: absolute;
-  bottom: 0;
-  left: 0;
+  bottom: 0%;
+  left: 0px;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -132,7 +132,6 @@
 
     .control__range--volume {
       width: 60px;
-      margin-right: 15px;
       padding: 10px;
       clip-path: none;
     }
@@ -158,7 +157,8 @@
 }
 
 .control__time {
-  // min-width: 60px;
+  box-sizing: border-box;
+  min-width: 60px;
   padding: 0px 5px;
   font-size: 11px;
   font-weight: 300;
@@ -344,17 +344,11 @@
   .control__duration {
     order: 3;
     width: auto;
-    margin-right: 15px;
     margin-bottom: 0;
   }
 
   .control__time {
     font-size: 13px;
-    margin-right: 5px;
-  }
-
-  .control__range {
-    margin-right: 5px;
   }
 }
 
@@ -458,7 +452,7 @@
   }
 
   .control__time {
-    // min-width: 65px;
+    min-width: 65px;
     font-size: 15px;
   }
 

@@ -172,6 +172,10 @@
 .settings__video {
 	line-height: normal;
 
+	&--active {
+		box-shadow: 0 0 10px 6px #F27DFD;
+	}
+
 	&--file {
 
 		&:hover,
@@ -182,7 +186,6 @@
 }
 
 .settings__counter {
-	padding-top: 10px;
 	font-weight: 500;
 	line-height: normal;
 	background-color: #F27DFD;
@@ -355,6 +358,7 @@
 .message {
   padding: 8px 15px;
 	font-weight: 500;
+	line-height: normal;
 	background-color: rgba(#4D4D4D, 0.95);
 	clip-path: none;
 }

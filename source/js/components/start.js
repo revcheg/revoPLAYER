@@ -21,7 +21,6 @@ function handleVideoPlay() {
   START_BUTTON.classList.add('video__start--hide');
   CONTROLS.classList.remove('control--off');
 
-  // VIDEO.play();
   playVideo();
   VIDEO.focus();
 
@@ -38,6 +37,8 @@ function handleVideoError() {
   setTimeout(() => {
     openButton.classList.remove('header__menu--error');
   }, 2100);
+
+  showMessage('Відео відсутнє, спробуйте обрати інше');
 
   if (VIDEO.error) {
     showMessage(VIDEO.error.message);

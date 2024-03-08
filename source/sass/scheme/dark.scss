@@ -135,6 +135,10 @@
 
 .settings__video {
 
+  &--active {
+		box-shadow: 0 0 10px 6px #0197F6;
+	}
+
 	&--file {
 
 		&:hover,

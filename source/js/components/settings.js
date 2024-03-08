@@ -177,18 +177,20 @@ subtitleCheckbox.addEventListener('change', setBackgroundSubtitle);
 // Auto scheme
 const autoschemeCheckbox = SETTINGS.querySelector('.settings__checkbox--autoscheme');
 
-function setAutoscheme() {
-  clearSchemeButtons();
-
+function setAutoScheme() {
   if (autoschemeCheckbox.checked) {
     setScheme('auto');
+  } else {
+    setScheme(selectedScheme);
   }
-};
 
-function clearSchemeButtons() {
+  toggleSchemeButtons();
+}
+
+function toggleSchemeButtons() {
   const lightSchemeLabel = FOOTER.querySelector('.footer__scheme[value="light"]').parentNode;
-  const darkSchemeLabel = FOOTER.querySelector('.footer__scheme[value="dark"]').parentNode;
   const autoSchemeLabel = FOOTER.querySelector('.footer__scheme[value="auto"]').parentNode;
+  const darkSchemeLabel = FOOTER.querySelector('.footer__scheme[value="dark"]').parentNode;
 
   if (autoschemeCheckbox.checked) {
     lightSchemeLabel.classList.add('footer__label--hide');
@@ -197,14 +199,14 @@ function clearSchemeButtons() {
     setTimeout(() => {
       lightSchemeLabel.classList.add('footer__label--off');
       darkSchemeLabel.classList.add('footer__label--off');
-    }, 100);
+    }, 150);
 
     setTimeout(() => {
       autoSchemeLabel.classList.remove('footer__label--off');
       setTimeout(() => {
         autoSchemeLabel.classList.remove('footer__label--hide');
-      }, 100);
-    }, 100);
+      }, 150);
+    }, 150);
   } else {
     autoSchemeLabel.classList.add('footer__label--hide');
 
@@ -216,12 +218,12 @@ function clearSchemeButtons() {
       setTimeout(() => {
         lightSchemeLabel.classList.remove('footer__label--hide');
         darkSchemeLabel.classList.remove('footer__label--hide');
-      }, 100);
-    }, 100);
+      }, 150);
+    }, 150);
   }
 }
 
-autoschemeCheckbox.addEventListener('change', setAutoscheme);
+autoschemeCheckbox.addEventListener('change', setAutoScheme);
 
 // Blur
 const blurCheckbox = SETTINGS.querySelector('.settings__checkbox--blur');
@@ -237,24 +239,16 @@ blurCheckbox.addEventListener('change', function (event) {
 // Background video
 let backgroundFlag = false;
 
-const background = document.querySelector('.background');
 const backgroundCheckbox = SETTINGS.querySelector('.settings__checkbox--background');
-const backgroundVideo = document.querySelector('.background__video');
 
 function showBackground() {
   if (backgroundCheckbox.checked) {
     backgroundFlag = true;
     background.classList.remove('background--off');
-
-    if (VIDEO.src) {
-      backgroundVideo.src = VIDEO.src;
-    }
-
-    if (videoCurrentTime) {
-      backgroundVideo.currentTime = videoCurrentTime;
-    }
+    setupBackground();
   } else {
     backgroundFlag = false;
+    pauseBackgroundVideo();
     background.classList.add('background--off');
     backgroundVideo.removeAttribute('src');
   }

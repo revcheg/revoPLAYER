@@ -55,7 +55,7 @@ function executeCommand(event) {
   if (event.key === 'Enter') {
     resetVideo();
 
-    let command = consoleInput.value.toLowerCase();
+    let command = consoleInput.value.trim().toLowerCase();
     let commandDescription = consoleCommands[command];
 
     if (commandDescription) {
@@ -107,33 +107,31 @@ function devClicks() {
 devButton.addEventListener('click', devClicks);
 
 // Execute dev command
-// const devConsoleCheckbox = consoleContainer.querySelector('.console__input--checkbox');
+const devConsoleCheckbox = consoleContainer.querySelector('.console__input--checkbox');
 
-// function execute() {
-//   let command = consoleInput.value;
+function executeDevCommand(event) {
+  if (event.key === 'Enter' && !event.shiftKey) {
+    let command = consoleInput.value;
 
-//   try {
-//     let result = eval(command);
-//     showMessage('Результат: ' + result);
-//   } catch (error) {
-//     showMessage('Помилка: ' + error.message);
-//   }
+    try {
+      let result = eval(command);
+      showMessage('Результат: ' + result);
+    } catch (error) {
+      showMessage('Помилка: ' + error.message);
+    }
 
-//   consoleInput.value = '';
-// }
+    consoleInput.value = '';
+  }
+}
 
-// function activateDevConsole() {
-//   if (devConsoleCheckbox.checked) {
-//     consoleInput.removeEventListener('keyup', execute);
-//     consoleInput.addEventListener('keyup', function(event) {
-//       if (event.key === 'Enter' && !event.shiftKey) {
-//         execute();
-//       }
-//     });
-//   } else {
-//     consoleInput.removeEventListener('keyup', execute);
-//     consoleInput.addEventListener('keyup', executeCommand);
-//   }
-// }
+function activateDevConsole() {
+  if (devConsoleCheckbox.checked) {
+    consoleInput.removeEventListener('keyup', executeCommand);
+    consoleInput.addEventListener('keyup', executeDevCommand);
+  } else {
+    consoleInput.removeEventListener('keyup', executeDevCommand);
+    consoleInput.addEventListener('keyup', executeCommand);
+  }
+}
 
-// devConsoleCheckbox.addEventListener('change', activateDevConsole);
+devConsoleCheckbox.addEventListener('change', activateDevConsole);

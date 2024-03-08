@@ -24,6 +24,8 @@ function handleFiles(event) {
   });
 
   validateFiles(uploadedVideo);
+
+  clearVideoButtons();
 }
 
 INPUTFILE.addEventListener('change', resetVideo);
@@ -52,12 +54,13 @@ function validateFiles(uploadedVideo) {
       INPUTFILE_COUNTER.classList.remove('settings__counter--hide');
       seriesLabel.classList.remove('settings__label--hide');
     }
+
     let lastUploadedVideo = uploadedVideo[uploadedVideo.length - 1];
     INPUTFILE_OUTPUT.innerText = lastUploadedVideo.name;
     VIDEO.setAttribute('crossorigin', 'anonymous');
     generatingSeries();
     playCurrentVideo();
-    showMessage('Кінострічка готова &#127909;');
+    showMessage('Кінострічка готова &#128252;');
   }
 
   INPUTFILE.value = '';

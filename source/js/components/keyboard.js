@@ -108,6 +108,8 @@
 
 const keyHandlers = {
   playPause: ' ',
+  nextVideoIndex: '.',
+  prevVideoIndex: ',',
   skipBackward: 'ArrowLeft',
   skipForward: 'ArrowRight',
   changeVolumeUp: 'ArrowUp',
@@ -124,12 +126,9 @@ const keyHandlers = {
   startVideo: 'k',
   setLightScheme: 'l',
   setDarkScheme: 'd',
-  setAutoScheme: 'a',
   setCinemaMode: 't',
   openConsole: '`',
-  showAddControls: 'b',
-  nextVideoIndex: '.',
-  prevVideoIndex: ',',
+  showAddControls: 'b'
 };
 
 window.addEventListener('keyup', (event) => {
@@ -140,44 +139,56 @@ window.addEventListener('keyup', (event) => {
 function handleKey(key, handlers) {
   for (const action in handlers) {
     if (handlers[action] === key) {
-      switch (action) {
-        case 'playPause':
+      if (isVideoPlaying) {
+        switch (action) {
+          case 'playPause':
           toggleVideo();
           break;
-        case 'skipBackward':
-          VIDEO.currentTime -= 5;
-          VIDEO_RANGE.value = VIDEO.currentTime;
-          setDuration();
-          break;
-        case 'skipForward':
-          VIDEO.currentTime += 5;
-          VIDEO_RANGE.value = VIDEO.currentTime;
-          setDuration();
-          break;
-        case 'changeVolumeUp':
-          changeVolume(0.1);
-          break;
-        case 'changeVolumeDown':
-          changeVolume(-0.1);
-          break;
-        case 'toggleMute':
-          setMute();
-          break;
-        case 'setSubtitle':
-          setSubtitle();
-          break;
-        case 'changeSpeed':
-          changeSpeed();
-          break;
-        case 'openPIP':
-          setPictureInPicture();
-          break;
-        case 'toggleFitScreen':
-          changeFitScreen();
-          break;
-        case 'toggleFullscreen':
-          setFullscreen();
-          break;
+          case 'nextVideoIndex':
+            changeVideoIndex(1);
+            break;
+          case 'prevVideoIndex':
+            changeVideoIndex(-1);
+            break;
+          case 'skipBackward':
+            VIDEO.currentTime -= 5;
+            VIDEO_RANGE.value = VIDEO.currentTime;
+            setDuration();
+            break;
+          case 'skipForward':
+            VIDEO.currentTime += 5;
+            VIDEO_RANGE.value = VIDEO.currentTime;
+            setDuration();
+            break;
+          case 'changeVolumeUp':
+            changeVolume(0.1);
+            break;
+          case 'changeVolumeDown':
+            changeVolume(-0.1);
+            break;
+          case 'toggleMute':
+            setMute();
+            break;
+          case 'setSubtitle':
+            setSubtitle();
+            break;
+          case 'changeSpeed':
+            changeSpeed();
+            break;
+          case 'openPIP':
+            setPictureInPicture();
+            break;
+          case 'toggleFitScreen':
+            changeFitScreen();
+            break;
+          case 'toggleFullscreen':
+            setFullscreen();
+            break;
+          }
+      }
+
+      // Other
+      switch (action) {
         case 'openSettings':
           openSettings();
           break;
@@ -194,9 +205,6 @@ function handleKey(key, handlers) {
         case 'setDarkScheme':
           setScheme('dark');
           break;
-        case 'setAutoScheme':
-          setScheme('auto');
-          break;
         case 'setCinemaMode':
           setCinemaMode();
           break;
@@ -205,12 +213,6 @@ function handleKey(key, handlers) {
           break;
         case 'showAddControls':
           showAddControls();
-          break;
-        case 'nextVideoIndex':
-          changeVideoIndex(1);
-          break;
-        case 'prevVideoIndex':
-          changeVideoIndex(-1);
           break;
       }
     }

@@ -6,15 +6,20 @@ const darkStyles = document.querySelectorAll('link[rel=stylesheet][media*=prefer
 const schemeButton = document.querySelectorAll('.footer__scheme');
 const darkScheme = matchMedia('(prefers-color-scheme: dark)').matches;
 
+let savedScheme;
+let systemScheme;
+let selectedScheme;
+
 function setupSwitcher() {
-  let savedScheme = getSavedScheme();
+  savedScheme = getSavedScheme();
+  selectedScheme = savedScheme;
 
   if (savedScheme !== null) {
     updateRadioStates(document.querySelector(`.footer__scheme[value=${savedScheme}]`));
   }
 
   schemeSwitcher.addEventListener('change', (event) => {
-    let selectedScheme = event.target.value;
+    selectedScheme = event.target.value;
     setScheme(selectedScheme);
   });
 }
@@ -31,9 +36,6 @@ function updateRadioStates(activeRadio) {
   });
 }
 
-let savedScheme;
-let systemScheme;
-
 function setupScheme() {
   savedScheme = getSavedScheme();
   systemScheme = getSystemScheme();
@@ -49,7 +51,7 @@ function setupScheme() {
   } else if (savedScheme === 'dark') {
     switchMedia('dark');
   } else if (savedScheme === 'auto') {
-    clearSchemeButtons();
+    toggleSchemeButtons();
   }
 }
 
@@ -65,7 +67,7 @@ function setScheme(scheme) {
     autoschemeCheckbox.checked = false;
   }
 
-  clearSchemeButtons();
+  toggleSchemeButtons();
   updateRadioStates(document.querySelector(`.footer__scheme[value=${scheme}]`));
 }
 

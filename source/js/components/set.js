@@ -3,13 +3,15 @@ let game = null;
 
 const chooseButtons = SETTINGS.querySelectorAll('.settings__video');
 
-chooseButtons.forEach((element) => {
-  element.addEventListener('click', selectGame);
-});
-
 function selectGame() {
-  game = this.getAttribute('data-video');
-  setVideo();
+  clearVideoButtons();
+  if (this.getAttribute('data-video') == 'Custom') {
+    return
+  } else {
+    this.classList.add('settings__video--active');
+    game = this.getAttribute('data-video');
+    setVideo();
+  }
 }
 
 function setVideo() {
@@ -17,10 +19,15 @@ function setVideo() {
   VIDEO.preload = 'auto';
 }
 
-// Delete choose event from upload button
-const fileButton = SETTINGS.querySelector('.settings__video--file');
+function clearVideoButtons() {
+  chooseButtons.forEach((element) => {
+    element.classList.remove('settings__video--active');
+  });
+}
 
-fileButton.removeEventListener('click', selectGame);
+chooseButtons.forEach((element) => {
+  element.addEventListener('click', selectGame);
+});
 
 // Reset video
 function resetVideo() {

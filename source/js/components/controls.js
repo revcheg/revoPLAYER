@@ -81,7 +81,9 @@ muteButton.addEventListener('click', setMute);
 
 // Volume
 VIDEO.volume = 0.5;
+
 const volumeRange = CONTROLS.querySelector('.control__range--volume');
+
 let changedVolume;
 
 function changeVolume(amount) {
@@ -136,6 +138,8 @@ function setDuration() {
 
   line.value = rangeValue;
   line.style.width = Math.round((rangeValue / videoDuration) * 100) + '%';
+
+  backgroundVideo.currentTime = rangeValue;
 }
 
 function resetDuration() {
