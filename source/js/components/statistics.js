@@ -13,7 +13,6 @@ const statisticsEndTime = STATISTICS.querySelector('.statistics__end');
 const statisticsResolution = STATISTICS.querySelector('.statistics__resolution');
 const statisticsUFH = HEADER.querySelector('.header__ufh');
 const statisticsFormat = STATISTICS.querySelector('.statistics__format');
-const statisticsDuration = STATISTICS.querySelector('.statistics__duration');
 const statisticsBuffer = STATISTICS.querySelector('.statistics__buffer');
 
 function getStatistics() {
@@ -39,7 +38,6 @@ function setStatistics() {
 
   statisticsResolution.innerHTML = videoWidth + 'x' + videoHeight;
   statisticsFormat.innerHTML = videoFormat;
-  statisticsDuration.innerHTML = videoDuration;
 
   if (videoWidth >= 3840) {
     statisticsUFH.classList.remove('header__ufh--off');

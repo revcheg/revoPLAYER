@@ -42,7 +42,7 @@
   box-sizing: border-box;
   width: 95%;
   max-width: 600px;
-  margin: 0 auto;
+  margin: 0px auto;
   border-radius: 10px;
   overflow: hidden;
   transition: 0.3s;
@@ -53,7 +53,11 @@
   animation-fill-mode: both;
 
   &:fullscreen {
-    border-radius: 0;
+    border-radius: 0px;
+
+    .video__start {
+      border-radius: 0px;
+    }
 
     .video {
       border-radius: 0;

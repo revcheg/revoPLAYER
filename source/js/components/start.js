@@ -21,7 +21,8 @@ function handleVideoPlay() {
   START_BUTTON.classList.add('video__start--hide');
   CONTROLS.classList.remove('control--off');
 
-  VIDEO.play();
+  // VIDEO.play();
+  playVideo();
   VIDEO.focus();
 
   getStatistics();

@@ -51,7 +51,7 @@ const consoleCommands = {
   },
 };
 
-function checkBonus(event) {
+function executeCommand(event) {
   if (event.key === 'Enter') {
     resetVideo();
 
@@ -87,7 +87,7 @@ function stopPropagation(event) {
 
 consoleInput.addEventListener('input', stopPropagation);
 consoleInput.addEventListener('keyup', stopPropagation);
-consoleInput.addEventListener('keyup', checkBonus);
+consoleInput.addEventListener('keyup', executeCommand);
 
 // Open console, dev button
 const devButton = FOOTER.querySelector('.footer__copyright--dev');
@@ -109,7 +109,7 @@ devButton.addEventListener('click', devClicks);
 // Execute dev command
 // const devConsoleCheckbox = consoleContainer.querySelector('.console__input--checkbox');
 
-// function executeCommand() {
+// function execute() {
 //   let command = consoleInput.value;
 
 //   try {
@@ -124,15 +124,15 @@ devButton.addEventListener('click', devClicks);
 
 // function activateDevConsole() {
 //   if (devConsoleCheckbox.checked) {
-//     consoleInput.removeEventListener('keyup', checkBonus);
+//     consoleInput.removeEventListener('keyup', execute);
 //     consoleInput.addEventListener('keyup', function(event) {
 //       if (event.key === 'Enter' && !event.shiftKey) {
-//         executeCommand();
+//         execute();
 //       }
 //     });
 //   } else {
-//     consoleInput.removeEventListener('keyup', executeCommand);
-//     consoleInput.addEventListener('keyup', checkBonus);
+//     consoleInput.removeEventListener('keyup', execute);
+//     consoleInput.addEventListener('keyup', executeCommand);
 //   }
 // }
 

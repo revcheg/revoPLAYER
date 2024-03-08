@@ -48,7 +48,7 @@ function validateFiles(uploadedVideo) {
 
   if (showSuccessMessage) {
     if (uploadedVideo.length > 1) {
-      INPUTFILE_COUNTER.innerHTML = '+' + (uploadedVideo.length - 1);
+      INPUTFILE_COUNTER.innerHTML = '+' + uploadedVideo.length;
       INPUTFILE_COUNTER.classList.remove('settings__counter--hide');
       seriesLabel.classList.remove('settings__label--hide');
     }

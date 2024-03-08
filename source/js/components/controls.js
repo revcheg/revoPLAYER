@@ -155,7 +155,11 @@ function formatTime(timeInSeconds) {
   minutes = minutes < 10 ? '0' + minutes : minutes;
   seconds = seconds < 10 ? '0' + seconds : seconds;
 
-  return hours + ':' + minutes + ':' + seconds;
+  if (parseInt(hours) > 0) {
+    return hours + ':' + minutes + ':' + seconds;
+  } else {
+    return minutes + ':' + seconds;
+  }
 }
 
 VIDEO_RANGE.addEventListener('mousedown', pauseVideo);
@@ -175,6 +179,17 @@ function wheelDuration(event) {
 }
 
 VIDEO_RANGE.addEventListener('wheel', wheelDuration);
+
+// Extra line
+let lineProgress;
+
+const line = CONTROLS.querySelector('.control__line');
+
+function extraLine() {
+  lineProgress = Math.round((videoCurrentTime / videoDuration) * 100);
+  line.style.width = lineProgress + '%';
+  line.value = lineProgress;
+}
 
 // Playback speed
 let playbackRate = 1.0;
@@ -382,7 +397,7 @@ document.addEventListener('fullscreenchange', updateFullscreenButton);
 document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
 document.addEventListener('mozfullscreenchange', updateFullscreenButton);
 
-// Mouse
+// Mouse, hide/show controls
 let hideControlsTimer;
 
 function handleMouseMove() {
@@ -391,7 +406,7 @@ function handleMouseMove() {
 
   hideControlsTimer = setTimeout(() => {
     hideControls();
-  }, 3000);
+  }, 5000);
 }
 
 function showControls() {
@@ -412,7 +427,7 @@ function resetHideControlsTimer() {
   clearTimeout(hideControlsTimer);
   hideControlsTimer = setTimeout(() => {
     hideControls();
-  }, 3000);
+  }, 5000);
 }
 
 WRAPPER.addEventListener('mousemove', handleMouseMove);

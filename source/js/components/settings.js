@@ -114,9 +114,6 @@ deepCheckbox.addEventListener('change', function (event) {
 });
 
 // Extra line
-let lineProgress;
-
-const line = CONTROLS.querySelector('.control__line');
 const lineCheckbox = SETTINGS.querySelector('.settings__checkbox--line');
 
 function showExtraLine() {
@@ -125,12 +122,6 @@ function showExtraLine() {
   } else {
     line.classList.add('control__line--hide');
   }
-}
-
-function extraLine() {
-  lineProgress = Math.round((videoCurrentTime / videoDuration) * 100);
-  line.style.width = lineProgress + '%';
-  line.value = lineProgress;
 }
 
 lineCheckbox.addEventListener('change', showExtraLine);

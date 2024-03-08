@@ -1,7 +1,14 @@
 .body {
 	font-weight: 300;
   font-family: "Chalet", "Nunito", "Roboto", "Arial", sans-serif;
+	line-height: 1.35em;
 	background-color: #F8F0FB;
+}
+
+@media (min-width: 1440px) {
+	.body {
+		line-height: 2.15em;
+	}
 }
 
 // Button
@@ -16,14 +23,6 @@
 		outline-color: #F27DFD;
 	}
 }
-
-// Background
-// .background {
-
-//   &::after {
-//     background-color: rgba(#F27DFD, 0.4);
-//   }
-// }
 
 // Control
 .control__line {
@@ -132,14 +131,15 @@
 }
 
 .settings__button {
-	margin-right: 0;
+	margin-right: 2px;
 	padding: 10px 20px;
 	font-size: 20px;
 	font-weight: 900;
   font-family: "Pricedown", sans-serif;
+	line-height: normal;
 	border: 0;
 	border-radius: 0;
-	transition: all 0.6s, font-size 0s, margin 0s;
+	transition: all 0.6s, margin 0s, font-size 0s, font-family 0s;
 
 	&:nth-child(odd) {
 		clip-path: polygon(10% 0, 100% 5%, 90% 98%, 0% 100%);
@@ -161,17 +161,13 @@
   }
 }
 
-.settings__label {
-	margin-bottom: 12px;
+// .settings__label {
+// 	margin-bottom: 12px;
 
-	&--hide {
-		margin-top: -31px;
-	}
-}
-
-.settings__item {
-	line-height: 1.25em;
-}
+// 	&--hide {
+// 		margin-top: -28px;
+// 	}
+// }
 
 .settings__video {
 
@@ -185,7 +181,9 @@
 }
 
 .settings__counter {
+	padding-top: 10px;
 	font-weight: 500;
+	line-height: normal;
 	background-color: #F27DFD;
 }
 
@@ -193,16 +191,14 @@
 	font-size: 28px;
 	font-weight: 900;
   font-family: "Pricedown", sans-serif;
+	line-height: normal;
 }
 
 .settings__time {
 	font-size: 18px;
   font-weight: 900;
   font-family: "Pricedown", sans-serif;
-}
-
-.settings__text {
-	line-height: 1.25em;
+	line-height: normal;
 }
 
 .settings__tab--scroll {
@@ -227,11 +223,15 @@
 		font-size: 22px;
 	}
 
-	.settings__label {
+	// .settings__label {
 
-		&--hide {
-			margin-top: -38px;
-		}
+	// 	&--hide {
+	// 		margin-top: -38px;
+	// 	}
+	// }
+
+	.settings__counter {
+		top: 8px;
 	}
 
 	.settings__item {
@@ -262,11 +262,16 @@
 		font-size: 25px;
 	}
 
-	.settings__label {
+	// .settings__label {
 
-		&--hide {
-			margin-top: -41px;
-		}
+	// 	&--hide {
+	// 		margin-top: -41px;
+	// 	}
+	// }
+
+	.settings__counter {
+		top: 13px;
+		padding-top: 9px;
 	}
 
 	.settings__item {
@@ -308,6 +313,11 @@
 	font-weight: 500;
 }
 
+.statistics__category {
+	margin-bottom: 3px;
+	line-height: normal;
+}
+
 @media (min-width: 768px) {
 	.statistics__category {
 		margin-bottom: 5px;
@@ -318,7 +328,7 @@
 @media (min-width: 1440px) {
 	.statistics__category {
 		margin-bottom: 6px;
-		font-size: 16px;
+		font-size: 18px;
 	}
 }
 

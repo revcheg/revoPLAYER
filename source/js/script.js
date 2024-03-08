@@ -132,9 +132,6 @@ deepCheckbox.addEventListener('change', function (event) {
 });
 
 // Extra line
-let lineProgress;
-
-const line = CONTROLS.querySelector('.control__line');
 const lineCheckbox = SETTINGS.querySelector('.settings__checkbox--line');
 
 function showExtraLine() {
@@ -143,12 +140,6 @@ function showExtraLine() {
   } else {
     line.classList.add('control__line--hide');
   }
-}
-
-function extraLine() {
-  lineProgress = Math.round((videoCurrentTime / videoDuration) * 100);
-  line.style.width = lineProgress + '%';
-  line.value = lineProgress;
 }
 
 lineCheckbox.addEventListener('change', showExtraLine);
@@ -510,7 +501,7 @@ const consoleCommands = {
   },
 };
 
-function checkBonus(event) {
+function executeCommand(event) {
   if (event.key === 'Enter') {
     resetVideo();
 
@@ -546,7 +537,7 @@ function stopPropagation(event) {
 
 consoleInput.addEventListener('input', stopPropagation);
 consoleInput.addEventListener('keyup', stopPropagation);
-consoleInput.addEventListener('keyup', checkBonus);
+consoleInput.addEventListener('keyup', executeCommand);
 
 // Open console, dev button
 const devButton = FOOTER.querySelector('.footer__copyright--dev');
@@ -568,7 +559,7 @@ devButton.addEventListener('click', devClicks);
 // Execute dev command
 // const devConsoleCheckbox = consoleContainer.querySelector('.console__input--checkbox');
 
-// function executeCommand() {
+// function execute() {
 //   let command = consoleInput.value;
 
 //   try {
@@ -583,15 +574,15 @@ devButton.addEventListener('click', devClicks);
 
 // function activateDevConsole() {
 //   if (devConsoleCheckbox.checked) {
-//     consoleInput.removeEventListener('keyup', checkBonus);
+//     consoleInput.removeEventListener('keyup', execute);
 //     consoleInput.addEventListener('keyup', function(event) {
 //       if (event.key === 'Enter' && !event.shiftKey) {
-//         executeCommand();
+//         execute();
 //       }
 //     });
 //   } else {
-//     consoleInput.removeEventListener('keyup', executeCommand);
-//     consoleInput.addEventListener('keyup', checkBonus);
+//     consoleInput.removeEventListener('keyup', execute);
+//     consoleInput.addEventListener('keyup', executeCommand);
 //   }
 // }
 
@@ -754,7 +745,11 @@ function formatTime(timeInSeconds) {
   minutes = minutes < 10 ? '0' + minutes : minutes;
   seconds = seconds < 10 ? '0' + seconds : seconds;
 
-  return hours + ':' + minutes + ':' + seconds;
+  if (parseInt(hours) > 0) {
+    return hours + ':' + minutes + ':' + seconds;
+  } else {
+    return minutes + ':' + seconds;
+  }
 }
 
 VIDEO_RANGE.addEventListener('mousedown', pauseVideo);
@@ -774,6 +769,17 @@ function wheelDuration(event) {
 }
 
 VIDEO_RANGE.addEventListener('wheel', wheelDuration);
+
+// Extra line
+let lineProgress;
+
+const line = CONTROLS.querySelector('.control__line');
+
+function extraLine() {
+  lineProgress = Math.round((videoCurrentTime / videoDuration) * 100);
+  line.style.width = lineProgress + '%';
+  line.value = lineProgress;
+}
 
 // Playback speed
 let playbackRate = 1.0;
@@ -981,7 +987,7 @@ document.addEventListener('fullscreenchange', updateFullscreenButton);
 document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
 document.addEventListener('mozfullscreenchange', updateFullscreenButton);
 
-// Mouse
+// Mouse, hide/show controls
 let hideControlsTimer;
 
 function handleMouseMove() {
@@ -990,7 +996,7 @@ function handleMouseMove() {
 
   hideControlsTimer = setTimeout(() => {
     hideControls();
-  }, 3000);
+  }, 5000);
 }
 
 function showControls() {
@@ -1011,7 +1017,7 @@ function resetHideControlsTimer() {
   clearTimeout(hideControlsTimer);
   hideControlsTimer = setTimeout(() => {
     hideControls();
-  }, 3000);
+  }, 5000);
 }
 
 WRAPPER.addEventListener('mousemove', handleMouseMove);
@@ -1068,7 +1074,7 @@ function validateFiles(uploadedVideo) {
 
   if (showSuccessMessage) {
     if (uploadedVideo.length > 1) {
-      INPUTFILE_COUNTER.innerHTML = '+' + (uploadedVideo.length - 1);
+      INPUTFILE_COUNTER.innerHTML = '+' + uploadedVideo.length;
       INPUTFILE_COUNTER.classList.remove('settings__counter--hide');
       seriesLabel.classList.remove('settings__label--hide');
     }
@@ -1585,7 +1591,8 @@ function handleVideoPlay() {
   START_BUTTON.classList.add('video__start--hide');
   CONTROLS.classList.remove('control--off');
 
-  VIDEO.play();
+  // VIDEO.play();
+  playVideo();
   VIDEO.focus();
 
   getStatistics();
@@ -1624,7 +1631,6 @@ const statisticsEndTime = STATISTICS.querySelector('.statistics__end');
 const statisticsResolution = STATISTICS.querySelector('.statistics__resolution');
 const statisticsUFH = HEADER.querySelector('.header__ufh');
 const statisticsFormat = STATISTICS.querySelector('.statistics__format');
-const statisticsDuration = STATISTICS.querySelector('.statistics__duration');
 const statisticsBuffer = STATISTICS.querySelector('.statistics__buffer');
 
 function getStatistics() {
@@ -1650,7 +1656,6 @@ function setStatistics() {
 
   statisticsResolution.innerHTML = videoWidth + 'x' + videoHeight;
   statisticsFormat.innerHTML = videoFormat;
-  statisticsDuration.innerHTML = videoDuration;
 
   if (videoWidth >= 3840) {
     statisticsUFH.classList.remove('header__ufh--off');
