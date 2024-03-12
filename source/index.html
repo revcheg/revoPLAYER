@@ -61,7 +61,7 @@
         <section class="statistics  statistics--hide  statistics--off">
           <h3 class="visually-hidden">Статистика відео</h3>
           <p class="statistics__category  statistics__category--hide"><span class="statistics__time">00:00</span> (<span class="statistics__end">00:00</span>)</p>
-          <p class="statistics__category">Роздільна здатність: <span class="statistics__resolution"></span></p>
+          <p class="statistics__category">Щільність: <span class="statistics__resolution"></span></p>
           <p class="statistics__category  statistics__category--hide">Формат: <span class="statistics__format"></span></p>
           <p class="statistics__category  statistics__category--hide">Буфер: <span class="statistics__buffer"></span> секунд</p>
           <!-- <p class="statistics__category  statistics__category--hide">FPS: <span class="statistics__fps"></span></p> -->
@@ -82,6 +82,7 @@
             <span class="control__time  control__time--passed">00:00:00</span>
             <input class="control__range  control__range--duration" step="1" min="0" value="0" aria-label="Смуга прокручування" title="Смуга прокручування (left+right arrow)" type="range">
             <span class="control__time  control__time--left">00:00:00</span>
+            <span class="control__time  control__time--preview  control__time--hide">00:00:00</span>
           </p>
           <button class="button  control__button  control__button--prev" aria-label="Попереднє відео" title="Попереднє відео (<)" type="button">
             <svg class="control__icon  control__icon--prev" xmlns="http://www.w3.org/2000/svg" width="16" height="13" viewBox="0 0 16 13">
@@ -196,7 +197,7 @@
       <p class="footer__copyright">dev by <button class="footer__copyright--dev" type="button">revch</button> /></p>
     </footer>
 
-    <nav class="settings  settings--hide" tabindex="0">
+    <nav class="settings  settings--hide">
       <h2 class="visually-hidden">Меню налаштувань</h2>
       <button class="button  settings__close" aria-label="Закрити налаштування" title="Закрити налаштування (esc)" type="button">
         <span class="visually-hidden">Закрити меню налаштувань</span>
@@ -223,6 +224,10 @@
             <span class="settings__name">Зробити плеєр об'ємним</span>
           </label>
           <label class="settings__label">
+            <input class="settings__checkbox  settings__checkbox--autoplay" type="checkbox" checked>
+            <span class="settings__name">Автоперемикання серій</span>
+          </label>
+          <label class="settings__label">
             <input class="settings__checkbox  settings__checkbox--deep" type="checkbox">
             <span class="settings__name">Deep mode</span>
           </label>
@@ -245,10 +250,6 @@
           <label class="settings__label">
             <input class="settings__checkbox  settings__checkbox--controls" type="checkbox">
             <span class="settings__name">Показати більше контролів</span>
-          </label>
-          <label class="settings__label">
-            <input class="settings__checkbox  settings__checkbox--autoplay" type="checkbox" checked>
-            <span class="settings__name">Автоперемикання серій</span>
           </label>
           <label class="settings__label">
             <input class="settings__checkbox  settings__checkbox--subtitle" type="checkbox">
@@ -301,15 +302,14 @@
             <li class="settings__item">Можливість обрати світлу чи темну тему</li>
             <li class="settings__item">Автоматичне встановлення теми на основі теми на пристрої</li>
             <li class="settings__item">Усе керування (та навіть більше) продубльовано на клавіатуру</li>
-            <li class="settings__item">Усі відео та зображення оптимізовані для вебу</li>
           </ul>
         </div>
 
         <div class="settings__tab" data-tab="patch">
           <p class="settings__sub">PATCH NOTES</p>
           <p class="settings__text">
-            <time class="settings__time" datetime="2024.02.22">22.02.2024</time>
-            Виправлення багів попередніх релізів. Зроблено вивід назви відео в кут плеєра.
+            <time class="settings__time" datetime="2024.03.12">12.03.2024</time>
+            Додан новий міні контрол - хмаринка часу при перемотці. Тепер при наведенні мишею на смугу перемотки буде превью часу на яке переключиться відео. Дрібні фікси стабільносі та косметика.
           </p>
           <p class="settings__text">
             <time class="settings__time" datetime="2024.02.22">22.02.2024</time>

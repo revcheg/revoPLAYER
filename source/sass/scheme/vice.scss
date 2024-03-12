@@ -42,6 +42,11 @@
 
 .control__time {
   font-weight: 500;
+
+	&--preview {
+		line-height: normal;
+		background-color: #F27DFD;
+	}
 }
 
 .control__range {
@@ -186,6 +191,8 @@
 }
 
 .settings__counter {
+	min-width: 32px;
+	min-height: 30px;
 	font-weight: 500;
 	line-height: normal;
 	background-color: #F27DFD;
@@ -234,10 +241,6 @@
 	// 	}
 	// }
 
-	.settings__counter {
-		top: 8px;
-	}
-
 	.settings__item {
 		font-size: 22px;
 	}
@@ -274,8 +277,7 @@
 	// }
 
 	.settings__counter {
-		top: 13px;
-		padding-top: 9px;
+		min-width: 35px;
 	}
 
 	.settings__item {

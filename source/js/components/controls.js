@@ -95,6 +95,7 @@ function changeVolume(amount) {
 
 function updateVolume() {
   VIDEO.volume = volumeRange.value;
+  showMessage('Гучність ' + formatVolumePercentage(volumeRange.value));
 
   if (VIDEO.volume === 0) {
     VIDEO.muted = true;
@@ -117,7 +118,6 @@ function wheelVolume(event) {
   if (typeof event.deltaY !== 'undefined' && !isNaN(event.deltaY)) {
     const delta = -Math.sign(event.deltaY);
     changeVolume(delta * 0.1);
-    showMessage('Гучність ' + formatVolumePercentage(changedVolume));
   }
 }
 
@@ -167,8 +167,53 @@ function formatTime(timeInSeconds) {
 }
 
 VIDEO_RANGE.addEventListener('mousedown', pauseVideo);
+VIDEO_RANGE.addEventListener('touchstart', pauseVideo);
 VIDEO_RANGE.addEventListener('input', setDuration);
 VIDEO_RANGE.addEventListener('change', playVideo);
+
+// Duration hover, show time preview
+const videoPreview = CONTROLS.querySelector('.control__time--preview');
+
+function handleTimePreview(event) {
+  let touch = event.touches ? event.touches[0] : null;
+  let clientX = touch ? touch.clientX : event.clientX;
+
+  if (event.type === 'touchstart' || event.type === 'touchmove' || event.type === 'mousemove') {
+    showTimePreview(clientX);
+    updatePreviewPosition(clientX);
+  } else if (event.type === 'touchend' || event.type === 'mouseleave') {
+    hideTimePreview();
+  }
+}
+
+function showTimePreview(clientX) {
+  let percent = (clientX - VIDEO_RANGE.getBoundingClientRect().left) / VIDEO_RANGE.clientWidth;
+  let previewTime = Math.round(percent * VIDEO_RANGE.max);
+
+  videoPreview.classList.remove('control__time--hide');
+  videoPreview.innerText = formatTime(previewTime);
+}
+
+function hideTimePreview() {
+  videoPreview.classList.add('control__time--hide');
+}
+
+function updatePreviewPosition(clientX) {
+  let previewWidth = videoPreview.clientWidth;
+  let durationRect = CONTROLS.querySelector('.control__duration').getBoundingClientRect();
+
+  let previewX = clientX - durationRect.left - (previewWidth / 2);
+  previewX = Math.max(0, Math.min(previewX, durationRect.width - previewWidth));
+
+  videoPreview.style.left = `${previewX}px`;
+}
+
+VIDEO_RANGE.addEventListener('touchstart', handleTimePreview);
+VIDEO_RANGE.addEventListener('touchmove', handleTimePreview);
+VIDEO_RANGE.addEventListener('touchend', hideTimePreview);
+
+VIDEO_RANGE.addEventListener('mousemove', handleTimePreview);
+VIDEO_RANGE.addEventListener('mouseleave', hideTimePreview);
 
 // Wheel duration
 function wheelDuration(event) {
@@ -434,6 +479,10 @@ function resetHideControlsTimer() {
   }, 5000);
 }
 
+WRAPPER.addEventListener('touchstart', handleMouseMove);
+WRAPPER.addEventListener('touchmove', handleMouseMove);
+WRAPPER.addEventListener('touchend', resetHideControlsTimer);
+
+WRAPPER.addEventListener('mouseenter', resetHideControlsTimer);
 WRAPPER.addEventListener('mousemove', handleMouseMove);
 WRAPPER.addEventListener('mouseleave', hideControls);
-WRAPPER.addEventListener('mouseenter', resetHideControlsTimer);

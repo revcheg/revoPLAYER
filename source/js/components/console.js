@@ -69,9 +69,10 @@ function executeCommand(event) {
       closeConsole();
       showMessage(commandDescription.message);
     } else {
-      consoleInput.value = '';
       showMessage('Команда неможлива &#128126;');
     }
+
+    consoleInput.value = '';
 
     if (autoplayFlag) {
       VIDEO.addEventListener('loadeddata', startVideo);

@@ -47,6 +47,8 @@ openButton.addEventListener('click', openSettings);
 closeButton.addEventListener('click', closeSettings);
 
 // Statistics checkbox
+let statisticsIsOn = false;
+
 const statisticsCheckbox = SETTINGS.querySelector('.settings__checkbox--statistics');
 const statisticsAdditionalCheckbox = SETTINGS.querySelector('.settings__checkbox--additional');
 const statisticsAdditional = SETTINGS.querySelector('.settings__label--add');
@@ -59,10 +61,16 @@ function showAddCheckbox(event) {
   statisticsAdditional.classList.toggle('settings__label--hide', !checked);
 
   if (!checked) {
+    statisticsIsOn = false;
     statisticsAdditionalCheckbox.checked = false;
     statisticsHiddenCategory.forEach((element) => {
       element.classList.add('statistics__category--hide');
     });
+
+    statisticsName.classList.remove('statistics__name--short');
+  } else {
+    statisticsIsOn = true;
+    statisticsName.classList.add('statistics__name--short');
   }
 }
 
@@ -117,6 +125,22 @@ function setScale(event) {
 
 scaleCheckbox.addEventListener('change', setupScale);
 
+// Autoplay
+let autoplayFlag = true;
+const autoplayCheckbox = SETTINGS.querySelector('.settings__checkbox--autoplay');
+
+function setAutoplay() {
+  if (autoplayCheckbox.checked) {
+    autoplayFlag = true;
+    VIDEO.addEventListener('loadeddata', startVideo);
+  } else {
+    autoplayFlag = false;
+    VIDEO.removeEventListener('loadeddata', startVideo);
+  }
+}
+
+autoplayCheckbox.addEventListener('change', setAutoplay);
+
 // Deep mode
 let deepFlag = 'main';
 const deepCheckbox = SETTINGS.querySelector('.settings__checkbox--deep');
@@ -163,30 +187,14 @@ function showAddControls() {
 controlsCheckbox.addEventListener('change', showAddControls);
 controlsCheckbox.addEventListener('click', showAddControls);
 
-// Autoplay
-let autoplayFlag = true;
-const autoplayCheckbox = SETTINGS.querySelector('.settings__checkbox--autoplay');
-
-function setAutoplay() {
-  if (autoplayCheckbox.checked) {
-    autoplayFlag = true;
-    VIDEO.addEventListener('loadeddata', startVideo);
-  } else {
-    autoplayFlag = false;
-    VIDEO.removeEventListener('loadeddata', startVideo);
-  }
-}
-
-autoplayCheckbox.addEventListener('change', setAutoplay);
-
 // Subtitle background
 const subtitleCheckbox = SETTINGS.querySelector('.settings__checkbox--subtitle');
 
 function setBackgroundSubtitle() {
   if (subtitleCheckbox.checked) {
-    BODY.classList.add('subtitle-background');
+    WRAPPER.classList.add('video__wrapper--subtitle');
   } else {
-    BODY.classList.remove('subtitle-background');
+    WRAPPER.classList.remove('video__wrapper--subtitle');
   }
 }
 
@@ -217,14 +225,14 @@ function toggleSchemeButtons() {
     setTimeout(() => {
       lightSchemeLabel.classList.add('footer__label--off');
       darkSchemeLabel.classList.add('footer__label--off');
-    }, 150);
+    }, 100);
 
     setTimeout(() => {
       autoSchemeLabel.classList.remove('footer__label--off');
       setTimeout(() => {
         autoSchemeLabel.classList.remove('footer__label--hide');
-      }, 150);
-    }, 150);
+      }, 100);
+    }, 100);
   } else {
     autoSchemeLabel.classList.add('footer__label--hide');
 
@@ -236,8 +244,8 @@ function toggleSchemeButtons() {
       setTimeout(() => {
         lightSchemeLabel.classList.remove('footer__label--hide');
         darkSchemeLabel.classList.remove('footer__label--hide');
-      }, 150);
-    }, 150);
+      }, 100);
+    }, 100);
   }
 }
 
@@ -523,9 +531,10 @@ function executeCommand(event) {
       closeConsole();
       showMessage(commandDescription.message);
     } else {
-      consoleInput.value = '';
       showMessage('Команда неможлива &#128126;');
     }
+
+    consoleInput.value = '';
 
     if (autoplayFlag) {
       VIDEO.addEventListener('loadeddata', startVideo);
@@ -687,6 +696,7 @@ function changeVolume(amount) {
 
 function updateVolume() {
   VIDEO.volume = volumeRange.value;
+  showMessage('Гучність ' + formatVolumePercentage(volumeRange.value));
 
   if (VIDEO.volume === 0) {
     VIDEO.muted = true;
@@ -709,7 +719,6 @@ function wheelVolume(event) {
   if (typeof event.deltaY !== 'undefined' && !isNaN(event.deltaY)) {
     const delta = -Math.sign(event.deltaY);
     changeVolume(delta * 0.1);
-    showMessage('Гучність ' + formatVolumePercentage(changedVolume));
   }
 }
 
@@ -759,8 +768,53 @@ function formatTime(timeInSeconds) {
 }
 
 VIDEO_RANGE.addEventListener('mousedown', pauseVideo);
+VIDEO_RANGE.addEventListener('touchstart', pauseVideo);
 VIDEO_RANGE.addEventListener('input', setDuration);
 VIDEO_RANGE.addEventListener('change', playVideo);
+
+// Duration hover, show time preview
+const videoPreview = CONTROLS.querySelector('.control__time--preview');
+
+function handleTimePreview(event) {
+  let touch = event.touches ? event.touches[0] : null;
+  let clientX = touch ? touch.clientX : event.clientX;
+
+  if (event.type === 'touchstart' || event.type === 'touchmove' || event.type === 'mousemove') {
+    showTimePreview(clientX);
+    updatePreviewPosition(clientX);
+  } else if (event.type === 'touchend' || event.type === 'mouseleave') {
+    hideTimePreview();
+  }
+}
+
+function showTimePreview(clientX) {
+  let percent = (clientX - VIDEO_RANGE.getBoundingClientRect().left) / VIDEO_RANGE.clientWidth;
+  let previewTime = Math.round(percent * VIDEO_RANGE.max);
+
+  videoPreview.classList.remove('control__time--hide');
+  videoPreview.innerText = formatTime(previewTime);
+}
+
+function hideTimePreview() {
+  videoPreview.classList.add('control__time--hide');
+}
+
+function updatePreviewPosition(clientX) {
+  let previewWidth = videoPreview.clientWidth;
+  let durationRect = CONTROLS.querySelector('.control__duration').getBoundingClientRect();
+
+  let previewX = clientX - durationRect.left - (previewWidth / 2);
+  previewX = Math.max(0, Math.min(previewX, durationRect.width - previewWidth));
+
+  videoPreview.style.left = `${previewX}px`;
+}
+
+VIDEO_RANGE.addEventListener('touchstart', handleTimePreview);
+VIDEO_RANGE.addEventListener('touchmove', handleTimePreview);
+VIDEO_RANGE.addEventListener('touchend', hideTimePreview);
+
+VIDEO_RANGE.addEventListener('mousemove', handleTimePreview);
+VIDEO_RANGE.addEventListener('mouseleave', hideTimePreview);
 
 // Wheel duration
 function wheelDuration(event) {
@@ -1026,9 +1080,13 @@ function resetHideControlsTimer() {
   }, 5000);
 }
 
+WRAPPER.addEventListener('touchstart', handleMouseMove);
+WRAPPER.addEventListener('touchmove', handleMouseMove);
+WRAPPER.addEventListener('touchend', resetHideControlsTimer);
+
+WRAPPER.addEventListener('mouseenter', resetHideControlsTimer);
 WRAPPER.addEventListener('mousemove', handleMouseMove);
 WRAPPER.addEventListener('mouseleave', hideControls);
-WRAPPER.addEventListener('mouseenter', resetHideControlsTimer);
 
 // File
 const MAX_FILE_SIZE = 5368709120;
@@ -1106,10 +1164,10 @@ function isSupportedFileType(fileType) {
 const prevButton = CONTROLS.querySelector('.control__button--prev');
 const nextButton = CONTROLS.querySelector('.control__button--next');
 
-let currentCategory = 'TheWitcher';
-let currentSubcategory = 'deep';
-let currentVideoIndex = 0;
 let data = null;
+let currentCategory = 'bonus';
+let currentSubcategory = 'Assassins Creed 2';
+let currentVideoIndex = 0;
 
 fetch('video.json')
   .then(response => {
@@ -1227,114 +1285,8 @@ prevButton.addEventListener('click', () => changeVideoIndex(-1));
 VIDEO.addEventListener('ended', () => changeVideoIndex(1));
 
 // Keyboard
-// let keyboardKey;
-
-// window.addEventListener('keyup', (event) => {
-//   keyboardKey = event.key;
-
-//   if (isVideoPlaying) {
-//     switch (keyboardKey) {
-//       // Video
-//       case ' ':
-//         pauseVideo();
-//         break;
-
-//       case 'ArrowLeft':
-//         VIDEO.currentTime -= 5;
-//         VIDEO_RANGE.value = VIDEO.currentTime;
-//         setDuration();
-//         break;
-
-//       case 'ArrowRight':
-//         VIDEO.currentTime += 5;
-//         VIDEO_RANGE.value = VIDEO.currentTime;
-//         setDuration();
-//         break;
-
-//       case 'ArrowUp':
-//         changeVolume(0.1);
-//         break;
-
-//       case 'ArrowDown':
-//         changeVolume(-0.1);
-//         break;
-
-//       case 'm':
-//         setMute();
-//         break;
-
-//       case 'c':
-//         changeSubtitle();
-//         break;
-
-//       case 's':
-//         changeSpeed();
-//         break;
-
-//       case 'p':
-//         openPictureInPicture();
-//         break;
-
-//       case 'x':
-//         changeFitScreen();
-//         break;
-
-//       case 'f':
-//         setFullscreen();
-//         break;
-//     }
-//   }
-
-//   // Other
-//   switch (keyboardKey) {
-//     case 'i':
-//       openSettings();
-//       break;
-
-//     case 'Escape':
-//       closeSettings();
-//       closeConsole();
-//       break;
-
-//     case 'k':
-//       startVideo();
-//       break;
-
-//     case 'l':
-//       setScheme('light');
-//       break;
-
-//     case 'd':
-//       setScheme('dark');
-//       break;
-
-//     case 'a':
-//       setScheme('auto');
-//       break;
-
-//     case 't':
-//       setCinemaMode();
-//       break;
-
-//     case '`':
-//       openConsole();
-//       break;
-
-//     case 'b':
-//       showAddControls();
-//       break;
-
-//     case '.':
-//       changeVideoIndex(1);
-//       break;
-
-//     case ',':
-//       changeVideoIndex(-1);
-//       break;
-//   }
-// });
-
 const keyHandlers = {
+  // Main
   playPause: ' ',
   nextVideoIndex: '.',
   prevVideoIndex: ',',
@@ -1348,6 +1300,7 @@ const keyHandlers = {
   openPIP: 'p',
   toggleFitScreen: 'x',
   toggleFullscreen: 'f',
+  showAddControls: 'b',
   // Other
   openSettings: 'i',
   closeSettings: 'Escape',
@@ -1355,19 +1308,13 @@ const keyHandlers = {
   setLightScheme: 'l',
   setDarkScheme: 'd',
   setCinemaMode: 't',
-  openConsole: '`',
-  showAddControls: 'b'
+  openConsole: '`'
 };
-
-window.addEventListener('keyup', (event) => {
-  const keyboardKey = event.key;
-  handleKey(keyboardKey, keyHandlers);
-});
 
 function handleKey(key, handlers) {
   for (const action in handlers) {
     if (handlers[action] === key) {
-      if (isVideoPlaying) {
+      if (isVideoStarted) {
         switch (action) {
           case 'playPause':
           toggleVideo();
@@ -1412,6 +1359,9 @@ function handleKey(key, handlers) {
           case 'toggleFullscreen':
             setFullscreen();
             break;
+          case 'showAddControls':
+            showAddControls();
+            break;
           }
       }
 
@@ -1439,13 +1389,15 @@ function handleKey(key, handlers) {
         case 'openConsole':
           openConsole();
           break;
-        case 'showAddControls':
-          showAddControls();
-          break;
       }
     }
   }
 }
+
+window.addEventListener('keyup', (event) => {
+  const keyboardKey = event.key;
+  handleKey(keyboardKey, keyHandlers);
+});
 
 // Save/Load theme
 function saveScheme(scheme) {
@@ -1566,7 +1518,10 @@ function selectGame() {
 }
 
 function setVideo() {
-  VIDEO.src = 'video/' + game + '/' + deepFlag + '.webm';
+  currentCategory = game;
+  currentSubcategory = deepFlag;
+  currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
+  playCurrentVideo();
   VIDEO.preload = 'auto';
 }
 
@@ -1582,6 +1537,7 @@ chooseButtons.forEach((element) => {
 
 // Reset video
 function resetVideo() {
+  isVideoStarted = false;
   pauseVideo();
   VIDEO.src = '';
   VIDEO.removeAttribute('src');
@@ -1621,15 +1577,18 @@ function isVideoReadyToPlay() {
   );
 }
 
+let isVideoStarted = false;
+
 function handleVideoPlay() {
+  isVideoStarted = true;
   openButton.classList.remove('header__menu--error');
   START_BUTTON.classList.add('video__start--hide');
-  CONTROLS.classList.remove('control--off');
 
   playVideo();
-  VIDEO.focus();
-
   getStatistics();
+  // VIDEO.focus();
+
+  CONTROLS.classList.remove('control--off');
 
   if (autoplayFlag) {
     VIDEO.addEventListener('loadeddata', startVideo);
@@ -1643,6 +1602,7 @@ function handleVideoError() {
     openButton.classList.remove('header__menu--error');
   }, 2100);
 
+  activateTab('video');
   showMessage('Відео відсутнє, спробуйте обрати інше');
 
   if (VIDEO.error) {
@@ -1738,53 +1698,6 @@ function getEndTime() {
 }
 
 // Subtitles
-// const subtitles = document.querySelectorAll('.video__subtitle');
-// const subtitleButton = CONTROLS.querySelector('.control__button--subtitle');
-// const subtitleInfo = subtitleButton.querySelector('.control__info');
-
-// let currentSubtitleIndex = -1;
-
-// function changeSubtitle() {
-//   currentSubtitleIndex++;
-
-//   if (currentSubtitleIndex >= subtitles.length) {
-//     currentSubtitleIndex = -1;
-//     clearSubtitle();
-//     return;
-//   }
-
-//   clearSubtitle();
-
-//   const currentSubtitle = subtitles[currentSubtitleIndex];
-
-//   currentSubtitle.track.mode = 'showing';
-//   currentSubtitle.mode = 'showing';
-//   currentSubtitle.default = true;
-
-//   subtitleButton.setAttribute('aria-label', 'Вимкнути субтитри');
-//   subtitleButton.setAttribute('title', 'Вимкнути субтитри (c)');
-//   subtitleButton.classList.add('control__button--active');
-//   subtitleInfo.classList.remove('control__info--hide');
-//   subtitleInfo.innerText = currentSubtitle.srclang;
-// }
-
-// function clearSubtitle() {
-//   for (const subtitle of subtitles) {
-//     subtitle.track.mode = 'hidden';
-//     subtitle.mode = 'hidden';
-//     subtitle.default = false;
-//   }
-
-//   if (currentSubtitleIndex === -1) {
-//     subtitleButton.setAttribute('aria-label', 'Увімкнути субтитри');
-//     subtitleButton.setAttribute('title', 'Увімкнути субтитри (c)');
-//     subtitleButton.classList.remove('control__button--active');
-//     subtitleInfo.classList.add('control__info--hide');
-//   }
-// }
-
-// subtitleButton.addEventListener('click', changeSubtitle);
-
 const subtitles = document.querySelectorAll('.video__subtitle');
 const subtitlesTrack = VIDEO.textTracks;
 const subtitleButton = CONTROLS.querySelector('.control__button--subtitle');
@@ -1848,45 +1761,44 @@ function disableOtherSubtitles(currentSubtitle) {
 subtitleButton.addEventListener('click', setSubtitle);
 
 // Tabs
-const tabButtons = SETTINGS.querySelectorAll('.settings__button');
 const tabs = SETTINGS.querySelectorAll('.settings__tab');
+const tabButtons = SETTINGS.querySelectorAll('.settings__button');
+
+function activateTab(tabName) {
+  tabButtons.forEach(btn => btn.classList.remove('settings__button--active'));
+  tabs.forEach(tab => {
+    tab.classList.remove('settings__tab--active', 'settings__tab--scroll');
+  });
+
+  let selectedButton = SETTINGS.querySelector(`[data-tab="${tabName}"]`);
+  selectedButton.classList.add('settings__button--active');
+
+  let selectedTab = SETTINGS.querySelector(`.settings__tab[data-tab="${tabName}"]`);
+  selectedTab.classList.add('settings__tab--active');
+  selectedTab.focus();
+
+  checkActiveTab();
+  updateSettingsHeight();
+}
 
 tabButtons.forEach(button => {
   button.addEventListener('click', () => {
-    tabButtons.forEach(btn => btn.classList.remove('settings__button--active'));
-    tabs.forEach(tab => {
-      tab.classList.remove('settings__tab--active');
-      tab.classList.remove('settings__tab--scroll');
-      tab.removeAttribute('tabIndex');
-    });
-
-    button.classList.add('settings__button--active');
-
-    const tabName = button.getAttribute('data-tab');
-    document.querySelector(`.settings__tab[data-tab="${tabName}"]`).classList.add('settings__tab--active');
-    document.querySelector(`.settings__tab[data-tab="${tabName}"]`).setAttribute('tabIndex', '0');
-    document.querySelector(`.settings__tab[data-tab="${tabName}"]`).focus();
-
-    checkActiveTab();
-    updateSettingsHeight();
+    let tabName = button.getAttribute('data-tab');
+    activateTab(tabName);
   });
 });
 
 function updateSettingsHeight() {
   let settingsButtonHeight = SETTINGS.querySelector('.settings__control').clientHeight;
-  const settingsWrapper = SETTINGS.querySelector('.settings__wrapper');
+  let settingsWrapper = SETTINGS.querySelector('.settings__wrapper');
   let settingsWrapperHeight = settingsWrapper.clientHeight;
-  const activeTab = SETTINGS.querySelector('.settings__tab--active');
+  let activeTab = SETTINGS.querySelector('.settings__tab--active');
   let activeTabHeight = activeTab.clientHeight;
   let blockOffset = 90;
 
   settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - ${blockOffset}px)`;
 
-  if (activeTabHeight > settingsWrapperHeight) {
-    activeTab.classList.add('settings__tab--scroll');
-  } else {
-    activeTab.classList.remove('settings__tab--scroll');
-  }
+  activeTab.classList.toggle('settings__tab--scroll', activeTabHeight > settingsWrapperHeight);
 }
 
 updateSettingsHeight();
@@ -1896,9 +1808,7 @@ function checkActiveTab() {
     let activeTabName = SETTINGS.querySelector('.settings__tab--active').getAttribute('data-tab');
 
     if (activeTabName === 'scheme') {
-      // setTimeout(() => {
-        schemeSwitcher.classList.add('footer__switcher--show');
-      // }, 200);
+      schemeSwitcher.classList.add('footer__switcher--show');
     } else {
       schemeSwitcher.classList.remove('footer__switcher--show');
     }

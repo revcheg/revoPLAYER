@@ -1,112 +1,6 @@
 // Keyboard
-// let keyboardKey;
-
-// window.addEventListener('keyup', (event) => {
-//   keyboardKey = event.key;
-
-//   if (isVideoPlaying) {
-//     switch (keyboardKey) {
-//       // Video
-//       case ' ':
-//         pauseVideo();
-//         break;
-
-//       case 'ArrowLeft':
-//         VIDEO.currentTime -= 5;
-//         VIDEO_RANGE.value = VIDEO.currentTime;
-//         setDuration();
-//         break;
-
-//       case 'ArrowRight':
-//         VIDEO.currentTime += 5;
-//         VIDEO_RANGE.value = VIDEO.currentTime;
-//         setDuration();
-//         break;
-
-//       case 'ArrowUp':
-//         changeVolume(0.1);
-//         break;
-
-//       case 'ArrowDown':
-//         changeVolume(-0.1);
-//         break;
-
-//       case 'm':
-//         setMute();
-//         break;
-
-//       case 'c':
-//         changeSubtitle();
-//         break;
-
-//       case 's':
-//         changeSpeed();
-//         break;
-
-//       case 'p':
-//         openPictureInPicture();
-//         break;
-
-//       case 'x':
-//         changeFitScreen();
-//         break;
-
-//       case 'f':
-//         setFullscreen();
-//         break;
-//     }
-//   }
-
-//   // Other
-//   switch (keyboardKey) {
-//     case 'i':
-//       openSettings();
-//       break;
-
-//     case 'Escape':
-//       closeSettings();
-//       closeConsole();
-//       break;
-
-//     case 'k':
-//       startVideo();
-//       break;
-
-//     case 'l':
-//       setScheme('light');
-//       break;
-
-//     case 'd':
-//       setScheme('dark');
-//       break;
-
-//     case 'a':
-//       setScheme('auto');
-//       break;
-
-//     case 't':
-//       setCinemaMode();
-//       break;
-
-//     case '`':
-//       openConsole();
-//       break;
-
-//     case 'b':
-//       showAddControls();
-//       break;
-
-//     case '.':
-//       changeVideoIndex(1);
-//       break;
-
-//     case ',':
-//       changeVideoIndex(-1);
-//       break;
-//   }
-// });
-
 const keyHandlers = {
+  // Main
   playPause: ' ',
   nextVideoIndex: '.',
   prevVideoIndex: ',',
@@ -120,6 +14,7 @@ const keyHandlers = {
   openPIP: 'p',
   toggleFitScreen: 'x',
   toggleFullscreen: 'f',
+  showAddControls: 'b',
   // Other
   openSettings: 'i',
   closeSettings: 'Escape',
@@ -127,19 +22,13 @@ const keyHandlers = {
   setLightScheme: 'l',
   setDarkScheme: 'd',
   setCinemaMode: 't',
-  openConsole: '`',
-  showAddControls: 'b'
+  openConsole: '`'
 };
-
-window.addEventListener('keyup', (event) => {
-  const keyboardKey = event.key;
-  handleKey(keyboardKey, keyHandlers);
-});
 
 function handleKey(key, handlers) {
   for (const action in handlers) {
     if (handlers[action] === key) {
-      if (isVideoPlaying) {
+      if (isVideoStarted) {
         switch (action) {
           case 'playPause':
           toggleVideo();
@@ -184,6 +73,9 @@ function handleKey(key, handlers) {
           case 'toggleFullscreen':
             setFullscreen();
             break;
+          case 'showAddControls':
+            showAddControls();
+            break;
           }
       }
 
@@ -211,10 +103,12 @@ function handleKey(key, handlers) {
         case 'openConsole':
           openConsole();
           break;
-        case 'showAddControls':
-          showAddControls();
-          break;
       }
     }
   }
 }
+
+window.addEventListener('keyup', (event) => {
+  const keyboardKey = event.key;
+  handleKey(keyboardKey, keyHandlers);
+});

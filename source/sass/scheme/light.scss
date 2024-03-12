@@ -43,6 +43,13 @@
   }
 }
 
+.control__time {
+
+	&--preview {
+		background-color: #6320ee;
+	}
+}
+
 .control__range {
 
 	&::-webkit-slider-runnable-track {

@@ -165,7 +165,22 @@
   text-align: center;
 
   &:last-child {
-    margin-right: 0;
+    margin-right: 0px;
+  }
+
+  &--hide {
+    opacity: 0;
+  }
+
+  &--preview {
+    position: absolute;
+    top: -20px;
+    left: 20%;
+    min-width: auto;
+    max-width: fit-content;
+    padding: 2px 5px;
+    border-radius: 5px;
+    transition: all 0.2s, left 0.1s;
   }
 }
 
@@ -173,8 +188,11 @@
   appearance: none;
   position: relative;
   width: 100%;
+  width: fill-available;
   height: 8px;
-  padding: 10px;
+  // padding: 10px;
+  margin: 10px;
+  padding: 0px;
   border-radius: 5px;
   background-color: transparent;
   cursor: pointer;
@@ -454,6 +472,11 @@
   .control__time {
     min-width: 65px;
     font-size: 15px;
+
+    &--preview {
+      top: -23px;
+      min-width: auto;
+    }
   }
 
   .control__range {

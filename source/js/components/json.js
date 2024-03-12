@@ -2,10 +2,10 @@
 const prevButton = CONTROLS.querySelector('.control__button--prev');
 const nextButton = CONTROLS.querySelector('.control__button--next');
 
-let currentCategory = 'TheWitcher';
-let currentSubcategory = 'deep';
-let currentVideoIndex = 0;
 let data = null;
+let currentCategory = 'bonus';
+let currentSubcategory = 'Assassins Creed 2';
+let currentVideoIndex = 0;
 
 fetch('video.json')
   .then(response => {

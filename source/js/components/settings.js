@@ -29,6 +29,8 @@ openButton.addEventListener('click', openSettings);
 closeButton.addEventListener('click', closeSettings);
 
 // Statistics checkbox
+let statisticsIsOn = false;
+
 const statisticsCheckbox = SETTINGS.querySelector('.settings__checkbox--statistics');
 const statisticsAdditionalCheckbox = SETTINGS.querySelector('.settings__checkbox--additional');
 const statisticsAdditional = SETTINGS.querySelector('.settings__label--add');
@@ -41,10 +43,16 @@ function showAddCheckbox(event) {
   statisticsAdditional.classList.toggle('settings__label--hide', !checked);
 
   if (!checked) {
+    statisticsIsOn = false;
     statisticsAdditionalCheckbox.checked = false;
     statisticsHiddenCategory.forEach((element) => {
       element.classList.add('statistics__category--hide');
     });
+
+    statisticsName.classList.remove('statistics__name--short');
+  } else {
+    statisticsIsOn = true;
+    statisticsName.classList.add('statistics__name--short');
   }
 }
 
@@ -99,6 +107,22 @@ function setScale(event) {
 
 scaleCheckbox.addEventListener('change', setupScale);
 
+// Autoplay
+let autoplayFlag = true;
+const autoplayCheckbox = SETTINGS.querySelector('.settings__checkbox--autoplay');
+
+function setAutoplay() {
+  if (autoplayCheckbox.checked) {
+    autoplayFlag = true;
+    VIDEO.addEventListener('loadeddata', startVideo);
+  } else {
+    autoplayFlag = false;
+    VIDEO.removeEventListener('loadeddata', startVideo);
+  }
+}
+
+autoplayCheckbox.addEventListener('change', setAutoplay);
+
 // Deep mode
 let deepFlag = 'main';
 const deepCheckbox = SETTINGS.querySelector('.settings__checkbox--deep');
@@ -145,30 +169,14 @@ function showAddControls() {
 controlsCheckbox.addEventListener('change', showAddControls);
 controlsCheckbox.addEventListener('click', showAddControls);
 
-// Autoplay
-let autoplayFlag = true;
-const autoplayCheckbox = SETTINGS.querySelector('.settings__checkbox--autoplay');
-
-function setAutoplay() {
-  if (autoplayCheckbox.checked) {
-    autoplayFlag = true;
-    VIDEO.addEventListener('loadeddata', startVideo);
-  } else {
-    autoplayFlag = false;
-    VIDEO.removeEventListener('loadeddata', startVideo);
-  }
-}
-
-autoplayCheckbox.addEventListener('change', setAutoplay);
-
 // Subtitle background
 const subtitleCheckbox = SETTINGS.querySelector('.settings__checkbox--subtitle');
 
 function setBackgroundSubtitle() {
   if (subtitleCheckbox.checked) {
-    BODY.classList.add('subtitle-background');
+    WRAPPER.classList.add('video__wrapper--subtitle');
   } else {
-    BODY.classList.remove('subtitle-background');
+    WRAPPER.classList.remove('video__wrapper--subtitle');
   }
 }
 
@@ -199,14 +207,14 @@ function toggleSchemeButtons() {
     setTimeout(() => {
       lightSchemeLabel.classList.add('footer__label--off');
       darkSchemeLabel.classList.add('footer__label--off');
-    }, 150);
+    }, 100);
 
     setTimeout(() => {
       autoSchemeLabel.classList.remove('footer__label--off');
       setTimeout(() => {
         autoSchemeLabel.classList.remove('footer__label--hide');
-      }, 150);
-    }, 150);
+      }, 100);
+    }, 100);
   } else {
     autoSchemeLabel.classList.add('footer__label--hide');
 
@@ -218,8 +226,8 @@ function toggleSchemeButtons() {
       setTimeout(() => {
         lightSchemeLabel.classList.remove('footer__label--hide');
         darkSchemeLabel.classList.remove('footer__label--hide');
-      }, 150);
-    }, 150);
+      }, 100);
+    }, 100);
   }
 }
 

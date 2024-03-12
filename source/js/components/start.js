@@ -16,15 +16,18 @@ function isVideoReadyToPlay() {
   );
 }
 
+let isVideoStarted = false;
+
 function handleVideoPlay() {
+  isVideoStarted = true;
   openButton.classList.remove('header__menu--error');
   START_BUTTON.classList.add('video__start--hide');
-  CONTROLS.classList.remove('control--off');
 
   playVideo();
-  VIDEO.focus();
-
   getStatistics();
+  // VIDEO.focus();
+
+  CONTROLS.classList.remove('control--off');
 
   if (autoplayFlag) {
     VIDEO.addEventListener('loadeddata', startVideo);
@@ -38,6 +41,7 @@ function handleVideoError() {
     openButton.classList.remove('header__menu--error');
   }, 2100);
 
+  activateTab('video');
   showMessage('Відео відсутнє, спробуйте обрати інше');
 
   if (VIDEO.error) {

@@ -1,43 +1,42 @@
 // Tabs
-const tabButtons = SETTINGS.querySelectorAll('.settings__button');
 const tabs = SETTINGS.querySelectorAll('.settings__tab');
+const tabButtons = SETTINGS.querySelectorAll('.settings__button');
+
+function activateTab(tabName) {
+  tabButtons.forEach(btn => btn.classList.remove('settings__button--active'));
+  tabs.forEach(tab => {
+    tab.classList.remove('settings__tab--active', 'settings__tab--scroll');
+  });
+
+  let selectedButton = SETTINGS.querySelector(`[data-tab="${tabName}"]`);
+  selectedButton.classList.add('settings__button--active');
+
+  let selectedTab = SETTINGS.querySelector(`.settings__tab[data-tab="${tabName}"]`);
+  selectedTab.classList.add('settings__tab--active');
+  selectedTab.focus();
+
+  checkActiveTab();
+  updateSettingsHeight();
+}
 
 tabButtons.forEach(button => {
   button.addEventListener('click', () => {
-    tabButtons.forEach(btn => btn.classList.remove('settings__button--active'));
-    tabs.forEach(tab => {
-      tab.classList.remove('settings__tab--active');
-      tab.classList.remove('settings__tab--scroll');
-      tab.removeAttribute('tabIndex');
-    });
-
-    button.classList.add('settings__button--active');
-
-    const tabName = button.getAttribute('data-tab');
-    document.querySelector(`.settings__tab[data-tab="${tabName}"]`).classList.add('settings__tab--active');
-    document.querySelector(`.settings__tab[data-tab="${tabName}"]`).setAttribute('tabIndex', '0');
-    document.querySelector(`.settings__tab[data-tab="${tabName}"]`).focus();
-
-    checkActiveTab();
-    updateSettingsHeight();
+    let tabName = button.getAttribute('data-tab');
+    activateTab(tabName);
   });
 });
 
 function updateSettingsHeight() {
   let settingsButtonHeight = SETTINGS.querySelector('.settings__control').clientHeight;
-  const settingsWrapper = SETTINGS.querySelector('.settings__wrapper');
+  let settingsWrapper = SETTINGS.querySelector('.settings__wrapper');
   let settingsWrapperHeight = settingsWrapper.clientHeight;
-  const activeTab = SETTINGS.querySelector('.settings__tab--active');
+  let activeTab = SETTINGS.querySelector('.settings__tab--active');
   let activeTabHeight = activeTab.clientHeight;
   let blockOffset = 90;
 
   settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - ${blockOffset}px)`;
 
-  if (activeTabHeight > settingsWrapperHeight) {
-    activeTab.classList.add('settings__tab--scroll');
-  } else {
-    activeTab.classList.remove('settings__tab--scroll');
-  }
+  activeTab.classList.toggle('settings__tab--scroll', activeTabHeight > settingsWrapperHeight);
 }
 
 updateSettingsHeight();
@@ -47,9 +46,7 @@ function checkActiveTab() {
     let activeTabName = SETTINGS.querySelector('.settings__tab--active').getAttribute('data-tab');
 
     if (activeTabName === 'scheme') {
-      // setTimeout(() => {
-        schemeSwitcher.classList.add('footer__switcher--show');
-      // }, 200);
+      schemeSwitcher.classList.add('footer__switcher--show');
     } else {
       schemeSwitcher.classList.remove('footer__switcher--show');
     }

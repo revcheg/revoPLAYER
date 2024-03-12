@@ -15,7 +15,10 @@ function selectGame() {
 }
 
 function setVideo() {
-  VIDEO.src = 'video/' + game + '/' + deepFlag + '.webm';
+  currentCategory = game;
+  currentSubcategory = deepFlag;
+  currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
+  playCurrentVideo();
   VIDEO.preload = 'auto';
 }
 
@@ -31,6 +34,7 @@ chooseButtons.forEach((element) => {
 
 // Reset video
 function resetVideo() {
+  isVideoStarted = false;
   pauseVideo();
   VIDEO.src = '';
   VIDEO.removeAttribute('src');
