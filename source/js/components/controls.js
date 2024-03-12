@@ -80,7 +80,7 @@ function changeMuteIcon() {
 muteButton.addEventListener('click', setMute);
 
 // Volume
-VIDEO.volume = 0.5;
+VIDEO.volume = 0.2;
 
 const volumeRange = CONTROLS.querySelector('.control__range--volume');
 

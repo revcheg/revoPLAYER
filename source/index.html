@@ -22,8 +22,8 @@
   <body class="body">
 
     <div class="background  background--off">
-      <video class="background__video" muted aria-label="Фонове відео дублююче головне відео" alt="Фонове відео дублююче головне відео" disableRemotePlayback disablePictureInPicture></video>
-      <div class="background__overlay"></div>
+      <video class="background__video" muted aria-label="Фонове відео дублююче головне відео" alt="Фонове відео дублююче головне відео" disableRemotePlayback disablePictureInPicture playsinline></video>
+      <span class="background__overlay"></span>
     </div>
 
     <header class="header">
@@ -64,11 +64,12 @@
           <p class="statistics__category">Щільність: <span class="statistics__resolution"></span></p>
           <p class="statistics__category  statistics__category--hide">Формат: <span class="statistics__format"></span></p>
           <p class="statistics__category  statistics__category--hide">Буфер: <span class="statistics__buffer"></span> секунд</p>
+          <!-- <p class="statistics__category  statistics__category--hide">Бітрейт: <span class="statistics__bitrate"></span></p> -->
           <!-- <p class="statistics__category  statistics__category--hide">FPS: <span class="statistics__fps"></span></p> -->
           <!-- <p class="statistics__category  statistics__category--hide">Розмір: <span class="statistics__size"></span></p> -->
         </section>
 
-        <video class="video" preload="auto" controls="false" aria-label="Опис обраного відео" alt="Опис обраного відео" disableRemotePlayback disablePictureInPicture>
+        <video class="video" controls="false" aria-label="Опис обраного відео" alt="Опис обраного відео" disableRemotePlayback disablePictureInPicture>
           <track class="video__subtitle" src="subtitle/TheWitcher/deep-uk.vtt" kind="subtitles" label="Ukranian" srclang="uk">
           <track class="video__subtitle" src="subtitle/TheWitcher/deep-en.vtt" kind="subtitles" label="English" srclang="en">
         </video>
@@ -111,7 +112,7 @@
                 <use href="img/sprite.svg#muted"></use>
               </svg>
             </button>
-            <input class="control__range  control__range--volume" step="0.1" min="0" max="1" value="0.5" aria-label="Гучність" title="Гучність (up+down arrow)" type="range">
+            <input class="control__range  control__range--volume" step="0.1" min="0" max="1" value="0.2" aria-label="Гучність" title="Гучність (up+down arrow)" type="range">
           </div>
           <button class="button  control__button  control__button--subtitle  control__button--hide" aria-label="Увімкнути субтитри" title="Увімкнути субтитри (c)" type="button">
             <span class="control__info  control__info--hide"></span>
@@ -227,7 +228,7 @@
             <input class="settings__checkbox  settings__checkbox--autoplay" type="checkbox" checked>
             <span class="settings__name">Автоперемикання серій</span>
           </label>
-          <label class="settings__label">
+          <label class="settings__label  settings__label--hide">
             <input class="settings__checkbox  settings__checkbox--deep" type="checkbox">
             <span class="settings__name">Deep mode</span>
           </label>
@@ -387,7 +388,7 @@
           <use href="img/sprite.svg#close"></use>
         </svg>
       </button>
-      <video class="console__background" src="video/console.mp4" muted loop disableRemotePlayback disablePictureInPicture></video>
+      <video class="console__background" src="video/console.mp4" muted loop disableRemotePlayback disablePictureInPicture playsinline></video>
       <label>
         <span class="visually-hidden">Поле введення консолі</span>
         <input class="console__input" type="text" placeholder="take control">

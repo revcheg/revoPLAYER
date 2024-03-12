@@ -109,8 +109,8 @@ function setupScale() {
 
 function setScale(event) {
   if (scaleCheckbox.checked && event.isTrusted) {
-    let xPos = -(event.pageX / window.innerWidth - 0.5) * -20;
-    let yPos = (event.pageY / window.innerHeight - 0.5) * -20;
+    let xPos = -(event.pageX / window.innerWidth - 0.5) * -40;
+    let yPos = (event.pageY / window.innerHeight - 0.5) * -40;
     let blockRect = VIDEO.getBoundingClientRect();
     let mouseX = event.clientX - blockRect.left;
     let mouseY = event.clientY - blockRect.top;
@@ -144,6 +144,7 @@ autoplayCheckbox.addEventListener('change', setAutoplay);
 // Deep mode
 let deepFlag = 'main';
 const deepCheckbox = SETTINGS.querySelector('.settings__checkbox--deep');
+const deepLabel = deepCheckbox.parentNode;
 
 deepCheckbox.addEventListener('change', function (event) {
   if (event.currentTarget.checked) {
@@ -521,6 +522,7 @@ function executeCommand(event) {
     let commandDescription = consoleCommands[command];
 
     if (commandDescription) {
+      deepLabel.classList.add('settings__label--hide');
       currentCategory = commandDescription.currentCategory;
       currentSubcategory = commandDescription.currentSubcategory;
       currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
@@ -535,6 +537,7 @@ function executeCommand(event) {
     }
 
     consoleInput.value = '';
+    consoleInput.blur();
 
     if (autoplayFlag) {
       VIDEO.addEventListener('loadeddata', startVideo);
@@ -584,6 +587,7 @@ function executeDevCommand(event) {
     }
 
     consoleInput.value = '';
+    consoleInput.blur();
   }
 }
 
@@ -681,7 +685,7 @@ function changeMuteIcon() {
 muteButton.addEventListener('click', setMute);
 
 // Volume
-VIDEO.volume = 0.5;
+VIDEO.volume = 0.2;
 
 const volumeRange = CONTROLS.querySelector('.control__range--volume');
 
@@ -1188,6 +1192,8 @@ fetch('video.json')
 let currentVideo;
 
 function playCurrentVideo() {
+  VIDEO.preload = 'auto';
+
   setPlayIcon();
   stopProgress();
   resetDuration();
@@ -1512,7 +1518,18 @@ function selectGame() {
     return
   } else {
     this.classList.add('settings__video--active');
+
     game = this.getAttribute('data-video');
+    currentCategory = game;
+    currentVideo = data[currentCategory];
+
+    if (currentVideo.deep) {
+      deepLabel.classList.remove('settings__label--hide');
+      showMessage('Доступна deep категорія');
+    } else {
+      deepLabel.classList.add('settings__label--hide');
+    }
+
     setVideo();
   }
 }
@@ -1522,7 +1539,6 @@ function setVideo() {
   currentSubcategory = deepFlag;
   currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
   playCurrentVideo();
-  VIDEO.preload = 'auto';
 }
 
 function clearVideoButtons() {
@@ -1619,6 +1635,8 @@ let videoHeight;
 let videoFormat;
 let videoDuration;
 let videoCurrentTime;
+let videoBitrate;
+let videoFPS;
 let windowWidth = window.innerWidth;
 let windowHeight = window.innerHeight;
 
@@ -1629,6 +1647,8 @@ const statisticsResolution = STATISTICS.querySelector('.statistics__resolution')
 const statisticsUFH = HEADER.querySelector('.header__ufh');
 const statisticsFormat = STATISTICS.querySelector('.statistics__format');
 const statisticsBuffer = STATISTICS.querySelector('.statistics__buffer');
+// const statisticsBitrate = STATISTICS.querySelector('.statistics__bitrate');
+// const statisticsFPS = STATISTICS.querySelector('.statistics__fps');
 
 function getStatistics() {
   statisticsName.classList.remove('statistics__name--off');
@@ -1676,6 +1696,12 @@ function updateBuffered() {
 
 function updateCurrentTime() {
   videoCurrentTime = Math.floor(VIDEO.currentTime);
+
+  // videoBitrate = VIDEO.webkitVideoDecodedByteCount * 8 / videoDuration;
+  // statisticsBitrate.innerText = videoBitrate;
+
+  // videoFPS = VIDEO.webkitDecodedFrameCount / videoDuration;
+  // statisticsFPS.innerText = videoFPS;
 }
 
 VIDEO.addEventListener('timeupdate', updateCurrentTime);
@@ -1684,17 +1710,22 @@ VIDEO.addEventListener('progress', updateBuffered);
 // Time
 function getTime() {
   const clientDate = new Date();
-  const clientHours = clientDate.getHours();
-  const clientMinutes = clientDate.getMinutes();
+  const clientHours = addLeadingZero(clientDate.getHours());
+  const clientMinutes = addLeadingZero(clientDate.getMinutes());
   statisticsClientTime.innerText = clientHours + ':' + clientMinutes;
 }
 
 function getEndTime() {
   const futureDate = new Date();
   futureDate.setSeconds(futureDate.getSeconds() + videoDuration);
-  const futureClientHours = futureDate.getHours();
-  const futureClientMinutes = futureDate.getMinutes();
+  const futureClientHours = addLeadingZero(futureDate.getHours());
+  const futureClientMinutes = addLeadingZero(futureDate.getMinutes());
   statisticsEndTime.innerText = futureClientHours + ':' + futureClientMinutes;
+}
+
+// Add zero to output if value < 10
+function addLeadingZero(value) {
+  return value < 10 ? '0' + value : value;
 }
 
 // Subtitles

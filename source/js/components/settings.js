@@ -91,8 +91,8 @@ function setupScale() {
 
 function setScale(event) {
   if (scaleCheckbox.checked && event.isTrusted) {
-    let xPos = -(event.pageX / window.innerWidth - 0.5) * -20;
-    let yPos = (event.pageY / window.innerHeight - 0.5) * -20;
+    let xPos = -(event.pageX / window.innerWidth - 0.5) * -40;
+    let yPos = (event.pageY / window.innerHeight - 0.5) * -40;
     let blockRect = VIDEO.getBoundingClientRect();
     let mouseX = event.clientX - blockRect.left;
     let mouseY = event.clientY - blockRect.top;
@@ -126,6 +126,7 @@ autoplayCheckbox.addEventListener('change', setAutoplay);
 // Deep mode
 let deepFlag = 'main';
 const deepCheckbox = SETTINGS.querySelector('.settings__checkbox--deep');
+const deepLabel = deepCheckbox.parentNode;
 
 deepCheckbox.addEventListener('change', function (event) {
   if (event.currentTarget.checked) {

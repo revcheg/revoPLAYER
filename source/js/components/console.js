@@ -59,6 +59,7 @@ function executeCommand(event) {
     let commandDescription = consoleCommands[command];
 
     if (commandDescription) {
+      deepLabel.classList.add('settings__label--hide');
       currentCategory = commandDescription.currentCategory;
       currentSubcategory = commandDescription.currentSubcategory;
       currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
@@ -73,6 +74,7 @@ function executeCommand(event) {
     }
 
     consoleInput.value = '';
+    consoleInput.blur();
 
     if (autoplayFlag) {
       VIDEO.addEventListener('loadeddata', startVideo);
@@ -122,6 +124,7 @@ function executeDevCommand(event) {
     }
 
     consoleInput.value = '';
+    consoleInput.blur();
   }
 }
 

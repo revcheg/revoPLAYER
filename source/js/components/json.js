@@ -26,6 +26,8 @@ fetch('video.json')
 let currentVideo;
 
 function playCurrentVideo() {
+  VIDEO.preload = 'auto';
+
   setPlayIcon();
   stopProgress();
   resetDuration();

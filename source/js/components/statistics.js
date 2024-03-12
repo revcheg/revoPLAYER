@@ -5,6 +5,8 @@ let videoHeight;
 let videoFormat;
 let videoDuration;
 let videoCurrentTime;
+let videoBitrate;
+let videoFPS;
 let windowWidth = window.innerWidth;
 let windowHeight = window.innerHeight;
 
@@ -15,6 +17,8 @@ const statisticsResolution = STATISTICS.querySelector('.statistics__resolution')
 const statisticsUFH = HEADER.querySelector('.header__ufh');
 const statisticsFormat = STATISTICS.querySelector('.statistics__format');
 const statisticsBuffer = STATISTICS.querySelector('.statistics__buffer');
+// const statisticsBitrate = STATISTICS.querySelector('.statistics__bitrate');
+// const statisticsFPS = STATISTICS.querySelector('.statistics__fps');
 
 function getStatistics() {
   statisticsName.classList.remove('statistics__name--off');
@@ -62,6 +66,12 @@ function updateBuffered() {
 
 function updateCurrentTime() {
   videoCurrentTime = Math.floor(VIDEO.currentTime);
+
+  // videoBitrate = VIDEO.webkitVideoDecodedByteCount * 8 / videoDuration;
+  // statisticsBitrate.innerText = videoBitrate;
+
+  // videoFPS = VIDEO.webkitDecodedFrameCount / videoDuration;
+  // statisticsFPS.innerText = videoFPS;
 }
 
 VIDEO.addEventListener('timeupdate', updateCurrentTime);
@@ -70,15 +80,20 @@ VIDEO.addEventListener('progress', updateBuffered);
 // Time
 function getTime() {
   const clientDate = new Date();
-  const clientHours = clientDate.getHours();
-  const clientMinutes = clientDate.getMinutes();
+  const clientHours = addLeadingZero(clientDate.getHours());
+  const clientMinutes = addLeadingZero(clientDate.getMinutes());
   statisticsClientTime.innerText = clientHours + ':' + clientMinutes;
 }
 
 function getEndTime() {
   const futureDate = new Date();
   futureDate.setSeconds(futureDate.getSeconds() + videoDuration);
-  const futureClientHours = futureDate.getHours();
-  const futureClientMinutes = futureDate.getMinutes();
+  const futureClientHours = addLeadingZero(futureDate.getHours());
+  const futureClientMinutes = addLeadingZero(futureDate.getMinutes());
   statisticsEndTime.innerText = futureClientHours + ':' + futureClientMinutes;
+}
+
+// Add zero to output if value < 10
+function addLeadingZero(value) {
+  return value < 10 ? '0' + value : value;
 }

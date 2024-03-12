@@ -9,7 +9,18 @@ function selectGame() {
     return
   } else {
     this.classList.add('settings__video--active');
+
     game = this.getAttribute('data-video');
+    currentCategory = game;
+    currentVideo = data[currentCategory];
+
+    if (currentVideo.deep) {
+      deepLabel.classList.remove('settings__label--hide');
+      showMessage('Доступна deep категорія');
+    } else {
+      deepLabel.classList.add('settings__label--hide');
+    }
+
     setVideo();
   }
 }
@@ -19,7 +30,6 @@ function setVideo() {
   currentSubcategory = deepFlag;
   currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
   playCurrentVideo();
-  VIDEO.preload = 'auto';
 }
 
 function clearVideoButtons() {
