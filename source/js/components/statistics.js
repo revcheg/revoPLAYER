@@ -5,8 +5,8 @@ let videoHeight;
 let videoFormat;
 let videoDuration;
 let videoCurrentTime;
-let videoBitrate;
-let videoFPS;
+// let videoBitrate;
+// let videoFPS;
 let windowWidth = window.innerWidth;
 let windowHeight = window.innerHeight;
 
@@ -66,18 +66,42 @@ function updateBuffered() {
 
 function updateCurrentTime() {
   videoCurrentTime = Math.floor(VIDEO.currentTime);
-
-  // videoBitrate = VIDEO.webkitVideoDecodedByteCount * 8 / videoDuration;
-  // statisticsBitrate.innerText = videoBitrate;
-
-  // videoFPS = VIDEO.webkitDecodedFrameCount / videoDuration;
-  // statisticsFPS.innerText = videoFPS;
 }
 
 VIDEO.addEventListener('timeupdate', updateCurrentTime);
 VIDEO.addEventListener('progress', updateBuffered);
 
-// Time
+// Save and load current video time, deep beta version...
+function saveCurrentTime() {
+  localStorage.setItem('current-category', currentCategory);
+  localStorage.setItem('current-subcategory', currentSubcategory);
+  localStorage.setItem('current-index', currentVideoIndex);
+  localStorage.setItem('current-time', videoCurrentTime);
+}
+
+function removeCurrentTime() {
+  localStorage.removeItem('current-category');
+  localStorage.removeItem('current-subcategory');
+  localStorage.removeItem('current-index');
+  localStorage.removeItem('current-time');
+}
+
+function loadCurrentTime() {
+  if (localStorage.getItem('current-time')) {
+    currentCategory = localStorage.getItem('current-category');
+    currentSubcategory = localStorage.getItem('current-subcategory');
+    currentVideoIndex = parseInt(localStorage.getItem('current-index'));
+    videoCurrentTime = parseInt(localStorage.getItem('current-time'));
+    VIDEO.currentTime = videoCurrentTime;
+  }
+}
+
+loadCurrentTime();
+
+VIDEO.addEventListener('timeupdate', saveCurrentTime);
+VIDEO.addEventListener('ended', removeCurrentTime);
+
+// Local time
 function getTime() {
   const clientDate = new Date();
   const clientHours = addLeadingZero(clientDate.getHours());
@@ -93,7 +117,7 @@ function getEndTime() {
   statisticsEndTime.innerText = futureClientHours + ':' + futureClientMinutes;
 }
 
-// Add zero to output if value < 10
+// Add 0 to time output if value < 10
 function addLeadingZero(value) {
   return value < 10 ? '0' + value : value;
 }

@@ -6,7 +6,9 @@ let currentVideoLeft;
 let isVideoPlaying = false;
 
 function startProgress() {
-  progressInterval = setTimeout(updateProgress, 1000);
+  updateProgress();
+  // progressInterval = setTimeout(updateProgress, 1000);
+  progressInterval = setInterval(updateProgress, 1000);
   isVideoPlaying = true;
 }
 
@@ -24,14 +26,14 @@ function updateProgress() {
   videoPassed.innerText = currentVideoPassed;
   videoLeft.innerText = currentVideoLeft;
 
-  startProgress();
   getTime();
   getEndTime();
   extraLine();
 }
 
 function stopProgress() {
-  clearTimeout(progressInterval);
+  // clearTimeout(progressInterval);
+  clearInterval(progressInterval);
   isVideoPlaying = false;
 }
 

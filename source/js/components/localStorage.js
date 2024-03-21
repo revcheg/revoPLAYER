@@ -1,12 +1,12 @@
-// Save/Load theme
+// Save/Load scheme
 function saveScheme(scheme) {
-	localStorage.setItem('color-scheme', scheme);
+  localStorage.setItem('color-scheme', scheme);
 }
 
 function clearScheme() {
-	localStorage.removeItem('color-scheme');
+  localStorage.removeItem('color-scheme');
 }
 
 function getSavedScheme() {
-	return localStorage.getItem('color-scheme');
+  return localStorage.getItem('color-scheme');
 }
