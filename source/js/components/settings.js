@@ -200,14 +200,17 @@ function toggleSchemeButtons() {
   const lightSchemeLabel = FOOTER.querySelector('.footer__scheme[value="light"]').parentNode;
   const autoSchemeLabel = FOOTER.querySelector('.footer__scheme[value="auto"]').parentNode;
   const darkSchemeLabel = FOOTER.querySelector('.footer__scheme[value="dark"]').parentNode;
+  const viceSchemeLabel = FOOTER.querySelector('.footer__scheme[value="vice"]').parentNode;
 
   if (autoschemeCheckbox.checked) {
     lightSchemeLabel.classList.add('footer__label--hide');
     darkSchemeLabel.classList.add('footer__label--hide');
+    viceSchemeLabel.classList.add('footer__label--hide');
 
     setTimeout(() => {
       lightSchemeLabel.classList.add('footer__label--off');
       darkSchemeLabel.classList.add('footer__label--off');
+      viceSchemeLabel.classList.add('footer__label--off');
     }, 100);
 
     setTimeout(() => {
@@ -221,12 +224,14 @@ function toggleSchemeButtons() {
 
     setTimeout(() => {
       lightSchemeLabel.classList.remove('footer__label--off');
-      darkSchemeLabel.classList.remove('footer__label--off');
       autoSchemeLabel.classList.add('footer__label--off');
+      darkSchemeLabel.classList.remove('footer__label--off');
+      viceSchemeLabel.classList.remove('footer__label--off');
 
       setTimeout(() => {
         lightSchemeLabel.classList.remove('footer__label--hide');
         darkSchemeLabel.classList.remove('footer__label--hide');
+        viceSchemeLabel.classList.remove('footer__label--hide');
       }, 100);
     }, 100);
   }

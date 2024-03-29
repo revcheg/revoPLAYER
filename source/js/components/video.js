@@ -1,6 +1,5 @@
 // Video
 let progressInterval;
-let playbackQuality;
 let currentVideoPassed;
 let currentVideoLeft;
 let isVideoPlaying = false;
