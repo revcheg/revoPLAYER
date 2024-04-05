@@ -204,35 +204,31 @@ subtitleCheckbox.addEventListener('change', setBackgroundSubtitle);
 // Auto scheme
 const autoschemeCheckbox = SETTINGS.querySelector('.settings__checkbox--autoscheme');
 
-let prevScheme;
-
 function setAutoScheme() {
   if (autoschemeCheckbox.checked) {
-    prevScheme = localStorage.getItem('color-scheme');
+    let prevScheme = localStorage.getItem('color-scheme');
     localStorage.setItem('prev-scheme', prevScheme);
     setScheme('auto');
   } else {
     setScheme(localStorage.getItem('prev-scheme'));
   }
-
-  toggleSchemeButtons();
 }
 
 function toggleSchemeButtons() {
   const lightSchemeLabel = FOOTER.querySelector('.footer__scheme[value="light"]').parentNode;
   const autoSchemeLabel = FOOTER.querySelector('.footer__scheme[value="auto"]').parentNode;
   const darkSchemeLabel = FOOTER.querySelector('.footer__scheme[value="dark"]').parentNode;
-  // const viceSchemeLabel = FOOTER.querySelector('.footer__scheme[value="vice"]').parentNode;
+  const viceSchemeLabel = FOOTER.querySelector('.footer__scheme[value="vice"]').parentNode;
 
   if (autoschemeCheckbox.checked) {
     lightSchemeLabel.classList.add('footer__label--hide');
     darkSchemeLabel.classList.add('footer__label--hide');
-    // viceSchemeLabel.classList.add('footer__label--hide');
+    viceSchemeLabel.classList.add('footer__label--hide');
 
     setTimeout(() => {
       lightSchemeLabel.classList.add('footer__label--off');
       darkSchemeLabel.classList.add('footer__label--off');
-      // viceSchemeLabel.classList.add('footer__label--off');
+      viceSchemeLabel.classList.add('footer__label--off');
     }, 100);
 
     setTimeout(() => {
@@ -248,12 +244,12 @@ function toggleSchemeButtons() {
       lightSchemeLabel.classList.remove('footer__label--off');
       autoSchemeLabel.classList.add('footer__label--off');
       darkSchemeLabel.classList.remove('footer__label--off');
-      // viceSchemeLabel.classList.remove('footer__label--off');
+      viceSchemeLabel.classList.remove('footer__label--off');
 
       setTimeout(() => {
         lightSchemeLabel.classList.remove('footer__label--hide');
         darkSchemeLabel.classList.remove('footer__label--hide');
-        // viceSchemeLabel.classList.remove('footer__label--hide');
+        viceSchemeLabel.classList.remove('footer__label--hide');
       }, 100);
     }, 100);
   }
@@ -310,7 +306,7 @@ seriesCheckbox.addEventListener('change', showSeriesList);
 const schemeSwitcher = document.querySelector('.footer__switcher');
 const lightStyles = document.querySelectorAll('link[rel=stylesheet][media*=prefers-color-scheme][media*=light]');
 const darkStyles = document.querySelectorAll('link[rel=stylesheet][media*=prefers-color-scheme][media*=dark]');
-const schemeButtons = document.querySelectorAll('.footer__scheme');
+// const schemeButtons = document.querySelectorAll('.footer__scheme');
 const favicon = document.querySelector('link[href="img/favicons/favicon.svg"]');
 
 let systemScheme;
@@ -326,6 +322,8 @@ if (savedScheme !== null) {
 }
 
 function updateSchemeButton(activeRadio) {
+  let schemeButtons = document.querySelectorAll('.footer__scheme');
+
   [...schemeButtons].forEach((radio) => {
     if (radio === activeRadio) {
       radio.checked = true;
@@ -437,7 +435,8 @@ function addScheme(scheme) {
   schemeButton.title = `Встановити ${scheme} тему`;
   schemeButton.type = 'radio';
   schemeButton.value = scheme;
-  schemeButton.checked = true;
+  // schemeButton.checked = true;
+  // schemeButton.setAttribute('checked', 'checked');
 
   let schemeLabel = document.createElement('label');
   schemeLabel.classList.add('footer__label');

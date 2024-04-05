@@ -1,3 +1,28 @@
+// Vice scheme
+@font-face {
+	font-display: swap;
+	font-family: 'Chalet';
+	font-style: normal;
+	font-weight: 300;
+	src: url('../fonts/chalet-300.woff2') format('woff2');
+}
+
+@font-face {
+	font-display: swap;
+	font-family: 'Chalet';
+	font-style: normal;
+	font-weight: 500;
+	src: url('../fonts/chalet-500.woff2') format('woff2');
+}
+
+@font-face {
+	font-display: swap;
+	font-family: 'Pricedown';
+	font-style: normal;
+	font-weight: 900;
+	src: url('../fonts/pricedown.woff2') format('woff2');
+}
+
 .body {
 	font-weight: 300;
   font-family: "Chalet", "Nunito", "Roboto", "Arial", sans-serif;
