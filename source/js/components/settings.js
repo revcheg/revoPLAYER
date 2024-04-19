@@ -188,53 +188,56 @@ const autoschemeCheckbox = SETTINGS.querySelector('.settings__checkbox--autosche
 
 function setAutoScheme() {
   if (autoschemeCheckbox.checked) {
-    let prevScheme = localStorage.getItem('color-scheme');
-    localStorage.setItem('prev-scheme', prevScheme);
+    let lastScheme = localStorage.getItem('selected-scheme') || systemScheme;
+    localStorage.setItem('last-scheme', lastScheme);
     setScheme('auto');
+    hideSchemeButtons();
   } else {
-    setScheme(localStorage.getItem('prev-scheme'));
+    setScheme(localStorage.getItem('last-scheme'));
+    showSchemeButtons();
   }
 }
 
-function toggleSchemeButtons() {
-  const lightSchemeLabel = FOOTER.querySelector('.footer__scheme[value="light"]').parentNode;
-  const autoSchemeLabel = FOOTER.querySelector('.footer__scheme[value="auto"]').parentNode;
-  const darkSchemeLabel = FOOTER.querySelector('.footer__scheme[value="dark"]').parentNode;
-  const viceSchemeLabel = FOOTER.querySelector('.footer__scheme[value="vice"]').parentNode;
+function hideSchemeButtons() {
+  let schemeLabels = document.querySelectorAll('.footer__label');
+  let schemeAutoLabel = document.querySelector('.footer__scheme[value=auto]').parentNode;
 
-  if (autoschemeCheckbox.checked) {
-    lightSchemeLabel.classList.add('footer__label--hide');
-    darkSchemeLabel.classList.add('footer__label--hide');
-    viceSchemeLabel.classList.add('footer__label--hide');
+  [...schemeLabels].forEach((element) => {
+    element.classList.add('footer__label--hide');
+  });
 
-    setTimeout(() => {
-      lightSchemeLabel.classList.add('footer__label--off');
-      darkSchemeLabel.classList.add('footer__label--off');
-      viceSchemeLabel.classList.add('footer__label--off');
-    }, 100);
+  setTimeout(() => {
+    [...schemeLabels].forEach((element) => {
+      element.classList.add('footer__label--off');
+    });
+
+    schemeAutoLabel.classList.remove('footer__label--off');
 
     setTimeout(() => {
-      autoSchemeLabel.classList.remove('footer__label--off');
-      setTimeout(() => {
-        autoSchemeLabel.classList.remove('footer__label--hide');
-      }, 100);
-    }, 100);
-  } else {
-    autoSchemeLabel.classList.add('footer__label--hide');
+      schemeAutoLabel.classList.remove('footer__label--hide');
+    }, 200);
+  }, 100);
+}
+
+function showSchemeButtons() {
+  let schemeLabels = document.querySelectorAll('.footer__label');
+  let schemeAutoLabel = document.querySelector('.footer__scheme[value=auto]').parentNode;
+
+  schemeAutoLabel.classList.add('footer__label--hide');
+
+  setTimeout(() => {
+    [...schemeLabels].forEach((element) => {
+      element.classList.remove('footer__label--off');
+    });
 
     setTimeout(() => {
-      lightSchemeLabel.classList.remove('footer__label--off');
-      autoSchemeLabel.classList.add('footer__label--off');
-      darkSchemeLabel.classList.remove('footer__label--off');
-      viceSchemeLabel.classList.remove('footer__label--off');
+      [...schemeLabels].forEach((element) => {
+        element.classList.remove('footer__label--hide');
+      });
+    }, 200);
 
-      setTimeout(() => {
-        lightSchemeLabel.classList.remove('footer__label--hide');
-        darkSchemeLabel.classList.remove('footer__label--hide');
-        viceSchemeLabel.classList.remove('footer__label--hide');
-      }, 100);
-    }, 100);
-  }
+    schemeAutoLabel.classList.add('footer__label--off');
+  }, 100);
 }
 
 autoschemeCheckbox.addEventListener('change', setAutoScheme);

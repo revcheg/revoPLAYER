@@ -6,7 +6,6 @@ let isVideoPlaying = false;
 
 function startProgress() {
   updateProgress();
-  // progressInterval = setTimeout(updateProgress, 1000);
   progressInterval = setInterval(updateProgress, 1000);
   isVideoPlaying = true;
 }
@@ -31,7 +30,6 @@ function updateProgress() {
 }
 
 function stopProgress() {
-  // clearTimeout(progressInterval);
   clearInterval(progressInterval);
   isVideoPlaying = false;
 }

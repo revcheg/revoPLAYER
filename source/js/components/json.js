@@ -1,7 +1,4 @@
 // Autoplay video list
-const prevButton = CONTROLS.querySelector('.control__button--prev');
-const nextButton = CONTROLS.querySelector('.control__button--next');
-
 let data = null;
 let currentCategory = 'bonus';
 let currentSubcategory = 'Assassins Creed 2';
@@ -57,6 +54,9 @@ function playCurrentVideo() {
     subtitleButton.classList.add('control__button--off');
   }
 }
+
+const prevButton = CONTROLS.querySelector('.control__button--prev');
+const nextButton = CONTROLS.querySelector('.control__button--next');
 
 function changeVideoIndex(delta) {
   if (uploadedVideo.length > 0) {
@@ -122,4 +122,5 @@ function changeVideoIndex(delta) {
 
 nextButton.addEventListener('click', () => changeVideoIndex(1));
 prevButton.addEventListener('click', () => changeVideoIndex(-1));
+
 VIDEO.addEventListener('ended', () => changeVideoIndex(1));

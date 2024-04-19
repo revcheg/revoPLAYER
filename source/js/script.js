@@ -206,53 +206,56 @@ const autoschemeCheckbox = SETTINGS.querySelector('.settings__checkbox--autosche
 
 function setAutoScheme() {
   if (autoschemeCheckbox.checked) {
-    let prevScheme = localStorage.getItem('color-scheme');
-    localStorage.setItem('prev-scheme', prevScheme);
+    let lastScheme = localStorage.getItem('selected-scheme') || systemScheme;
+    localStorage.setItem('last-scheme', lastScheme);
     setScheme('auto');
+    hideSchemeButtons();
   } else {
-    setScheme(localStorage.getItem('prev-scheme'));
+    setScheme(localStorage.getItem('last-scheme'));
+    showSchemeButtons();
   }
 }
 
-function toggleSchemeButtons() {
-  const lightSchemeLabel = FOOTER.querySelector('.footer__scheme[value="light"]').parentNode;
-  const autoSchemeLabel = FOOTER.querySelector('.footer__scheme[value="auto"]').parentNode;
-  const darkSchemeLabel = FOOTER.querySelector('.footer__scheme[value="dark"]').parentNode;
-  const viceSchemeLabel = FOOTER.querySelector('.footer__scheme[value="vice"]').parentNode;
+function hideSchemeButtons() {
+  let schemeLabels = document.querySelectorAll('.footer__label');
+  let schemeAutoLabel = document.querySelector('.footer__scheme[value=auto]').parentNode;
 
-  if (autoschemeCheckbox.checked) {
-    lightSchemeLabel.classList.add('footer__label--hide');
-    darkSchemeLabel.classList.add('footer__label--hide');
-    viceSchemeLabel.classList.add('footer__label--hide');
+  [...schemeLabels].forEach((element) => {
+    element.classList.add('footer__label--hide');
+  });
 
-    setTimeout(() => {
-      lightSchemeLabel.classList.add('footer__label--off');
-      darkSchemeLabel.classList.add('footer__label--off');
-      viceSchemeLabel.classList.add('footer__label--off');
-    }, 100);
+  setTimeout(() => {
+    [...schemeLabels].forEach((element) => {
+      element.classList.add('footer__label--off');
+    });
+
+    schemeAutoLabel.classList.remove('footer__label--off');
 
     setTimeout(() => {
-      autoSchemeLabel.classList.remove('footer__label--off');
-      setTimeout(() => {
-        autoSchemeLabel.classList.remove('footer__label--hide');
-      }, 100);
-    }, 100);
-  } else {
-    autoSchemeLabel.classList.add('footer__label--hide');
+      schemeAutoLabel.classList.remove('footer__label--hide');
+    }, 200);
+  }, 100);
+}
+
+function showSchemeButtons() {
+  let schemeLabels = document.querySelectorAll('.footer__label');
+  let schemeAutoLabel = document.querySelector('.footer__scheme[value=auto]').parentNode;
+
+  schemeAutoLabel.classList.add('footer__label--hide');
+
+  setTimeout(() => {
+    [...schemeLabels].forEach((element) => {
+      element.classList.remove('footer__label--off');
+    });
 
     setTimeout(() => {
-      lightSchemeLabel.classList.remove('footer__label--off');
-      autoSchemeLabel.classList.add('footer__label--off');
-      darkSchemeLabel.classList.remove('footer__label--off');
-      viceSchemeLabel.classList.remove('footer__label--off');
+      [...schemeLabels].forEach((element) => {
+        element.classList.remove('footer__label--hide');
+      });
+    }, 200);
 
-      setTimeout(() => {
-        lightSchemeLabel.classList.remove('footer__label--hide');
-        darkSchemeLabel.classList.remove('footer__label--hide');
-        viceSchemeLabel.classList.remove('footer__label--hide');
-      }, 100);
-    }, 100);
-  }
+    schemeAutoLabel.classList.add('footer__label--off');
+  }, 100);
 }
 
 autoschemeCheckbox.addEventListener('change', setAutoScheme);
@@ -303,13 +306,12 @@ function showSeriesList() {
 seriesCheckbox.addEventListener('change', showSeriesList);
 
 // Scheme
-const schemeSwitcher = document.querySelector('.footer__switcher');
-const lightStyles = document.querySelectorAll('link[rel=stylesheet][media*=prefers-color-scheme][media*=light]');
-const darkStyles = document.querySelectorAll('link[rel=stylesheet][media*=prefers-color-scheme][media*=dark]');
-// const schemeButtons = document.querySelectorAll('.footer__scheme');
+const schemeSwitcher = FOOTER.querySelector('.footer__switcher');
+const lightStyle = document.querySelector('link[rel=stylesheet][media*=prefers-color-scheme][media*=light]');
+const darkStyle = document.querySelector('link[rel=stylesheet][media*=prefers-color-scheme][media*=dark]');
 const favicon = document.querySelector('link[href="img/favicons/favicon.svg"]');
 
-let systemScheme;
+let systemScheme = getSystemScheme();
 let savedScheme = getSavedScheme();
 
 function getSystemScheme() {
@@ -317,11 +319,43 @@ function getSystemScheme() {
   return systemScheme ? 'dark' : 'light';
 }
 
-if (savedScheme !== null) {
-  updateSchemeButton(document.querySelector(`.footer__scheme[value=${savedScheme}]`));
+function setupScheme() {
+  if (savedScheme === null) return;
+
+  if (savedScheme === 'light') {
+    switchMedia('light');
+  } else if (savedScheme === 'auto') {
+    hideSchemeButtons();
+    autoschemeCheckbox.checked = true;
+  } else if (savedScheme === 'dark') {
+    switchMedia('dark');
+  } else if (savedScheme === 'vice') {
+    createScheme('vice');
+  }
 }
 
-function updateSchemeButton(activeRadio) {
+setupScheme();
+
+function setScheme(scheme) {
+  if (savedScheme === 'dark') {
+    favicon.href = 'img/favicons/favicon-dark.svg';
+  } else {
+    favicon.href = 'img/favicons/favicon.svg';
+  }
+
+  saveScheme(scheme);
+  switchMedia(scheme);
+  showSchemeButtons();
+  updateSchemeButtons(document.querySelector(`.footer__scheme[value=${scheme}]`));
+}
+
+if (savedScheme !== null) {
+  updateSchemeButtons(document.querySelector(`.footer__scheme[value=${savedScheme}]`));
+} else {
+  updateSchemeButtons(document.querySelector(`.footer__scheme[value=${systemScheme}]`));
+}
+
+function updateSchemeButtons(activeRadio) {
   let schemeButtons = document.querySelectorAll('.footer__scheme');
 
   [...schemeButtons].forEach((radio) => {
@@ -340,93 +374,58 @@ schemeSwitcher.addEventListener('change', (event) => {
   setScheme(savedScheme);
 });
 
-function checkScheme() {
-  if (savedScheme === null) return;
-
-  if (savedScheme === 'light') {
-    switchMedia('light');
-  } else if (savedScheme === 'dark') {
-    switchMedia('dark');
-  } else if (savedScheme === 'auto') {
-    toggleSchemeButtons();
-  } else if (savedScheme === 'vice') {
-    addScheme('vice');
-  }
-}
-
-checkScheme();
-
-function setScheme(scheme) {
-  if (scheme === 'auto') {
-    autoschemeCheckbox.checked = true;
-  } else {
-    autoschemeCheckbox.checked = false;
-  }
-
-  if (scheme === 'dark') {
-    favicon.href = 'img/favicons/favicon-dark.svg';
-  } else {
-    favicon.href = 'img/favicons/favicon.svg';
-  }
-
-  saveScheme(scheme);
-  switchMedia(scheme);
-  toggleSchemeButtons();
-  updateSchemeButton(document.querySelector(`.footer__scheme[value=${scheme}]`));
-}
-
-// Switch media
+// Switch media link
 let lightMedia;
 let darkMedia;
-let customMedia;
+let schemeMedia;
 
 function switchMedia(scheme) {
-  if (scheme === 'auto') {
-    lightMedia = '(prefers-color-scheme: light)';
-    darkMedia = '(prefers-color-scheme: dark)';
-    customMedia = 'not all';
-  } else if (scheme === 'light') {
+  if (scheme === 'light') {
     lightMedia = 'all';
     darkMedia = 'not all';
-    customMedia = 'not all';
+    schemeMedia = 'not all';
+  } else if (scheme === 'auto') {
+    lightMedia = '(prefers-color-scheme: light)';
+    darkMedia = '(prefers-color-scheme: dark)';
+    schemeMedia = 'not all';
   } else if (scheme === 'dark') {
     lightMedia = 'not all';
     darkMedia = 'all';
-    customMedia = 'not all';
+    schemeMedia = 'not all';
   } else if (scheme === 'vice') {
     lightMedia = 'not all';
     darkMedia = 'not all';
-    customMedia = 'all';
+    schemeMedia = 'all';
   } else {
     lightMedia = 'not all';
     darkMedia = 'not all';
-    customMedia = 'all';
+    schemeMedia = 'all';
   }
 
-  [...lightStyles].forEach((link) => {
-    link.media = lightMedia;
-  });
-
-  [...darkStyles].forEach((link) => {
-    link.media = darkMedia;
-  });
+  lightStyle.media = lightMedia;
+  darkStyle.media = darkMedia;
 
   if (schemeStyle) {
-    schemeStyle.media = customMedia;
+    schemeStyle.media = schemeMedia;
   }
 }
 
-// Add new scheme
+// Create new scheme
 let schemeStyle;
 
-function addScheme(scheme) {
+function createScheme(scheme) {
   schemeStyle = document.createElement('link');
   schemeStyle.setAttribute('rel', 'stylesheet');
   schemeStyle.href = `css/${scheme}.css`;
   schemeStyle.setAttribute('media', 'all');
-  document.head.appendChild(schemeStyle);
+  // document.head.appendChild(schemeStyle);
+  // darkStyle.appendChild(schemeStyle);
+  darkStyle.parentNode.insertBefore(schemeStyle, darkStyle.nextSibling);
 
   switchMedia(scheme);
+
+  let schemeLabel = document.createElement('label');
+  schemeLabel.classList.add('footer__label');
 
   let schemeButton = document.createElement('input');
   schemeButton.classList.add('button', 'footer__scheme');
@@ -435,11 +434,6 @@ function addScheme(scheme) {
   schemeButton.title = `Встановити ${scheme} тему`;
   schemeButton.type = 'radio';
   schemeButton.value = scheme;
-  // schemeButton.checked = true;
-  // schemeButton.setAttribute('checked', 'checked');
-
-  let schemeLabel = document.createElement('label');
-  schemeLabel.classList.add('footer__label');
 
   let schemeIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   schemeIcon.setAttribute('class', 'footer__icon');
@@ -448,15 +442,16 @@ function addScheme(scheme) {
   schemeIcon.setAttribute('height', '25');
   schemeIcon.setAttribute('viewBox', '0 0 48 48');
 
-  let useElement = document.createElementNS("http://www.w3.org/2000/svg", "use");
-  useElement.setAttribute('href', `img/sprite.svg#${scheme}`);
+  let schemeUseElement = document.createElementNS("http://www.w3.org/2000/svg", "use");
+  schemeUseElement.setAttribute('href', `img/sprite.svg#${scheme}`);
 
   schemeSwitcher.appendChild(schemeLabel);
-  schemeIcon.appendChild(useElement);
+  schemeIcon.appendChild(schemeUseElement);
   schemeLabel.appendChild(schemeIcon);
   schemeLabel.appendChild(schemeButton);
 
-  updateSchemeButton(schemeButton);
+  updateSchemeButtons(schemeButton);
+
   saveScheme(scheme);
 }
 
@@ -551,7 +546,7 @@ function executeCommand(event) {
       currentSubcategory = commandDescription.currentSubcategory;
       currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
       if (commandDescription.scheme) {
-        addScheme(commandDescription.scheme);
+        createScheme(commandDescription.scheme);
       }
       playCurrentVideo();
       closeConsole();
@@ -1217,9 +1212,6 @@ function isSupportedFileType(fileType) {
 }
 
 // Autoplay video list
-const prevButton = CONTROLS.querySelector('.control__button--prev');
-const nextButton = CONTROLS.querySelector('.control__button--next');
-
 let data = null;
 let currentCategory = 'bonus';
 let currentSubcategory = 'Assassins Creed 2';
@@ -1275,6 +1267,9 @@ function playCurrentVideo() {
     subtitleButton.classList.add('control__button--off');
   }
 }
+
+const prevButton = CONTROLS.querySelector('.control__button--prev');
+const nextButton = CONTROLS.querySelector('.control__button--next');
 
 function changeVideoIndex(delta) {
   if (uploadedVideo.length > 0) {
@@ -1340,6 +1335,7 @@ function changeVideoIndex(delta) {
 
 nextButton.addEventListener('click', () => changeVideoIndex(1));
 prevButton.addEventListener('click', () => changeVideoIndex(-1));
+
 VIDEO.addEventListener('ended', () => changeVideoIndex(1));
 
 // Keyboard
@@ -1459,16 +1455,16 @@ window.addEventListener('keyup', (event) => {
 
 // Save/Load scheme
 function saveScheme(scheme) {
-  localStorage.setItem('color-scheme', scheme);
-}
-
-function clearScheme() {
-  localStorage.removeItem('color-scheme');
+  localStorage.setItem('selected-scheme', scheme);
 }
 
 function getSavedScheme() {
-  return localStorage.getItem('color-scheme');
+  return localStorage.getItem('selected-scheme');
 }
+
+// function clearScheme() {
+//   localStorage.removeItem('selected-scheme');
+// }
 
 // Message
 let messageTimeout;
@@ -1746,61 +1742,61 @@ function updateBuffered() {
   }
 }
 
-function updateCurrentTime() {
+function updateVideoTime() {
   videoCurrentTime = Math.floor(VIDEO.currentTime);
 }
 
-VIDEO.addEventListener('timeupdate', updateCurrentTime);
+VIDEO.addEventListener('timeupdate', updateVideoTime);
 VIDEO.addEventListener('progress', updateBuffered);
 
-// Save and load current video time, deep beta version...
-function saveCurrentTime() {
-  localStorage.setItem('current-category', currentCategory);
-  localStorage.setItem('current-subcategory', currentSubcategory);
-  localStorage.setItem('current-index', currentVideoIndex);
-  localStorage.setItem('current-time', videoCurrentTime);
+// Save and load current video time
+function saveVideoTime() {
+  localStorage.setItem('video-category', currentCategory);
+  localStorage.setItem('video-subcategory', currentSubcategory);
+  localStorage.setItem('video-index', currentVideoIndex);
+  localStorage.setItem('video-time', videoCurrentTime);
 }
 
-function removeCurrentTime() {
-  localStorage.removeItem('current-category');
-  localStorage.removeItem('current-subcategory');
-  localStorage.removeItem('current-index');
-  localStorage.removeItem('current-time');
-}
-
-function loadCurrentTime() {
-  if (localStorage.getItem('current-time')) {
-    currentCategory = localStorage.getItem('current-category');
-    currentSubcategory = localStorage.getItem('current-subcategory');
-    currentVideoIndex = parseInt(localStorage.getItem('current-index'));
-    videoCurrentTime = parseInt(localStorage.getItem('current-time'));
+function loadVideoTime() {
+  if (localStorage.getItem('video-time')) {
+    currentCategory = localStorage.getItem('video-category');
+    currentSubcategory = localStorage.getItem('video-subcategory');
+    currentVideoIndex = parseInt(localStorage.getItem('video-index'));
+    videoCurrentTime = parseInt(localStorage.getItem('video-time'));
     VIDEO.currentTime = videoCurrentTime;
   }
 }
 
-loadCurrentTime();
+loadVideoTime();
 
-VIDEO.addEventListener('timeupdate', saveCurrentTime);
-VIDEO.addEventListener('ended', removeCurrentTime);
+function clearVideoTime() {
+  localStorage.removeItem('video-category');
+  localStorage.removeItem('video-subcategory');
+  localStorage.removeItem('video-index');
+  localStorage.removeItem('video-time');
+}
+
+VIDEO.addEventListener('timeupdate', saveVideoTime);
+VIDEO.addEventListener('ended', clearVideoTime);
 
 // Local time
 function getTime() {
   const clientDate = new Date();
-  const clientHours = addLeadingZero(clientDate.getHours());
-  const clientMinutes = addLeadingZero(clientDate.getMinutes());
+  const clientHours = formatTimeUnit(clientDate.getHours());
+  const clientMinutes = formatTimeUnit(clientDate.getMinutes());
   statisticsClientTime.innerText = clientHours + ':' + clientMinutes;
 }
 
 function getEndTime() {
   const futureDate = new Date();
   futureDate.setSeconds(futureDate.getSeconds() + videoDuration);
-  const futureClientHours = addLeadingZero(futureDate.getHours());
-  const futureClientMinutes = addLeadingZero(futureDate.getMinutes());
+  const futureClientHours = formatTimeUnit(futureDate.getHours());
+  const futureClientMinutes = formatTimeUnit(futureDate.getMinutes());
   statisticsEndTime.innerText = futureClientHours + ':' + futureClientMinutes;
 }
 
 // Add 0 to time output if value < 10
-function addLeadingZero(value) {
+function formatTimeUnit(value) {
   return value < 10 ? '0' + value : value;
 }
 
@@ -1934,7 +1930,6 @@ let isVideoPlaying = false;
 
 function startProgress() {
   updateProgress();
-  // progressInterval = setTimeout(updateProgress, 1000);
   progressInterval = setInterval(updateProgress, 1000);
   isVideoPlaying = true;
 }
@@ -1959,7 +1954,6 @@ function updateProgress() {
 }
 
 function stopProgress() {
-  // clearTimeout(progressInterval);
   clearInterval(progressInterval);
   isVideoPlaying = false;
 }

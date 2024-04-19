@@ -64,7 +64,7 @@ function executeCommand(event) {
       currentSubcategory = commandDescription.currentSubcategory;
       currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
       if (commandDescription.scheme) {
-        addScheme(commandDescription.scheme);
+        createScheme(commandDescription.scheme);
       }
       playCurrentVideo();
       closeConsole();

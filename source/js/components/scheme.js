@@ -1,11 +1,10 @@
 // Scheme
-const schemeSwitcher = document.querySelector('.footer__switcher');
-const lightStyles = document.querySelectorAll('link[rel=stylesheet][media*=prefers-color-scheme][media*=light]');
-const darkStyles = document.querySelectorAll('link[rel=stylesheet][media*=prefers-color-scheme][media*=dark]');
-// const schemeButtons = document.querySelectorAll('.footer__scheme');
+const schemeSwitcher = FOOTER.querySelector('.footer__switcher');
+const lightStyle = document.querySelector('link[rel=stylesheet][media*=prefers-color-scheme][media*=light]');
+const darkStyle = document.querySelector('link[rel=stylesheet][media*=prefers-color-scheme][media*=dark]');
 const favicon = document.querySelector('link[href="img/favicons/favicon.svg"]');
 
-let systemScheme;
+let systemScheme = getSystemScheme();
 let savedScheme = getSavedScheme();
 
 function getSystemScheme() {
@@ -13,11 +12,43 @@ function getSystemScheme() {
   return systemScheme ? 'dark' : 'light';
 }
 
-if (savedScheme !== null) {
-  updateSchemeButton(document.querySelector(`.footer__scheme[value=${savedScheme}]`));
+function setupScheme() {
+  if (savedScheme === null) return;
+
+  if (savedScheme === 'light') {
+    switchMedia('light');
+  } else if (savedScheme === 'auto') {
+    hideSchemeButtons();
+    autoschemeCheckbox.checked = true;
+  } else if (savedScheme === 'dark') {
+    switchMedia('dark');
+  } else if (savedScheme === 'vice') {
+    createScheme('vice');
+  }
 }
 
-function updateSchemeButton(activeRadio) {
+setupScheme();
+
+function setScheme(scheme) {
+  if (savedScheme === 'dark') {
+    favicon.href = 'img/favicons/favicon-dark.svg';
+  } else {
+    favicon.href = 'img/favicons/favicon.svg';
+  }
+
+  saveScheme(scheme);
+  switchMedia(scheme);
+  showSchemeButtons();
+  updateSchemeButtons(document.querySelector(`.footer__scheme[value=${scheme}]`));
+}
+
+if (savedScheme !== null) {
+  updateSchemeButtons(document.querySelector(`.footer__scheme[value=${savedScheme}]`));
+} else {
+  updateSchemeButtons(document.querySelector(`.footer__scheme[value=${systemScheme}]`));
+}
+
+function updateSchemeButtons(activeRadio) {
   let schemeButtons = document.querySelectorAll('.footer__scheme');
 
   [...schemeButtons].forEach((radio) => {
@@ -36,93 +67,58 @@ schemeSwitcher.addEventListener('change', (event) => {
   setScheme(savedScheme);
 });
 
-function checkScheme() {
-  if (savedScheme === null) return;
-
-  if (savedScheme === 'light') {
-    switchMedia('light');
-  } else if (savedScheme === 'dark') {
-    switchMedia('dark');
-  } else if (savedScheme === 'auto') {
-    toggleSchemeButtons();
-  } else if (savedScheme === 'vice') {
-    addScheme('vice');
-  }
-}
-
-checkScheme();
-
-function setScheme(scheme) {
-  if (scheme === 'auto') {
-    autoschemeCheckbox.checked = true;
-  } else {
-    autoschemeCheckbox.checked = false;
-  }
-
-  if (scheme === 'dark') {
-    favicon.href = 'img/favicons/favicon-dark.svg';
-  } else {
-    favicon.href = 'img/favicons/favicon.svg';
-  }
-
-  saveScheme(scheme);
-  switchMedia(scheme);
-  toggleSchemeButtons();
-  updateSchemeButton(document.querySelector(`.footer__scheme[value=${scheme}]`));
-}
-
-// Switch media
+// Switch media link
 let lightMedia;
 let darkMedia;
-let customMedia;
+let schemeMedia;
 
 function switchMedia(scheme) {
-  if (scheme === 'auto') {
-    lightMedia = '(prefers-color-scheme: light)';
-    darkMedia = '(prefers-color-scheme: dark)';
-    customMedia = 'not all';
-  } else if (scheme === 'light') {
+  if (scheme === 'light') {
     lightMedia = 'all';
     darkMedia = 'not all';
-    customMedia = 'not all';
+    schemeMedia = 'not all';
+  } else if (scheme === 'auto') {
+    lightMedia = '(prefers-color-scheme: light)';
+    darkMedia = '(prefers-color-scheme: dark)';
+    schemeMedia = 'not all';
   } else if (scheme === 'dark') {
     lightMedia = 'not all';
     darkMedia = 'all';
-    customMedia = 'not all';
+    schemeMedia = 'not all';
   } else if (scheme === 'vice') {
     lightMedia = 'not all';
     darkMedia = 'not all';
-    customMedia = 'all';
+    schemeMedia = 'all';
   } else {
     lightMedia = 'not all';
     darkMedia = 'not all';
-    customMedia = 'all';
+    schemeMedia = 'all';
   }
 
-  [...lightStyles].forEach((link) => {
-    link.media = lightMedia;
-  });
-
-  [...darkStyles].forEach((link) => {
-    link.media = darkMedia;
-  });
+  lightStyle.media = lightMedia;
+  darkStyle.media = darkMedia;
 
   if (schemeStyle) {
-    schemeStyle.media = customMedia;
+    schemeStyle.media = schemeMedia;
   }
 }
 
-// Add new scheme
+// Create new scheme
 let schemeStyle;
 
-function addScheme(scheme) {
+function createScheme(scheme) {
   schemeStyle = document.createElement('link');
   schemeStyle.setAttribute('rel', 'stylesheet');
   schemeStyle.href = `css/${scheme}.css`;
   schemeStyle.setAttribute('media', 'all');
-  document.head.appendChild(schemeStyle);
+  // document.head.appendChild(schemeStyle);
+  // darkStyle.appendChild(schemeStyle);
+  darkStyle.parentNode.insertBefore(schemeStyle, darkStyle.nextSibling);
 
   switchMedia(scheme);
+
+  let schemeLabel = document.createElement('label');
+  schemeLabel.classList.add('footer__label');
 
   let schemeButton = document.createElement('input');
   schemeButton.classList.add('button', 'footer__scheme');
@@ -131,11 +127,6 @@ function addScheme(scheme) {
   schemeButton.title = `Встановити ${scheme} тему`;
   schemeButton.type = 'radio';
   schemeButton.value = scheme;
-  // schemeButton.checked = true;
-  // schemeButton.setAttribute('checked', 'checked');
-
-  let schemeLabel = document.createElement('label');
-  schemeLabel.classList.add('footer__label');
 
   let schemeIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   schemeIcon.setAttribute('class', 'footer__icon');
@@ -144,14 +135,15 @@ function addScheme(scheme) {
   schemeIcon.setAttribute('height', '25');
   schemeIcon.setAttribute('viewBox', '0 0 48 48');
 
-  let useElement = document.createElementNS("http://www.w3.org/2000/svg", "use");
-  useElement.setAttribute('href', `img/sprite.svg#${scheme}`);
+  let schemeUseElement = document.createElementNS("http://www.w3.org/2000/svg", "use");
+  schemeUseElement.setAttribute('href', `img/sprite.svg#${scheme}`);
 
   schemeSwitcher.appendChild(schemeLabel);
-  schemeIcon.appendChild(useElement);
+  schemeIcon.appendChild(schemeUseElement);
   schemeLabel.appendChild(schemeIcon);
   schemeLabel.appendChild(schemeButton);
 
-  updateSchemeButton(schemeButton);
+  updateSchemeButtons(schemeButton);
+
   saveScheme(scheme);
 }

@@ -64,60 +64,60 @@ function updateBuffered() {
   }
 }
 
-function updateCurrentTime() {
+function updateVideoTime() {
   videoCurrentTime = Math.floor(VIDEO.currentTime);
 }
 
-VIDEO.addEventListener('timeupdate', updateCurrentTime);
+VIDEO.addEventListener('timeupdate', updateVideoTime);
 VIDEO.addEventListener('progress', updateBuffered);
 
-// Save and load current video time, deep beta version...
-function saveCurrentTime() {
-  localStorage.setItem('current-category', currentCategory);
-  localStorage.setItem('current-subcategory', currentSubcategory);
-  localStorage.setItem('current-index', currentVideoIndex);
-  localStorage.setItem('current-time', videoCurrentTime);
+// Save and load current video time
+function saveVideoTime() {
+  localStorage.setItem('video-category', currentCategory);
+  localStorage.setItem('video-subcategory', currentSubcategory);
+  localStorage.setItem('video-index', currentVideoIndex);
+  localStorage.setItem('video-time', videoCurrentTime);
 }
 
-function removeCurrentTime() {
-  localStorage.removeItem('current-category');
-  localStorage.removeItem('current-subcategory');
-  localStorage.removeItem('current-index');
-  localStorage.removeItem('current-time');
-}
-
-function loadCurrentTime() {
-  if (localStorage.getItem('current-time')) {
-    currentCategory = localStorage.getItem('current-category');
-    currentSubcategory = localStorage.getItem('current-subcategory');
-    currentVideoIndex = parseInt(localStorage.getItem('current-index'));
-    videoCurrentTime = parseInt(localStorage.getItem('current-time'));
+function loadVideoTime() {
+  if (localStorage.getItem('video-time')) {
+    currentCategory = localStorage.getItem('video-category');
+    currentSubcategory = localStorage.getItem('video-subcategory');
+    currentVideoIndex = parseInt(localStorage.getItem('video-index'));
+    videoCurrentTime = parseInt(localStorage.getItem('video-time'));
     VIDEO.currentTime = videoCurrentTime;
   }
 }
 
-loadCurrentTime();
+loadVideoTime();
 
-VIDEO.addEventListener('timeupdate', saveCurrentTime);
-VIDEO.addEventListener('ended', removeCurrentTime);
+function clearVideoTime() {
+  localStorage.removeItem('video-category');
+  localStorage.removeItem('video-subcategory');
+  localStorage.removeItem('video-index');
+  localStorage.removeItem('video-time');
+}
+
+VIDEO.addEventListener('timeupdate', saveVideoTime);
+VIDEO.addEventListener('ended', clearVideoTime);
 
 // Local time
 function getTime() {
   const clientDate = new Date();
-  const clientHours = addLeadingZero(clientDate.getHours());
-  const clientMinutes = addLeadingZero(clientDate.getMinutes());
+  const clientHours = formatTimeUnit(clientDate.getHours());
+  const clientMinutes = formatTimeUnit(clientDate.getMinutes());
   statisticsClientTime.innerText = clientHours + ':' + clientMinutes;
 }
 
 function getEndTime() {
   const futureDate = new Date();
   futureDate.setSeconds(futureDate.getSeconds() + videoDuration);
-  const futureClientHours = addLeadingZero(futureDate.getHours());
-  const futureClientMinutes = addLeadingZero(futureDate.getMinutes());
+  const futureClientHours = formatTimeUnit(futureDate.getHours());
+  const futureClientMinutes = formatTimeUnit(futureDate.getMinutes());
   statisticsEndTime.innerText = futureClientHours + ':' + futureClientMinutes;
 }
 
 // Add 0 to time output if value < 10
-function addLeadingZero(value) {
+function formatTimeUnit(value) {
   return value < 10 ? '0' + value : value;
 }
