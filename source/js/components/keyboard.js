@@ -31,7 +31,7 @@ function handleKey(key, handlers) {
       if (isVideoStarted) {
         switch (action) {
           case 'playPause':
-          toggleVideo();
+            switchVideoState();
           break;
           case 'nextVideoIndex':
             changeVideoIndex(1);

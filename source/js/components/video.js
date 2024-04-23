@@ -5,15 +5,15 @@ let currentVideoLeft;
 let isVideoPlaying = false;
 
 function startProgress() {
-  updateProgress();
-  progressInterval = setInterval(updateProgress, 1000);
   isVideoPlaying = true;
+  progressInterval = setInterval(updateProgress, 1000);
+  updateProgress();
 }
 
 function updateProgress() {
   // Buffer
   videoBuffer = Math.round(VIDEO.buffered.end(0));
-  statisticsBuffer.innerText = videoBuffer;
+  statisticBuffer.innerText = videoBuffer;
 
   videoCurrentTime = Math.round(VIDEO.currentTime);
   VIDEO_RANGE.value = videoCurrentTime;
@@ -26,7 +26,7 @@ function updateProgress() {
 
   getTime();
   getEndTime();
-  extraLine();
+  setDurationProgress();
 }
 
 function stopProgress() {
@@ -65,7 +65,7 @@ function removeErrorVideo() {
 }
 
 VIDEO.addEventListener('error', errorVideo);
-VIDEO.addEventListener('loadeddata', removeErrorVideo);
+VIDEO.addEventListener('canplay', removeErrorVideo);
 
 // Pause
 function pauseAnimation() {

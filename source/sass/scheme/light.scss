@@ -14,9 +14,9 @@
 		box-shadow: 0 0 10px 3px rgba(#6320EE, 0.9);
 	}
 
-	&:focus-visible {
-		outline-color: #6320EE;
-	}
+	// &:focus-visible {
+	// 	outline-color: #6320EE;
+	// }
 }
 
 // Background
@@ -173,12 +173,12 @@
 .video__start {
 
 	&::before {
-		background-color: rgba(#8075FF, 0.3);
+		background-color: rgba(#8075FF, 0.4);
 	}
 }
 
-// Statistics
-.statistics {
+// Statistic
+.statistic {
 	color: #8075FF;
 }
 

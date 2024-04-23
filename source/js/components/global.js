@@ -7,7 +7,7 @@ const MAIN = document.querySelector('.main');
 const VIDEO = document.querySelector('.video');
 const WRAPPER = document.querySelector('.video__wrapper');
 const SETTINGS = document.querySelector('.settings');
-const STATISTICS = document.querySelector('.statistics');
+const STATISTIC = document.querySelector('.statistic');
 const SERIES_LIST = document.querySelector('.series');
 
 const VIDEO_RANGE = document.querySelector('.control__range--duration');

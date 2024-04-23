@@ -23,8 +23,6 @@ fetch('video.json')
 let currentVideo;
 
 function playCurrentVideo() {
-  VIDEO.preload = 'auto';
-
   setPlayIcon();
   stopProgress();
   resetDuration();
@@ -47,6 +45,8 @@ function playCurrentVideo() {
 
   VIDEO.setAttribute('src', currentVideo.src);
   VIDEO.setAttribute('alt', currentVideo.description);
+
+  VIDEO.preload = 'auto';
 
   if (currentVideo.subtitle) {
     subtitleButton.classList.remove('control__button--off');

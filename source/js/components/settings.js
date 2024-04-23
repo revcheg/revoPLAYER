@@ -1,8 +1,7 @@
 // Settings
+let settingsOpen = false;
 const openButton = document.querySelector('.header__menu');
 const closeButton = SETTINGS.querySelector('.settings__close');
-
-let settingsOpen = false;
 
 function openSettings() {
   if (settingsOpen) {
@@ -28,31 +27,30 @@ function closeSettings() {
 openButton.addEventListener('click', openSettings);
 closeButton.addEventListener('click', closeSettings);
 
-// Statistics checkbox
-let statisticsIsOn = false;
-
-const statisticsCheckbox = SETTINGS.querySelector('.settings__checkbox--statistics');
-const statisticsAdditionalCheckbox = SETTINGS.querySelector('.settings__checkbox--additional');
-const statisticsAdditional = SETTINGS.querySelector('.settings__label--add');
-const statisticsHiddenCategory = STATISTICS.querySelectorAll('.statistics__category--hide');
+// Statistic checkbox
+let statisticIsOn = false;
+const statisticCheckbox = SETTINGS.querySelector('.settings__checkbox--statistic');
+const statisticAdditionalCheckbox = SETTINGS.querySelector('.settings__checkbox--additional');
+const statisticAdditional = SETTINGS.querySelector('.settings__label--add');
+const statisticHiddenCategory = STATISTIC.querySelectorAll('.statistic__category--hide');
 
 function showAddCheckbox(event) {
   const checked = event.currentTarget.checked;
 
-  STATISTICS.classList.toggle('statistics--off', !checked);
-  statisticsAdditional.classList.toggle('settings__label--hide', !checked);
+  STATISTIC.classList.toggle('statistic--off', !checked);
+  statisticAdditional.classList.toggle('settings__label--hide', !checked);
 
   if (!checked) {
-    statisticsIsOn = false;
-    statisticsAdditionalCheckbox.checked = false;
-    statisticsHiddenCategory.forEach((element) => {
-      element.classList.add('statistics__category--hide');
+    statisticIsOn = false;
+    statisticAdditionalCheckbox.checked = false;
+    statisticHiddenCategory.forEach((element) => {
+      element.classList.add('statistic__category--hide');
     });
 
-    statisticsName.classList.remove('statistics__name--short');
+    statisticName.classList.remove('video__name--short');
   } else {
-    statisticsIsOn = true;
-    statisticsName.classList.add('statistics__name--short');
+    statisticIsOn = true;
+    statisticName.classList.add('video__name--short');
   }
 }
 
@@ -60,22 +58,22 @@ function showAddStatistic(event) {
   const checked = event.currentTarget.checked;
 
   if (checked) {
-    statisticsHiddenCategory.forEach((element) => {
-      element.classList.remove('statistics__category--hide');
+    statisticHiddenCategory.forEach((element) => {
+      element.classList.remove('statistic__category--hide');
     });
   } else {
-    statisticsHiddenCategory.forEach((element) => {
-      element.classList.add('statistics__category--hide');
+    statisticHiddenCategory.forEach((element) => {
+      element.classList.add('statistic__category--hide');
     });
   }
 
   if (!checked) {
-    statisticsAdditionalCheckbox.checked = false;
+    statisticAdditionalCheckbox.checked = false;
   }
 }
 
-statisticsCheckbox.addEventListener('change', showAddCheckbox);
-statisticsAdditionalCheckbox.addEventListener('change', showAddStatistic);
+statisticCheckbox.addEventListener('change', showAddCheckbox);
+statisticAdditionalCheckbox.addEventListener('change', showAddStatistic);
 
 // Scale player
 const scaleCheckbox = SETTINGS.querySelector('.settings__checkbox--scale');
@@ -114,10 +112,10 @@ const autoplayCheckbox = SETTINGS.querySelector('.settings__checkbox--autoplay')
 function setAutoplay() {
   if (autoplayCheckbox.checked) {
     autoplayFlag = true;
-    VIDEO.addEventListener('loadeddata', startVideo);
+    VIDEO.addEventListener('canplay', startVideo);
   } else {
     autoplayFlag = false;
-    VIDEO.removeEventListener('loadeddata', startVideo);
+    VIDEO.removeEventListener('canplay', startVideo);
   }
 }
 
@@ -138,18 +136,18 @@ deepCheckbox.addEventListener('change', function (event) {
   setVideo();
 });
 
-// Extra line
-const lineCheckbox = SETTINGS.querySelector('.settings__checkbox--line');
+// Control progress line
+const progressCheckbox = SETTINGS.querySelector('.settings__checkbox--line');
 
-function showExtraLine() {
-  if (lineCheckbox.checked) {
-    line.classList.remove('control__line--hide');
+function showControlProgress() {
+  if (progressCheckbox.checked) {
+    controlProgress.classList.remove('control__line--hide');
   } else {
-    line.classList.add('control__line--hide');
+    controlProgress.classList.add('control__line--hide');
   }
 }
 
-lineCheckbox.addEventListener('change', showExtraLine);
+progressCheckbox.addEventListener('change', showControlProgress);
 
 // Additional controls
 const controlsCheckbox = SETTINGS.querySelector('.settings__checkbox--controls');
@@ -182,65 +180,6 @@ function setBackgroundSubtitle() {
 }
 
 subtitleCheckbox.addEventListener('change', setBackgroundSubtitle);
-
-// Auto scheme
-const autoschemeCheckbox = SETTINGS.querySelector('.settings__checkbox--autoscheme');
-
-function setAutoScheme() {
-  if (autoschemeCheckbox.checked) {
-    let lastScheme = localStorage.getItem('selected-scheme') || systemScheme;
-    localStorage.setItem('last-scheme', lastScheme);
-    setScheme('auto');
-    hideSchemeButtons();
-  } else {
-    setScheme(localStorage.getItem('last-scheme'));
-    showSchemeButtons();
-  }
-}
-
-function hideSchemeButtons() {
-  let schemeLabels = document.querySelectorAll('.footer__label');
-  let schemeAutoLabel = document.querySelector('.footer__scheme[value=auto]').parentNode;
-
-  [...schemeLabels].forEach((element) => {
-    element.classList.add('footer__label--hide');
-  });
-
-  setTimeout(() => {
-    [...schemeLabels].forEach((element) => {
-      element.classList.add('footer__label--off');
-    });
-
-    schemeAutoLabel.classList.remove('footer__label--off');
-
-    setTimeout(() => {
-      schemeAutoLabel.classList.remove('footer__label--hide');
-    }, 200);
-  }, 100);
-}
-
-function showSchemeButtons() {
-  let schemeLabels = document.querySelectorAll('.footer__label');
-  let schemeAutoLabel = document.querySelector('.footer__scheme[value=auto]').parentNode;
-
-  schemeAutoLabel.classList.add('footer__label--hide');
-
-  setTimeout(() => {
-    [...schemeLabels].forEach((element) => {
-      element.classList.remove('footer__label--off');
-    });
-
-    setTimeout(() => {
-      [...schemeLabels].forEach((element) => {
-        element.classList.remove('footer__label--hide');
-      });
-    }, 200);
-
-    schemeAutoLabel.classList.add('footer__label--off');
-  }, 100);
-}
-
-autoschemeCheckbox.addEventListener('change', setAutoScheme);
 
 // Blur
 const blurCheckbox = SETTINGS.querySelector('.settings__checkbox--blur');

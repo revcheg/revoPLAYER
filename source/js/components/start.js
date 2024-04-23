@@ -1,9 +1,9 @@
 // Start
-function startVideo() {
+function setupVideo() {
   if (isVideoReadyToPlay()) {
-    handleVideoPlay();
+    startVideo();
   } else {
-    handleVideoError();
+    emptyVideoError();
   }
 }
 
@@ -18,23 +18,18 @@ function isVideoReadyToPlay() {
 
 let isVideoStarted = false;
 
-function handleVideoPlay() {
+function startVideo() {
   isVideoStarted = true;
   openButton.classList.remove('header__menu--error');
   START_BUTTON.classList.add('video__start--hide');
 
   playVideo();
-  getStatistics();
-  // VIDEO.focus();
+  getStatistic();
 
   CONTROLS.classList.remove('control--off');
-
-  if (autoplayFlag) {
-    VIDEO.addEventListener('loadeddata', startVideo);
-  }
 }
 
-function handleVideoError() {
+function emptyVideoError() {
   openButton.focus();
   openButton.classList.add('header__menu--error');
   setTimeout(() => {

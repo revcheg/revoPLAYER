@@ -1,4 +1,4 @@
-// STATISTICS
+// Statistic
 let videoName;
 let videoWidth;
 let videoHeight;
@@ -10,18 +10,18 @@ let videoCurrentTime;
 let windowWidth = window.innerWidth;
 let windowHeight = window.innerHeight;
 
-const statisticsName = WRAPPER.querySelector('.statistics__name');
-const statisticsClientTime = STATISTICS.querySelector('.statistics__time');
-const statisticsEndTime = STATISTICS.querySelector('.statistics__end');
-const statisticsResolution = STATISTICS.querySelector('.statistics__resolution');
-const statisticsUFH = HEADER.querySelector('.header__ufh');
-const statisticsFormat = STATISTICS.querySelector('.statistics__format');
-const statisticsBuffer = STATISTICS.querySelector('.statistics__buffer');
-// const statisticsBitrate = STATISTICS.querySelector('.statistics__bitrate');
-// const statisticsFPS = STATISTICS.querySelector('.statistics__fps');
+const statisticName = WRAPPER.querySelector('.video__name');
+const statisticClientTime = STATISTIC.querySelector('.statistic__time');
+const statisticEndTime = STATISTIC.querySelector('.statistic__end');
+const statisticResolution = STATISTIC.querySelector('.statistic__resolution');
+const statisticUFH = HEADER.querySelector('.header__ufh');
+const statisticFormat = STATISTIC.querySelector('.statistic__format');
+const statisticBuffer = STATISTIC.querySelector('.statistic__buffer');
+// const statisticBitrate = STATISTIC.querySelector('.statistic__bitrate');
+// const statisticFPS = STATISTIC.querySelector('.statistic__fps');
 
-function getStatistics() {
-  statisticsName.classList.remove('statistics__name--off');
+function getStatistic() {
+  statisticName.classList.remove('video__name--off');
 
   videoWidth = VIDEO.videoWidth;
   videoHeight = VIDEO.videoHeight;
@@ -35,32 +35,32 @@ function getStatistics() {
   }
 
   // checkFitScreen();
-  setStatistics();
+  setStatistic();
 }
 
-function setStatistics() {
+function setStatistic() {
   videoName = currentVideo.name;
 
   if (currentVideo.year) {
     videoName += ' / ' + currentVideo.year;
   }
 
-  statisticsName.innerText = videoName;
+  statisticName.innerText = videoName;
 
-  statisticsResolution.innerText = videoWidth + 'x' + videoHeight;
-  statisticsFormat.innerText = videoFormat;
+  statisticResolution.innerText = videoWidth + 'x' + videoHeight;
+  statisticFormat.innerText = videoFormat;
 
   if (videoWidth >= 3840) {
-    statisticsUFH.classList.remove('header__ufh--off');
+    statisticUFH.classList.remove('header__ufh--off');
   } else {
-    statisticsUFH.classList.add('header__ufh--off');
+    statisticUFH.classList.add('header__ufh--off');
   }
 }
 
 function updateBuffered() {
   if (VIDEO.buffered.length > 0) {
     videoBuffer = Math.floor(VIDEO.buffered.end(0));
-    statisticsBuffer.innerText = videoBuffer;
+    statisticBuffer.innerText = videoBuffer;
   }
 }
 
@@ -106,7 +106,7 @@ function getTime() {
   const clientDate = new Date();
   const clientHours = formatTimeUnit(clientDate.getHours());
   const clientMinutes = formatTimeUnit(clientDate.getMinutes());
-  statisticsClientTime.innerText = clientHours + ':' + clientMinutes;
+  statisticClientTime.innerText = clientHours + ':' + clientMinutes;
 }
 
 function getEndTime() {
@@ -114,7 +114,7 @@ function getEndTime() {
   futureDate.setSeconds(futureDate.getSeconds() + videoDuration);
   const futureClientHours = formatTimeUnit(futureDate.getHours());
   const futureClientMinutes = formatTimeUnit(futureDate.getMinutes());
-  statisticsEndTime.innerText = futureClientHours + ':' + futureClientMinutes;
+  statisticEndTime.innerText = futureClientHours + ':' + futureClientMinutes;
 }
 
 // Add 0 to time output if value < 10

@@ -53,34 +53,34 @@ const consoleCommands = {
 
 function executeCommand(event) {
   if (event.key === 'Enter') {
-    resetVideo();
-
     let command = consoleInput.value.trim().toLowerCase();
     let commandDescription = consoleCommands[command];
 
     if (commandDescription) {
       deepLabel.classList.add('settings__label--hide');
+
       currentCategory = commandDescription.currentCategory;
       currentSubcategory = commandDescription.currentSubcategory;
       currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
-      if (commandDescription.scheme) {
-        createScheme(commandDescription.scheme);
-      }
+
+      resetVideo();
       playCurrentVideo();
       closeConsole();
       showMessage(commandDescription.message);
+
+      if (autoplayFlag) {
+        startVideo();
+      }
+
+      if (commandDescription.scheme) {
+        createScheme(commandDescription.scheme);
+      }
     } else {
       showMessage('Команда неможлива &#128126;');
     }
 
     consoleInput.value = '';
     consoleInput.blur();
-
-    if (autoplayFlag) {
-      VIDEO.addEventListener('loadeddata', startVideo);
-    } else {
-      VIDEO.removeEventListener('loadeddata', startVideo);
-    }
   }
 }
 

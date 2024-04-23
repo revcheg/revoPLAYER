@@ -56,16 +56,16 @@
           </svg>
         </button>
 
-        <p class="statistics__name  statistics__name--hide  statistics__name--off">Назва стрічки</p>
+        <p class="video__name  video__name--hide  video__name--off">Назва стрічки</p>
 
-        <section class="statistics  statistics--hide  statistics--off">
+        <section class="statistic  statistic--hide  statistic--off">
           <h3 class="visually-hidden">Статистика відео</h3>
-          <p class="statistics__category  statistics__category--hide"><span class="statistics__time">00:00</span> (<span class="statistics__end">00:00</span>)</p>
-          <p class="statistics__category">Щільність: <span class="statistics__resolution"></span></p>
-          <p class="statistics__category  statistics__category--hide">Формат: <span class="statistics__format"></span></p>
-          <p class="statistics__category  statistics__category--hide">Буфер: <span class="statistics__buffer"></span> секунд</p>
-          <!-- <p class="statistics__category  statistics__category--hide">Бітрейт: <span class="statistics__bitrate"></span></p> -->
-          <!-- <p class="statistics__category  statistics__category--hide">FPS: <span class="statistics__fps"></span></p> -->
+          <p class="statistic__category  statistic__category--hide"><span class="statistic__time">00:00</span> (<span class="statistic__end">00:00</span>)</p>
+          <p class="statistic__category">Щільність: <span class="statistic__resolution"></span></p>
+          <p class="statistic__category  statistic__category--hide">Формат: <span class="statistic__format"></span></p>
+          <p class="statistic__category  statistic__category--hide">Буфер: <span class="statistic__buffer"></span> секунд</p>
+          <!-- <p class="statistic__category  statistic__category--hide">Бітрейт: <span class="statistic__bitrate"></span></p> -->
+          <!-- <p class="statistic__category  statistic__category--hide">FPS: <span class="statistic__fps"></span></p> -->
         </section>
 
         <video class="video" controls="false" aria-label="Опис обраного відео" alt="Опис обраного відео" disableRemotePlayback disablePictureInPicture>
@@ -74,15 +74,15 @@
         </video>
 
         <section class="control  control--hide  control--off">
-          <h3 class="visually-hidden">Кнопки управління плеєром</h3>
+          <h3 class="visually-hidden">Кнопки керування плеєром</h3>
 
           <progress class="control__line  control__line--hide" value="0"></progress>
 
           <p class="control__duration">
             <span class="control__time  control__time--passed">00:00:00</span>
+            <span class="control__time  control__time--preview  control__time--hide">00:00:00</span>
             <input class="control__range  control__range--duration" step="1" min="0" value="0" aria-label="Смуга прокручування" title="Смуга прокручування (left+right arrow)" type="range">
             <span class="control__time  control__time--left">00:00:00</span>
-            <span class="control__time  control__time--preview  control__time--hide">00:00:00</span>
           </p>
           <button class="button  control__button  control__button--prev" aria-label="Попереднє відео" title="Попереднє відео (<)" type="button">
             <svg class="control__icon  control__icon--prev" xmlns="http://www.w3.org/2000/svg" width="16" height="13" viewBox="0 0 16 13">
@@ -102,7 +102,7 @@
               <use href="img/sprite.svg#next"></use>
             </svg>
           </button>
-          <div class="control__box">
+          <div class="control__volume">
             <button class="button  control__button  control__button--mute" aria-label="Вимкнути звук" title="Вимкнути звук (m)" type="button">
               <svg id="mute" class="control__icon  control__icon--mute" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="25" height="25" viewBox="0 0 512 512">
                 <use href="img/sprite.svg#mute"></use>
@@ -111,7 +111,7 @@
                 <use href="img/sprite.svg#muted"></use>
               </svg>
             </button>
-            <input class="control__range  control__range--volume" step="0.1" min="0" max="1" value="0.2" aria-label="Гучність" title="Гучність (up+down arrow)" type="range">
+            <input class="control__range  control__range--volume" step="0.1" min="0" max="1" value="0.2" aria-label="Гучність" title="Гучність (up+down arrow/wheel)" type="range">
           </div>
           <button class="button  control__button  control__button--subtitle  control__button--hide" aria-label="Увімкнути субтитри" title="Увімкнути субтитри (c)" type="button">
             <span class="control__info  control__info--hide"></span>
@@ -174,12 +174,6 @@
           </svg>
           <input class="button  footer__scheme" name="color-scheme" aria-label="Світла" title="Встановити світлу тему (l)" type="radio" value="light" checked>
         </label>
-        <label class="footer__label  footer__label--hide  footer__label--off">
-          <svg class="footer__icon  footer__icon--transparent" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 48 48">
-            <use href="img/sprite.svg#auto"></use>
-          </svg>
-          <input class="button  footer__scheme" name="color-scheme" aria-label="Системна" title="Встановити системну тему (a)" type="radio" value="auto">
-        </label>
         <label class="footer__label">
           <svg class="footer__icon" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="25" height="25" viewBox="0 0 496 496">
             <use href="img/sprite.svg#dark"></use>
@@ -230,7 +224,7 @@
         <div class="settings__tab" data-tab="player">
           <p class="settings__sub">ПЛЕЄР</p>
           <label class="settings__label">
-            <input class="settings__checkbox  settings__checkbox--statistics" type="checkbox">
+            <input class="settings__checkbox  settings__checkbox--statistic" type="checkbox">
             <span class="settings__name">Відображати вікно статистики</span>
           </label>
           <label class="settings__label  settings__label--add  settings__label--hide">
@@ -254,12 +248,8 @@
         <div class="settings__tab" data-tab="scheme">
           <p class="settings__sub">ТЕМА</p>
           <label class="settings__label">
-            <input class="settings__checkbox  settings__checkbox--autoscheme" type="checkbox">
-            <span class="settings__name">Використовувати тему пристроя</span>
-          </label>
-          <label class="settings__label">
             <input class="settings__checkbox  settings__checkbox--blur" type="checkbox">
-            <span class="settings__name">Увімкнути blur на дієвидлі (alpha)</span>
+            <span class="settings__name">Увімкнути blur на дієвидло (alpha)</span>
           </label>
           <label class="settings__label">
             <input class="settings__checkbox  settings__checkbox--background" type="checkbox">
@@ -396,6 +386,6 @@
       </label>
     </section>
 
-    <script src="js/script.min.js"></script>
+    <script src="js/script.min.js" defer></script>
   </body>
 </html>

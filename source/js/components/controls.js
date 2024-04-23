@@ -6,20 +6,26 @@ const playButton = CONTROLS.querySelector('.control__button--play');
 const playButtonIcon = CONTROLS.querySelector('.control__icon--play');
 const pauseButtonIcon = CONTROLS.querySelector('.control__icon--pause');
 
-function toggleVideo() {
-  if (VIDEO.paused) {
-    playVideo();
-  } else {
+function switchVideoState() {
+  if (isVideoPlaying) {
     pauseVideo();
+  } else {
+    playVideo();
+  }
+}
+
+function pauseVideo() {
+  if (isVideoPlaying) {
+    VIDEO.pause();
+    isVideoPlaying = false;
   }
 }
 
 function playVideo() {
-  VIDEO.play();
-}
-
-function pauseVideo() {
-  VIDEO.pause();
+  if (!isVideoPlaying) {
+    VIDEO.play();
+    isVideoPlaying = true;
+  }
 }
 
 function setPauseIcon() {
@@ -32,10 +38,131 @@ function setPlayIcon() {
   pauseButtonIcon.classList.remove('control__icon--hide');
 }
 
-playButton.addEventListener('click', toggleVideo);
-VIDEO.addEventListener('click', toggleVideo);
+playButton.addEventListener('click', switchVideoState);
+// VIDEO.addEventListener('click', switchVideoState);
 VIDEO.addEventListener('pause', setPauseIcon);
-VIDEO.addEventListener('play', setPlayIcon);
+VIDEO.addEventListener('playing', setPlayIcon);
+
+// Control progress line
+let progressValue;
+
+const controlProgress = CONTROLS.querySelector('.control__line');
+
+function setDurationProgress() {
+  if (progressCheckbox.checked) {
+    progressValue = Math.round((videoCurrentTime / videoDuration) * 100);
+    controlProgress.style.width = progressValue + '%';
+    controlProgress.value = progressValue;
+  }
+}
+
+// Duration, range
+const videoPassed = CONTROLS.querySelector('.control__time--passed');
+const videoLeft = CONTROLS.querySelector('.control__time--left');
+
+function setDuration() {
+  let rangeValue = VIDEO_RANGE.value;
+
+  VIDEO.currentTime = rangeValue;
+
+  videoPassed.innerText = formatTime(rangeValue);
+  videoLeft.innerText = formatTime(videoDuration - rangeValue);
+
+  controlProgress.value = rangeValue;
+  controlProgress.style.width = Math.round((rangeValue / videoDuration) * 100) + '%';
+
+  backgroundVideo.currentTime = rangeValue;
+}
+
+function resetDuration() {
+  VIDEO_RANGE.value = '0';
+  videoPassed.innerText = formatTime(0);
+  videoLeft.innerText = formatTime(0);
+  controlProgress.style.width = '0%';
+  controlProgress.value = 0;
+}
+
+VIDEO_RANGE.addEventListener('input', setDuration);
+// VIDEO_RANGE.addEventListener('change', playVideo);
+
+// Time, format time
+function formatTime(timeInSeconds) {
+  let hours = Math.floor(timeInSeconds / 3600);
+  let minutes = Math.floor((timeInSeconds - (hours * 3600)) / 60);
+  let seconds = Math.floor(timeInSeconds - (hours * 3600) - (minutes * 60));
+
+  hours = hours < 10 ? '0' + hours : hours;
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+  seconds = seconds < 10 ? '0' + seconds : seconds;
+
+  if (parseInt(hours) > 0) {
+    return hours + ':' + minutes + ':' + seconds;
+  } else {
+    return minutes + ':' + seconds;
+  }
+}
+
+// Duration hover, show time preview
+const videoPreview = CONTROLS.querySelector('.control__time--preview');
+
+function handleTimePreview(event) {
+  let touch = event.touches ? event.touches[0] : null;
+  let clientX = touch ? touch.clientX : event.clientX;
+  let rangeRect = VIDEO_RANGE.getBoundingClientRect();
+
+  if (event.type === 'touchstart' || event.type === 'touchmove' || event.type === 'mousemove') {
+    if (clientX < rangeRect.left || clientX > rangeRect.right) {
+      hideTimePreview();
+    } else {
+      showTimePreview(clientX);
+      updatePreviewPosition(clientX);
+    }
+  } else if (event.type === 'touchend' || event.type === 'mouseleave') {
+    hideTimePreview();
+  }
+}
+
+function showTimePreview(clientX) {
+  let percent = (clientX - VIDEO_RANGE.getBoundingClientRect().left) / VIDEO_RANGE.clientWidth;
+  let previewTime = Math.round(percent * VIDEO_RANGE.max);
+
+  videoPreview.classList.remove('control__time--hide');
+  videoPreview.innerText = formatTime(previewTime);
+}
+
+function hideTimePreview() {
+  videoPreview.classList.add('control__time--hide');
+}
+
+function updatePreviewPosition(clientX) {
+  let previewWidth = videoPreview.clientWidth;
+  let durationRect = CONTROLS.querySelector('.control__duration').getBoundingClientRect();
+
+  let previewX = clientX - durationRect.left - (previewWidth / 2);
+  previewX = Math.max(0, Math.min(previewX, durationRect.width - previewWidth));
+
+  videoPreview.style.left = `${previewX}px`;
+}
+
+VIDEO_RANGE.addEventListener('touchmove', handleTimePreview);
+VIDEO_RANGE.addEventListener('touchend', hideTimePreview);
+
+VIDEO_RANGE.addEventListener('mousemove', handleTimePreview);
+VIDEO_RANGE.addEventListener('mouseleave', hideTimePreview);
+
+// Wheel duration
+function wheelDuration(event) {
+  event.preventDefault();
+  const delta = -Math.sign(event.deltaY);
+  let currentValue = parseFloat(VIDEO_RANGE.value);
+  let changedValue = currentValue + delta;
+
+  VIDEO_RANGE.value = changedValue;
+  VIDEO.currentTime = VIDEO_RANGE.value;
+  setDuration();
+}
+
+VIDEO_RANGE.addEventListener('wheel', wheelDuration);
 
 // Mute
 const muteButton = CONTROLS.querySelector('.control__button--mute');
@@ -123,139 +250,6 @@ function wheelVolume(event) {
 
 volumeRange.addEventListener('wheel', wheelVolume);
 VIDEO.addEventListener('wheel', wheelVolume);
-
-// Duration, range
-const videoPassed = CONTROLS.querySelector('.control__time--passed');
-const videoLeft = CONTROLS.querySelector('.control__time--left');
-
-function setDuration() {
-  let rangeValue = VIDEO_RANGE.value;
-
-  VIDEO.currentTime = rangeValue;
-
-  videoPassed.innerText = formatTime(rangeValue);
-  videoLeft.innerText = formatTime(videoDuration - rangeValue);
-
-  line.value = rangeValue;
-  line.style.width = Math.round((rangeValue / videoDuration) * 100) + '%';
-
-  backgroundVideo.currentTime = rangeValue;
-}
-
-function resetDuration() {
-  VIDEO_RANGE.value = '0';
-  videoPassed.innerText = formatTime(0);
-  videoLeft.innerText = formatTime(0);
-  line.style.width = '0%';
-  line.value = 0;
-}
-
-function formatTime(timeInSeconds) {
-  let hours = Math.floor(timeInSeconds / 3600);
-  let minutes = Math.floor((timeInSeconds - (hours * 3600)) / 60);
-  let seconds = Math.floor(timeInSeconds - (hours * 3600) - (minutes * 60));
-
-  hours = hours < 10 ? '0' + hours : hours;
-  minutes = minutes < 10 ? '0' + minutes : minutes;
-  seconds = seconds < 10 ? '0' + seconds : seconds;
-
-  if (parseInt(hours) > 0) {
-    return hours + ':' + minutes + ':' + seconds;
-  } else {
-    return minutes + ':' + seconds;
-  }
-}
-
-VIDEO_RANGE.addEventListener('mousedown', pauseVideo);
-VIDEO_RANGE.addEventListener('touchstart', pauseVideo);
-VIDEO_RANGE.addEventListener('input', setDuration);
-VIDEO_RANGE.addEventListener('change', playVideo);
-
-// Duration hover, show time preview
-const videoPreview = CONTROLS.querySelector('.control__time--preview');
-
-// function handleTimePreview(event) {
-//   let touch = event.touches ? event.touches[0] : null;
-//   let clientX = touch ? touch.clientX : event.clientX;
-
-//   if (event.type === 'touchstart' || event.type === 'touchmove' || event.type === 'mousemove') {
-//     showTimePreview(clientX);
-//     updatePreviewPosition(clientX);
-//   } else if (event.type === 'touchend' || event.type === 'mouseleave') {
-//     hideTimePreview();
-//   }
-// }
-
-function handleTimePreview(event) {
-  let touch = event.touches ? event.touches[0] : null;
-  let clientX = touch ? touch.clientX : event.clientX;
-  let rangeRect = VIDEO_RANGE.getBoundingClientRect();
-
-  if (event.type === 'touchstart' || event.type === 'touchmove' || event.type === 'mousemove') {
-    if (clientX < rangeRect.left || clientX > rangeRect.right) {
-      hideTimePreview();
-    } else {
-      showTimePreview(clientX);
-      updatePreviewPosition(clientX);
-    }
-  } else if (event.type === 'touchend' || event.type === 'mouseleave') {
-    hideTimePreview();
-  }
-}
-
-function showTimePreview(clientX) {
-  let percent = (clientX - VIDEO_RANGE.getBoundingClientRect().left) / VIDEO_RANGE.clientWidth;
-  let previewTime = Math.round(percent * VIDEO_RANGE.max);
-
-  videoPreview.classList.remove('control__time--hide');
-  videoPreview.innerText = formatTime(previewTime);
-}
-
-function hideTimePreview() {
-  videoPreview.classList.add('control__time--hide');
-}
-
-function updatePreviewPosition(clientX) {
-  let previewWidth = videoPreview.clientWidth;
-  let durationRect = CONTROLS.querySelector('.control__duration').getBoundingClientRect();
-
-  let previewX = clientX - durationRect.left - (previewWidth / 2);
-  previewX = Math.max(0, Math.min(previewX, durationRect.width - previewWidth));
-
-  videoPreview.style.left = `${previewX}px`;
-}
-
-VIDEO_RANGE.addEventListener('touchstart', handleTimePreview);
-VIDEO_RANGE.addEventListener('touchmove', handleTimePreview);
-VIDEO_RANGE.addEventListener('touchend', hideTimePreview);
-
-VIDEO_RANGE.addEventListener('mousemove', handleTimePreview);
-VIDEO_RANGE.addEventListener('mouseleave', hideTimePreview);
-
-// Wheel duration
-function wheelDuration(event) {
-  event.preventDefault();
-  const delta = -Math.sign(event.deltaY);
-  let currentValue = parseFloat(VIDEO_RANGE.value);
-  let changedValue = currentValue + delta;
-
-  VIDEO_RANGE.value = changedValue;
-  VIDEO.currentTime = VIDEO_RANGE.value;
-  setDuration();
-}
-
-VIDEO_RANGE.addEventListener('wheel', wheelDuration);
-
-// Extra line
-let lineProgress;
-
-const line = CONTROLS.querySelector('.control__line');
-
-function extraLine() {
-  lineProgress = Math.round((videoCurrentTime / videoDuration) * 100);
-  line.style.width = lineProgress + '%';
-  line.value = lineProgress;
-}
 
 // Playback speed
 let playbackRate = 1.0;
@@ -487,16 +481,16 @@ function handleMouseMove() {
 }
 
 function showControls() {
-  statisticsName.classList.remove('statistics__name--hide');
+  statisticName.classList.remove('video__name--hide');
   VIDEO.style.cursor = 'auto';
-  STATISTICS.classList.remove('statistics--hide');
+  STATISTIC.classList.remove('statistic--hide');
   CONTROLS.classList.remove('control--hide');
 }
 
 function hideControls() {
-  statisticsName.classList.add('statistics__name--hide');
+  statisticName.classList.add('video__name--hide');
   VIDEO.style.cursor = 'none';
-  STATISTICS.classList.add('statistics--hide');
+  STATISTIC.classList.add('statistic--hide');
   CONTROLS.classList.add('control--hide');
 }
 

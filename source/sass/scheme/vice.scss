@@ -44,9 +44,9 @@
 		box-shadow: 0 0 10px 3px #F27DFD;
 	}
 
-	&:focus-visible {
-		outline-color: #F27DFD;
-	}
+	// &:focus-visible {
+	// 	outline-color: #F27DFD;
+	// }
 }
 
 // Control
@@ -167,16 +167,15 @@
 	font-weight: 900;
   font-family: "Pricedown", sans-serif;
 	line-height: normal;
-	border: 0;
-	border-radius: 0;
-	transition: all 0.6s, margin 0s, font-size 0s, font-family 0s;
+	border: 0px;
+	border-radius: 0px;
 
 	&:nth-child(odd) {
-		clip-path: polygon(10% 0, 100% 5%, 90% 98%, 0% 100%);
+		clip-path: polygon(10% 0%, 100% 5%, 90% 98%, 0% 100%);
 	}
 
 	&:nth-child(even) {
-		clip-path: polygon(5% 5%, 100% 0, 95% 100%, 0 95%);
+		clip-path: polygon(5% 5%, 100% 0%, 95% 100%, 0 95%);
 	}
 
 	&:hover,
@@ -316,26 +315,26 @@
 	font-weight: 500;
 }
 
-// Statistics
-.statistics {
+// Statistic
+.statistic {
 	color: #F27DFD;
 	font-weight: 500;
 }
 
-.statistics__category {
+.statistic__category {
 	margin-bottom: 3px;
 	line-height: normal;
 }
 
 @media (min-width: 768px) {
-	.statistics__category {
+	.statistic__category {
 		margin-bottom: 5px;
 		font-size: 13px;
 	}
 }
 
 @media (min-width: 1440px) {
-	.statistics__category {
+	.statistic__category {
 		margin-bottom: 6px;
 		font-size: 18px;
 	}

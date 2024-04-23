@@ -45,17 +45,16 @@ chooseButtons.forEach((element) => {
 // Reset video
 function resetVideo() {
   isVideoStarted = false;
-  pauseVideo();
   VIDEO.src = '';
   VIDEO.removeAttribute('src');
   VIDEO.removeAttribute('preload');
   VIDEO.removeAttribute('crossorigin');
-  statisticsName.classList.add('statistics__name--off');
+  statisticName.classList.add('video__name--off');
   WRAPPER.className = 'video__wrapper';
   START_BUTTON.classList.remove('video__start--hide');
   CONTROLS.classList.add('control--off');
-  // STATISTICS.classList.add('statistics--off');
-  statisticsUFH.classList.add('header__ufh--off');
+  // STATISTIC.classList.add('statistic--off');
+  statisticUFH.classList.add('header__ufh--off');
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
   // clearSubtitle();

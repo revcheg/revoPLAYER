@@ -6,7 +6,7 @@
   margin: 0 auto;
   width: 100%;
   padding: 25px;
-  transition: 0.5s;
+  transition: transform 0.5s;
   z-index: 1;
 
   &--hide {
@@ -18,11 +18,9 @@
   width: 150px;
   height: 45px;
   margin-right: 15px;
-  transition: 0.3s;
-  transition-delay: 0.2s;
 
   path {
-    transition: 0.3s;
+    transition: fill 0.3s, stroke 0.3s;
     transition-delay: 0.2s;
   }
 }
@@ -32,7 +30,7 @@
   height: 23px;
   margin-right: auto;
   border-radius: 4px;
-  transition: 0.2s;
+  transition: background-color 0.2s, transform 0.2s;
 
   &--off {
     transform: scale(0);
@@ -42,7 +40,6 @@
 .header__menu {
   width: 45px;
   height: 45px;
-  transition: 0.2s;
 
   &--error {
     animation-name: shake;
@@ -57,7 +54,7 @@
 }
 
 .header__icon {
-  transition: 0.3s;
+  transition: fill 0.2s, stroke 0.2s;
 }
 
 @keyframes shake {

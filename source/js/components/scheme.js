@@ -17,9 +17,6 @@ function setupScheme() {
 
   if (savedScheme === 'light') {
     switchMedia('light');
-  } else if (savedScheme === 'auto') {
-    hideSchemeButtons();
-    autoschemeCheckbox.checked = true;
   } else if (savedScheme === 'dark') {
     switchMedia('dark');
   } else if (savedScheme === 'vice') {
@@ -77,10 +74,6 @@ function switchMedia(scheme) {
     lightMedia = 'all';
     darkMedia = 'not all';
     schemeMedia = 'not all';
-  } else if (scheme === 'auto') {
-    lightMedia = '(prefers-color-scheme: light)';
-    darkMedia = '(prefers-color-scheme: dark)';
-    schemeMedia = 'not all';
   } else if (scheme === 'dark') {
     lightMedia = 'not all';
     darkMedia = 'all';
@@ -107,12 +100,14 @@ function switchMedia(scheme) {
 let schemeStyle;
 
 function createScheme(scheme) {
+  if (document.querySelector(`link[href="css/${scheme}.css"]`)) {
+    return;
+  }
+
   schemeStyle = document.createElement('link');
   schemeStyle.setAttribute('rel', 'stylesheet');
   schemeStyle.href = `css/${scheme}.css`;
-  schemeStyle.setAttribute('media', 'all');
-  // document.head.appendChild(schemeStyle);
-  // darkStyle.appendChild(schemeStyle);
+  // schemeStyle.setAttribute('media', 'all');
   darkStyle.parentNode.insertBefore(schemeStyle, darkStyle.nextSibling);
 
   switchMedia(scheme);
@@ -123,7 +118,7 @@ function createScheme(scheme) {
   let schemeButton = document.createElement('input');
   schemeButton.classList.add('button', 'footer__scheme');
   schemeButton.name = 'color-scheme';
-  schemeButton.ariaLabel = 'Vice';
+  schemeButton.ariaLabel = `${scheme}`;
   schemeButton.title = `Встановити ${scheme} тему`;
   schemeButton.type = 'radio';
   schemeButton.value = scheme;

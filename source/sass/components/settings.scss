@@ -10,7 +10,7 @@
   padding: 20px 10px;
   color: #FFFFFF;
   outline: none;
-  transition: all 0.8s, background-color 0.4s;
+  transition: opacity 0.4s, background-color 0.4s, transform 0.8s;
   z-index: 3;
 
   &--hide {
@@ -65,7 +65,7 @@
   font-size: 16px;
   font-weight: 700;
   border-radius: 30px;
-  transition: all 0.6s, font-size 0s;
+  transition: 0.4s;
   // clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
 
   &:last-child {
@@ -84,7 +84,7 @@
   width: 100%;
   outline: none;
   transform: translate(-50%, -50%) scale(0);
-  transition: 0.2s;
+  transition: transform 0.2s;
 
   &--active {
     transform: translate(-50%, -50%) scale(1);
@@ -225,7 +225,7 @@
   font-size: 12px;
   font-weight: 400;
   border-radius: 50%;
-  transition: 0.2s;
+  transition: opacity 0.2s, transform 0.2s;
 
   &--hide {
     opacity: 0;

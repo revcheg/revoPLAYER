@@ -3,14 +3,9 @@
 	margin-top: 20px;
 	padding: 15px 20px;
 	list-style: none;
-	transition: 0.3s;
 
 	&--off {
 		display: none;
-	}
-
-	&--hide {
-		transform: scale(0);
 	}
 }
 
@@ -35,11 +30,7 @@
 	margin: 0 auto;
 	padding: 10px 15px;
 	font-size: 13px;
-	transition: 0.2s;
-
-	&--active {
-		box-shadow: 0 0 10px 1px rgba(#6320EE, 0.9);
-	}
+	transition: box-shadow 0.2s;
 }
 
 @media (min-width: $laptop-width) {
