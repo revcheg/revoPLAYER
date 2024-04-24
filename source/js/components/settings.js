@@ -112,10 +112,10 @@ const autoplayCheckbox = SETTINGS.querySelector('.settings__checkbox--autoplay')
 function setAutoplay() {
   if (autoplayCheckbox.checked) {
     autoplayFlag = true;
-    VIDEO.addEventListener('canplay', startVideo);
+    VIDEO.addEventListener('loadeddata', startVideo);
   } else {
     autoplayFlag = false;
-    VIDEO.removeEventListener('canplay', startVideo);
+    VIDEO.removeEventListener('loadeddata', startVideo);
   }
 }
 
@@ -136,18 +136,18 @@ deepCheckbox.addEventListener('change', function (event) {
   setVideo();
 });
 
-// Control progress line
-const progressCheckbox = SETTINGS.querySelector('.settings__checkbox--line');
+// Playback progress line
+const playbackCheckbox = SETTINGS.querySelector('.settings__checkbox--line');
 
-function showControlProgress() {
-  if (progressCheckbox.checked) {
-    controlProgress.classList.remove('control__line--hide');
+function showPaybackProgress() {
+  if (playbackCheckbox.checked) {
+    playbackProgress.classList.remove('control__progress--hide');
   } else {
-    controlProgress.classList.add('control__line--hide');
+    playbackProgress.classList.add('control__progress--hide');
   }
 }
 
-progressCheckbox.addEventListener('change', showControlProgress);
+playbackCheckbox.addEventListener('change', showPaybackProgress);
 
 // Additional controls
 const controlsCheckbox = SETTINGS.querySelector('.settings__checkbox--controls');

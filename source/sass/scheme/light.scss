@@ -28,7 +28,7 @@
 // }
 
 // Control
-.control__line {
+.control__progress {
 	background-color: #6320EE;
 
 	&::-webkit-progress-value {
@@ -48,6 +48,10 @@
 	&--preview {
 		background-color: #6320ee;
 	}
+}
+
+.control__value {
+	background-color: #6320ee;
 }
 
 .control__range {
@@ -126,7 +130,7 @@
 
 // Settings
 .settings {
-	background-color: rgba(#8075FF, 0.9);
+	background-color: rgba(#8075FF, 0.95);
 }
 
 // .settings__button {
@@ -163,7 +167,13 @@
 
 // Video
 .video__wrapper {
-	box-shadow: 0 0 15px 5px rgba(#6320EE, 0.8);
+	// box-shadow: 0 0 15px 5px rgba(#6320EE, 0.8);
+	box-shadow: 0 0 10px #8075FF, 0 0 20px #8075FF, 0 0 30px #8075FF;
+
+	&--error {
+    // box-shadow: 0 0 15px 5px rgba($red, 0.8);
+    box-shadow: 0 0 10px rgba(#F35050, 0.6), 0 0 20px rgba(#F35050, 0.6), 0 0 30px rgba(#F35050, 0.6);
+  }
 }
 
 .video__icon {

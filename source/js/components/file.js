@@ -59,7 +59,7 @@ function validateFiles(uploadedVideo) {
     INPUTFILE_OUTPUT.innerText = lastUploadedVideo.name;
     VIDEO.setAttribute('crossorigin', 'anonymous');
     generatingSeries();
-    playCurrentVideo();
+    setupCurrentVideo();
     showMessage('Кінострічка готова &#128252;');
   }
 

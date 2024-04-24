@@ -7,8 +7,6 @@ let videoDuration;
 let videoCurrentTime;
 // let videoBitrate;
 // let videoFPS;
-let windowWidth = window.innerWidth;
-let windowHeight = window.innerHeight;
 
 const statisticName = WRAPPER.querySelector('.video__name');
 const statisticClientTime = STATISTIC.querySelector('.statistic__time');
@@ -21,24 +19,7 @@ const statisticBuffer = STATISTIC.querySelector('.statistic__buffer');
 // const statisticFPS = STATISTIC.querySelector('.statistic__fps');
 
 function getStatistic() {
-  statisticName.classList.remove('video__name--off');
-
-  videoWidth = VIDEO.videoWidth;
-  videoHeight = VIDEO.videoHeight;
-  videoDuration = Math.round(VIDEO.duration);
-  VIDEO_RANGE.setAttribute('max', videoDuration);
-
-  if (currentVideo.type) {
-    videoFormat = currentVideo.type.replace('video/', '');
-  } else {
-    videoFormat = VIDEO.src.split('.').pop();
-  }
-
-  // checkFitScreen();
-  setStatistic();
-}
-
-function setStatistic() {
+  // name
   videoName = currentVideo.name;
 
   if (currentVideo.year) {
@@ -46,10 +27,26 @@ function setStatistic() {
   }
 
   statisticName.innerText = videoName;
+  statisticName.classList.remove('video__name--off');
 
+  // video
+  videoWidth = VIDEO.videoWidth;
+  videoHeight = VIDEO.videoHeight;
   statisticResolution.innerText = videoWidth + 'x' + videoHeight;
+
+  videoDuration = Math.floor(VIDEO.duration);
+  VIDEO_RANGE.setAttribute('max', videoDuration);
+
+  // format
+  if (currentVideo.type) {
+    videoFormat = currentVideo.type.replace('video/', '');
+  } else {
+    videoFormat = VIDEO.src.split('.').pop();
+  }
+
   statisticFormat.innerText = videoFormat;
 
+  // ufh icon
   if (videoWidth >= 3840) {
     statisticUFH.classList.remove('header__ufh--off');
   } else {
@@ -86,6 +83,7 @@ function loadVideoTime() {
     currentVideoIndex = parseInt(localStorage.getItem('video-index'));
     videoCurrentTime = parseInt(localStorage.getItem('video-time'));
     VIDEO.currentTime = videoCurrentTime;
+    showMessage('Відео та таймкоди було відновлено');
   }
 }
 
@@ -103,18 +101,18 @@ VIDEO.addEventListener('ended', clearVideoTime);
 
 // Local time
 function getTime() {
-  const clientDate = new Date();
-  const clientHours = formatTimeUnit(clientDate.getHours());
-  const clientMinutes = formatTimeUnit(clientDate.getMinutes());
+  let clientTime = new Date();
+  let clientHours = formatTimeUnit(clientTime.getHours());
+  let clientMinutes = formatTimeUnit(clientTime.getMinutes());
   statisticClientTime.innerText = clientHours + ':' + clientMinutes;
 }
 
 function getEndTime() {
-  const futureDate = new Date();
-  futureDate.setSeconds(futureDate.getSeconds() + videoDuration);
-  const futureClientHours = formatTimeUnit(futureDate.getHours());
-  const futureClientMinutes = formatTimeUnit(futureDate.getMinutes());
-  statisticEndTime.innerText = futureClientHours + ':' + futureClientMinutes;
+  let estimatedTime = new Date();
+  estimatedTime.setSeconds(estimatedTime.getSeconds() + videoDuration);
+  let estimatedHours = formatTimeUnit(estimatedTime.getHours());
+  let estimatedMinutes = formatTimeUnit(estimatedTime.getMinutes());
+  statisticEndTime.innerText = estimatedHours + ':' + estimatedMinutes;
 }
 
 // Add 0 to time output if value < 10

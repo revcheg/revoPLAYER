@@ -60,10 +60,10 @@
 
         <section class="statistic  statistic--hide  statistic--off">
           <h3 class="visually-hidden">Статистика відео</h3>
-          <p class="statistic__category  statistic__category--hide"><span class="statistic__time">00:00</span> (<span class="statistic__end">00:00</span>)</p>
-          <p class="statistic__category">Щільність: <span class="statistic__resolution"></span></p>
+          <p class="statistic__category"><span class="statistic__time">00:00</span> (<span class="statistic__end">00:00</span>)</p>
+          <p class="statistic__category  statistic__category--hide">Щільність: <span class="statistic__resolution"></span></p>
           <p class="statistic__category  statistic__category--hide">Формат: <span class="statistic__format"></span></p>
-          <p class="statistic__category  statistic__category--hide">Буфер: <span class="statistic__buffer"></span> секунд</p>
+          <p class="statistic__category">Буфер: <span class="statistic__buffer"></span> секунд</p>
           <!-- <p class="statistic__category  statistic__category--hide">Бітрейт: <span class="statistic__bitrate"></span></p> -->
           <!-- <p class="statistic__category  statistic__category--hide">FPS: <span class="statistic__fps"></span></p> -->
         </section>
@@ -76,7 +76,7 @@
         <section class="control  control--hide  control--off">
           <h3 class="visually-hidden">Кнопки керування плеєром</h3>
 
-          <progress class="control__line  control__line--hide" value="0"></progress>
+          <progress class="control__progress  control__progress--hide" value="0"></progress>
 
           <p class="control__duration">
             <span class="control__time  control__time--passed">00:00:00</span>
@@ -111,7 +111,7 @@
                 <use href="img/sprite.svg#muted"></use>
               </svg>
             </button>
-            <input class="control__range  control__range--volume" step="0.1" min="0" max="1" value="0.2" aria-label="Гучність" title="Гучність (up+down arrow/wheel)" type="range">
+            <input class="control__range  control__range--volume" step="0.1" min="0" max="1" value="0.4" aria-label="Гучність" title="Гучність (up+down arrow/wheel)" type="range">
           </div>
           <button class="button  control__button  control__button--subtitle  control__button--hide" aria-label="Увімкнути субтитри" title="Увімкнути субтитри (c)" type="button">
             <span class="control__info  control__info--hide"></span>
@@ -283,8 +283,8 @@
         <div class="settings__tab" data-tab="info">
           <p class="settings__sub">ТРІШКИ ІНФИ</p>
           <ul class="settings__list">
-            <li class="settings__item">Можливість обрати світлу чи темну тему</li>
-            <li class="settings__item">Автоматичне встановлення теми на основі теми на пристрої</li>
+            <li class="settings__item">Можливість вибору світлого чи темного оформлення</li>
+            <li class="settings__item">Автоматичне встановлення оформлення відносно теми пристроя</li>
             <li class="settings__item">Усе керування (та навіть більше) продубльовано на клавіатуру</li>
           </ul>
         </div>
@@ -375,14 +375,14 @@
           <use href="img/sprite.svg#close"></use>
         </svg>
       </button>
-      <video class="console__background" src="video/console.mp4" muted loop disableRemotePlayback disablePictureInPicture playsinline></video>
+      <video class="console__background" muted loop disableRemotePlayback disablePictureInPicture playsinline></video>
       <label>
         <span class="visually-hidden">Поле введення консолі</span>
         <input class="console__input" type="text" placeholder="take control">
       </label>
       <label class="console__label">
         <input class="console__input  console__input--checkbox" type="checkbox">
-        <span class="console__dev">Режим консолі</span>
+        <span class="console__dev">Режим розробника</span>
       </label>
     </section>
 

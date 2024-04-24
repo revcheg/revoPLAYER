@@ -1,13 +1,14 @@
 // Console
 const consoleContainer = document.querySelector('.console');
-const consoleClose = consoleContainer.querySelector('.console__close');
 const consoleBackground = consoleContainer.querySelector('.console__background');
+const consoleClose = consoleContainer.querySelector('.console__close');
 const consoleInput = consoleContainer.querySelector('.console__input');
 
 function openConsole() {
-  if (consoleBackground.paused) {
-    consoleBackground.play();
+  if (!consoleBackground.src) {
+    consoleBackground.src = 'video/console.mp4';
   }
+  consoleBackground.play();
   consoleContainer.classList.remove('console--hide');
   consoleInput.focus();
 }
@@ -20,6 +21,23 @@ function closeConsole() {
 }
 
 consoleClose.addEventListener('click', closeConsole);
+
+// Open console, dev button
+const devButton = FOOTER.querySelector('.footer__copyright--dev');
+const MAX_DEV_CLICK = 10;
+let clickCount = 0;
+
+function devClicks() {
+  if (++clickCount >= MAX_DEV_CLICK) {
+    clickCount = 0;
+    openConsole();
+    showMessage('Консоль розробника розблокована &#129323;');
+  } else {
+    showMessage(`Залишилось ${MAX_DEV_CLICK - clickCount} кліків`);
+  }
+}
+
+devButton.addEventListener('click', devClicks);
 
 // Command list
 const consoleCommands = {
@@ -64,7 +82,7 @@ function executeCommand(event) {
       currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
 
       resetVideo();
-      playCurrentVideo();
+      setupCurrentVideo();
       closeConsole();
       showMessage(commandDescription.message);
 
@@ -91,23 +109,6 @@ function stopPropagation(event) {
 consoleInput.addEventListener('input', stopPropagation);
 consoleInput.addEventListener('keyup', stopPropagation);
 consoleInput.addEventListener('keyup', executeCommand);
-
-// Open console, dev button
-const devButton = FOOTER.querySelector('.footer__copyright--dev');
-const MAX_DEV_CLICK_COUNT = 10;
-let clickCount = 0;
-
-function devClicks() {
-  if (++clickCount >= MAX_DEV_CLICK_COUNT) {
-    clickCount = 0;
-    openConsole();
-    showMessage('Консоль розробника розблокована &#129323;');
-  } else {
-    showMessage(`Залишилось ${MAX_DEV_CLICK_COUNT - clickCount} кліків`);
-  }
-}
-
-devButton.addEventListener('click', devClicks);
 
 // Execute dev command
 const devConsoleCheckbox = consoleContainer.querySelector('.console__input--checkbox');

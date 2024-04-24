@@ -84,7 +84,7 @@
   width: 100%;
   outline: none;
   transform: translate(-50%, -50%) scale(0);
-  transition: transform 0.2s;
+  transition: top 0.2s, bottom 0.2s, transform 0.2s;
 
   &--active {
     transform: translate(-50%, -50%) scale(1);

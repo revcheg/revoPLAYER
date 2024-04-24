@@ -130,10 +130,10 @@ const autoplayCheckbox = SETTINGS.querySelector('.settings__checkbox--autoplay')
 function setAutoplay() {
   if (autoplayCheckbox.checked) {
     autoplayFlag = true;
-    VIDEO.addEventListener('canplay', startVideo);
+    VIDEO.addEventListener('loadeddata', startVideo);
   } else {
     autoplayFlag = false;
-    VIDEO.removeEventListener('canplay', startVideo);
+    VIDEO.removeEventListener('loadeddata', startVideo);
   }
 }
 
@@ -154,18 +154,18 @@ deepCheckbox.addEventListener('change', function (event) {
   setVideo();
 });
 
-// Control progress line
-const progressCheckbox = SETTINGS.querySelector('.settings__checkbox--line');
+// Playback progress line
+const playbackCheckbox = SETTINGS.querySelector('.settings__checkbox--line');
 
-function showControlProgress() {
-  if (progressCheckbox.checked) {
-    controlProgress.classList.remove('control__line--hide');
+function showPaybackProgress() {
+  if (playbackCheckbox.checked) {
+    playbackProgress.classList.remove('control__progress--hide');
   } else {
-    controlProgress.classList.add('control__line--hide');
+    playbackProgress.classList.add('control__progress--hide');
   }
 }
 
-progressCheckbox.addEventListener('change', showControlProgress);
+playbackCheckbox.addEventListener('change', showPaybackProgress);
 
 // Additional controls
 const controlsCheckbox = SETTINGS.querySelector('.settings__checkbox--controls');
@@ -281,7 +281,6 @@ function setScheme(scheme) {
 
   saveScheme(scheme);
   switchMedia(scheme);
-  showSchemeButtons();
   updateSchemeButtons(document.querySelector(`.footer__scheme[value=${scheme}]`));
 }
 
@@ -416,14 +415,15 @@ VIDEO.addEventListener('pause', pauseBackgroundVideo);
 
 // Console
 const consoleContainer = document.querySelector('.console');
-const consoleClose = consoleContainer.querySelector('.console__close');
 const consoleBackground = consoleContainer.querySelector('.console__background');
+const consoleClose = consoleContainer.querySelector('.console__close');
 const consoleInput = consoleContainer.querySelector('.console__input');
 
 function openConsole() {
-  if (consoleBackground.paused) {
-    consoleBackground.play();
+  if (!consoleBackground.src) {
+    consoleBackground.src = 'video/console.mp4';
   }
+  consoleBackground.play();
   consoleContainer.classList.remove('console--hide');
   consoleInput.focus();
 }
@@ -436,6 +436,23 @@ function closeConsole() {
 }
 
 consoleClose.addEventListener('click', closeConsole);
+
+// Open console, dev button
+const devButton = FOOTER.querySelector('.footer__copyright--dev');
+const MAX_DEV_CLICK = 10;
+let clickCount = 0;
+
+function devClicks() {
+  if (++clickCount >= MAX_DEV_CLICK) {
+    clickCount = 0;
+    openConsole();
+    showMessage('Консоль розробника розблокована &#129323;');
+  } else {
+    showMessage(`Залишилось ${MAX_DEV_CLICK - clickCount} кліків`);
+  }
+}
+
+devButton.addEventListener('click', devClicks);
 
 // Command list
 const consoleCommands = {
@@ -480,7 +497,7 @@ function executeCommand(event) {
       currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
 
       resetVideo();
-      playCurrentVideo();
+      setupCurrentVideo();
       closeConsole();
       showMessage(commandDescription.message);
 
@@ -507,23 +524,6 @@ function stopPropagation(event) {
 consoleInput.addEventListener('input', stopPropagation);
 consoleInput.addEventListener('keyup', stopPropagation);
 consoleInput.addEventListener('keyup', executeCommand);
-
-// Open console, dev button
-const devButton = FOOTER.querySelector('.footer__copyright--dev');
-const MAX_DEV_CLICK_COUNT = 10;
-let clickCount = 0;
-
-function devClicks() {
-  if (++clickCount >= MAX_DEV_CLICK_COUNT) {
-    clickCount = 0;
-    openConsole();
-    showMessage('Консоль розробника розблокована &#129323;');
-  } else {
-    showMessage(`Залишилось ${MAX_DEV_CLICK_COUNT - clickCount} кліків`);
-  }
-}
-
-devButton.addEventListener('click', devClicks);
 
 // Execute dev command
 const devConsoleCheckbox = consoleContainer.querySelector('.console__input--checkbox');
@@ -602,15 +602,15 @@ VIDEO.addEventListener('pause', setPauseIcon);
 VIDEO.addEventListener('playing', setPlayIcon);
 
 // Control progress line
-let progressValue;
+let playbackValue;
+const playbackProgress = CONTROLS.querySelector('.control__progress');
 
-const controlProgress = CONTROLS.querySelector('.control__line');
-
-function setDurationProgress() {
-  if (progressCheckbox.checked) {
-    progressValue = Math.round((videoCurrentTime / videoDuration) * 100);
-    controlProgress.style.width = progressValue + '%';
-    controlProgress.value = progressValue;
+function setPaybackProgress() {
+  if (playbackCheckbox.checked) {
+    playbackValue = Math.floor((videoCurrentTime / videoDuration) * 100);
+    // playbackProgress.style.width = playbackValue + '%';
+    playbackProgress.style.width = `calc(${playbackValue}% - 10px)`;
+    playbackProgress.value = playbackValue;
   }
 }
 
@@ -626,8 +626,8 @@ function setDuration() {
   videoPassed.innerText = formatTime(rangeValue);
   videoLeft.innerText = formatTime(videoDuration - rangeValue);
 
-  controlProgress.value = rangeValue;
-  controlProgress.style.width = Math.round((rangeValue / videoDuration) * 100) + '%';
+  playbackProgress.value = rangeValue;
+  playbackProgress.style.width = Math.floor((rangeValue / videoDuration) * 100) + '%';
 
   backgroundVideo.currentTime = rangeValue;
 }
@@ -636,8 +636,8 @@ function resetDuration() {
   VIDEO_RANGE.value = '0';
   videoPassed.innerText = formatTime(0);
   videoLeft.innerText = formatTime(0);
-  controlProgress.style.width = '0%';
-  controlProgress.value = 0;
+  playbackProgress.style.width = '0%';
+  playbackProgress.value = 0;
 }
 
 VIDEO_RANGE.addEventListener('input', setDuration);
@@ -682,7 +682,7 @@ function handleTimePreview(event) {
 
 function showTimePreview(clientX) {
   let percent = (clientX - VIDEO_RANGE.getBoundingClientRect().left) / VIDEO_RANGE.clientWidth;
-  let previewTime = Math.round(percent * VIDEO_RANGE.max);
+  let previewTime = Math.floor(percent * VIDEO_RANGE.max);
 
   videoPreview.classList.remove('control__time--hide');
   videoPreview.innerText = formatTime(previewTime);
@@ -765,7 +765,7 @@ function changeMuteIcon() {
 muteButton.addEventListener('click', setMute);
 
 // Volume
-VIDEO.volume = 0.2;
+VIDEO.volume = 0.4;
 
 const volumeRange = CONTROLS.querySelector('.control__range--volume');
 
@@ -895,7 +895,7 @@ document.addEventListener('leavepictureinpicture', exitPictureInPicture);
 // Fit Screen
 const fitButton = CONTROLS.querySelector('.control__button--fit');
 
-function changeFitScreen() {
+function switchFitScreen() {
   let currentFit = VIDEO.style.objectFit;
   let changedFit = currentFit === 'cover' ? 'contain' : 'cover';
   VIDEO.style.objectFit = changedFit;
@@ -911,30 +911,7 @@ function changeFitScreen() {
   }
 }
 
-// function checkFitScreen() {
-//   let aspectRatio = videoWidth / videoHeight;
-
-//   const targetAspectRatio = 16 / 9;
-
-//   if (aspectRatio !== targetAspectRatio) {
-//     fitButton.classList.remove('control__button--off');
-//   } else {
-//     fitButton.classList.add('control__button--off');
-//   }
-// }
-
-function checkFitScreen() {
-  let aspectRatio = videoWidth / videoHeight;
-  const targetAspectRatio = 16 / 9;
-
-  if (aspectRatio === targetAspectRatio && window.innerWidth / window.innerHeight === targetAspectRatio) {
-    fitButton.classList.add('control__button--off');
-  } else {
-    fitButton.classList.remove('control__button--off');
-  }
-}
-
-fitButton.addEventListener('click', changeFitScreen);
+fitButton.addEventListener('click', switchFitScreen);
 
 // Cinema mode
 let cinemaFlag = false;
@@ -1128,7 +1105,7 @@ function validateFiles(uploadedVideo) {
     INPUTFILE_OUTPUT.innerText = lastUploadedVideo.name;
     VIDEO.setAttribute('crossorigin', 'anonymous');
     generatingSeries();
-    playCurrentVideo();
+    setupCurrentVideo();
     showMessage('Кінострічка готова &#128252;');
   }
 
@@ -1155,7 +1132,7 @@ fetch('video.json')
   })
   .then(videoData => {
     data = videoData;
-    playCurrentVideo();
+    setupCurrentVideo();
   })
   .catch(error => {
     console.error('An error occurred:', error);
@@ -1163,7 +1140,7 @@ fetch('video.json')
 
 let currentVideo;
 
-function playCurrentVideo() {
+function setupCurrentVideo() {
   setPlayIcon();
   stopProgress();
   resetDuration();
@@ -1258,7 +1235,7 @@ function changeVideoIndex(delta) {
     }
   }
 
-  playCurrentVideo();
+  setupCurrentVideo();
 }
 
 nextButton.addEventListener('click', () => changeVideoIndex(1));
@@ -1336,7 +1313,7 @@ function handleKey(key, handlers) {
             setPictureInPicture();
             break;
           case 'toggleFitScreen':
-            changeFitScreen();
+            switchFitScreen();
             break;
           case 'toggleFullscreen':
             setFullscreen();
@@ -1514,7 +1491,7 @@ function setVideo() {
   currentCategory = game;
   currentSubcategory = deepFlag;
   currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
-  playCurrentVideo();
+  setupCurrentVideo();
 }
 
 function clearVideoButtons() {
@@ -1551,7 +1528,7 @@ function resetVideo() {
 }
 
 // Start
-function setupVideo() {
+function setupStart() {
   if (isVideoReadyToPlay()) {
     startVideo();
   } else {
@@ -1575,8 +1552,9 @@ function startVideo() {
   openButton.classList.remove('header__menu--error');
   START_BUTTON.classList.add('video__start--hide');
 
-  playVideo();
   getStatistic();
+  setAutoplay();
+  playVideo();
 
   CONTROLS.classList.remove('control--off');
 }
@@ -1596,6 +1574,7 @@ function emptyVideoError() {
   }
 }
 
+// START_BUTTON.addEventListener('click', setupStart);
 START_BUTTON.addEventListener('click', startVideo);
 
 // Statistic
@@ -1607,8 +1586,6 @@ let videoDuration;
 let videoCurrentTime;
 // let videoBitrate;
 // let videoFPS;
-let windowWidth = window.innerWidth;
-let windowHeight = window.innerHeight;
 
 const statisticName = WRAPPER.querySelector('.video__name');
 const statisticClientTime = STATISTIC.querySelector('.statistic__time');
@@ -1621,24 +1598,7 @@ const statisticBuffer = STATISTIC.querySelector('.statistic__buffer');
 // const statisticFPS = STATISTIC.querySelector('.statistic__fps');
 
 function getStatistic() {
-  statisticName.classList.remove('video__name--off');
-
-  videoWidth = VIDEO.videoWidth;
-  videoHeight = VIDEO.videoHeight;
-  videoDuration = Math.round(VIDEO.duration);
-  VIDEO_RANGE.setAttribute('max', videoDuration);
-
-  if (currentVideo.type) {
-    videoFormat = currentVideo.type.replace('video/', '');
-  } else {
-    videoFormat = VIDEO.src.split('.').pop();
-  }
-
-  // checkFitScreen();
-  setStatistic();
-}
-
-function setStatistic() {
+  // name
   videoName = currentVideo.name;
 
   if (currentVideo.year) {
@@ -1646,10 +1606,26 @@ function setStatistic() {
   }
 
   statisticName.innerText = videoName;
+  statisticName.classList.remove('video__name--off');
 
+  // video
+  videoWidth = VIDEO.videoWidth;
+  videoHeight = VIDEO.videoHeight;
   statisticResolution.innerText = videoWidth + 'x' + videoHeight;
+
+  videoDuration = Math.floor(VIDEO.duration);
+  VIDEO_RANGE.setAttribute('max', videoDuration);
+
+  // format
+  if (currentVideo.type) {
+    videoFormat = currentVideo.type.replace('video/', '');
+  } else {
+    videoFormat = VIDEO.src.split('.').pop();
+  }
+
   statisticFormat.innerText = videoFormat;
 
+  // ufh icon
   if (videoWidth >= 3840) {
     statisticUFH.classList.remove('header__ufh--off');
   } else {
@@ -1686,6 +1662,7 @@ function loadVideoTime() {
     currentVideoIndex = parseInt(localStorage.getItem('video-index'));
     videoCurrentTime = parseInt(localStorage.getItem('video-time'));
     VIDEO.currentTime = videoCurrentTime;
+    showMessage('Відео та таймкоди було відновлено');
   }
 }
 
@@ -1703,18 +1680,18 @@ VIDEO.addEventListener('ended', clearVideoTime);
 
 // Local time
 function getTime() {
-  const clientDate = new Date();
-  const clientHours = formatTimeUnit(clientDate.getHours());
-  const clientMinutes = formatTimeUnit(clientDate.getMinutes());
+  let clientTime = new Date();
+  let clientHours = formatTimeUnit(clientTime.getHours());
+  let clientMinutes = formatTimeUnit(clientTime.getMinutes());
   statisticClientTime.innerText = clientHours + ':' + clientMinutes;
 }
 
 function getEndTime() {
-  const futureDate = new Date();
-  futureDate.setSeconds(futureDate.getSeconds() + videoDuration);
-  const futureClientHours = formatTimeUnit(futureDate.getHours());
-  const futureClientMinutes = formatTimeUnit(futureDate.getMinutes());
-  statisticEndTime.innerText = futureClientHours + ':' + futureClientMinutes;
+  let estimatedTime = new Date();
+  estimatedTime.setSeconds(estimatedTime.getSeconds() + videoDuration);
+  let estimatedHours = formatTimeUnit(estimatedTime.getHours());
+  let estimatedMinutes = formatTimeUnit(estimatedTime.getMinutes());
+  statisticEndTime.innerText = estimatedHours + ':' + estimatedMinutes;
 }
 
 // Add 0 to time output if value < 10
@@ -1858,10 +1835,10 @@ function startProgress() {
 
 function updateProgress() {
   // Buffer
-  videoBuffer = Math.round(VIDEO.buffered.end(0));
+  videoBuffer = Math.floor(VIDEO.buffered.end(0)) - videoCurrentTime;
   statisticBuffer.innerText = videoBuffer;
 
-  videoCurrentTime = Math.round(VIDEO.currentTime);
+  videoCurrentTime = Math.floor(VIDEO.currentTime);
   VIDEO_RANGE.value = videoCurrentTime;
 
   // Duration
@@ -1872,7 +1849,7 @@ function updateProgress() {
 
   getTime();
   getEndTime();
-  setDurationProgress();
+  setPaybackProgress();
 }
 
 function stopProgress() {
@@ -1885,6 +1862,19 @@ VIDEO.addEventListener('pause', stopProgress);
 VIDEO.addEventListener('ended', stopProgress);
 
 // Video handler
+// Pause
+function pauseAnimation() {
+  WRAPPER.classList.add('video__wrapper--pause');
+}
+
+function removePauseAnimation() {
+  WRAPPER.classList.remove('video__wrapper--pause');
+}
+
+VIDEO.addEventListener('pause', pauseAnimation);
+VIDEO.addEventListener('playing', removePauseAnimation);
+VIDEO.addEventListener('ended', removePauseAnimation);
+
 // Waiting
 function waitingVideo() {
   WRAPPER.classList.remove('video__wrapper--pause');
@@ -1912,16 +1902,3 @@ function removeErrorVideo() {
 
 VIDEO.addEventListener('error', errorVideo);
 VIDEO.addEventListener('canplay', removeErrorVideo);
-
-// Pause
-function pauseAnimation() {
-  WRAPPER.classList.add('video__wrapper--pause');
-}
-
-function removePauseAnimation() {
-  WRAPPER.classList.remove('video__wrapper--pause');
-}
-
-VIDEO.addEventListener('pause', pauseAnimation);
-VIDEO.addEventListener('playing', removePauseAnimation);
-VIDEO.addEventListener('ended', removePauseAnimation);

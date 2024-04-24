@@ -1,5 +1,5 @@
 // Start
-function setupVideo() {
+function setupStart() {
   if (isVideoReadyToPlay()) {
     startVideo();
   } else {
@@ -23,8 +23,9 @@ function startVideo() {
   openButton.classList.remove('header__menu--error');
   START_BUTTON.classList.add('video__start--hide');
 
-  playVideo();
   getStatistic();
+  setAutoplay();
+  playVideo();
 
   CONTROLS.classList.remove('control--off');
 }
@@ -44,4 +45,5 @@ function emptyVideoError() {
   }
 }
 
+// START_BUTTON.addEventListener('click', setupStart);
 START_BUTTON.addEventListener('click', startVideo);

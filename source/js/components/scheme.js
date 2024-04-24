@@ -35,7 +35,6 @@ function setScheme(scheme) {
 
   saveScheme(scheme);
   switchMedia(scheme);
-  showSchemeButtons();
   updateSchemeButtons(document.querySelector(`.footer__scheme[value=${scheme}]`));
 }
 

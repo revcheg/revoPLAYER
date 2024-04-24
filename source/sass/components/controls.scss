@@ -28,7 +28,7 @@
   }
 }
 
-.control__line {
+.control__progress {
   position: absolute;
   top: -5px;
   right: 5px;
@@ -117,6 +117,7 @@
 }
 
 .control__volume {
+  position: relative;
   display: flex;
   align-items: center;
 
@@ -180,6 +181,7 @@
     padding: 2px 5px;
     border-radius: 5px;
     transition: opacity 0.2s, left 0s;
+    pointer-events: none;
   }
 }
 

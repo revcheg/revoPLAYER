@@ -12,10 +12,10 @@ function startProgress() {
 
 function updateProgress() {
   // Buffer
-  videoBuffer = Math.round(VIDEO.buffered.end(0));
+  videoBuffer = Math.floor(VIDEO.buffered.end(0)) - videoCurrentTime;
   statisticBuffer.innerText = videoBuffer;
 
-  videoCurrentTime = Math.round(VIDEO.currentTime);
+  videoCurrentTime = Math.floor(VIDEO.currentTime);
   VIDEO_RANGE.value = videoCurrentTime;
 
   // Duration
@@ -26,7 +26,7 @@ function updateProgress() {
 
   getTime();
   getEndTime();
-  setDurationProgress();
+  setPaybackProgress();
 }
 
 function stopProgress() {
@@ -39,6 +39,19 @@ VIDEO.addEventListener('pause', stopProgress);
 VIDEO.addEventListener('ended', stopProgress);
 
 // Video handler
+// Pause
+function pauseAnimation() {
+  WRAPPER.classList.add('video__wrapper--pause');
+}
+
+function removePauseAnimation() {
+  WRAPPER.classList.remove('video__wrapper--pause');
+}
+
+VIDEO.addEventListener('pause', pauseAnimation);
+VIDEO.addEventListener('playing', removePauseAnimation);
+VIDEO.addEventListener('ended', removePauseAnimation);
+
 // Waiting
 function waitingVideo() {
   WRAPPER.classList.remove('video__wrapper--pause');
@@ -66,16 +79,3 @@ function removeErrorVideo() {
 
 VIDEO.addEventListener('error', errorVideo);
 VIDEO.addEventListener('canplay', removeErrorVideo);
-
-// Pause
-function pauseAnimation() {
-  WRAPPER.classList.add('video__wrapper--pause');
-}
-
-function removePauseAnimation() {
-  WRAPPER.classList.remove('video__wrapper--pause');
-}
-
-VIDEO.addEventListener('pause', pauseAnimation);
-VIDEO.addEventListener('playing', removePauseAnimation);
-VIDEO.addEventListener('ended', removePauseAnimation);

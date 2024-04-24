@@ -47,14 +47,6 @@
     ]
   },
   "TheWitcher": {
-    "main": [
-      {
-        "name": "Назва відео",
-        "title": "The Witcher III, main video",
-        "src": "/video/TheWitcher/main.webm",
-        "description": "Опис відео"
-      }
-    ],
     "deep": [
       {
         "name": "The Witcher III - Дикій Гін / deep",
@@ -73,32 +65,6 @@
             "label": "English"
           }
         }
-      }
-    ]
-  },
-  "Cyberpunk": {
-    "main": [
-      {
-        "name": "Назва відео",
-        "title": "Cyberpunk 2077, main video",
-        "src": "/video/Cyberpunk/main.webm",
-        "description": "Опис відео"
-      }
-    ],
-    "deep": [
-      {
-        "name": "Назва відео",
-        "title": "Cyberpunk 2077, deep video",
-        "src": "/video/Cyberpunk/deep.webm",
-        "description": "Опис відео"
-      }
-    ],
-    "bonus": [
-      {
-        "name": "Назва відео",
-        "title": "Cyberpunk 2077, bonus video",
-        "src": "/video/Cyberpunk/bonus.webm",
-        "description": "Опис відео"
       }
     ]
   }

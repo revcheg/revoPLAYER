@@ -44,15 +44,15 @@ VIDEO.addEventListener('pause', setPauseIcon);
 VIDEO.addEventListener('playing', setPlayIcon);
 
 // Control progress line
-let progressValue;
+let playbackValue;
+const playbackProgress = CONTROLS.querySelector('.control__progress');
 
-const controlProgress = CONTROLS.querySelector('.control__line');
-
-function setDurationProgress() {
-  if (progressCheckbox.checked) {
-    progressValue = Math.round((videoCurrentTime / videoDuration) * 100);
-    controlProgress.style.width = progressValue + '%';
-    controlProgress.value = progressValue;
+function setPaybackProgress() {
+  if (playbackCheckbox.checked) {
+    playbackValue = Math.floor((videoCurrentTime / videoDuration) * 100);
+    // playbackProgress.style.width = playbackValue + '%';
+    playbackProgress.style.width = `calc(${playbackValue}% - 10px)`;
+    playbackProgress.value = playbackValue;
   }
 }
 
@@ -68,8 +68,8 @@ function setDuration() {
   videoPassed.innerText = formatTime(rangeValue);
   videoLeft.innerText = formatTime(videoDuration - rangeValue);
 
-  controlProgress.value = rangeValue;
-  controlProgress.style.width = Math.round((rangeValue / videoDuration) * 100) + '%';
+  playbackProgress.value = rangeValue;
+  playbackProgress.style.width = Math.floor((rangeValue / videoDuration) * 100) + '%';
 
   backgroundVideo.currentTime = rangeValue;
 }
@@ -78,8 +78,8 @@ function resetDuration() {
   VIDEO_RANGE.value = '0';
   videoPassed.innerText = formatTime(0);
   videoLeft.innerText = formatTime(0);
-  controlProgress.style.width = '0%';
-  controlProgress.value = 0;
+  playbackProgress.style.width = '0%';
+  playbackProgress.value = 0;
 }
 
 VIDEO_RANGE.addEventListener('input', setDuration);
@@ -124,7 +124,7 @@ function handleTimePreview(event) {
 
 function showTimePreview(clientX) {
   let percent = (clientX - VIDEO_RANGE.getBoundingClientRect().left) / VIDEO_RANGE.clientWidth;
-  let previewTime = Math.round(percent * VIDEO_RANGE.max);
+  let previewTime = Math.floor(percent * VIDEO_RANGE.max);
 
   videoPreview.classList.remove('control__time--hide');
   videoPreview.innerText = formatTime(previewTime);
@@ -207,7 +207,7 @@ function changeMuteIcon() {
 muteButton.addEventListener('click', setMute);
 
 // Volume
-VIDEO.volume = 0.2;
+VIDEO.volume = 0.4;
 
 const volumeRange = CONTROLS.querySelector('.control__range--volume');
 
@@ -337,7 +337,7 @@ document.addEventListener('leavepictureinpicture', exitPictureInPicture);
 // Fit Screen
 const fitButton = CONTROLS.querySelector('.control__button--fit');
 
-function changeFitScreen() {
+function switchFitScreen() {
   let currentFit = VIDEO.style.objectFit;
   let changedFit = currentFit === 'cover' ? 'contain' : 'cover';
   VIDEO.style.objectFit = changedFit;
@@ -353,30 +353,7 @@ function changeFitScreen() {
   }
 }
 
-// function checkFitScreen() {
-//   let aspectRatio = videoWidth / videoHeight;
-
-//   const targetAspectRatio = 16 / 9;
-
-//   if (aspectRatio !== targetAspectRatio) {
-//     fitButton.classList.remove('control__button--off');
-//   } else {
-//     fitButton.classList.add('control__button--off');
-//   }
-// }
-
-function checkFitScreen() {
-  let aspectRatio = videoWidth / videoHeight;
-  const targetAspectRatio = 16 / 9;
-
-  if (aspectRatio === targetAspectRatio && window.innerWidth / window.innerHeight === targetAspectRatio) {
-    fitButton.classList.add('control__button--off');
-  } else {
-    fitButton.classList.remove('control__button--off');
-  }
-}
-
-fitButton.addEventListener('click', changeFitScreen);
+fitButton.addEventListener('click', switchFitScreen);
 
 // Cinema mode
 let cinemaFlag = false;

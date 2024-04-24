@@ -29,7 +29,7 @@ function setVideo() {
   currentCategory = game;
   currentSubcategory = deepFlag;
   currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
-  playCurrentVideo();
+  setupCurrentVideo();
 }
 
 function clearVideoButtons() {

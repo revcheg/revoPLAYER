@@ -50,7 +50,7 @@
 }
 
 // Control
-.control__line {
+.control__progress {
 	background-color: #F27DFD;
 
 	&::-webkit-progress-value {
@@ -72,6 +72,11 @@
 		line-height: normal;
 		background-color: #F27DFD;
 	}
+}
+
+.control__value {
+	line-height: normal;
+	background-color: #F27DFD;
 }
 
 .control__range {
@@ -157,7 +162,7 @@
 
 // Settings
 .settings {
-	background-color: rgba(#7D88FD, 0.9);
+	background-color: rgba(#7D88FD, 0.95);
 }
 
 .settings__button {
@@ -297,7 +302,13 @@
 
 // Video
 .video__wrapper {
-	box-shadow: 0 0 15px 5px #F27DFD;
+	// box-shadow: 0 0 15px 5px #F27DFD;
+	box-shadow: 0 0 10px #F27DFD, 0 0 20px #F27DFD, 0 0 30px #F27DFD;
+
+	&--error {
+    // box-shadow: 0 0 15px 5px rgba($red, 0.8);
+    box-shadow: 0 0 10px rgba(#F35050, 0.6), 0 0 20px rgba(#F35050, 0.6), 0 0 30px rgba(#F35050, 0.6);
+  }
 }
 
 .video__icon {

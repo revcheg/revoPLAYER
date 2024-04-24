@@ -68,7 +68,7 @@ function handleKey(key, handlers) {
             setPictureInPicture();
             break;
           case 'toggleFitScreen':
-            changeFitScreen();
+            switchFitScreen();
             break;
           case 'toggleFullscreen':
             setFullscreen();

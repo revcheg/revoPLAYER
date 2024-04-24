@@ -14,7 +14,7 @@ fetch('video.json')
   })
   .then(videoData => {
     data = videoData;
-    playCurrentVideo();
+    setupCurrentVideo();
   })
   .catch(error => {
     console.error('An error occurred:', error);
@@ -22,7 +22,7 @@ fetch('video.json')
 
 let currentVideo;
 
-function playCurrentVideo() {
+function setupCurrentVideo() {
   setPlayIcon();
   stopProgress();
   resetDuration();
@@ -117,7 +117,7 @@ function changeVideoIndex(delta) {
     }
   }
 
-  playCurrentVideo();
+  setupCurrentVideo();
 }
 
 nextButton.addEventListener('click', () => changeVideoIndex(1));
