@@ -7,7 +7,6 @@
 *.psd
 *.sublime*
 node_modules
-backup
 source/video
 build
 npm-debug.*
