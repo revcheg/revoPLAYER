@@ -58,11 +58,11 @@
 }
 
 @keyframes shake {
-  0% {
+  from {
     transform: translateX(-5%);
   }
 
-  100% {
+  to {
     transform: translateX(5%);
   }
 }

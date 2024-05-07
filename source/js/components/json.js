@@ -27,7 +27,7 @@ function setupCurrentVideo() {
   stopProgress();
   resetDuration();
   updateActiveButton();
-  resetPlaybackSpeed();
+  resetSpeed();
 
   if (!autoplayFlag) {
     resetVideo();

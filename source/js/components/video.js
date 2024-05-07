@@ -4,6 +4,12 @@ let currentVideoPassed;
 let currentVideoLeft;
 let isVideoPlaying = false;
 
+// function loadVideo() {
+//   resetSpeed();
+// }
+
+// VIDEO.addEventListener('loadstart', loadVideo);
+
 function startProgress() {
   isVideoPlaying = true;
   progressInterval = setInterval(updateProgress, 1000);

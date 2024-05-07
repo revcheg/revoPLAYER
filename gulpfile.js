@@ -8,13 +8,25 @@ import rename from 'gulp-rename';
 import htmlmin from 'gulp-htmlmin';
 import concat from 'gulp-concat';
 import terser from 'gulp-terser';
-// import squoosh from 'gulp-libsquoosh';
 import svgo from 'gulp-svgmin';
 import svgstore from 'gulp-svgstore';
 import {deleteAsync} from 'del';
 import browser from 'browser-sync';
 
 // Styles
+// export const styles = () => {
+//   return gulp.src(['source/sass/**/*.scss', '!source/sass/scheme/**/*.scss'], { sourcemaps: true })
+//     .pipe(plumber())
+//     .pipe(sass().on('error', sass.logError))
+//     .pipe(postcss([
+//       autoprefixer(),
+//       csso()
+//     ]))
+//     .pipe(concat('style.min.css'))
+//     .pipe(gulp.dest('build/css', { sourcemaps: '.' }))
+//     .pipe(browser.stream());
+// }
+
 export const styles = () => {
   return gulp.src('source/sass/style.scss', { sourcemaps: true })
     .pipe(plumber())
@@ -66,33 +78,10 @@ export const scripts = () => {
 }
 
 // Images
-// export const optimizeImages = () => {
-//   return gulp.src('source/images/**/*.{png,jpg}')
-//     .pipe(squoosh())
-//     .pipe(gulp.dest('build/img'));
-// }
-
 const copyImages = () => {
   return gulp.src('source/img/**/*.{png,jpg,webp}')
     .pipe(gulp.dest('build/img'))
 }
-
-// WebP
-// const createWebp = () => {
-//   return gulp.src(['source/img/**/*.{png,jpg}', '!source/img/favicons/*.{png,jpg}'])
-//     .pipe(squoosh({
-//       webp: {
-//         lossless: true,
-//       },
-//     }))
-//     .pipe(gulp.dest('build/img'))
-// }
-
-// SVG
-// const svg = () =>
-//   gulp.src(['source/img/*.svg', '!source/img/sprite/*.svg', '!source/img/favicons/*.svg'])
-//     .pipe(svgo())
-//     .pipe(gulp.dest('build/img'));
 
 // SVG sprite
 const sprite = () => {
@@ -154,7 +143,7 @@ const reload = (done) => {
 
 // Watcher
 const watcher = () => {
-  gulp.watch('source/sass/components/*.scss', styles);
+  gulp.watch('source/sass/components/**/*.scss', styles);
   gulp.watch('source/sass/scheme/*.scss', scheme);
   gulp.watch('source/js/components/*.js', gulp.series(scriptConcat, scripts));
   gulp.watch('source/*.html', gulp.series(html, reload));
@@ -166,15 +155,12 @@ export const build = gulp.series(
   scriptConcat,
   copy,
   copyImages,
-  // optimizeImages,
   gulp.parallel(
     styles,
     scheme,
     html,
     scripts,
-    // svg,
-    sprite,
-    // createWebp
+    sprite
   ),
 );
 
@@ -189,9 +175,7 @@ export default gulp.series(
     scheme,
     html,
     scripts,
-    // svg,
-    sprite,
-    // createWebp
+    sprite
   ),
   gulp.series(
     server,

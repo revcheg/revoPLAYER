@@ -839,7 +839,7 @@ function changeSpeed() {
   }
 }
 
-function resetPlaybackSpeed() {
+function resetSpeed() {
   playbackRate = 1.0;
   speedButton.classList.remove('control__button--active');
   speedInfo.classList.add('control__info--hide');
@@ -1145,7 +1145,7 @@ function setupCurrentVideo() {
   stopProgress();
   resetDuration();
   updateActiveButton();
-  resetPlaybackSpeed();
+  resetSpeed();
 
   if (!autoplayFlag) {
     resetVideo();
@@ -1798,7 +1798,7 @@ function updateSettingsHeight() {
   let activeTabHeight = activeTab.clientHeight;
   let blockOffset = 90;
 
-  settingsWrapper.style.height = `calc(100vh - ${settingsButtonHeight}px - ${blockOffset}px)`;
+  settingsWrapper.style.height = `calc(100svh - ${settingsButtonHeight}px - ${blockOffset}px)`;
 
   activeTab.classList.toggle('settings__tab--scroll', activeTabHeight > settingsWrapperHeight);
 }
@@ -1826,6 +1826,12 @@ let progressInterval;
 let currentVideoPassed;
 let currentVideoLeft;
 let isVideoPlaying = false;
+
+// function loadVideo() {
+//   resetSpeed();
+// }
+
+// VIDEO.addEventListener('loadstart', loadVideo);
 
 function startProgress() {
   isVideoPlaying = true;

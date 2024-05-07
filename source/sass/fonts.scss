@@ -1,7 +1,8 @@
 // Main font
+// Nunito Sans
 @font-face {
   font-display: swap;
-  font-family: 'Nunito';
+  font-family: 'Nunito Sans', sans-serif;
   font-style: normal;
   font-weight: 300;
   src: url('../fonts/nunito-300.woff2') format('woff2');
@@ -9,7 +10,7 @@
 
 @font-face {
   font-display: swap;
-  font-family: 'Nunito';
+  font-family: 'Nunito Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   src: url('../fonts/nunito-400.woff2') format('woff2');
@@ -17,8 +18,16 @@
 
 @font-face {
   font-display: swap;
-  font-family: 'Nunito';
+  font-family: 'Nunito Sans', sans-serif;
   font-style: normal;
   font-weight: 700;
   src: url('../fonts/nunito-700.woff2') format('woff2');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Nunito Sans', sans-serif;
+  font-style: normal;
+  font-weight: 900;
+  src: url('../fonts/nunito-900.woff2') format('woff2');
 }

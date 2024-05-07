@@ -189,7 +189,8 @@
   appearance: none;
   position: relative;
   width: 100%;
-  width: fill-available;
+  // width: fill-available;
+  width: stretch;
   height: 8px;
   // padding: 10px;
   margin: 10px;

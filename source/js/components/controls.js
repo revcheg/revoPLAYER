@@ -281,7 +281,7 @@ function changeSpeed() {
   }
 }
 
-function resetPlaybackSpeed() {
+function resetSpeed() {
   playbackRate = 1.0;
   speedButton.classList.remove('control__button--active');
   speedInfo.classList.add('control__info--hide');
