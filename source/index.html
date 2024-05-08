@@ -12,9 +12,10 @@
     <link rel="preload" href="fonts/nunito-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     <link rel="preload" href="fonts/nunito-700.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     <link rel="preload" href="fonts/nunito-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-    <link rel="icon" href="img/favicons/favicon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" href="img/favicons/favicon.svg" media="(prefers-color-scheme: light)" type="image/svg+xml">
+    <link rel="icon" href="img/favicons/favicon-dark.svg" media="(prefers-color-scheme: dark)" type="image/svg+xml">
     <link rel="manifest" href="player.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <meta property="og:image" content="img/og-image.jpg">
   </head>
   <body class="body">
@@ -129,6 +130,7 @@
             </svg>
           </button>
           <button class="button  control__button  control__button--fit  control__button--hide  control__button--off" aria-label="Ростягнути зображення" title="Ростягнути зображення (x)" type="button">
+            <span class="control__info  control__info--hide">full</span>
             <svg class="control__icon  control__icon--fit" xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 32 32">
               <use href="img/sprite.svg#fit"></use>
             </svg>

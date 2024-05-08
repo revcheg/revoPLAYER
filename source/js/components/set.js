@@ -45,21 +45,19 @@ chooseButtons.forEach((element) => {
 // Reset video
 function resetVideo() {
   isVideoStarted = false;
+  stopProgress();
+  resetDuration();
   VIDEO.src = '';
   VIDEO.removeAttribute('src');
   VIDEO.removeAttribute('preload');
   VIDEO.removeAttribute('crossorigin');
-  statisticName.classList.add('video__name--off');
+  statisticUFH.classList.add('header__ufh--off');
   WRAPPER.className = 'video__wrapper';
   START_BUTTON.classList.remove('video__start--hide');
+  statisticName.classList.add('video__name--off');
   CONTROLS.classList.add('control--off');
-  // STATISTIC.classList.add('statistic--off');
-  statisticUFH.classList.add('header__ufh--off');
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
-  // clearSubtitle();
-  stopProgress();
-  resetDuration();
   backgroundVideo.pause();
   backgroundVideo.src = '';
   backgroundVideo.removeAttribute('src');

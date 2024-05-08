@@ -2,7 +2,7 @@
 const schemeSwitcher = FOOTER.querySelector('.footer__switcher');
 const lightStyle = document.querySelector('link[rel=stylesheet][media*=prefers-color-scheme][media*=light]');
 const darkStyle = document.querySelector('link[rel=stylesheet][media*=prefers-color-scheme][media*=dark]');
-const favicon = document.querySelector('link[href="img/favicons/favicon.svg"]');
+// const favicon = document.querySelector('link[href="img/favicons/favicon.svg"]');
 
 let systemScheme = getSystemScheme();
 let savedScheme = getSavedScheme();
@@ -27,11 +27,11 @@ function setupScheme() {
 setupScheme();
 
 function setScheme(scheme) {
-  if (savedScheme === 'dark') {
-    favicon.href = 'img/favicons/favicon-dark.svg';
-  } else {
-    favicon.href = 'img/favicons/favicon.svg';
-  }
+  // if (savedScheme === 'dark') {
+  //   favicon.href = 'img/favicons/favicon-dark.svg';
+  // } else {
+  //   favicon.href = 'img/favicons/favicon.svg';
+  // }
 
   saveScheme(scheme);
   switchMedia(scheme);

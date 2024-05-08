@@ -155,17 +155,28 @@ deepCheckbox.addEventListener('change', function (event) {
 });
 
 // Playback progress line
+let playbackValue;
+
+const playbackProgress = CONTROLS.querySelector('.control__progress');
 const playbackCheckbox = SETTINGS.querySelector('.settings__checkbox--line');
 
-function showPaybackProgress() {
+function updatePayback() {
+  playbackValue = Math.floor((videoCurrentTime / videoDuration) * 100);
+  playbackProgress.style.width = `calc(${playbackValue}% - 10px)`;
+  playbackProgress.value = playbackValue;
+}
+
+function showPayback() {
   if (playbackCheckbox.checked) {
     playbackProgress.classList.remove('control__progress--hide');
+    VIDEO.addEventListener('timeupdate', updatePayback);
   } else {
     playbackProgress.classList.add('control__progress--hide');
+    VIDEO.removeEventListener('timeupdate', updatePayback);
   }
 }
 
-playbackCheckbox.addEventListener('change', showPaybackProgress);
+playbackCheckbox.addEventListener('change', showPayback);
 
 // Additional controls
 const controlsCheckbox = SETTINGS.querySelector('.settings__checkbox--controls');
@@ -248,7 +259,7 @@ seriesCheckbox.addEventListener('change', showSeriesList);
 const schemeSwitcher = FOOTER.querySelector('.footer__switcher');
 const lightStyle = document.querySelector('link[rel=stylesheet][media*=prefers-color-scheme][media*=light]');
 const darkStyle = document.querySelector('link[rel=stylesheet][media*=prefers-color-scheme][media*=dark]');
-const favicon = document.querySelector('link[href="img/favicons/favicon.svg"]');
+// const favicon = document.querySelector('link[href="img/favicons/favicon.svg"]');
 
 let systemScheme = getSystemScheme();
 let savedScheme = getSavedScheme();
@@ -273,11 +284,11 @@ function setupScheme() {
 setupScheme();
 
 function setScheme(scheme) {
-  if (savedScheme === 'dark') {
-    favicon.href = 'img/favicons/favicon-dark.svg';
-  } else {
-    favicon.href = 'img/favicons/favicon.svg';
-  }
+  // if (savedScheme === 'dark') {
+  //   favicon.href = 'img/favicons/favicon-dark.svg';
+  // } else {
+  //   favicon.href = 'img/favicons/favicon.svg';
+  // }
 
   saveScheme(scheme);
   switchMedia(scheme);
@@ -564,25 +575,10 @@ const playButton = CONTROLS.querySelector('.control__button--play');
 const playButtonIcon = CONTROLS.querySelector('.control__icon--play');
 const pauseButtonIcon = CONTROLS.querySelector('.control__icon--pause');
 
-function switchVideoState() {
-  if (isVideoPlaying) {
-    pauseVideo();
-  } else {
-    playVideo();
-  }
-}
-
 function pauseVideo() {
   if (isVideoPlaying) {
     VIDEO.pause();
     isVideoPlaying = false;
-  }
-}
-
-function playVideo() {
-  if (!isVideoPlaying) {
-    VIDEO.play();
-    isVideoPlaying = true;
   }
 }
 
@@ -591,28 +587,31 @@ function setPauseIcon() {
   pauseButtonIcon.classList.add('control__icon--hide');
 }
 
+VIDEO.addEventListener('pause', setPauseIcon);
+
+function playVideo() {
+  if (!isVideoPlaying) {
+    VIDEO.play();
+    isVideoPlaying = true;
+  }
+}
+
 function setPlayIcon() {
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
 }
 
-playButton.addEventListener('click', switchVideoState);
-// VIDEO.addEventListener('click', switchVideoState);
-VIDEO.addEventListener('pause', setPauseIcon);
 VIDEO.addEventListener('playing', setPlayIcon);
 
-// Control progress line
-let playbackValue;
-const playbackProgress = CONTROLS.querySelector('.control__progress');
-
-function setPaybackProgress() {
-  if (playbackCheckbox.checked) {
-    playbackValue = Math.floor((videoCurrentTime / videoDuration) * 100);
-    // playbackProgress.style.width = playbackValue + '%';
-    playbackProgress.style.width = `calc(${playbackValue}% - 10px)`;
-    playbackProgress.value = playbackValue;
+function switchVideoState() {
+  if (isVideoPlaying) {
+    pauseVideo();
+  } else {
+    playVideo();
   }
 }
+
+playButton.addEventListener('click', switchVideoState);
 
 // Duration, range
 const videoPassed = CONTROLS.querySelector('.control__time--passed');
@@ -641,7 +640,6 @@ function resetDuration() {
 }
 
 VIDEO_RANGE.addEventListener('input', setDuration);
-// VIDEO_RANGE.addEventListener('change', playVideo);
 
 // Time, format time
 function formatTime(timeInSeconds) {
@@ -810,9 +808,9 @@ volumeRange.addEventListener('wheel', wheelVolume);
 VIDEO.addEventListener('wheel', wheelVolume);
 
 // Playback speed
-let playbackRate = 1.0;
+let videoSpeed = 1.0;
 
-const SPEED_INCREMENT = 0.25;
+const SPEED_STEP = 0.25;
 const MIN_SPEED = 0.25;
 const MAX_SPEED = 2.0;
 
@@ -820,18 +818,18 @@ const speedButton = CONTROLS.querySelector('.control__button--speed');
 const speedInfo = speedButton.querySelector('.control__info');
 
 function changeSpeed() {
-  playbackRate += SPEED_INCREMENT;
+  videoSpeed += SPEED_STEP;
 
-  if (playbackRate > MAX_SPEED) {
-    playbackRate = MIN_SPEED;
+  if (videoSpeed > MAX_SPEED) {
+    videoSpeed = MIN_SPEED;
   }
 
-  VIDEO.playbackRate = playbackRate;
+  VIDEO.playbackRate = videoSpeed;
 
   speedInfo.classList.remove('control__info--hide');
-  speedInfo.innerText = playbackRate + 'x';
+  speedInfo.innerText = videoSpeed + 'x';
 
-  if (playbackRate !== 1.0) {
+  if (videoSpeed !== 1.0) {
     speedButton.classList.add('control__button--active');
   } else {
     speedButton.classList.remove('control__button--active');
@@ -840,7 +838,7 @@ function changeSpeed() {
 }
 
 function resetSpeed() {
-  playbackRate = 1.0;
+  videoSpeed = 1.0;
   speedButton.classList.remove('control__button--active');
   speedInfo.classList.add('control__info--hide');
 }
@@ -894,20 +892,22 @@ document.addEventListener('leavepictureinpicture', exitPictureInPicture);
 
 // Fit Screen
 const fitButton = CONTROLS.querySelector('.control__button--fit');
+const fitInfo = fitButton.querySelector('.control__info');
 
 function switchFitScreen() {
   let currentFit = VIDEO.style.objectFit;
   let changedFit = currentFit === 'cover' ? 'contain' : 'cover';
   VIDEO.style.objectFit = changedFit;
+  fitButton.classList.toggle('control__button--active');
 
   if (changedFit === 'contain') {
-    fitButton.classList.toggle('control__button--active');
     fitButton.setAttribute('aria-label', 'Ростягнути зображення');
     fitButton.setAttribute('title', 'Ростягнути зображення (x)');
+    fitInfo.classList.add('control__info--hide');
   } else {
-    fitButton.classList.toggle('control__button--active');
     fitButton.setAttribute('aria-label', 'Зменшити зображення');
     fitButton.setAttribute('title', 'Зменшити зображення (x)');
+    fitInfo.classList.remove('control__info--hide');
   }
 }
 
@@ -1116,7 +1116,7 @@ function isSupportedFileType(fileType) {
   return supportedFormats.includes(fileType);
 }
 
-// Autoplay video list
+// JSON setup
 let data = null;
 let currentCategory = 'bonus';
 let currentSubcategory = 'Assassins Creed 2';
@@ -1138,15 +1138,9 @@ fetch('video.json')
     console.error('An error occurred:', error);
   });
 
-let currentVideo;
+let currentVideo = null;
 
 function setupCurrentVideo() {
-  setPlayIcon();
-  stopProgress();
-  resetDuration();
-  updateActiveButton();
-  resetSpeed();
-
   if (!autoplayFlag) {
     resetVideo();
   }
@@ -1507,21 +1501,19 @@ chooseButtons.forEach((element) => {
 // Reset video
 function resetVideo() {
   isVideoStarted = false;
+  stopProgress();
+  resetDuration();
   VIDEO.src = '';
   VIDEO.removeAttribute('src');
   VIDEO.removeAttribute('preload');
   VIDEO.removeAttribute('crossorigin');
-  statisticName.classList.add('video__name--off');
+  statisticUFH.classList.add('header__ufh--off');
   WRAPPER.className = 'video__wrapper';
   START_BUTTON.classList.remove('video__start--hide');
+  statisticName.classList.add('video__name--off');
   CONTROLS.classList.add('control--off');
-  // STATISTIC.classList.add('statistic--off');
-  statisticUFH.classList.add('header__ufh--off');
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
-  // clearSubtitle();
-  stopProgress();
-  resetDuration();
   backgroundVideo.pause();
   backgroundVideo.src = '';
   backgroundVideo.removeAttribute('src');
@@ -1795,11 +1787,11 @@ function updateSettingsHeight() {
   let settingsWrapper = SETTINGS.querySelector('.settings__wrapper');
   let settingsWrapperHeight = settingsWrapper.clientHeight;
   let activeTab = SETTINGS.querySelector('.settings__tab--active');
+  let windowHeight = window.innerHeight;
   let activeTabHeight = activeTab.clientHeight;
   let blockOffset = 90;
 
-  settingsWrapper.style.height = `calc(100svh - ${settingsButtonHeight}px - ${blockOffset}px)`;
-
+  settingsWrapper.style.height = `calc(${windowHeight}px - ${settingsButtonHeight}px - ${blockOffset}px)`;
   activeTab.classList.toggle('settings__tab--scroll', activeTabHeight > settingsWrapperHeight);
 }
 
@@ -1827,12 +1819,6 @@ let currentVideoPassed;
 let currentVideoLeft;
 let isVideoPlaying = false;
 
-// function loadVideo() {
-//   resetSpeed();
-// }
-
-// VIDEO.addEventListener('loadstart', loadVideo);
-
 function startProgress() {
   isVideoPlaying = true;
   progressInterval = setInterval(updateProgress, 1000);
@@ -1855,7 +1841,6 @@ function updateProgress() {
 
   getTime();
   getEndTime();
-  setPaybackProgress();
 }
 
 function stopProgress() {
@@ -1867,44 +1852,60 @@ VIDEO.addEventListener('play', startProgress);
 VIDEO.addEventListener('pause', stopProgress);
 VIDEO.addEventListener('ended', stopProgress);
 
-// Video handler
+// Video state
+// Start
+function loadstartState() {
+  setPlayIcon();
+  stopProgress();
+  resetDuration();
+  resetSpeed();
+  updateActiveButton();
+
+  WRAPPER.classList.add('video__wrapper--loadstart');
+}
+
+function removeLoadstartState() {
+  WRAPPER.classList.remove('video__wrapper--loadstart');
+}
+
+VIDEO.addEventListener('loadstart', loadstartState);
+VIDEO.addEventListener('loadeddata', removeLoadstartState);
+
 // Pause
-function pauseAnimation() {
+function pauseState() {
   WRAPPER.classList.add('video__wrapper--pause');
 }
 
-function removePauseAnimation() {
+function removePauseState() {
   WRAPPER.classList.remove('video__wrapper--pause');
 }
 
-VIDEO.addEventListener('pause', pauseAnimation);
-VIDEO.addEventListener('playing', removePauseAnimation);
-VIDEO.addEventListener('ended', removePauseAnimation);
+VIDEO.addEventListener('pause', pauseState);
+VIDEO.addEventListener('playing', removePauseState);
 
 // Waiting
-function waitingVideo() {
-  WRAPPER.classList.remove('video__wrapper--pause');
+function waitingState() {
   WRAPPER.classList.add('video__wrapper--waiting');
 }
 
-function playingVideo() {
+function removeWaitingState() {
   WRAPPER.classList.remove('video__wrapper--waiting');
 }
 
-VIDEO.addEventListener('waiting', waitingVideo);
-VIDEO.addEventListener('playing', playingVideo);
+VIDEO.addEventListener('waiting', waitingState);
+VIDEO.addEventListener('playing', removeWaitingState);
 
 // Error
-function errorVideo() {
+function errorState() {
   WRAPPER.classList.add('video__wrapper--error');
   showMessage('Помилка відео &#128528;');
   isVideoPlaying = false;
   resetVideo();
 }
 
-function removeErrorVideo() {
+function removeErrorState() {
   WRAPPER.classList.remove('video__wrapper--error');
 }
 
-VIDEO.addEventListener('error', errorVideo);
-VIDEO.addEventListener('canplay', removeErrorVideo);
+VIDEO.addEventListener('error', errorState);
+VIDEO.addEventListener('canplay', removeErrorState);

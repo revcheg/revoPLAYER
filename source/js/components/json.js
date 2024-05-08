@@ -1,4 +1,4 @@
-// Autoplay video list
+// JSON setup
 let data = null;
 let currentCategory = 'bonus';
 let currentSubcategory = 'Assassins Creed 2';
@@ -20,15 +20,9 @@ fetch('video.json')
     console.error('An error occurred:', error);
   });
 
-let currentVideo;
+let currentVideo = null;
 
 function setupCurrentVideo() {
-  setPlayIcon();
-  stopProgress();
-  resetDuration();
-  updateActiveButton();
-  resetSpeed();
-
   if (!autoplayFlag) {
     resetVideo();
   }

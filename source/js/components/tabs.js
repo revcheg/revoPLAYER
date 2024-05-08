@@ -31,11 +31,11 @@ function updateSettingsHeight() {
   let settingsWrapper = SETTINGS.querySelector('.settings__wrapper');
   let settingsWrapperHeight = settingsWrapper.clientHeight;
   let activeTab = SETTINGS.querySelector('.settings__tab--active');
+  let windowHeight = window.innerHeight;
   let activeTabHeight = activeTab.clientHeight;
   let blockOffset = 90;
 
-  settingsWrapper.style.height = `calc(100svh - ${settingsButtonHeight}px - ${blockOffset}px)`;
-
+  settingsWrapper.style.height = `calc(${windowHeight}px - ${settingsButtonHeight}px - ${blockOffset}px)`;
   activeTab.classList.toggle('settings__tab--scroll', activeTabHeight > settingsWrapperHeight);
 }
 

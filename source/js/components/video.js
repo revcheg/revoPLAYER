@@ -4,12 +4,6 @@ let currentVideoPassed;
 let currentVideoLeft;
 let isVideoPlaying = false;
 
-// function loadVideo() {
-//   resetSpeed();
-// }
-
-// VIDEO.addEventListener('loadstart', loadVideo);
-
 function startProgress() {
   isVideoPlaying = true;
   progressInterval = setInterval(updateProgress, 1000);
@@ -32,7 +26,6 @@ function updateProgress() {
 
   getTime();
   getEndTime();
-  setPaybackProgress();
 }
 
 function stopProgress() {
@@ -44,44 +37,60 @@ VIDEO.addEventListener('play', startProgress);
 VIDEO.addEventListener('pause', stopProgress);
 VIDEO.addEventListener('ended', stopProgress);
 
-// Video handler
+// Video state
+// Start
+function loadstartState() {
+  setPlayIcon();
+  stopProgress();
+  resetDuration();
+  resetSpeed();
+  updateActiveButton();
+
+  WRAPPER.classList.add('video__wrapper--loadstart');
+}
+
+function removeLoadstartState() {
+  WRAPPER.classList.remove('video__wrapper--loadstart');
+}
+
+VIDEO.addEventListener('loadstart', loadstartState);
+VIDEO.addEventListener('loadeddata', removeLoadstartState);
+
 // Pause
-function pauseAnimation() {
+function pauseState() {
   WRAPPER.classList.add('video__wrapper--pause');
 }
 
-function removePauseAnimation() {
+function removePauseState() {
   WRAPPER.classList.remove('video__wrapper--pause');
 }
 
-VIDEO.addEventListener('pause', pauseAnimation);
-VIDEO.addEventListener('playing', removePauseAnimation);
-VIDEO.addEventListener('ended', removePauseAnimation);
+VIDEO.addEventListener('pause', pauseState);
+VIDEO.addEventListener('playing', removePauseState);
 
 // Waiting
-function waitingVideo() {
-  WRAPPER.classList.remove('video__wrapper--pause');
+function waitingState() {
   WRAPPER.classList.add('video__wrapper--waiting');
 }
 
-function playingVideo() {
+function removeWaitingState() {
   WRAPPER.classList.remove('video__wrapper--waiting');
 }
 
-VIDEO.addEventListener('waiting', waitingVideo);
-VIDEO.addEventListener('playing', playingVideo);
+VIDEO.addEventListener('waiting', waitingState);
+VIDEO.addEventListener('playing', removeWaitingState);
 
 // Error
-function errorVideo() {
+function errorState() {
   WRAPPER.classList.add('video__wrapper--error');
   showMessage('Помилка відео &#128528;');
   isVideoPlaying = false;
   resetVideo();
 }
 
-function removeErrorVideo() {
+function removeErrorState() {
   WRAPPER.classList.remove('video__wrapper--error');
 }
 
-VIDEO.addEventListener('error', errorVideo);
-VIDEO.addEventListener('canplay', removeErrorVideo);
+VIDEO.addEventListener('error', errorState);
+VIDEO.addEventListener('canplay', removeErrorState);

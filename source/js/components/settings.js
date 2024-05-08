@@ -137,17 +137,28 @@ deepCheckbox.addEventListener('change', function (event) {
 });
 
 // Playback progress line
+let playbackValue;
+
+const playbackProgress = CONTROLS.querySelector('.control__progress');
 const playbackCheckbox = SETTINGS.querySelector('.settings__checkbox--line');
 
-function showPaybackProgress() {
+function updatePayback() {
+  playbackValue = Math.floor((videoCurrentTime / videoDuration) * 100);
+  playbackProgress.style.width = `calc(${playbackValue}% - 10px)`;
+  playbackProgress.value = playbackValue;
+}
+
+function showPayback() {
   if (playbackCheckbox.checked) {
     playbackProgress.classList.remove('control__progress--hide');
+    VIDEO.addEventListener('timeupdate', updatePayback);
   } else {
     playbackProgress.classList.add('control__progress--hide');
+    VIDEO.removeEventListener('timeupdate', updatePayback);
   }
 }
 
-playbackCheckbox.addEventListener('change', showPaybackProgress);
+playbackCheckbox.addEventListener('change', showPayback);
 
 // Additional controls
 const controlsCheckbox = SETTINGS.querySelector('.settings__checkbox--controls');

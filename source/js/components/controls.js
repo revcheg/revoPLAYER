@@ -6,25 +6,10 @@ const playButton = CONTROLS.querySelector('.control__button--play');
 const playButtonIcon = CONTROLS.querySelector('.control__icon--play');
 const pauseButtonIcon = CONTROLS.querySelector('.control__icon--pause');
 
-function switchVideoState() {
-  if (isVideoPlaying) {
-    pauseVideo();
-  } else {
-    playVideo();
-  }
-}
-
 function pauseVideo() {
   if (isVideoPlaying) {
     VIDEO.pause();
     isVideoPlaying = false;
-  }
-}
-
-function playVideo() {
-  if (!isVideoPlaying) {
-    VIDEO.play();
-    isVideoPlaying = true;
   }
 }
 
@@ -33,28 +18,31 @@ function setPauseIcon() {
   pauseButtonIcon.classList.add('control__icon--hide');
 }
 
+VIDEO.addEventListener('pause', setPauseIcon);
+
+function playVideo() {
+  if (!isVideoPlaying) {
+    VIDEO.play();
+    isVideoPlaying = true;
+  }
+}
+
 function setPlayIcon() {
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
 }
 
-playButton.addEventListener('click', switchVideoState);
-// VIDEO.addEventListener('click', switchVideoState);
-VIDEO.addEventListener('pause', setPauseIcon);
 VIDEO.addEventListener('playing', setPlayIcon);
 
-// Control progress line
-let playbackValue;
-const playbackProgress = CONTROLS.querySelector('.control__progress');
-
-function setPaybackProgress() {
-  if (playbackCheckbox.checked) {
-    playbackValue = Math.floor((videoCurrentTime / videoDuration) * 100);
-    // playbackProgress.style.width = playbackValue + '%';
-    playbackProgress.style.width = `calc(${playbackValue}% - 10px)`;
-    playbackProgress.value = playbackValue;
+function switchVideoState() {
+  if (isVideoPlaying) {
+    pauseVideo();
+  } else {
+    playVideo();
   }
 }
+
+playButton.addEventListener('click', switchVideoState);
 
 // Duration, range
 const videoPassed = CONTROLS.querySelector('.control__time--passed');
@@ -83,7 +71,6 @@ function resetDuration() {
 }
 
 VIDEO_RANGE.addEventListener('input', setDuration);
-// VIDEO_RANGE.addEventListener('change', playVideo);
 
 // Time, format time
 function formatTime(timeInSeconds) {
@@ -252,9 +239,9 @@ volumeRange.addEventListener('wheel', wheelVolume);
 VIDEO.addEventListener('wheel', wheelVolume);
 
 // Playback speed
-let playbackRate = 1.0;
+let videoSpeed = 1.0;
 
-const SPEED_INCREMENT = 0.25;
+const SPEED_STEP = 0.25;
 const MIN_SPEED = 0.25;
 const MAX_SPEED = 2.0;
 
@@ -262,18 +249,18 @@ const speedButton = CONTROLS.querySelector('.control__button--speed');
 const speedInfo = speedButton.querySelector('.control__info');
 
 function changeSpeed() {
-  playbackRate += SPEED_INCREMENT;
+  videoSpeed += SPEED_STEP;
 
-  if (playbackRate > MAX_SPEED) {
-    playbackRate = MIN_SPEED;
+  if (videoSpeed > MAX_SPEED) {
+    videoSpeed = MIN_SPEED;
   }
 
-  VIDEO.playbackRate = playbackRate;
+  VIDEO.playbackRate = videoSpeed;
 
   speedInfo.classList.remove('control__info--hide');
-  speedInfo.innerText = playbackRate + 'x';
+  speedInfo.innerText = videoSpeed + 'x';
 
-  if (playbackRate !== 1.0) {
+  if (videoSpeed !== 1.0) {
     speedButton.classList.add('control__button--active');
   } else {
     speedButton.classList.remove('control__button--active');
@@ -282,7 +269,7 @@ function changeSpeed() {
 }
 
 function resetSpeed() {
-  playbackRate = 1.0;
+  videoSpeed = 1.0;
   speedButton.classList.remove('control__button--active');
   speedInfo.classList.add('control__info--hide');
 }
@@ -336,20 +323,22 @@ document.addEventListener('leavepictureinpicture', exitPictureInPicture);
 
 // Fit Screen
 const fitButton = CONTROLS.querySelector('.control__button--fit');
+const fitInfo = fitButton.querySelector('.control__info');
 
 function switchFitScreen() {
   let currentFit = VIDEO.style.objectFit;
   let changedFit = currentFit === 'cover' ? 'contain' : 'cover';
   VIDEO.style.objectFit = changedFit;
+  fitButton.classList.toggle('control__button--active');
 
   if (changedFit === 'contain') {
-    fitButton.classList.toggle('control__button--active');
     fitButton.setAttribute('aria-label', 'Ростягнути зображення');
     fitButton.setAttribute('title', 'Ростягнути зображення (x)');
+    fitInfo.classList.add('control__info--hide');
   } else {
-    fitButton.classList.toggle('control__button--active');
     fitButton.setAttribute('aria-label', 'Зменшити зображення');
     fitButton.setAttribute('title', 'Зменшити зображення (x)');
+    fitInfo.classList.remove('control__info--hide');
   }
 }
 

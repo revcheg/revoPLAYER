@@ -195,6 +195,13 @@
   }
 }
 
+.settings__label {
+
+	&--hide {
+		margin-top: -28px;
+	}
+}
+
 .settings__video {
 	line-height: normal;
 
@@ -212,8 +219,6 @@
 }
 
 .settings__counter {
-	min-width: 32px;
-	min-height: 30px;
 	font-weight: 500;
 	line-height: normal;
 	background-color: #F27DFD;
@@ -246,6 +251,13 @@
 		font-size: 25px;
 	}
 
+	.settings__label {
+
+		&--hide {
+			margin-top: -28px;
+		}
+	}
+
 	.settings__sub {
 		margin-bottom: 30px;
 		font-size: 40px;
@@ -272,6 +284,13 @@
 	.settings__button {
 		padding: 15px 35px;
 		font-size: 30px;
+	}
+
+	.settings__label {
+
+		&--hide {
+			margin-top: -45px;
+		}
 	}
 
 	.settings__sub {
@@ -333,20 +352,20 @@
 }
 
 .statistic__category {
-	margin-bottom: 3px;
+	margin-bottom: 0px;
 	line-height: normal;
 }
 
 @media (min-width: 768px) {
 	.statistic__category {
-		margin-bottom: 5px;
+		margin-bottom: 2px;
 		font-size: 13px;
 	}
 }
 
 @media (min-width: 1440px) {
 	.statistic__category {
-		margin-bottom: 6px;
+		margin-bottom: 4px;
 		font-size: 18px;
 	}
 }
