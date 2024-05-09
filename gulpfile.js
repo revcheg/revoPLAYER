@@ -60,14 +60,6 @@ export const html = () => {
     .pipe(gulp.dest('build'));
 }
 
-// Concat
-const scriptConcat = () => {
-  return gulp.src(['source/js/components/global.js', 'source/js/components/settings.js', 'source/js/components/scheme.js', 'source/js/components/*.js'])
-    .pipe(concat('script.js'))
-    .pipe(gulp.dest('source/js'))
-    .pipe(gulp.dest('build/js'));
-}
-
 // Scripts
 export const scripts = () => {
   return gulp.src('source/js/script.js')
@@ -75,6 +67,13 @@ export const scripts = () => {
     .pipe(rename('script.min.js'))
     .pipe(gulp.dest('build/js'))
     .pipe(browser.stream());
+}
+
+// Concat
+const scriptConcat = () => {
+  return gulp.src(['source/js/components/global.js', 'source/js/components/settings.js', 'source/js/components/scheme.js', 'source/js/components/*.js'])
+    .pipe(concat('script.js'))
+    .pipe(gulp.dest('source/js'));
 }
 
 // Images

@@ -97,7 +97,7 @@
   }
 }
 
-@media (min-width: $tablet-width) {
+@media only screen and (min-width: $tablet-width) {
   .footer__switcher {
     max-width: none;
   }
@@ -111,7 +111,7 @@
   }
 }
 
-@media (min-width: $desktop-width) {
+@media only screen and (min-width: $desktop-width) {
   .footer {
     padding: 35px;
   }

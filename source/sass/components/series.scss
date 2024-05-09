@@ -33,7 +33,7 @@
 	transition: box-shadow 0.2s;
 }
 
-@media (min-width: $laptop-width) {
+@media only screen and (min-width: $laptop-width) {
 	.series__item {
 		font-size: 18px;
 	}
@@ -43,7 +43,7 @@
 	}
 }
 
-@media (min-width: $desktop-width) {
+@media only screen and (min-width: $desktop-width) {
 	.series {
 		margin-top: 0;
 		margin-left: 50px;

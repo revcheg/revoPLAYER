@@ -1,4 +1,4 @@
-@media (min-width: $desktop-width) {
+@media only screen and (min-width: $desktop-width) {
 	.main {
 		display: flex;
 		justify-content: center;

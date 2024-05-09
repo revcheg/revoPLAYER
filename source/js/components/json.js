@@ -23,25 +23,33 @@ fetch('video.json')
 let currentVideo = null;
 
 function setupCurrentVideo() {
+  // autoplay
   if (!autoplayFlag) {
     resetVideo();
   }
 
+  // current data
   if (uploadedVideo.length > 0) {
     currentVideo = uploadedVideo[currentVideoIndex];
   } else {
     currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
   }
 
-  if (backgroundFlag) {
-    backgroundVideo.src = currentVideo.src;
+  // name
+  videoName = currentVideo.name;
+
+  if (currentVideo.year) {
+    videoName += ' / ' + currentVideo.year;
   }
 
+  statisticName.innerText = videoName;
+
+  // src
   VIDEO.setAttribute('src', currentVideo.src);
   VIDEO.setAttribute('alt', currentVideo.description);
-
   VIDEO.preload = 'auto';
 
+  // subtitle
   if (currentVideo.subtitle) {
     subtitleButton.classList.remove('control__button--off');
   } else {

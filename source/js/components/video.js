@@ -12,10 +12,11 @@ function startProgress() {
 
 function updateProgress() {
   // Buffer
-  videoBuffer = Math.floor(VIDEO.buffered.end(0)) - videoCurrentTime;
-  statisticBuffer.innerText = videoBuffer;
+  videoBuffer = VIDEO.buffered.end(0) - videoCurrentTime;
+  statisticBuffer.innerText = Math.floor(videoBuffer);
 
-  videoCurrentTime = Math.floor(VIDEO.currentTime);
+  // CurrentTime
+  videoCurrentTime = VIDEO.currentTime;
   VIDEO_RANGE.value = videoCurrentTime;
 
   // Duration
@@ -24,8 +25,8 @@ function updateProgress() {
   videoPassed.innerText = currentVideoPassed;
   videoLeft.innerText = currentVideoLeft;
 
-  getTime();
-  getEndTime();
+  updateClientTime();
+  updatePayback();
 }
 
 function stopProgress() {
@@ -37,8 +38,8 @@ VIDEO.addEventListener('play', startProgress);
 VIDEO.addEventListener('pause', stopProgress);
 VIDEO.addEventListener('ended', stopProgress);
 
-// Video state
-// Start
+// VIDEO STATES
+// Loadstart
 function loadstartState() {
   setPlayIcon();
   stopProgress();
@@ -55,6 +56,13 @@ function removeLoadstartState() {
 
 VIDEO.addEventListener('loadstart', loadstartState);
 VIDEO.addEventListener('loadeddata', removeLoadstartState);
+
+// Loadeddata
+function loadeddataState() {
+  getStatistic();
+}
+
+VIDEO.addEventListener('loadeddata', loadeddataState);
 
 // Pause
 function pauseState() {

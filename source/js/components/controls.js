@@ -13,13 +13,6 @@ function pauseVideo() {
   }
 }
 
-function setPauseIcon() {
-  playButtonIcon.classList.remove('control__icon--hide');
-  pauseButtonIcon.classList.add('control__icon--hide');
-}
-
-VIDEO.addEventListener('pause', setPauseIcon);
-
 function playVideo() {
   if (!isVideoPlaying) {
     VIDEO.play();
@@ -27,11 +20,17 @@ function playVideo() {
   }
 }
 
+function setPauseIcon() {
+  playButtonIcon.classList.remove('control__icon--hide');
+  pauseButtonIcon.classList.add('control__icon--hide');
+}
+
 function setPlayIcon() {
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
 }
 
+VIDEO.addEventListener('pause', setPauseIcon);
 VIDEO.addEventListener('playing', setPlayIcon);
 
 function switchVideoState() {
@@ -111,7 +110,7 @@ function handleTimePreview(event) {
 
 function showTimePreview(clientX) {
   let percent = (clientX - VIDEO_RANGE.getBoundingClientRect().left) / VIDEO_RANGE.clientWidth;
-  let previewTime = Math.floor(percent * VIDEO_RANGE.max);
+  let previewTime = percent * VIDEO_RANGE.max;
 
   videoPreview.classList.remove('control__time--hide');
   videoPreview.innerText = formatTime(previewTime);

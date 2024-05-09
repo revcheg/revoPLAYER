@@ -27,53 +27,15 @@ function closeSettings() {
 openButton.addEventListener('click', openSettings);
 closeButton.addEventListener('click', closeSettings);
 
-// Statistic checkbox
-let statisticIsOn = false;
+// Statistic window
 const statisticCheckbox = SETTINGS.querySelector('.settings__checkbox--statistic');
-const statisticAdditionalCheckbox = SETTINGS.querySelector('.settings__checkbox--additional');
-const statisticAdditional = SETTINGS.querySelector('.settings__label--add');
-const statisticHiddenCategory = STATISTIC.querySelectorAll('.statistic__category--hide');
 
-function showAddCheckbox(event) {
-  const checked = event.currentTarget.checked;
-
-  STATISTIC.classList.toggle('statistic--off', !checked);
-  statisticAdditional.classList.toggle('settings__label--hide', !checked);
-
-  if (!checked) {
-    statisticIsOn = false;
-    statisticAdditionalCheckbox.checked = false;
-    statisticHiddenCategory.forEach((element) => {
-      element.classList.add('statistic__category--hide');
-    });
-
-    statisticName.classList.remove('video__name--short');
-  } else {
-    statisticIsOn = true;
-    statisticName.classList.add('video__name--short');
-  }
+function showStatistic() {
+  STATISTIC.classList.toggle('statistic--off');
+  statisticName.classList.toggle('video__name--short');
 }
 
-function showAddStatistic(event) {
-  const checked = event.currentTarget.checked;
-
-  if (checked) {
-    statisticHiddenCategory.forEach((element) => {
-      element.classList.remove('statistic__category--hide');
-    });
-  } else {
-    statisticHiddenCategory.forEach((element) => {
-      element.classList.add('statistic__category--hide');
-    });
-  }
-
-  if (!checked) {
-    statisticAdditionalCheckbox.checked = false;
-  }
-}
-
-statisticCheckbox.addEventListener('change', showAddCheckbox);
-statisticAdditionalCheckbox.addEventListener('change', showAddStatistic);
+statisticCheckbox.addEventListener('change', showStatistic);
 
 // Scale player
 const scaleCheckbox = SETTINGS.querySelector('.settings__checkbox--scale');
@@ -143,19 +105,15 @@ const playbackProgress = CONTROLS.querySelector('.control__progress');
 const playbackCheckbox = SETTINGS.querySelector('.settings__checkbox--line');
 
 function updatePayback() {
-  playbackValue = Math.floor((videoCurrentTime / videoDuration) * 100);
-  playbackProgress.style.width = `calc(${playbackValue}% - 10px)`;
-  playbackProgress.value = playbackValue;
+  if (playbackCheckbox.checked) {
+    playbackValue = Math.floor((videoCurrentTime / videoDuration) * 100);
+    playbackProgress.style.width = `calc(${playbackValue}% - 10px)`;
+    playbackProgress.value = playbackValue;
+  }
 }
 
 function showPayback() {
-  if (playbackCheckbox.checked) {
-    playbackProgress.classList.remove('control__progress--hide');
-    VIDEO.addEventListener('timeupdate', updatePayback);
-  } else {
-    playbackProgress.classList.add('control__progress--hide');
-    VIDEO.removeEventListener('timeupdate', updatePayback);
-  }
+  playbackProgress.classList.toggle('control__progress--hide');
 }
 
 playbackCheckbox.addEventListener('change', showPayback);
@@ -211,13 +169,12 @@ const backgroundCheckbox = SETTINGS.querySelector('.settings__checkbox--backgrou
 function showBackground() {
   if (backgroundCheckbox.checked) {
     backgroundFlag = true;
-    background.classList.remove('background--off');
     setupBackground();
+    background.classList.remove('background--off');
   } else {
     backgroundFlag = false;
-    pauseBackgroundVideo();
-    background.classList.add('background--off');
     backgroundVideo.removeAttribute('src');
+    background.classList.add('background--off');
   }
 }
 

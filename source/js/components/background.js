@@ -3,12 +3,13 @@ const background = document.querySelector('.background');
 const backgroundVideo = document.querySelector('.background__video');
 
 function setupBackground() {
-  if (VIDEO.src) {
-    backgroundVideo.src = VIDEO.src;
-  }
-
-  if (videoCurrentTime) {
+  if (backgroundFlag) {
+    backgroundVideo.src = currentVideo.src;
     backgroundVideo.currentTime = videoCurrentTime;
+
+    if (VIDEO.play) {
+      playBackgroundVideo();
+    }
   }
 }
 
@@ -20,5 +21,6 @@ function pauseBackgroundVideo() {
   backgroundVideo.pause();
 }
 
+VIDEO.addEventListener('loadeddata', setupBackground);
 VIDEO.addEventListener('play', playBackgroundVideo);
 VIDEO.addEventListener('pause', pauseBackgroundVideo);

@@ -19,22 +19,13 @@ const statisticBuffer = STATISTIC.querySelector('.statistic__buffer');
 // const statisticFPS = STATISTIC.querySelector('.statistic__fps');
 
 function getStatistic() {
-  // name
-  videoName = currentVideo.name;
-
-  if (currentVideo.year) {
-    videoName += ' / ' + currentVideo.year;
-  }
-
-  statisticName.innerText = videoName;
-  statisticName.classList.remove('video__name--off');
-
   // video
   videoWidth = VIDEO.videoWidth;
   videoHeight = VIDEO.videoHeight;
   statisticResolution.innerText = videoWidth + 'x' + videoHeight;
 
-  videoDuration = Math.floor(VIDEO.duration);
+  // duration
+  videoDuration = VIDEO.duration;
   VIDEO_RANGE.setAttribute('max', videoDuration);
 
   // format
@@ -54,21 +45,25 @@ function getStatistic() {
   }
 }
 
-function updateBuffered() {
-  if (VIDEO.buffered.length > 0) {
-    videoBuffer = Math.floor(VIDEO.buffered.end(0));
-    statisticBuffer.innerText = videoBuffer;
-  }
+// Local time
+function updateClientTime() {
+  let clientTime = new Date();
+  let clientHours = formatTimeUnit(clientTime.getHours());
+  let clientMinutes = formatTimeUnit(clientTime.getMinutes());
+  statisticClientTime.innerText = clientHours + ':' + clientMinutes;
+
+  let estimatedTime = new Date();
+  estimatedTime.setSeconds(estimatedTime.getSeconds() + videoDuration);
+  let estimatedHours = formatTimeUnit(estimatedTime.getHours());
+  let estimatedMinutes = formatTimeUnit(estimatedTime.getMinutes());
+  statisticEndTime.innerText = estimatedHours + ':' + estimatedMinutes;
 }
 
-function updateVideoTime() {
-  videoCurrentTime = Math.floor(VIDEO.currentTime);
+function formatTimeUnit(value) {
+  return value < 10 ? '0' + value : value;
 }
 
-VIDEO.addEventListener('timeupdate', updateVideoTime);
-VIDEO.addEventListener('progress', updateBuffered);
-
-// Save and load current video time
+// Save load current video and time
 function saveVideoTime() {
   localStorage.setItem('video-category', currentCategory);
   localStorage.setItem('video-subcategory', currentSubcategory);
@@ -98,24 +93,3 @@ function clearVideoTime() {
 
 VIDEO.addEventListener('timeupdate', saveVideoTime);
 VIDEO.addEventListener('ended', clearVideoTime);
-
-// Local time
-function getTime() {
-  let clientTime = new Date();
-  let clientHours = formatTimeUnit(clientTime.getHours());
-  let clientMinutes = formatTimeUnit(clientTime.getMinutes());
-  statisticClientTime.innerText = clientHours + ':' + clientMinutes;
-}
-
-function getEndTime() {
-  let estimatedTime = new Date();
-  estimatedTime.setSeconds(estimatedTime.getSeconds() + videoDuration);
-  let estimatedHours = formatTimeUnit(estimatedTime.getHours());
-  let estimatedMinutes = formatTimeUnit(estimatedTime.getMinutes());
-  statisticEndTime.innerText = estimatedHours + ':' + estimatedMinutes;
-}
-
-// Add 0 to time output if value < 10
-function formatTimeUnit(value) {
-  return value < 10 ? '0' + value : value;
-}

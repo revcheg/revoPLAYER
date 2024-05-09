@@ -224,7 +224,7 @@
   }
 }
 
-@media (min-width: $tablet-width) {
+@media only screen and (min-width: $tablet-width) {
   ::cue {
     font-size: 18px;
   }
@@ -248,7 +248,7 @@
   }
 }
 
-@media (min-width: $laptop-width) {
+@media only screen and (min-width: $laptop-width) {
   ::cue {
     font-size: 20px;
   }
@@ -262,7 +262,7 @@
   }
 }
 
-@media (min-width: $desktop-width) {
+@media only screen and (min-width: $desktop-width) {
   ::cue {
     font-size: 28px;
   }

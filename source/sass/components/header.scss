@@ -77,7 +77,7 @@
   // fill: $blue-text;
 }
 
-@media (min-width: $tablet-width) {
+@media only screen and (min-width: $tablet-width) {
   .header__logo {
     width: 180px;
     margin-right: 25px;
@@ -89,7 +89,7 @@
   }
 }
 
-@media (min-width: $desktop-width) {
+@media only screen and (min-width: $desktop-width) {
   .header {
     padding: 35px;
   }

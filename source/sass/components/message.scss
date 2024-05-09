@@ -22,13 +22,13 @@
   }
 }
 
-@media (min-width: 485px) {
+@media only screen and (min-width: 485px) {
   .message {
     bottom: 32px;
   }
 }
 
-@media (min-width: $tablet-width) {
+@media only screen and (min-width: $tablet-width) {
   .message {
     bottom: 32px;
     max-width: none;
@@ -36,7 +36,7 @@
   }
 }
 
-@media (min-width: $desktop-width) {
+@media only screen and (min-width: $desktop-width) {
   .message {
     bottom: 43px;
     padding: 15px 30px;

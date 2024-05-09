@@ -45,53 +45,15 @@ function closeSettings() {
 openButton.addEventListener('click', openSettings);
 closeButton.addEventListener('click', closeSettings);
 
-// Statistic checkbox
-let statisticIsOn = false;
+// Statistic window
 const statisticCheckbox = SETTINGS.querySelector('.settings__checkbox--statistic');
-const statisticAdditionalCheckbox = SETTINGS.querySelector('.settings__checkbox--additional');
-const statisticAdditional = SETTINGS.querySelector('.settings__label--add');
-const statisticHiddenCategory = STATISTIC.querySelectorAll('.statistic__category--hide');
 
-function showAddCheckbox(event) {
-  const checked = event.currentTarget.checked;
-
-  STATISTIC.classList.toggle('statistic--off', !checked);
-  statisticAdditional.classList.toggle('settings__label--hide', !checked);
-
-  if (!checked) {
-    statisticIsOn = false;
-    statisticAdditionalCheckbox.checked = false;
-    statisticHiddenCategory.forEach((element) => {
-      element.classList.add('statistic__category--hide');
-    });
-
-    statisticName.classList.remove('video__name--short');
-  } else {
-    statisticIsOn = true;
-    statisticName.classList.add('video__name--short');
-  }
+function showStatistic() {
+  STATISTIC.classList.toggle('statistic--off');
+  statisticName.classList.toggle('video__name--short');
 }
 
-function showAddStatistic(event) {
-  const checked = event.currentTarget.checked;
-
-  if (checked) {
-    statisticHiddenCategory.forEach((element) => {
-      element.classList.remove('statistic__category--hide');
-    });
-  } else {
-    statisticHiddenCategory.forEach((element) => {
-      element.classList.add('statistic__category--hide');
-    });
-  }
-
-  if (!checked) {
-    statisticAdditionalCheckbox.checked = false;
-  }
-}
-
-statisticCheckbox.addEventListener('change', showAddCheckbox);
-statisticAdditionalCheckbox.addEventListener('change', showAddStatistic);
+statisticCheckbox.addEventListener('change', showStatistic);
 
 // Scale player
 const scaleCheckbox = SETTINGS.querySelector('.settings__checkbox--scale');
@@ -161,19 +123,15 @@ const playbackProgress = CONTROLS.querySelector('.control__progress');
 const playbackCheckbox = SETTINGS.querySelector('.settings__checkbox--line');
 
 function updatePayback() {
-  playbackValue = Math.floor((videoCurrentTime / videoDuration) * 100);
-  playbackProgress.style.width = `calc(${playbackValue}% - 10px)`;
-  playbackProgress.value = playbackValue;
+  if (playbackCheckbox.checked) {
+    playbackValue = Math.floor((videoCurrentTime / videoDuration) * 100);
+    playbackProgress.style.width = `calc(${playbackValue}% - 10px)`;
+    playbackProgress.value = playbackValue;
+  }
 }
 
 function showPayback() {
-  if (playbackCheckbox.checked) {
-    playbackProgress.classList.remove('control__progress--hide');
-    VIDEO.addEventListener('timeupdate', updatePayback);
-  } else {
-    playbackProgress.classList.add('control__progress--hide');
-    VIDEO.removeEventListener('timeupdate', updatePayback);
-  }
+  playbackProgress.classList.toggle('control__progress--hide');
 }
 
 playbackCheckbox.addEventListener('change', showPayback);
@@ -229,13 +187,12 @@ const backgroundCheckbox = SETTINGS.querySelector('.settings__checkbox--backgrou
 function showBackground() {
   if (backgroundCheckbox.checked) {
     backgroundFlag = true;
-    background.classList.remove('background--off');
     setupBackground();
+    background.classList.remove('background--off');
   } else {
     backgroundFlag = false;
-    pauseBackgroundVideo();
-    background.classList.add('background--off');
     backgroundVideo.removeAttribute('src');
+    background.classList.add('background--off');
   }
 }
 
@@ -404,12 +361,13 @@ const background = document.querySelector('.background');
 const backgroundVideo = document.querySelector('.background__video');
 
 function setupBackground() {
-  if (VIDEO.src) {
-    backgroundVideo.src = VIDEO.src;
-  }
-
-  if (videoCurrentTime) {
+  if (backgroundFlag) {
+    backgroundVideo.src = currentVideo.src;
     backgroundVideo.currentTime = videoCurrentTime;
+
+    if (VIDEO.play) {
+      playBackgroundVideo();
+    }
   }
 }
 
@@ -421,6 +379,7 @@ function pauseBackgroundVideo() {
   backgroundVideo.pause();
 }
 
+VIDEO.addEventListener('loadeddata', setupBackground);
 VIDEO.addEventListener('play', playBackgroundVideo);
 VIDEO.addEventListener('pause', pauseBackgroundVideo);
 
@@ -582,13 +541,6 @@ function pauseVideo() {
   }
 }
 
-function setPauseIcon() {
-  playButtonIcon.classList.remove('control__icon--hide');
-  pauseButtonIcon.classList.add('control__icon--hide');
-}
-
-VIDEO.addEventListener('pause', setPauseIcon);
-
 function playVideo() {
   if (!isVideoPlaying) {
     VIDEO.play();
@@ -596,11 +548,17 @@ function playVideo() {
   }
 }
 
+function setPauseIcon() {
+  playButtonIcon.classList.remove('control__icon--hide');
+  pauseButtonIcon.classList.add('control__icon--hide');
+}
+
 function setPlayIcon() {
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
 }
 
+VIDEO.addEventListener('pause', setPauseIcon);
 VIDEO.addEventListener('playing', setPlayIcon);
 
 function switchVideoState() {
@@ -680,7 +638,7 @@ function handleTimePreview(event) {
 
 function showTimePreview(clientX) {
   let percent = (clientX - VIDEO_RANGE.getBoundingClientRect().left) / VIDEO_RANGE.clientWidth;
-  let previewTime = Math.floor(percent * VIDEO_RANGE.max);
+  let previewTime = percent * VIDEO_RANGE.max;
 
   videoPreview.classList.remove('control__time--hide');
   videoPreview.innerText = formatTime(previewTime);
@@ -1141,25 +1099,33 @@ fetch('video.json')
 let currentVideo = null;
 
 function setupCurrentVideo() {
+  // autoplay
   if (!autoplayFlag) {
     resetVideo();
   }
 
+  // current data
   if (uploadedVideo.length > 0) {
     currentVideo = uploadedVideo[currentVideoIndex];
   } else {
     currentVideo = data[currentCategory][currentSubcategory][currentVideoIndex];
   }
 
-  if (backgroundFlag) {
-    backgroundVideo.src = currentVideo.src;
+  // name
+  videoName = currentVideo.name;
+
+  if (currentVideo.year) {
+    videoName += ' / ' + currentVideo.year;
   }
 
+  statisticName.innerText = videoName;
+
+  // src
   VIDEO.setAttribute('src', currentVideo.src);
   VIDEO.setAttribute('alt', currentVideo.description);
-
   VIDEO.preload = 'auto';
 
+  // subtitle
   if (currentVideo.subtitle) {
     subtitleButton.classList.remove('control__button--off');
   } else {
@@ -1524,7 +1490,7 @@ function setupStart() {
   if (isVideoReadyToPlay()) {
     startVideo();
   } else {
-    emptyVideoError();
+    emptyError();
   }
 }
 
@@ -1541,29 +1507,27 @@ let isVideoStarted = false;
 
 function startVideo() {
   isVideoStarted = true;
-  openButton.classList.remove('header__menu--error');
   START_BUTTON.classList.add('video__start--hide');
+  CONTROLS.classList.remove('control--off');
+  statisticName.classList.remove('video__name--off');
 
-  getStatistic();
   setAutoplay();
   playVideo();
-
-  CONTROLS.classList.remove('control--off');
 }
 
-function emptyVideoError() {
+function emptyError() {
   openButton.focus();
   openButton.classList.add('header__menu--error');
   setTimeout(() => {
     openButton.classList.remove('header__menu--error');
   }, 2100);
 
-  activateTab('video');
-  showMessage('Відео відсутнє, спробуйте обрати інше');
-
   if (VIDEO.error) {
     showMessage(VIDEO.error.message);
   }
+
+  showMessage('Відео відсутнє, спробуйте обрати інше');
+  activateTab('video');
 }
 
 // START_BUTTON.addEventListener('click', setupStart);
@@ -1590,22 +1554,13 @@ const statisticBuffer = STATISTIC.querySelector('.statistic__buffer');
 // const statisticFPS = STATISTIC.querySelector('.statistic__fps');
 
 function getStatistic() {
-  // name
-  videoName = currentVideo.name;
-
-  if (currentVideo.year) {
-    videoName += ' / ' + currentVideo.year;
-  }
-
-  statisticName.innerText = videoName;
-  statisticName.classList.remove('video__name--off');
-
   // video
   videoWidth = VIDEO.videoWidth;
   videoHeight = VIDEO.videoHeight;
   statisticResolution.innerText = videoWidth + 'x' + videoHeight;
 
-  videoDuration = Math.floor(VIDEO.duration);
+  // duration
+  videoDuration = VIDEO.duration;
   VIDEO_RANGE.setAttribute('max', videoDuration);
 
   // format
@@ -1625,21 +1580,25 @@ function getStatistic() {
   }
 }
 
-function updateBuffered() {
-  if (VIDEO.buffered.length > 0) {
-    videoBuffer = Math.floor(VIDEO.buffered.end(0));
-    statisticBuffer.innerText = videoBuffer;
-  }
+// Local time
+function updateClientTime() {
+  let clientTime = new Date();
+  let clientHours = formatTimeUnit(clientTime.getHours());
+  let clientMinutes = formatTimeUnit(clientTime.getMinutes());
+  statisticClientTime.innerText = clientHours + ':' + clientMinutes;
+
+  let estimatedTime = new Date();
+  estimatedTime.setSeconds(estimatedTime.getSeconds() + videoDuration);
+  let estimatedHours = formatTimeUnit(estimatedTime.getHours());
+  let estimatedMinutes = formatTimeUnit(estimatedTime.getMinutes());
+  statisticEndTime.innerText = estimatedHours + ':' + estimatedMinutes;
 }
 
-function updateVideoTime() {
-  videoCurrentTime = Math.floor(VIDEO.currentTime);
+function formatTimeUnit(value) {
+  return value < 10 ? '0' + value : value;
 }
 
-VIDEO.addEventListener('timeupdate', updateVideoTime);
-VIDEO.addEventListener('progress', updateBuffered);
-
-// Save and load current video time
+// Save load current video and time
 function saveVideoTime() {
   localStorage.setItem('video-category', currentCategory);
   localStorage.setItem('video-subcategory', currentSubcategory);
@@ -1669,27 +1628,6 @@ function clearVideoTime() {
 
 VIDEO.addEventListener('timeupdate', saveVideoTime);
 VIDEO.addEventListener('ended', clearVideoTime);
-
-// Local time
-function getTime() {
-  let clientTime = new Date();
-  let clientHours = formatTimeUnit(clientTime.getHours());
-  let clientMinutes = formatTimeUnit(clientTime.getMinutes());
-  statisticClientTime.innerText = clientHours + ':' + clientMinutes;
-}
-
-function getEndTime() {
-  let estimatedTime = new Date();
-  estimatedTime.setSeconds(estimatedTime.getSeconds() + videoDuration);
-  let estimatedHours = formatTimeUnit(estimatedTime.getHours());
-  let estimatedMinutes = formatTimeUnit(estimatedTime.getMinutes());
-  statisticEndTime.innerText = estimatedHours + ':' + estimatedMinutes;
-}
-
-// Add 0 to time output if value < 10
-function formatTimeUnit(value) {
-  return value < 10 ? '0' + value : value;
-}
 
 // Subtitles
 const subtitles = document.querySelectorAll('.video__subtitle');
@@ -1827,10 +1765,11 @@ function startProgress() {
 
 function updateProgress() {
   // Buffer
-  videoBuffer = Math.floor(VIDEO.buffered.end(0)) - videoCurrentTime;
-  statisticBuffer.innerText = videoBuffer;
+  videoBuffer = VIDEO.buffered.end(0) - videoCurrentTime;
+  statisticBuffer.innerText = Math.floor(videoBuffer);
 
-  videoCurrentTime = Math.floor(VIDEO.currentTime);
+  // CurrentTime
+  videoCurrentTime = VIDEO.currentTime;
   VIDEO_RANGE.value = videoCurrentTime;
 
   // Duration
@@ -1839,8 +1778,8 @@ function updateProgress() {
   videoPassed.innerText = currentVideoPassed;
   videoLeft.innerText = currentVideoLeft;
 
-  getTime();
-  getEndTime();
+  updateClientTime();
+  updatePayback();
 }
 
 function stopProgress() {
@@ -1852,8 +1791,8 @@ VIDEO.addEventListener('play', startProgress);
 VIDEO.addEventListener('pause', stopProgress);
 VIDEO.addEventListener('ended', stopProgress);
 
-// Video state
-// Start
+// VIDEO STATES
+// Loadstart
 function loadstartState() {
   setPlayIcon();
   stopProgress();
@@ -1870,6 +1809,13 @@ function removeLoadstartState() {
 
 VIDEO.addEventListener('loadstart', loadstartState);
 VIDEO.addEventListener('loadeddata', removeLoadstartState);
+
+// Loadeddata
+function loadeddataState() {
+  getStatistic();
+}
+
+VIDEO.addEventListener('loadeddata', loadeddataState);
 
 // Pause
 function pauseState() {

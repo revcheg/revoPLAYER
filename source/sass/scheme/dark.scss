@@ -50,10 +50,6 @@
 	}
 }
 
-.control__value {
-	background-color: #0197F6;
-}
-
 .control__range {
 
   &::-webkit-slider-runnable-track {
@@ -205,6 +201,5 @@
 
 // Message
 .message {
-  box-shadow: 0 0 10px 5px rgba(#0197F6, 0.4);
   background-color: rgba(#0197F6, 0.9);
 }

@@ -3,7 +3,7 @@ function setupStart() {
   if (isVideoReadyToPlay()) {
     startVideo();
   } else {
-    emptyVideoError();
+    emptyError();
   }
 }
 
@@ -20,29 +20,27 @@ let isVideoStarted = false;
 
 function startVideo() {
   isVideoStarted = true;
-  openButton.classList.remove('header__menu--error');
   START_BUTTON.classList.add('video__start--hide');
+  CONTROLS.classList.remove('control--off');
+  statisticName.classList.remove('video__name--off');
 
-  getStatistic();
   setAutoplay();
   playVideo();
-
-  CONTROLS.classList.remove('control--off');
 }
 
-function emptyVideoError() {
+function emptyError() {
   openButton.focus();
   openButton.classList.add('header__menu--error');
   setTimeout(() => {
     openButton.classList.remove('header__menu--error');
   }, 2100);
 
-  activateTab('video');
-  showMessage('Відео відсутнє, спробуйте обрати інше');
-
   if (VIDEO.error) {
     showMessage(VIDEO.error.message);
   }
+
+  showMessage('Відео відсутнє, спробуйте обрати інше');
+  activateTab('video');
 }
 
 // START_BUTTON.addEventListener('click', setupStart);
