@@ -56,7 +56,7 @@ function handleKey(key, handlers) {
             changeVolume(-0.1);
             break;
           case 'toggleMute':
-            setMute();
+            setupMute();
             break;
           case 'setSubtitle':
             setSubtitle();

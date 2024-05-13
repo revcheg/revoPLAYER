@@ -1,58 +1,30 @@
 // Tabs
-const tabs = SETTINGS.querySelectorAll('.settings__tab');
-const tabButtons = SETTINGS.querySelectorAll('.settings__button');
+const settingsCategory = SETTINGS.querySelectorAll('.settings__tab');
+const settingsButtons = SETTINGS.querySelectorAll('.settings__button');
 
-function activateTab(tabName) {
-  tabButtons.forEach(btn => btn.classList.remove('settings__button--active'));
-  tabs.forEach(tab => {
-    tab.classList.remove('settings__tab--active', 'settings__tab--scroll');
-  });
+let categoryName;
 
-  let selectedButton = SETTINGS.querySelector(`[data-tab="${tabName}"]`);
-  selectedButton.classList.add('settings__button--active');
-
-  let selectedTab = SETTINGS.querySelector(`.settings__tab[data-tab="${tabName}"]`);
-  selectedTab.classList.add('settings__tab--active');
-  selectedTab.focus();
-
-  checkActiveTab();
-  updateSettingsHeight();
-}
-
-tabButtons.forEach(button => {
+settingsButtons.forEach(button => {
   button.addEventListener('click', () => {
-    let tabName = button.getAttribute('data-tab');
-    activateTab(tabName);
+    categoryName = button.getAttribute('data-tab');
+    setSettingsCategory(categoryName);
   });
 });
 
-function updateSettingsHeight() {
-  let settingsButtonHeight = SETTINGS.querySelector('.settings__control').clientHeight;
-  let settingsWrapper = SETTINGS.querySelector('.settings__wrapper');
-  let settingsWrapperHeight = settingsWrapper.clientHeight;
-  let activeTab = SETTINGS.querySelector('.settings__tab--active');
-  let windowHeight = window.innerHeight;
-  let activeTabHeight = activeTab.clientHeight;
-  let blockOffset = 90;
+function setSettingsCategory(categoryName) {
+  settingsButtons.forEach(btn => btn.classList.remove('settings__button--active'));
+  settingsCategory.forEach(tab => tab.classList.remove('settings__tab--active'));
 
-  settingsWrapper.style.height = `calc(${windowHeight}px - ${settingsButtonHeight}px - ${blockOffset}px)`;
-  activeTab.classList.toggle('settings__tab--scroll', activeTabHeight > settingsWrapperHeight);
-}
+  let activeButton = SETTINGS.querySelector(`[data-tab="${categoryName}"]`);
+  activeButton.classList.add('settings__button--active');
 
-updateSettingsHeight();
+  let activeCategory = SETTINGS.querySelector(`.settings__tab[data-tab="${categoryName}"]`);
+  activeCategory.classList.add('settings__tab--active');
+  activeCategory.focus();
 
-function checkActiveTab() {
-  if (settingsOpen) {
-    let activeTabName = SETTINGS.querySelector('.settings__tab--active').getAttribute('data-tab');
-
-    if (activeTabName === 'scheme') {
-      schemeSwitcher.classList.add('footer__switcher--show');
-    } else {
-      schemeSwitcher.classList.remove('footer__switcher--show');
-    }
+  if (categoryName === 'scheme') {
+    schemeSwitcher.classList.add('footer__switcher--show');
   } else {
     schemeSwitcher.classList.remove('footer__switcher--show');
   }
 }
-
-window.addEventListener('resize', updateSettingsHeight);

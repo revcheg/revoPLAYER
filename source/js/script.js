@@ -32,14 +32,16 @@ function openSettings() {
     SETTINGS.focus();
   }
 
-  checkActiveTab();
+  if (categoryName === 'scheme') {
+    schemeSwitcher.classList.add('footer__switcher--show');
+  }
 }
 
 function closeSettings() {
   settingsOpen = false;
   SETTINGS.classList.add('settings--hide');
   SETTINGS.blur();
-  checkActiveTab();
+  schemeSwitcher.classList.remove('footer__switcher--show');
 }
 
 openButton.addEventListener('click', openSettings);
@@ -365,23 +367,23 @@ function setupBackground() {
     backgroundVideo.src = currentVideo.src;
     backgroundVideo.currentTime = videoCurrentTime;
 
-    if (VIDEO.play) {
-      playBackgroundVideo();
+    if (isVideoPlaying) {
+      playBackground();
     }
   }
 }
 
-function playBackgroundVideo() {
+function playBackground() {
   backgroundVideo.play();
 }
 
-function pauseBackgroundVideo() {
+function pauseBackground() {
   backgroundVideo.pause();
 }
 
 VIDEO.addEventListener('loadeddata', setupBackground);
-VIDEO.addEventListener('play', playBackgroundVideo);
-VIDEO.addEventListener('pause', pauseBackgroundVideo);
+VIDEO.addEventListener('play', playBackground);
+VIDEO.addEventListener('pause', pauseBackground);
 
 // Console
 const consoleContainer = document.querySelector('.console');
@@ -684,31 +686,27 @@ const muteButtonIcon = CONTROLS.querySelector('#muted');
 
 let savedVolume;
 
-function setMute() {
+function setupMute() {
   if (VIDEO.muted) {
     unmuteVideo();
-    showMessage('Гучність ' + formatVolumePercentage(savedVolume));
   } else {
-    savedVolume = VIDEO.volume;
     muteVideo();
-    showMessage('Гучність ' + formatVolumePercentage(VIDEO.volume));
   }
 
   changeMuteIcon();
 }
 
 function muteVideo() {
+  savedVolume = VIDEO.volume;
   VIDEO.muted = true;
   VIDEO.volume = 0;
   volumeRange.value = 0;
 }
 
 function unmuteVideo() {
-  if (savedVolume >= 0) {
-    VIDEO.muted = false;
-    VIDEO.volume = savedVolume;
-    volumeRange.value = savedVolume;
-  }
+  VIDEO.muted = false;
+  VIDEO.volume = savedVolume || 0.4;
+  volumeRange.value = savedVolume;
 }
 
 function changeMuteIcon() {
@@ -718,25 +716,22 @@ function changeMuteIcon() {
   muteButton.classList.toggle('control__button--active', isMuted);
 }
 
-muteButton.addEventListener('click', setMute);
+muteButton.addEventListener('click', setupMute);
 
 // Volume
 VIDEO.volume = 0.4;
 
 const volumeRange = CONTROLS.querySelector('.control__range--volume');
 
-let changedVolume;
-
-function changeVolume(amount) {
-  changedVolume = Math.max(0, Math.min(1, VIDEO.volume + amount));
-  VIDEO.volume = changedVolume;
-  volumeRange.value = changedVolume;
+function changeVolume(volume) {
+  let videoVolume = Math.max(0, Math.min(1, VIDEO.volume + volume));
+  VIDEO.volume = videoVolume;
+  volumeRange.value = videoVolume;
   updateVolume();
 }
 
 function updateVolume() {
   VIDEO.volume = volumeRange.value;
-  showMessage('Гучність ' + formatVolumePercentage(volumeRange.value));
 
   if (VIDEO.volume === 0) {
     VIDEO.muted = true;
@@ -747,11 +742,16 @@ function updateVolume() {
   changeMuteIcon();
 }
 
-function formatVolumePercentage(volume) {
+function formatVolume(volume) {
   return (volume * 100).toFixed(0) + '%';
 }
 
+function showVolume() {
+  showMessage('Гучність ' + formatVolume(VIDEO.volume));
+}
+
 volumeRange.addEventListener('input', updateVolume);
+VIDEO.addEventListener('volumechange', showVolume);
 
 // Wheel volume
 function wheelVolume(event) {
@@ -1261,7 +1261,7 @@ function handleKey(key, handlers) {
             changeVolume(-0.1);
             break;
           case 'toggleMute':
-            setMute();
+            setupMute();
             break;
           case 'setSubtitle':
             setSubtitle();
@@ -1527,7 +1527,7 @@ function emptyError() {
   }
 
   showMessage('Відео відсутнє, спробуйте обрати інше');
-  activateTab('video');
+  setSettingsCategory('video');
 }
 
 // START_BUTTON.addEventListener('click', setupStart);
@@ -1693,63 +1693,35 @@ function disableOtherSubtitles(currentSubtitle) {
 subtitleButton.addEventListener('click', setSubtitle);
 
 // Tabs
-const tabs = SETTINGS.querySelectorAll('.settings__tab');
-const tabButtons = SETTINGS.querySelectorAll('.settings__button');
+const settingsCategory = SETTINGS.querySelectorAll('.settings__tab');
+const settingsButtons = SETTINGS.querySelectorAll('.settings__button');
 
-function activateTab(tabName) {
-  tabButtons.forEach(btn => btn.classList.remove('settings__button--active'));
-  tabs.forEach(tab => {
-    tab.classList.remove('settings__tab--active', 'settings__tab--scroll');
-  });
+let categoryName;
 
-  let selectedButton = SETTINGS.querySelector(`[data-tab="${tabName}"]`);
-  selectedButton.classList.add('settings__button--active');
-
-  let selectedTab = SETTINGS.querySelector(`.settings__tab[data-tab="${tabName}"]`);
-  selectedTab.classList.add('settings__tab--active');
-  selectedTab.focus();
-
-  checkActiveTab();
-  updateSettingsHeight();
-}
-
-tabButtons.forEach(button => {
+settingsButtons.forEach(button => {
   button.addEventListener('click', () => {
-    let tabName = button.getAttribute('data-tab');
-    activateTab(tabName);
+    categoryName = button.getAttribute('data-tab');
+    setSettingsCategory(categoryName);
   });
 });
 
-function updateSettingsHeight() {
-  let settingsButtonHeight = SETTINGS.querySelector('.settings__control').clientHeight;
-  let settingsWrapper = SETTINGS.querySelector('.settings__wrapper');
-  let settingsWrapperHeight = settingsWrapper.clientHeight;
-  let activeTab = SETTINGS.querySelector('.settings__tab--active');
-  let windowHeight = window.innerHeight;
-  let activeTabHeight = activeTab.clientHeight;
-  let blockOffset = 90;
+function setSettingsCategory(categoryName) {
+  settingsButtons.forEach(btn => btn.classList.remove('settings__button--active'));
+  settingsCategory.forEach(tab => tab.classList.remove('settings__tab--active'));
 
-  settingsWrapper.style.height = `calc(${windowHeight}px - ${settingsButtonHeight}px - ${blockOffset}px)`;
-  activeTab.classList.toggle('settings__tab--scroll', activeTabHeight > settingsWrapperHeight);
-}
+  let activeButton = SETTINGS.querySelector(`[data-tab="${categoryName}"]`);
+  activeButton.classList.add('settings__button--active');
 
-updateSettingsHeight();
+  let activeCategory = SETTINGS.querySelector(`.settings__tab[data-tab="${categoryName}"]`);
+  activeCategory.classList.add('settings__tab--active');
+  activeCategory.focus();
 
-function checkActiveTab() {
-  if (settingsOpen) {
-    let activeTabName = SETTINGS.querySelector('.settings__tab--active').getAttribute('data-tab');
-
-    if (activeTabName === 'scheme') {
-      schemeSwitcher.classList.add('footer__switcher--show');
-    } else {
-      schemeSwitcher.classList.remove('footer__switcher--show');
-    }
+  if (categoryName === 'scheme') {
+    schemeSwitcher.classList.add('footer__switcher--show');
   } else {
     schemeSwitcher.classList.remove('footer__switcher--show');
   }
 }
-
-window.addEventListener('resize', updateSettingsHeight);
 
 // Video
 let progressInterval;
@@ -1760,7 +1732,7 @@ let isVideoPlaying = false;
 function startProgress() {
   isVideoPlaying = true;
   progressInterval = setInterval(updateProgress, 1000);
-  updateProgress();
+  // updateProgress();
 }
 
 function updateProgress() {
@@ -1794,7 +1766,6 @@ VIDEO.addEventListener('ended', stopProgress);
 // VIDEO STATES
 // Loadstart
 function loadstartState() {
-  setPlayIcon();
   stopProgress();
   resetDuration();
   resetSpeed();
@@ -1813,6 +1784,7 @@ VIDEO.addEventListener('loadeddata', removeLoadstartState);
 // Loadeddata
 function loadeddataState() {
   getStatistic();
+  updateProgress();
 }
 
 VIDEO.addEventListener('loadeddata', loadeddataState);

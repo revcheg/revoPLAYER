@@ -40,7 +40,7 @@ function emptyError() {
   }
 
   showMessage('Відео відсутнє, спробуйте обрати інше');
-  activateTab('video');
+  setSettingsCategory('video');
 }
 
 // START_BUTTON.addEventListener('click', setupStart);

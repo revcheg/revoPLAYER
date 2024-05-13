@@ -14,14 +14,16 @@ function openSettings() {
     SETTINGS.focus();
   }
 
-  checkActiveTab();
+  if (categoryName === 'scheme') {
+    schemeSwitcher.classList.add('footer__switcher--show');
+  }
 }
 
 function closeSettings() {
   settingsOpen = false;
   SETTINGS.classList.add('settings--hide');
   SETTINGS.blur();
-  checkActiveTab();
+  schemeSwitcher.classList.remove('footer__switcher--show');
 }
 
 openButton.addEventListener('click', openSettings);

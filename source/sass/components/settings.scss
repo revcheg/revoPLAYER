@@ -22,7 +22,7 @@
 
 .settings__close {
   position: absolute;
-  right: 15px;
+  right: 25px;
   bottom: 26px;
   width: 45px;
   height: 45px;
@@ -43,8 +43,7 @@
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  height: calc(100vh - 183px - 60px);
-  height: calc(100svh - 183px - 60px);
+  flex-grow: 1;
 }
 
 .settings__control {
@@ -83,19 +82,23 @@
   top: 50%;
   left: 50%;
   width: 100%;
-  outline: none;
   transform: translate(-50%, -50%) scale(0);
   transition: top 0.2s, bottom 0.2s, transform 0.2s;
 
-  &--active {
-    transform: translate(-50%, -50%) scale(1);
+  &[data-tab="patch"] {
+    top: 0px;
+    bottom: 0px;
+    margin: 30px 0;
+    overflow-y: scroll;
+    transform: translate(-50%, 0%) scale(0);
   }
 
-  &--scroll {
-    top: 50px;
-    bottom: 50px;
-    overflow-y: scroll;
-    transform: translate(-50%, 0%) scale(1);
+  &--active {
+    transform: translate(-50%, -50%) scale(1);
+
+    &[data-tab="patch"] {
+      transform: translate(-50%, 0%) scale(1);
+    }
   }
 }
 
@@ -137,7 +140,7 @@
 
 .settings__sub {
   margin: 0;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   font-size: 25px;
   font-weight: 900;
   text-align: center;
@@ -145,9 +148,9 @@
 
 .settings__time {
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 900;
 }
 
 .settings__text {
@@ -225,7 +228,7 @@
   padding: 9px 6px;
   text-align: center;
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 300;
   border-radius: 50%;
   transition: opacity 0.2s, transform 0.2s;
 
@@ -270,19 +273,10 @@
 
   .settings__tab {
     max-width: 700px;
-
-    &--scroll {
-      top: 120px;
-      bottom: 120px;
-    }
   }
 
   .settings__label {
     justify-content: center;
-
-    // &--hide {
-    //   margin-top: -27px;
-    // }
   }
 
   .settings__name {
@@ -290,6 +284,7 @@
   }
 
   .settings__sub {
+    margin-bottom: 30px;
     font-size: 30px;
   }
 
@@ -324,8 +319,7 @@
 @media only screen and (min-width: $desktop-width) {
   .settings {
     flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    gap: 0px 50px;
   }
 
   .settings__close {
@@ -341,6 +335,7 @@
   }
 
   .settings__control {
+    align-content: center;
     width: 40%;
     margin-bottom: 0;
     padding-right: 0;
@@ -363,9 +358,17 @@
   .settings__tab {
     max-width: none;
 
-    &--scroll {
-      top: 50px;
-      bottom: 50px;
+    &[data-tab="patch"] {
+      top: 50%;
+      min-height: calc(100vh / 1.8);
+      min-height: calc(100svh / 1.8);
+    }
+
+    &--active {
+
+      &[data-tab="patch"] {
+        transform: translate(-50%, -50%) scale(1);
+      }
     }
   }
 
@@ -382,7 +385,7 @@
   }
 
   .settings__sub {
-    margin-bottom: 30px;
+    margin-bottom: 35px;
     font-size: 40px;
   }
 

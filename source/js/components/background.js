@@ -7,20 +7,20 @@ function setupBackground() {
     backgroundVideo.src = currentVideo.src;
     backgroundVideo.currentTime = videoCurrentTime;
 
-    if (VIDEO.play) {
-      playBackgroundVideo();
+    if (isVideoPlaying) {
+      playBackground();
     }
   }
 }
 
-function playBackgroundVideo() {
+function playBackground() {
   backgroundVideo.play();
 }
 
-function pauseBackgroundVideo() {
+function pauseBackground() {
   backgroundVideo.pause();
 }
 
 VIDEO.addEventListener('loadeddata', setupBackground);
-VIDEO.addEventListener('play', playBackgroundVideo);
-VIDEO.addEventListener('pause', pauseBackgroundVideo);
+VIDEO.addEventListener('play', playBackground);
+VIDEO.addEventListener('pause', pauseBackground);

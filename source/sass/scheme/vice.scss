@@ -25,7 +25,6 @@
 
 // Global
 .body {
-	font-weight: 300;
   font-family: "Chalet", "Nunito", "Roboto", "Arial", sans-serif;
 	letter-spacing: normal;
 	background-color: #F8F0FB;
@@ -337,9 +336,9 @@
 	font-weight: 500;
 }
 
-.statistic__category {
-	margin-bottom: 0px;
-}
+// .statistic__category {
+// 	margin-bottom: 1px;
+// }
 
 @media only screen and (min-width: 768px) {
 	.statistic__category {
