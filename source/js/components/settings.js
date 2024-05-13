@@ -144,13 +144,26 @@ const subtitleCheckbox = SETTINGS.querySelector('.settings__checkbox--subtitle')
 
 function setBackgroundSubtitle() {
   if (subtitleCheckbox.checked) {
-    WRAPPER.classList.add('video__wrapper--subtitle');
+    VIDEO.classList.add('video--subtitle');
   } else {
-    WRAPPER.classList.remove('video__wrapper--subtitle');
+    VIDEO.classList.remove('video--subtitle');
   }
 }
 
 subtitleCheckbox.addEventListener('change', setBackgroundSubtitle);
+
+// Subtitle bold
+const subtitleBoldCheckbox = SETTINGS.querySelector('.settings__checkbox--bold');
+
+function setBolderSubtitle() {
+  if (subtitleBoldCheckbox.checked) {
+    VIDEO.classList.add('video--bold');
+  } else {
+    VIDEO.classList.remove('video--bold');
+  }
+}
+
+subtitleBoldCheckbox.addEventListener('change', setBolderSubtitle);
 
 // Blur
 const blurCheckbox = SETTINGS.querySelector('.settings__checkbox--blur');
@@ -171,11 +184,10 @@ const backgroundCheckbox = SETTINGS.querySelector('.settings__checkbox--backgrou
 function showBackground() {
   if (backgroundCheckbox.checked) {
     backgroundFlag = true;
-    setupBackground();
     background.classList.remove('background--off');
+    renderBackground();
   } else {
     backgroundFlag = false;
-    backgroundVideo.removeAttribute('src');
     background.classList.add('background--off');
   }
 }
@@ -184,7 +196,7 @@ backgroundCheckbox.addEventListener('change', showBackground);
 
 // Series list
 const seriesCheckbox = SETTINGS.querySelector('.settings__checkbox--series');
-const seriesLabel = SETTINGS.querySelector('.settings__label--series');
+const seriesLabel = SETTINGS.querySelector('.settings__option--series');
 
 function showSeriesList() {
   if (seriesCheckbox.checked) {

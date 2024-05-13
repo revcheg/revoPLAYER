@@ -162,13 +162,26 @@ const subtitleCheckbox = SETTINGS.querySelector('.settings__checkbox--subtitle')
 
 function setBackgroundSubtitle() {
   if (subtitleCheckbox.checked) {
-    WRAPPER.classList.add('video__wrapper--subtitle');
+    VIDEO.classList.add('video--subtitle');
   } else {
-    WRAPPER.classList.remove('video__wrapper--subtitle');
+    VIDEO.classList.remove('video--subtitle');
   }
 }
 
 subtitleCheckbox.addEventListener('change', setBackgroundSubtitle);
+
+// Subtitle bold
+const subtitleBoldCheckbox = SETTINGS.querySelector('.settings__checkbox--bold');
+
+function setBolderSubtitle() {
+  if (subtitleBoldCheckbox.checked) {
+    VIDEO.classList.add('video--bold');
+  } else {
+    VIDEO.classList.remove('video--bold');
+  }
+}
+
+subtitleBoldCheckbox.addEventListener('change', setBolderSubtitle);
 
 // Blur
 const blurCheckbox = SETTINGS.querySelector('.settings__checkbox--blur');
@@ -189,11 +202,10 @@ const backgroundCheckbox = SETTINGS.querySelector('.settings__checkbox--backgrou
 function showBackground() {
   if (backgroundCheckbox.checked) {
     backgroundFlag = true;
-    setupBackground();
     background.classList.remove('background--off');
+    renderBackground();
   } else {
     backgroundFlag = false;
-    backgroundVideo.removeAttribute('src');
     background.classList.add('background--off');
   }
 }
@@ -202,7 +214,7 @@ backgroundCheckbox.addEventListener('change', showBackground);
 
 // Series list
 const seriesCheckbox = SETTINGS.querySelector('.settings__checkbox--series');
-const seriesLabel = SETTINGS.querySelector('.settings__label--series');
+const seriesLabel = SETTINGS.querySelector('.settings__option--series');
 
 function showSeriesList() {
   if (seriesCheckbox.checked) {
@@ -360,30 +372,17 @@ function createScheme(scheme) {
 
 // Background
 const background = document.querySelector('.background');
-const backgroundVideo = document.querySelector('.background__video');
+const backgroundVideo = background.querySelector('.background__video');
+const backgroundContext = backgroundVideo.getContext('2d');
 
-function setupBackground() {
+function renderBackground() {
   if (backgroundFlag) {
-    backgroundVideo.src = currentVideo.src;
-    backgroundVideo.currentTime = videoCurrentTime;
-
-    if (isVideoPlaying) {
-      playBackground();
-    }
+    backgroundContext.drawImage(VIDEO, 0, 0, backgroundVideo.width, backgroundVideo.height);
+    setTimeout(renderBackground, 1000 / 30);
   }
 }
 
-function playBackground() {
-  backgroundVideo.play();
-}
-
-function pauseBackground() {
-  backgroundVideo.pause();
-}
-
-VIDEO.addEventListener('loadeddata', setupBackground);
-VIDEO.addEventListener('play', playBackground);
-VIDEO.addEventListener('pause', pauseBackground);
+VIDEO.addEventListener('play', renderBackground);
 
 // Console
 const consoleContainer = document.querySelector('.console');
@@ -462,7 +461,7 @@ function executeCommand(event) {
     let commandDescription = consoleCommands[command];
 
     if (commandDescription) {
-      deepLabel.classList.add('settings__label--hide');
+      deepLabel.classList.add('settings__option--hide');
 
       currentCategory = commandDescription.currentCategory;
       currentSubcategory = commandDescription.currentSubcategory;
@@ -1056,7 +1055,7 @@ function validateFiles(uploadedVideo) {
     if (uploadedVideo.length > 1) {
       INPUTFILE_COUNTER.innerText = '+' + uploadedVideo.length;
       INPUTFILE_COUNTER.classList.remove('settings__counter--hide');
-      seriesLabel.classList.remove('settings__label--hide');
+      seriesLabel.classList.remove('settings__option--hide');
     }
 
     let lastUploadedVideo = uploadedVideo[uploadedVideo.length - 1];
@@ -1437,10 +1436,10 @@ function selectGame() {
     currentVideo = data[currentCategory];
 
     if (currentVideo.deep) {
-      deepLabel.classList.remove('settings__label--hide');
+      deepLabel.classList.remove('settings__option--hide');
       showMessage('Доступна deep категорія');
     } else {
-      deepLabel.classList.add('settings__label--hide');
+      deepLabel.classList.add('settings__option--hide');
     }
 
     setVideo();

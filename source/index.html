@@ -22,7 +22,7 @@
   <body class="body">
 
     <div class="background  background--off">
-      <video class="background__video" muted aria-label="Фонове відео дублююче головне відео" alt="Фонове відео дублююче головне відео" disableRemotePlayback disablePictureInPicture playsinline controlsList="nodownload"></video>
+      <canvas class="background__video"></canvas>
       <div class="background__overlay"></div>
     </div>
 
@@ -66,7 +66,7 @@
           <!-- <p class="statistic__category">FPS: <span class="statistic__fps"></span></p> -->
         </section>
 
-        <video class="video" controls="false" aria-label="Опис обраного відео" alt="Опис обраного відео" disableRemotePlayback disablePictureInPicture controlsList="nodownload">
+        <video class="video" controls="false" aria-label="Опис обраного відео" alt="Опис обраного відео" disableRemotePlayback disablePictureInPicture>
           <track class="video__subtitle" src="subtitle/TheWitcher/deep-uk.vtt" kind="subtitles" label="Ukranian" srclang="uk">
           <track class="video__subtitle" src="subtitle/TheWitcher/deep-en.vtt" kind="subtitles" label="English" srclang="en">
         </video>
@@ -206,15 +206,15 @@
       <div class="settings__wrapper">
         <div class="settings__tab  settings__tab--active" data-tab="general">
           <p class="settings__sub">НАЛАШТУВАННЯ</p>
-          <label class="settings__label">
+          <label class="settings__option">
             <input class="settings__checkbox  settings__checkbox--scale" type="checkbox">
             <span class="settings__name">Зробити плеєр об'ємним</span>
           </label>
-          <label class="settings__label">
+          <label class="settings__option">
             <input class="settings__checkbox  settings__checkbox--autoplay" type="checkbox" checked>
             <span class="settings__name">Автоперемикання серій</span>
           </label>
-          <label class="settings__label  settings__label--hide">
+          <label class="settings__option  settings__option--hide">
             <input class="settings__checkbox  settings__checkbox--deep" type="checkbox">
             <span class="settings__name">Deep mode</span>
           </label>
@@ -222,31 +222,35 @@
 
         <div class="settings__tab" data-tab="player">
           <p class="settings__sub">ПЛЕЄР</p>
-          <label class="settings__label">
+          <label class="settings__option">
             <input class="settings__checkbox  settings__checkbox--statistic" type="checkbox">
             <span class="settings__name">Відображати вікно статистики</span>
           </label>
-          <label class="settings__label">
+          <label class="settings__option">
             <input class="settings__checkbox  settings__checkbox--line" type="checkbox">
             <span class="settings__name">Додаткова смуга прогрузки</span>
           </label>
-          <label class="settings__label">
+          <label class="settings__option">
             <input class="settings__checkbox  settings__checkbox--controls" type="checkbox">
             <span class="settings__name">Показати більше контролів</span>
           </label>
-          <label class="settings__label">
+          <label class="settings__option">
             <input class="settings__checkbox  settings__checkbox--subtitle" type="checkbox">
             <span class="settings__name">Фон для субтитрів</span>
+          </label>
+          <label class="settings__option">
+            <input class="settings__checkbox  settings__checkbox--bold" type="checkbox">
+            <span class="settings__name">Більш жирні субтитри</span>
           </label>
         </div>
 
         <div class="settings__tab" data-tab="scheme">
           <p class="settings__sub">ТЕМА</p>
-          <label class="settings__label">
+          <label class="settings__option">
             <input class="settings__checkbox  settings__checkbox--blur" type="checkbox">
             <span class="settings__name">Увімкнути blur на дієвидло (alpha)</span>
           </label>
-          <label class="settings__label">
+          <label class="settings__option">
             <input class="settings__checkbox  settings__checkbox--background" type="checkbox">
             <span class="settings__name">Дублювати відео на фон (beta)</span>
           </label>
@@ -254,7 +258,7 @@
 
         <div class="settings__tab" data-tab="sound">
           <p class="settings__sub">ЗВУК</p>
-          <label class="settings__label">
+          <label class="settings__option">
             <input class="settings__checkbox  settings__checkbox--sound" type="checkbox" disabled>
             <span class="settings__name">Навалити трішки саунд-дизайну</span>
           </label>
@@ -269,7 +273,7 @@
             <span class="settings__output">Обрати власне відео</span>
             <span class="settings__counter  settings__counter--hide">+0</span>
           </label>
-          <label class="settings__label  settings__label--series  settings__label--hide">
+          <label class="settings__option  settings__option--series  settings__option--hide">
             <input class="settings__checkbox  settings__checkbox--series" type="checkbox">
             <span class="settings__name">Показати перелік відео</span>
           </label>
@@ -370,7 +374,7 @@
           <use href="img/sprite.svg#close"></use>
         </svg>
       </button>
-      <video class="console__background" muted loop disableRemotePlayback disablePictureInPicture playsinline controlsList="nodownload"></video>
+      <video class="console__background" muted loop disableRemotePlayback disablePictureInPicture playsinline></video>
       <label>
         <span class="visually-hidden">Поле введення консолі</span>
         <input class="console__input" type="text" placeholder="take control">

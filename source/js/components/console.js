@@ -75,7 +75,7 @@ function executeCommand(event) {
     let commandDescription = consoleCommands[command];
 
     if (commandDescription) {
-      deepLabel.classList.add('settings__label--hide');
+      deepLabel.classList.add('settings__option--hide');
 
       currentCategory = commandDescription.currentCategory;
       currentSubcategory = commandDescription.currentSubcategory;

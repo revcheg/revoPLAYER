@@ -46,13 +46,6 @@
     }
   }
 
-  &--subtitle {
-
-    ::cue {
-      background-color: rgba(0, 0, 0, 0.4);
-    }
-  }
-
   &--loadstart {
     animation-name: loadstart;
   }
@@ -182,12 +175,26 @@
   &[src] {
     background-color: #000000;
   }
+
+  &--subtitle {
+
+    &::cue {
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  &--bold {
+
+    &::cue {
+      font-weight: 700;
+    }
+  }
 }
 
 ::cue {
   font-size: 12px;
   font-weight: 300;
-  font-family: "Nunito", "Roboto", "Arial", sans-serif;
+  font-family: "Montserrat", "Roboto", "Arial", sans-serif;
   text-align: center;
   text-shadow: 0px 0px 5px #000000, 0px 0px 5px #000000;
   background-color: transparent;

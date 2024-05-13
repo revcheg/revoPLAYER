@@ -1,26 +1,13 @@
 // Background
 const background = document.querySelector('.background');
-const backgroundVideo = document.querySelector('.background__video');
+const backgroundVideo = background.querySelector('.background__video');
+const backgroundContext = backgroundVideo.getContext('2d');
 
-function setupBackground() {
+function renderBackground() {
   if (backgroundFlag) {
-    backgroundVideo.src = currentVideo.src;
-    backgroundVideo.currentTime = videoCurrentTime;
-
-    if (isVideoPlaying) {
-      playBackground();
-    }
+    backgroundContext.drawImage(VIDEO, 0, 0, backgroundVideo.width, backgroundVideo.height);
+    setTimeout(renderBackground, 1000 / 30);
   }
 }
 
-function playBackground() {
-  backgroundVideo.play();
-}
-
-function pauseBackground() {
-  backgroundVideo.pause();
-}
-
-VIDEO.addEventListener('loadeddata', setupBackground);
-VIDEO.addEventListener('play', playBackground);
-VIDEO.addEventListener('pause', pauseBackground);
+VIDEO.addEventListener('play', renderBackground);

@@ -25,7 +25,7 @@
 
 // Global
 .body {
-  font-family: "Chalet", "Nunito", "Roboto", "Arial", sans-serif;
+  font-family: "Chalet", "Montserrat", "Roboto", "Arial", sans-serif;
 	letter-spacing: normal;
 	background-color: #F8F0FB;
 }
@@ -182,13 +182,6 @@
   }
 }
 
-.settings__label {
-
-	&--hide {
-		margin-top: -28px;
-	}
-}
-
 .settings__video {
 
 	&--active {
@@ -236,13 +229,6 @@
 		font-size: 25px;
 	}
 
-	.settings__label {
-
-		&--hide {
-			margin-top: -28px;
-		}
-	}
-
 	.settings__sub {
 		margin-bottom: 30px;
 		font-size: 40px;
@@ -269,13 +255,6 @@
 	.settings__button {
 		padding: 15px 35px;
 		font-size: 30px;
-	}
-
-	.settings__label {
-
-		&--hide {
-			margin-top: -45px;
-		}
 	}
 
 	.settings__sub {
@@ -328,6 +307,21 @@
 
 .video__name {
 	font-weight: 500;
+}
+
+.video {
+
+	&::cue {
+		font-weight: 500;
+		font-family: "Chalet", "Montserrat", "Roboto", "Arial", sans-serif;
+	}
+
+	&--bold {
+
+    &::cue {
+      font-weight: 700;
+    }
+  }
 }
 
 // Statistic

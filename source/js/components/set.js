@@ -15,10 +15,10 @@ function selectGame() {
     currentVideo = data[currentCategory];
 
     if (currentVideo.deep) {
-      deepLabel.classList.remove('settings__label--hide');
+      deepLabel.classList.remove('settings__option--hide');
       showMessage('Доступна deep категорія');
     } else {
-      deepLabel.classList.add('settings__label--hide');
+      deepLabel.classList.add('settings__option--hide');
     }
 
     setVideo();
