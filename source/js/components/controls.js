@@ -57,8 +57,6 @@ function setDuration() {
 
   playbackProgress.value = rangeValue;
   playbackProgress.style.width = Math.floor((rangeValue / videoDuration) * 100) + '%';
-
-  backgroundVideo.currentTime = rangeValue;
 }
 
 function resetDuration() {

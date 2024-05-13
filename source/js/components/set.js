@@ -58,7 +58,4 @@ function resetVideo() {
   CONTROLS.classList.add('control--off');
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
-  backgroundVideo.pause();
-  backgroundVideo.src = '';
-  backgroundVideo.removeAttribute('src');
 }

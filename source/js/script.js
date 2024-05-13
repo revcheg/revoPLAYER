@@ -586,8 +586,6 @@ function setDuration() {
 
   playbackProgress.value = rangeValue;
   playbackProgress.style.width = Math.floor((rangeValue / videoDuration) * 100) + '%';
-
-  backgroundVideo.currentTime = rangeValue;
 }
 
 function resetDuration() {
@@ -1479,9 +1477,6 @@ function resetVideo() {
   CONTROLS.classList.add('control--off');
   playButtonIcon.classList.add('control__icon--hide');
   pauseButtonIcon.classList.remove('control__icon--hide');
-  backgroundVideo.pause();
-  backgroundVideo.src = '';
-  backgroundVideo.removeAttribute('src');
 }
 
 // Start
