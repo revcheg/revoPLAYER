@@ -7,7 +7,7 @@ let isVideoPlaying = false;
 function startProgress() {
   isVideoPlaying = true;
   progressInterval = setInterval(updateProgress, 1000);
-  // updateProgress();
+  updateProgress();
 }
 
 function updateProgress() {
@@ -59,7 +59,6 @@ VIDEO.addEventListener('loadeddata', removeLoadstartState);
 // Loadeddata
 function loadeddataState() {
   getStatistic();
-  updateProgress();
 }
 
 VIDEO.addEventListener('loadeddata', loadeddataState);
