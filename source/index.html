@@ -22,7 +22,7 @@
   <body class="body">
 
     <div class="background  background--off">
-      <canvas class="background__video"></canvas>
+      <canvas class="background__canvas"></canvas>
       <div class="background__overlay"></div>
     </div>
 
@@ -129,7 +129,7 @@
             </svg>
           </button>
           <button class="button  control__button  control__button--fit  control__button--hide  control__button--off" aria-label="Ростягнути зображення" title="Ростягнути зображення (x)" type="button">
-            <span class="control__info  control__info--hide">full</span>
+            <span class="control__info  control__info--hide"></span>
             <svg class="control__icon  control__icon--fit" xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 32 32" role="img">
               <use href="img/sprite.svg#fit"></use>
             </svg>
@@ -150,13 +150,13 @@
         </section>
       </section>
 
-      <ul class="series  series--off">
-        <li class="series__item">
-          <svg class="series__icon" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="35" height="35" viewBox="0 0 512 512" role="img">
+      <ul class="episode  episode--off">
+        <li class="episode__item">
+          <svg class="episode__icon" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="35" height="35" viewBox="0 0 512 512" role="img">
             <use href="img/sprite.svg#empty"></use>
           </svg>
         </li>
-        <li class="series__item">
+        <li class="episode__item">
           Поки тут нічого немає &#128559;
         </li>
       </ul>
@@ -235,12 +235,12 @@
             <span class="settings__name">Показати більше контролів</span>
           </label>
           <label class="settings__option">
-            <input class="settings__checkbox  settings__checkbox--subtitle" type="checkbox">
-            <span class="settings__name">Фон для субтитрів</span>
-          </label>
-          <label class="settings__option">
             <input class="settings__checkbox  settings__checkbox--bold" type="checkbox">
             <span class="settings__name">Більш виділені субтитри</span>
+          </label>
+          <label class="settings__option">
+            <input class="settings__checkbox  settings__checkbox--subtitle" type="checkbox">
+            <span class="settings__name">Фон для субтитрів</span>
           </label>
         </div>
 
@@ -273,8 +273,8 @@
             <span class="settings__output">Обрати власне відео</span>
             <span class="settings__counter  settings__counter--hide">+0</span>
           </label>
-          <label class="settings__option  settings__option--series  settings__option--hide">
-            <input class="settings__checkbox  settings__checkbox--series" type="checkbox">
+          <label class="settings__option  settings__option--episode  settings__option--hide">
+            <input class="settings__checkbox  settings__checkbox--episode" type="checkbox">
             <span class="settings__name">Показати перелік відео</span>
           </label>
         </div>

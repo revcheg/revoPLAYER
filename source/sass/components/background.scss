@@ -12,18 +12,13 @@
   }
 }
 
-.background__video {
+.background__canvas {
   position: absolute;
   top: 0px;
   left: 0px;
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.background__video[src] ~ .background__overlay {
-  // background-color: rgba(#000000, 0.5);
-  background-color: rgba(#FFFFFF, 0.1);
 }
 
 .background__overlay {

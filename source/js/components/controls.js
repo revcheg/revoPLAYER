@@ -152,8 +152,6 @@ VIDEO_RANGE.addEventListener('wheel', wheelDuration);
 const muteButton = CONTROLS.querySelector('.control__button--mute');
 const muteButtonIcon = CONTROLS.querySelector('#muted');
 
-let savedVolume;
-
 function setupMute() {
   if (VIDEO.muted) {
     unmuteVideo();
@@ -163,6 +161,8 @@ function setupMute() {
 
   changeMuteIcon();
 }
+
+let savedVolume;
 
 function muteVideo() {
   savedVolume = VIDEO.volume;
@@ -187,12 +187,15 @@ function changeMuteIcon() {
 muteButton.addEventListener('click', setupMute);
 
 // Volume
-VIDEO.volume = 0.4;
-
 const volumeRange = CONTROLS.querySelector('.control__range--volume');
 
+VIDEO.volume = 0.4;
+volumeRange.value = 0.4;
+
+let videoVolume;
+
 function changeVolume(volume) {
-  let videoVolume = Math.max(0, Math.min(1, VIDEO.volume + volume));
+  videoVolume = Math.max(0, Math.min(1, VIDEO.volume + volume));
   VIDEO.volume = videoVolume;
   volumeRange.value = videoVolume;
   updateVolume();
@@ -210,16 +213,19 @@ function updateVolume() {
   changeMuteIcon();
 }
 
-function formatVolume(volume) {
-  return (volume * 100).toFixed(0) + '%';
-}
-
 function showVolume() {
   showMessage('Гучність ' + formatVolume(VIDEO.volume));
 }
 
+function formatVolume(volume) {
+  return (volume * 100).toFixed(0) + '%';
+}
+
 volumeRange.addEventListener('input', updateVolume);
-VIDEO.addEventListener('volumechange', showVolume);
+
+window.addEventListener('load', () => {
+  VIDEO.addEventListener('volumechange', showVolume);
+});
 
 // Wheel volume
 function wheelVolume(event) {
@@ -329,10 +335,12 @@ function switchFitScreen() {
   if (changedFit === 'contain') {
     fitButton.setAttribute('aria-label', 'Ростягнути зображення');
     fitButton.setAttribute('title', 'Ростягнути зображення (x)');
+    fitInfo.innerText = '';
     fitInfo.classList.add('control__info--hide');
   } else {
     fitButton.setAttribute('aria-label', 'Зменшити зображення');
     fitButton.setAttribute('title', 'Зменшити зображення (x)');
+    fitInfo.innerText = 'full';
     fitInfo.classList.remove('control__info--hide');
   }
 }

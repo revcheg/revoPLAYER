@@ -78,7 +78,7 @@ function loadVideoTime() {
     currentVideoIndex = parseInt(localStorage.getItem('video-index'));
     videoCurrentTime = parseInt(localStorage.getItem('video-time'));
     VIDEO.currentTime = videoCurrentTime;
-    showMessage('Відео та таймкоди було відновлено');
+    showMessage('Відео та час було відновлено');
   }
 }
 

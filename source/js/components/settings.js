@@ -194,16 +194,16 @@ function showBackground() {
 
 backgroundCheckbox.addEventListener('change', showBackground);
 
-// Series list
-const seriesCheckbox = SETTINGS.querySelector('.settings__checkbox--series');
-const seriesLabel = SETTINGS.querySelector('.settings__option--series');
+// Episode list
+const episodeCheckbox = SETTINGS.querySelector('.settings__checkbox--episode');
+const episodeLabel = SETTINGS.querySelector('.settings__option--episode');
 
-function showSeriesList() {
-  if (seriesCheckbox.checked) {
-    SERIES_LIST.classList.remove('series--off');
+function showEpisode() {
+  if (episodeCheckbox.checked) {
+    EPISODE.classList.remove('episode--off');
   } else {
-    SERIES_LIST.classList.add('series--off');
+    EPISODE.classList.add('episode--off');
   }
 };
 
-seriesCheckbox.addEventListener('change', showSeriesList);
+episodeCheckbox.addEventListener('change', showEpisode);

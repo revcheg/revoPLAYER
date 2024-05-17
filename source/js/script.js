@@ -8,7 +8,7 @@ const VIDEO = document.querySelector('.video');
 const WRAPPER = document.querySelector('.video__wrapper');
 const SETTINGS = document.querySelector('.settings');
 const STATISTIC = document.querySelector('.statistic');
-const SERIES_LIST = document.querySelector('.series');
+const EPISODE = document.querySelector('.episode');
 
 const VIDEO_RANGE = document.querySelector('.control__range--duration');
 const START_BUTTON = document.querySelector('.video__start');
@@ -212,19 +212,19 @@ function showBackground() {
 
 backgroundCheckbox.addEventListener('change', showBackground);
 
-// Series list
-const seriesCheckbox = SETTINGS.querySelector('.settings__checkbox--series');
-const seriesLabel = SETTINGS.querySelector('.settings__option--series');
+// Episode list
+const episodeCheckbox = SETTINGS.querySelector('.settings__checkbox--episode');
+const episodeLabel = SETTINGS.querySelector('.settings__option--episode');
 
-function showSeriesList() {
-  if (seriesCheckbox.checked) {
-    SERIES_LIST.classList.remove('series--off');
+function showEpisode() {
+  if (episodeCheckbox.checked) {
+    EPISODE.classList.remove('episode--off');
   } else {
-    SERIES_LIST.classList.add('series--off');
+    EPISODE.classList.add('episode--off');
   }
 };
 
-seriesCheckbox.addEventListener('change', showSeriesList);
+episodeCheckbox.addEventListener('change', showEpisode);
 
 // Scheme
 const schemeSwitcher = FOOTER.querySelector('.footer__switcher');
@@ -372,12 +372,15 @@ function createScheme(scheme) {
 
 // Background
 const background = document.querySelector('.background');
-const backgroundVideo = background.querySelector('.background__video');
-const backgroundContext = backgroundVideo.getContext('2d');
+const backgroundCanvas = background.querySelector('.background__canvas');
+const backgroundContext = backgroundCanvas.getContext('2d');
+
+backgroundCanvas.width = BODY.clientWidth;
+backgroundCanvas.height = BODY.clientHeight;
 
 function renderBackground() {
   if (backgroundFlag) {
-    backgroundContext.drawImage(VIDEO, 0, 0, backgroundVideo.width, backgroundVideo.height);
+    backgroundContext.drawImage(VIDEO, 0, 0, backgroundCanvas.width, backgroundCanvas.height);
     setTimeout(renderBackground, 1000 / 30);
   }
 }
@@ -681,8 +684,6 @@ VIDEO_RANGE.addEventListener('wheel', wheelDuration);
 const muteButton = CONTROLS.querySelector('.control__button--mute');
 const muteButtonIcon = CONTROLS.querySelector('#muted');
 
-let savedVolume;
-
 function setupMute() {
   if (VIDEO.muted) {
     unmuteVideo();
@@ -692,6 +693,8 @@ function setupMute() {
 
   changeMuteIcon();
 }
+
+let savedVolume;
 
 function muteVideo() {
   savedVolume = VIDEO.volume;
@@ -716,12 +719,15 @@ function changeMuteIcon() {
 muteButton.addEventListener('click', setupMute);
 
 // Volume
-VIDEO.volume = 0.4;
-
 const volumeRange = CONTROLS.querySelector('.control__range--volume');
 
+VIDEO.volume = 0.4;
+volumeRange.value = 0.4;
+
+let videoVolume;
+
 function changeVolume(volume) {
-  let videoVolume = Math.max(0, Math.min(1, VIDEO.volume + volume));
+  videoVolume = Math.max(0, Math.min(1, VIDEO.volume + volume));
   VIDEO.volume = videoVolume;
   volumeRange.value = videoVolume;
   updateVolume();
@@ -739,16 +745,19 @@ function updateVolume() {
   changeMuteIcon();
 }
 
-function formatVolume(volume) {
-  return (volume * 100).toFixed(0) + '%';
-}
-
 function showVolume() {
   showMessage('Гучність ' + formatVolume(VIDEO.volume));
 }
 
+function formatVolume(volume) {
+  return (volume * 100).toFixed(0) + '%';
+}
+
 volumeRange.addEventListener('input', updateVolume);
-VIDEO.addEventListener('volumechange', showVolume);
+
+window.addEventListener('load', () => {
+  VIDEO.addEventListener('volumechange', showVolume);
+});
 
 // Wheel volume
 function wheelVolume(event) {
@@ -858,10 +867,12 @@ function switchFitScreen() {
   if (changedFit === 'contain') {
     fitButton.setAttribute('aria-label', 'Ростягнути зображення');
     fitButton.setAttribute('title', 'Ростягнути зображення (x)');
+    fitInfo.innerText = '';
     fitInfo.classList.add('control__info--hide');
   } else {
     fitButton.setAttribute('aria-label', 'Зменшити зображення');
     fitButton.setAttribute('title', 'Зменшити зображення (x)');
+    fitInfo.innerText = 'full';
     fitInfo.classList.remove('control__info--hide');
   }
 }
@@ -999,6 +1010,45 @@ WRAPPER.addEventListener('mouseenter', resetHideControlsTimer);
 WRAPPER.addEventListener('mousemove', handleMouseMove);
 WRAPPER.addEventListener('mouseleave', hideControls);
 
+// Episode, generating episode button
+let episodeButtons;
+
+function renderEpisode() {
+  EPISODE.innerText = '';
+
+  Array.from(uploadedVideo).forEach((file, index) => {
+    let li = document.createElement('li');
+    li.className = 'episode__item';
+
+    let button = document.createElement('button');
+    button.className = 'button episode__button';
+    button.type = 'button';
+    button.textContent = file.name;
+    button.addEventListener('click', () => {
+      setEpisode(button);
+			currentVideoIndex = index;
+      VIDEO.src = file.url;
+    });
+
+    if (index === 0) {
+      button.classList.add('episode__button--active');
+    }
+
+    EPISODE.appendChild(li);
+    li.appendChild(button);
+  });
+
+  episodeButtons = EPISODE.querySelectorAll('.episode__button');
+}
+
+function setEpisode(button) {
+  episodeButtons.forEach(btn => {
+    btn.classList.remove('episode__button--active');
+  });
+
+  button.classList.add('episode__button--active');
+}
+
 // File
 const MAX_FILE_SIZE = 5368709120;
 const INPUTFILE = SETTINGS.querySelector('.settings__file');
@@ -1053,13 +1103,13 @@ function validateFiles(uploadedVideo) {
     if (uploadedVideo.length > 1) {
       INPUTFILE_COUNTER.innerText = '+' + uploadedVideo.length;
       INPUTFILE_COUNTER.classList.remove('settings__counter--hide');
-      seriesLabel.classList.remove('settings__option--hide');
+      episodeLabel.classList.remove('settings__option--hide');
     }
 
     let lastUploadedVideo = uploadedVideo[uploadedVideo.length - 1];
     INPUTFILE_OUTPUT.innerText = lastUploadedVideo.name;
     VIDEO.setAttribute('crossorigin', 'anonymous');
-    generatingSeries();
+    renderEpisode();
     setupCurrentVideo();
     showMessage('Кінострічка готова &#128252;');
   }
@@ -1374,49 +1424,6 @@ function clearMessage() {
   MESSAGE.classList.add('message--hide');
 }
 
-// Series
-// Generating series button
-function generatingSeries() {
-  SERIES_LIST.innerText = '';
-
-  Array.from(uploadedVideo).forEach((file, index) => {
-    const li = document.createElement('li');
-    li.className = 'series__item';
-    const button = document.createElement('button');
-    button.className = 'button series__button';
-    button.type = 'button';
-    button.textContent = file.name;
-    li.appendChild(button);
-    SERIES_LIST.appendChild(li);
-
-    button.addEventListener('click', () => {
-      setActiveButton(button);
-			currentVideoIndex = index;
-      VIDEO.src = file.url;
-    });
-  });
-}
-
-function setActiveButton(button) {
-  const buttons = SERIES_LIST.querySelectorAll('.series__button');
-  buttons.forEach(btn => {
-    btn.classList.remove('series__button--active');
-  });
-
-  button.classList.add('series__button--active');
-}
-
-function updateActiveButton() {
-  const buttons = SERIES_LIST.querySelectorAll('.series__button');
-  buttons.forEach((button, index) => {
-    if (index === currentVideoIndex) {
-      button.classList.add('series__button--active');
-    } else {
-      button.classList.remove('series__button--active');
-    }
-  });
-}
-
 // Set Video
 let game = null;
 
@@ -1607,7 +1614,7 @@ function loadVideoTime() {
     currentVideoIndex = parseInt(localStorage.getItem('video-index'));
     videoCurrentTime = parseInt(localStorage.getItem('video-time'));
     VIDEO.currentTime = videoCurrentTime;
-    showMessage('Відео та таймкоди було відновлено');
+    showMessage('Відео та час було відновлено');
   }
 }
 
@@ -1763,7 +1770,6 @@ function loadstartState() {
   stopProgress();
   resetDuration();
   resetSpeed();
-  updateActiveButton();
 
   WRAPPER.classList.add('video__wrapper--loadstart');
 }

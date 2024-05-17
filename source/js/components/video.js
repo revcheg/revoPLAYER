@@ -44,7 +44,6 @@ function loadstartState() {
   stopProgress();
   resetDuration();
   resetSpeed();
-  updateActiveButton();
 
   WRAPPER.classList.add('video__wrapper--loadstart');
 }

@@ -30,6 +30,10 @@
 	background-color: #F8F0FB;
 }
 
+*::-webkit-scrollbar-thumb {
+	background-color: #F27DFD;
+}
+
 // Button
 .button {
 
@@ -348,17 +352,17 @@
 	}
 }
 
-// Series
-.series__icon {
+// Episode
+.episode__icon {
 	fill: #8075FF;
 }
 
-.series__item {
+.episode__item {
 	color: #F27DFD;
 	font-weight: 500;
 }
 
-.series__button {
+.episode__button {
 	color: #F27DFD;
 
 	&--active {

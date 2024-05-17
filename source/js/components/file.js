@@ -52,13 +52,13 @@ function validateFiles(uploadedVideo) {
     if (uploadedVideo.length > 1) {
       INPUTFILE_COUNTER.innerText = '+' + uploadedVideo.length;
       INPUTFILE_COUNTER.classList.remove('settings__counter--hide');
-      seriesLabel.classList.remove('settings__option--hide');
+      episodeLabel.classList.remove('settings__option--hide');
     }
 
     let lastUploadedVideo = uploadedVideo[uploadedVideo.length - 1];
     INPUTFILE_OUTPUT.innerText = lastUploadedVideo.name;
     VIDEO.setAttribute('crossorigin', 'anonymous');
-    generatingSeries();
+    renderEpisode();
     setupCurrentVideo();
     showMessage('Кінострічка готова &#128252;');
   }
