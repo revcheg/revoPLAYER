@@ -196,7 +196,6 @@
   }
 
   &--file {
-    line-height: normal;
     border: 1px solid #FCF811;
   }
 }
@@ -214,6 +213,7 @@
   max-width: 150px;
   text-overflow: ellipsis;
   text-wrap: nowrap;
+  cursor: pointer;
   overflow: hidden;
 }
 
@@ -223,7 +223,7 @@
   right: -45px;
   box-sizing: border-box;
   min-width: 34px;
-  min-height: 30px;
+  min-height: 34px;
   padding: 9px 6px;
   text-align: center;
   font-size: 12px;

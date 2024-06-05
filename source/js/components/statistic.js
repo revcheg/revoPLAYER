@@ -26,24 +26,15 @@ function getStatistic() {
   statisticResolution.innerText = videoWidth + 'x' + videoHeight;
 
   // duration
-  videoDuration = VIDEO.duration;
+  videoDuration = Math.ceil(VIDEO.duration);
   VIDEO_RANGE.setAttribute('max', videoDuration);
 
   // format
-  if (currentVideo.type) {
-    videoFormat = currentVideo.type.replace('video/', '');
-  } else {
-    videoFormat = VIDEO.src.split('.').pop();
-  }
-
+  videoFormat = currentVideo.type ? videoFormat = currentVideo.type.replace('video/', '') : VIDEO.src.split('.').pop();
   statisticFormat.innerText = videoFormat;
 
   // ufh icon
-  if (videoWidth >= 3840) {
-    statisticUFH.classList.remove('header__ufh--off');
-  } else {
-    statisticUFH.classList.add('header__ufh--off');
-  }
+  statisticUFH.classList.toggle('header__ufh--off', videoWidth < 3840);
 }
 
 // Local time

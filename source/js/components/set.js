@@ -5,7 +5,7 @@ const chooseButtons = SETTINGS.querySelectorAll('.settings__video');
 
 function selectGame() {
   clearVideoButtons();
-  if (this.getAttribute('data-video') == 'Custom') {
+  if (this.getAttribute('data-video') == 'customVideo') {
     return
   } else {
     this.classList.add('settings__video--active');

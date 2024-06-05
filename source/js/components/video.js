@@ -11,7 +11,7 @@ function updateProgress() {
 
   // Duration
   currentVideoPassed = formatTime(videoCurrentTime);
-  currentVideoLeft = formatTime(videoDuration - videoCurrentTime);
+  currentVideoLeft = formatTime(VIDEO.duration - videoCurrentTime);
   videoPassed.innerText = currentVideoPassed;
   videoLeft.innerText = currentVideoLeft;
 

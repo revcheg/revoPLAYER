@@ -202,11 +202,11 @@ const backgroundCheckbox = SETTINGS.querySelector('.settings__checkbox--backgrou
 function showBackground() {
   if (backgroundCheckbox.checked) {
     backgroundFlag = true;
-    background.classList.remove('background--off');
+    backgroundElement.classList.remove('background--off');
     renderBackground();
   } else {
     backgroundFlag = false;
-    background.classList.add('background--off');
+    backgroundElement.classList.add('background--off');
   }
 }
 
@@ -371,9 +371,19 @@ function createScheme(scheme) {
 }
 
 // Background
-const background = document.querySelector('.background');
-const backgroundCanvas = background.querySelector('.background__canvas');
+const backgroundElement = document.querySelector('.background');
+const backgroundCanvas = backgroundElement.querySelector('.background__canvas');
 const backgroundContext = backgroundCanvas.getContext('2d');
+
+const aspectRatio = VIDEO.videoWidth / VIDEO.videoHeight;
+
+if (window.innerWidth / window.innerHeight > aspectRatio) {
+  backgroundCanvas.width = window.innerHeight * aspectRatio;
+  backgroundCanvas.height = window.innerHeight;
+} else {
+  backgroundCanvas.width = window.innerWidth;
+  backgroundCanvas.height = window.innerWidth / aspectRatio;
+}
 
 function renderBackground() {
   if (backgroundFlag) {
@@ -381,7 +391,7 @@ function renderBackground() {
     backgroundCanvas.height = BODY.clientHeight;
 
     backgroundContext.drawImage(VIDEO, 0, 0, backgroundCanvas.width, backgroundCanvas.height);
-    setTimeout(renderBackground, 1000 / 30);
+    setTimeout(renderBackground, 1000 / 60);
   }
 }
 
@@ -976,6 +986,11 @@ document.addEventListener('fullscreenchange', updateFullscreenButton);
 document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
 document.addEventListener('mozfullscreenchange', updateFullscreenButton);
 
+// Disable download option
+VIDEO.addEventListener('contextmenu', (event) => {
+  event.preventDefault();
+});
+
 // Episode, generating episode button
 let episodeButtons;
 
@@ -1398,7 +1413,7 @@ const chooseButtons = SETTINGS.querySelectorAll('.settings__video');
 
 function selectGame() {
   clearVideoButtons();
-  if (this.getAttribute('data-video') == 'Custom') {
+  if (this.getAttribute('data-video') == 'customVideo') {
     return
   } else {
     this.classList.add('settings__video--active');
@@ -1529,24 +1544,15 @@ function getStatistic() {
   statisticResolution.innerText = videoWidth + 'x' + videoHeight;
 
   // duration
-  videoDuration = VIDEO.duration;
+  videoDuration = Math.ceil(VIDEO.duration);
   VIDEO_RANGE.setAttribute('max', videoDuration);
 
   // format
-  if (currentVideo.type) {
-    videoFormat = currentVideo.type.replace('video/', '');
-  } else {
-    videoFormat = VIDEO.src.split('.').pop();
-  }
-
+  videoFormat = currentVideo.type ? videoFormat = currentVideo.type.replace('video/', '') : VIDEO.src.split('.').pop();
   statisticFormat.innerText = videoFormat;
 
   // ufh icon
-  if (videoWidth >= 3840) {
-    statisticUFH.classList.remove('header__ufh--off');
-  } else {
-    statisticUFH.classList.add('header__ufh--off');
-  }
+  statisticUFH.classList.toggle('header__ufh--off', videoWidth < 3840);
 }
 
 // Local time
@@ -1705,7 +1711,7 @@ function updateProgress() {
 
   // Duration
   currentVideoPassed = formatTime(videoCurrentTime);
-  currentVideoLeft = formatTime(videoDuration - videoCurrentTime);
+  currentVideoLeft = formatTime(VIDEO.duration - videoCurrentTime);
   videoPassed.innerText = currentVideoPassed;
   videoLeft.innerText = currentVideoLeft;
 

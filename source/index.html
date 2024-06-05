@@ -76,12 +76,6 @@
 
           <progress class="control__progress  control__progress--hide" value="0"></progress>
 
-          <p class="control__duration">
-            <span class="control__time  control__time--passed">00:00:00</span>
-            <span class="control__time  control__time--preview  control__time--hide">00:00:00</span>
-            <input class="control__range  control__range--duration" step="1" min="0" value="0" aria-label="Смуга прокручування" title="Смуга прокручування (left+right arrow)" type="range">
-            <span class="control__time  control__time--left">00:00:00</span>
-          </p>
           <button class="button  control__button  control__button--prev" aria-label="Попереднє відео" title="Попереднє відео (<)" type="button">
             <svg class="control__icon  control__icon--prev" xmlns="http://www.w3.org/2000/svg" width="16" height="13" viewBox="0 0 16 13" role="img">
               <use href="img/sprite.svg#next"></use>
@@ -110,6 +104,12 @@
               </svg>
             </button>
             <input class="control__range  control__range--volume" step="0.1" min="0" max="1" value="0.4" aria-label="Гучність" title="Гучність (up+down arrow/wheel)" type="range">
+          </div>
+          <div class="control__duration">
+            <span class="control__time  control__time--passed">00:00:00</span>
+            <span class="control__time  control__time--preview  control__time--hide">00:00:00</span>
+            <input class="control__range  control__range--duration" step="1" min="0" value="0" aria-label="Смуга прокручування" title="Смуга прокручування (left+right arrow)" type="range">
+            <span class="control__time  control__time--left">00:00:00</span>
           </div>
           <button class="button  control__button  control__button--subtitle  control__button--hide" aria-label="Увімкнути субтитри" title="Увімкнути субтитри (c)" type="button">
             <span class="control__info  control__info--hide"></span>
@@ -268,11 +268,11 @@
           <p class="settings__sub">ОБРАТИ ВІДЕО</p>
           <button class="button  settings__video" data-video="TheWitcher" aria-label="Увімкнути відео Witcher" title="Увімкнути відео Witcher" type="button">The Witcher III</button>
           <button class="button  settings__video" data-video="Cyberpunk" aria-label="Увімкнути відео Cyberpunk 2077" title="Увімкнути відео Cyberpunk 2077" type="button">Cyberpunk 2077</button>
-          <label class="button  settings__video  settings__video--file" data-video="Custom">
-            <input class="settings__file" aria-label="Завантажити власне відео" title="Завантажити власне відео" accept="video/*" type="file" multiple>
-            <span class="settings__output">Обрати власне відео</span>
+          <button class="button  settings__video  settings__video--file" data-video="customVideo">
+            <input class="settings__file" id="customVideo" aria-label="Завантажити власне відео" title="Завантажити власне відео" accept="video/*" type="file" multiple>
+            <label class="settings__output" for="customVideo">Обрати власне відео</label>
             <span class="settings__counter  settings__counter--hide">+0</span>
-          </label>
+          </button>
           <label class="settings__option  settings__option--episode  settings__option--hide">
             <input class="settings__checkbox  settings__checkbox--episode" type="checkbox">
             <span class="settings__name">Показати перелік відео</span>

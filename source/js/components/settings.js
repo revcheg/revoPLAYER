@@ -184,11 +184,11 @@ const backgroundCheckbox = SETTINGS.querySelector('.settings__checkbox--backgrou
 function showBackground() {
   if (backgroundCheckbox.checked) {
     backgroundFlag = true;
-    background.classList.remove('background--off');
+    backgroundElement.classList.remove('background--off');
     renderBackground();
   } else {
     backgroundFlag = false;
-    background.classList.add('background--off');
+    backgroundElement.classList.add('background--off');
   }
 }
 

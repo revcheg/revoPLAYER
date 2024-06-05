@@ -443,3 +443,8 @@ WRAPPER.addEventListener('dblclick', setFullscreen);
 document.addEventListener('fullscreenchange', updateFullscreenButton);
 document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
 document.addEventListener('mozfullscreenchange', updateFullscreenButton);
+
+// Disable download option
+VIDEO.addEventListener('contextmenu', (event) => {
+  event.preventDefault();
+});
