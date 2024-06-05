@@ -69,6 +69,8 @@ function changeVideoIndex(delta) {
     } else if (currentVideoIndex < 0) {
       currentVideoIndex = uploadedVideo.length - 1;
     }
+
+    setEpisode(episodeButtons[currentVideoIndex]);
   } else {
     currentVideoIndex += delta;
 
@@ -118,7 +120,6 @@ function changeVideoIndex(delta) {
       }
     }
   }
-
   setupCurrentVideo();
 }
 

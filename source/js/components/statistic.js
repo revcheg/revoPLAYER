@@ -5,6 +5,7 @@ let videoHeight;
 let videoFormat;
 let videoDuration;
 let videoCurrentTime;
+let videoBuffer;
 // let videoBitrate;
 // let videoFPS;
 

@@ -1,20 +1,10 @@
 // Video
-let progressInterval;
-let currentVideoPassed;
-let currentVideoLeft;
 let isVideoPlaying = false;
 
-function startProgress() {
-  isVideoPlaying = true;
-  progressInterval = setInterval(updateProgress, 1000);
-  updateProgress();
-}
+let currentVideoPassed;
+let currentVideoLeft;
 
 function updateProgress() {
-  // Buffer
-  videoBuffer = VIDEO.buffered.end(0) - videoCurrentTime;
-  statisticBuffer.innerText = Math.floor(videoBuffer);
-
   // CurrentTime
   videoCurrentTime = VIDEO.currentTime;
   VIDEO_RANGE.value = videoCurrentTime;
@@ -25,12 +15,21 @@ function updateProgress() {
   videoPassed.innerText = currentVideoPassed;
   videoLeft.innerText = currentVideoLeft;
 
+  // Buffer
+  videoBuffer = (VIDEO.buffered.length > 0) ? VIDEO.buffered.end(0) - videoCurrentTime : 0;
+  statisticBuffer.innerText = Math.floor(videoBuffer);
+
   updateClientTime();
   updatePayback();
 }
 
+VIDEO.addEventListener('timeupdate', updateProgress);
+
+function startProgress() {
+  isVideoPlaying = true;
+}
+
 function stopProgress() {
-  clearInterval(progressInterval);
   isVideoPlaying = false;
 }
 

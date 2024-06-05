@@ -3,7 +3,7 @@ const MAX_FILE_SIZE = 5368709120;
 const INPUTFILE = SETTINGS.querySelector('.settings__file');
 const INPUTFILE_OUTPUT = SETTINGS.querySelector('.settings__output');
 const INPUTFILE_COUNTER = SETTINGS.querySelector('.settings__counter');
-const supportedFormats = ['video/mp4', 'video/webm'];
+const supportedFormats = ['video/mp4', 'video/webm', 'video/mkv', 'video/x-matroska'];
 
 // Check and save uploaded files
 let uploadedVideo = [];
